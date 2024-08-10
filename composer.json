@@ -1,0 +1,26 @@
+{
+    "name": "thathsara/refresher",
+    "authors": [
+        {
+            "name": "nova9",
+            "email": "thathsaramadhhusha@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/collections": "^11.19"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
