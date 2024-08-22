@@ -1,7 +1,7 @@
 <?php
 
 
-$router->get('/', 'home.php')->only('guest');
+$router->get('/', 'home.php');
 $router->get('/contact', 'contact.php');
 $router->get( '/about', 'about.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
