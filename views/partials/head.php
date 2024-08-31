@@ -7,11 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LaunchPad</title>
 <!--        <link rel="stylesheet" href="/styles/normalize.css">-->
-<!--        <link rel="stylesheet" href="/styles/skeleton.css">-->
+    <!--        <link rel="stylesheet" href="/styles/skeleton.css">-->
+            <link rel="stylesheet" href="/styles/tooltip.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/934c15dc39.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="bg-gray-50">
 
 
 

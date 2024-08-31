@@ -34,7 +34,8 @@ if ($user) {
 $db->query('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', [$email, password_hash($password, PASSWORD_DEFAULT), 1]);
 
 login([
-    'email' => $email
+    'email' => $email,
+    'role' => 1
 ]);
 
 header('location: /');

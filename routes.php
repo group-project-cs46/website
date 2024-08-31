@@ -21,3 +21,6 @@ $router->post('/register', 'users/store.php')->only('guest');
 $router->get('/login', 'sessions/create.php')->only('guest');
 $router->post('/sessions', 'sessions/store.php')->only('guest');
 $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
+
+
+$router->get('/jobs', 'jobs/index.php')->only('student');

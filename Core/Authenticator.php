@@ -2,19 +2,19 @@
 
 namespace Core;
 
+use Models\User;
+
 class Authenticator
 {
     public function attempt($email, $password)
     {
-        $db = App::resolve(Database::class);
-
-
-        $user = $db->query('SELECT * FROM users WHERE email = ?', [$email])->find();
+        $user = User::find($email);
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
                 $this->login([
-                    'email' => $email
+                    'email' => $email,
+                    'role' => $user['role']
                 ]);
 
                 return true;
@@ -26,7 +26,8 @@ class Authenticator
     protected function login($user)
     {
         $_SESSION['user'] = [
-            'email' => $user['email']
+            'email' => $user['email'],
+            'role' => $user['role'],
         ];
         session_regenerate_id(true);
     }
