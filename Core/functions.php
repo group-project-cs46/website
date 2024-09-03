@@ -11,6 +11,11 @@ function dd($value)
     die();
 }
 
+function console_log($value)
+{
+    error_log(print_r($value, TRUE));
+}
+
 function urlIs($value)
 {
     return $_SERVER['REQUEST_URI'] === $value;
@@ -35,10 +40,26 @@ function base_path($path)
     return BASE_PATH . $path;
 }
 
+function component_path($path)
+{
+    return base_path("views/components/$path");
+}
+function views_path($path)
+{
+    return base_path("views/$path");
+}
+
 function view($path, $attributes = [])
 {
     extract($attributes);
     require base_path("views/$path");
+}
+
+function render($path, $attributes = [])
+{
+    ob_start();
+    view($path, $attributes);
+    return ob_get_clean();
 }
 
 function login($user) {

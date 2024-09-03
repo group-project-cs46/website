@@ -4,18 +4,24 @@ namespace Core;
 
 use PDO;
 
-class Database {
+class Database
+{
 
     public $connection;
     public $statement;
+
     public function __construct($config)
     {
-        $dsn = 'mysql:' . http_build_query($config, '', ';');
-
-        $this->connection = new PDO($dsn, options: [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
+        $dsn = 'pgsql:host=' . $config['host'] . ';port=' . $config['port'] . ';dbname=' . $config['dbname'];
+        try {
+            $this->connection = new PDO($dsn, $config['user'], $config['password'], [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]);
+        } catch (PDOException $e) {
+            die('Connection failed: ' . $e->getMessage());
+        }
     }
+
     public function query($query, $params)
     {
         $this->statement = $this->connection->prepare($query);
@@ -25,11 +31,13 @@ class Database {
         return $this;
     }
 
-    public function get() {
+    public function get()
+    {
         return $this->statement->fetchAll();
     }
 
-    public function find() {
+    public function find()
+    {
         return $this->statement->fetch();
     }
 
@@ -39,6 +47,6 @@ class Database {
         if (!$result) {
             abort();
         }
-        return$result;
+        return $result;
     }
 }

@@ -1,4 +1,4 @@
-<?php require base_path('views/partials/guest/guest.php') ?>
+<?php require base_path('views/partials/layouts/guest/open.php') ?>
 
 <section>
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -60,4 +60,4 @@
 </section>
 
 
-<?php require base_path('views/partials/guest/guest-close.php') ?>
+<?php require base_path('views/partials/layouts/guest/close.php') ?>

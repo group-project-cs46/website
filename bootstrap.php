@@ -3,6 +3,7 @@
 use Core\Container;
 use Core\Database;
 use Core\App;
+use Core\Blade;
 
 $container = new Container();
 
