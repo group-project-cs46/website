@@ -64,7 +64,8 @@ function render($path, $attributes = [])
 
 function login($user) {
     $_SESSION['user'] = [
-        'email' => $user['email']
+        'email' => $user['email'],
+        'role' => $user['role']
     ];
     session_regenerate_id(true);
 }
