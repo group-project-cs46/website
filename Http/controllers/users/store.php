@@ -38,5 +38,5 @@ login([
     'role' => 1
 ]);
 
-header('location: /');
+header('location: /dashboard');
 die();

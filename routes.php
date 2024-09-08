@@ -24,3 +24,5 @@ $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 
 $router->get('/jobs', 'jobs/index.php')->only('student');
+
+$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');

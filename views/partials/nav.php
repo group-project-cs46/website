@@ -18,6 +18,12 @@ $navItems = [
         'href' => '/jobs',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
+    ],
+    [
+        'text' => "PDC Users",
+        'href' => '/pdc-users',
+        'icon' => 'fa-users',
+        'only' => [Role::Admin],
     ]
 //    [
 //        'text' => 'Contact',
