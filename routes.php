@@ -22,3 +22,6 @@ $router->get('/jobs', 'jobs/index.php')->only('student');
 
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
+
+$router->get('/account', 'account.php')->only('auth');
+$router->post('/cv/store', 'cv/store.php')->only('student');

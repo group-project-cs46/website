@@ -41,7 +41,6 @@ $navItems = [
         'only' => [Role::Lecturer],
     ],
 
-
     [
         'text' => 'Jobs',
         'href' => '/jobs',
@@ -53,7 +52,13 @@ $navItems = [
         'href' => '/pdc-users',
         'icon' => 'fa-users',
         'only' => [Role::Admin],
-    ]
+    ],
+    [
+        'text' => 'Account',
+        'href' => '/account',
+        'icon' => 'fa-user',
+        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)

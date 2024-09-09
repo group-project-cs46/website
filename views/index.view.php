@@ -2,6 +2,11 @@
 
     <div class="flex justify-end gap-2">
         <?php if ($_SESSION['user'] ?? false) : ?>
+            <a href="/dashboard">
+                <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 text-gray-500 hover:border-sky-500 hover:text-sky-500 focus:outline-none focus:border-sky-500 focus:text-sky-500 disabled:opacity-50 disabled:pointer-events-none">
+                    Dashboard
+                </button>
+            </a>
         <?php else : ?>
             <a href="/register" class="button is-primary">
                 <?php echo render('components/button.view.php', ['text' => 'Sign up']) ?>
