@@ -15,9 +15,16 @@
         <?php if ($user['role'] === 2) : ?>
             <div class="mb-4">
                 <h2 class="text-xl font-bold mb-2">CV</h2>
-<!--                <div class="mb-4">-->
-<!--                    <a href="/storage/cv/" class="text-blue-500">Download CV</a>-->
-<!--                </div>-->
+                <?php if ($cv) : ?>
+                    <div class="mb-4">
+                        <form action="/cv/show" method="GET">
+                            <input type="hidden" name="id" value="<?= $cv['id'] ?>">
+                            <button type="submit" class="text-blue-500">
+                                Download CV
+                            </button>
+                        </form>
+                    </div>
+                <?php endif ?>
                 <form action="/cv/store" method="POST" enctype="multipart/form-data" class="space-y-4">
                     <div>
                         <label for="cv" class="block text-gray-700">Choose CV:</label>
