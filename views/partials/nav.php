@@ -4,15 +4,44 @@ enum Role: int
 {
     case Admin = 1;
     case Student = 2;
+    case Pdc = 3;
+    case Company = 4;
+    case Lecturer = 5;
 }
 
 $navItems = [
     [
         'text' => 'Dashboard',
-        'href' => '/dashboard',
+        'href' => '/dashboard/admin',
         'icon' => 'fa-dashboard',
-        'only' => [Role::Admin, Role::Student],
+        'only' => [Role::Admin],
     ],
+    [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/student',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Student],
+    ],
+    [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/pdc',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Pdc],
+    ],
+    [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/company',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Company],
+    ],
+    [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/Lecturer',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Lecturer],
+    ],
+
+
     [
         'text' => 'Jobs',
         'href' => '/jobs',
@@ -25,16 +54,6 @@ $navItems = [
         'icon' => 'fa-users',
         'only' => [Role::Admin],
     ]
-//    [
-//        'text' => 'Contact',
-//        'href' => '/contact',
-//        'icon' => 'fa-envelope',
-//    ],
-//    [
-//        'text' => 'Notes',
-//        'href' => '/notes',
-//        'icon' => 'fa-sticky-note',
-//    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
@@ -69,25 +88,12 @@ function filterNavItemsByRole($navItems, $userRole)
 
 
         <div style="display: flex; flex-direction: column">
-            <!--                        --><?php //if($_SESSION['user'] ?? false) : ?>
-            <!--                        --><?php //else : ?>
-            <!--                            <a href="/register" class="button is-primary">-->
-            <!--                                <strong>Sign up</strong>-->
-            <!--                            </a>-->
-            <!--                            <a href="/login" class="button is-light">-->
-            <!--                                Log in-->
-            <!--                            </a>-->
-            <!--                        --><?php //endif; ?>
-
-
-            <!--                        --><?php //if($_SESSION['user'] ?? false) : ?>
             <form style="width: 100%; margin: 0" action="/sessions" method="post">
                 <input type="hidden" name="_method" value="DELETE">
                 <button style="width: 100%; margin: 0" class="button text-rose-700">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i>
                 </button>
             </form>
-            <!--            --><?php //endif ?>
         </div>
 
     </div>
