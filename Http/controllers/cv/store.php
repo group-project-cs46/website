@@ -22,17 +22,17 @@ $fileExtension = strtolower(end($fileNameCmps));
 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
 $user = User::find($_SESSION['user']['email']);
-$existingCv = Cv::findByUserId($user['id']);
+//$existingCv = Cv::findByUserId($user['id']);
 //dd($existingCv);
-if ($existingCv) {
-    $existingFilePath = $targetDir . $existingCv['filename'];
-    if (file_exists($existingFilePath)) {
-        unlink($existingFilePath);
-    }
-    Cv::update($existingCv['id'], $newFileName);
-} else {
-    Cv::create($user['id'], $newFileName);
-}
+//if ($existingCv) {
+//    $existingFilePath = $targetDir . $existingCv['filename'];
+//    if (file_exists($existingFilePath)) {
+//        unlink($existingFilePath);
+//    }
+//    Cv::update($existingCv['id'], $newFileName);
+//} else {
+Cv::create($user['id'], $newFileName, $attributes['cv']['name']);
+//}
 
 // Define the target file path
 $targetFile = $targetDir . $newFileName;
