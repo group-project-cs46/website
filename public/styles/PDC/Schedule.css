@@ -1,0 +1,151 @@
+.above {
+    display: flex;
+    align-items: center;
+  }
+  
+  .above i{
+    margin-right: 10px;
+  }
+  
+  .above h2{
+    font-size: 28px;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #F9FAFB;
+    
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h2 {
+    margin: 0;
+    font-size: 40px;
+  }
+  
+  .search-bar {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d9dcdc;
+    width: 250px;
+  }
+  
+  .content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .titles {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+  }
+  
+  .table-title1 {
+  /*   display: flex;
+    justify-content: space-between; */
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    background-color: #F9FAFB;
+    border-bottom: solid;
+    padding: 10px;
+    padding-right: 20px;
+  }
+  
+  .table-title1 h3 {
+    margin: 0;
+  }
+  
+  .table-title1 p {
+    margin: 0;
+    color: #777;
+  }
+  
+  .table-title2 {
+    /*   display: flex;
+      justify-content: space-between; */
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    background-color: #F9FAFB;
+    padding: 10px;
+    }
+    
+    .table-title2 h3 {
+      margin: 0;
+    }
+    
+    .table-title2 p {
+      margin: 0;
+      color: #777;
+    }
+  
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+  }
+  
+  .calendar div {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80px;
+      position: relative;
+  }
+  
+  .calendar .day {
+      font-weight: bold;
+  }
+  
+  .calendar .event {
+      background-color: #00aaff;
+      color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 12px;
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      right: 5px;
+  }
+  
+  .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  
+  .calendar-header h2 {
+      margin: 0;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 600px) {
+    .sidebar {
+        width: 40px; /* Narrower sidebar for mobile */
+    }
+  
+    .main-content {
+        margin-left: 40px; /* Adjust main content margin for mobile */
+    }
+  }

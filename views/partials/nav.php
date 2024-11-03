@@ -40,7 +40,42 @@ $navItems = [
         'icon' => 'fa-dashboard',
         'only' => [Role::Lecturer],
     ],
-
+    [
+        'text' => 'Manage Student',
+        'href' => '/PDC/ManageStudents',
+        'icon' => 'fa-user-graduate',
+        'only' => [Role::Pdc]
+    ],
+    [
+        'text' => "Advertisements",
+        'href' => '/PDC/Advertisements',
+        'icon' => 'fa-rectangle-ad',
+        'only' => [Role::Pdc]
+    ],
+    [
+        'text' => "ManageCompany",
+        'href' => '/PDC/ManageCompany',
+        'icon' => 'fa-building',
+        'only' => [Role::Pdc]
+    ],
+    [
+        'text' => "Schedule",
+        'href' => '/PDC/Schedule',
+        'icon' => 'fa-calendar-days',
+        'only' => [Role::Pdc]
+    ],
+    [
+        'text' => "Complaints&Feedback",
+        'href' => '/PDC/Complaints&Feedback',
+        'icon' => 'fa-comments',
+        'only' => [Role::Pdc]
+    ],
+    [
+        'text' => "BlacklistedCompanies",
+        'href' => '/PDC/BlacklistedCompanies',
+        'icon' => 'fa-ban',
+        'only' => [Role::Pdc]
+    ],
     [
         'text' => 'Jobs',
         'href' => '/jobs',
