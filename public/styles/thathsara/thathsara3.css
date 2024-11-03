@@ -1,0 +1,221 @@
+/* General styles */
+body {
+    font-family: sans-serif;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.w-8 {
+    width: 2rem;
+}
+
+.h-8 {
+    height: 2rem;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+.shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.p-6 {
+    padding: 1.5rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
+
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+
+/* Typography */
+.text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-light {
+    font-weight: 300;
+}
+
+.leading-tight {
+    line-height: 1.25;
+}
+
+.tracking-tight {
+    letter-spacing: -0.025em;
+}
+
+.text-gray-800 {
+    color: #1f2937;
+}
+
+.text-gray-900 {
+    color: #111827;
+}
+
+.text-gray-500 {
+    color: #6b7280;
+}
+
+.text-rose-700 {
+    color: #be123c;
+}
+
+.text-sky-600 {
+    color: #0284c7;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+/* Form elements */
+input[type="email"],
+input[type="password"] {
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    color: #111827;
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.625rem;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    ring: 2px solid #0284c7;
+    border-color: #0284c7;
+}
+
+/* Button styles */
+.bg-sky-600 {
+    background-color: #0284c7;
+}
+
+.hover\:bg-sky-700:hover {
+    background-color: #0369a1;
+}
+
+.focus\:ring-4:focus {
+    ring: 4px solid rgba(2, 132, 199, 0.5);
+}
+
+.focus\:outline-none:focus {
+    outline: none;
+}
+
+/* Media queries */
+@media (min-width: 640px) {
+    .sm\:max-w-md {
+        max-width: 28rem;
+    }
+
+    .sm\:p-8 {
+        padding: 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .md\:h-screen {
+        height: 100vh;
+    }
+
+    .md\:space-y-6 > * + * {
+        margin-top: 1.5rem;
+    }
+
+    .md\:text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\:py-0 {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+@media (min-width: 1280px) {
+    .xl\:p-0 {
+        padding: 0;
+    }
+}
