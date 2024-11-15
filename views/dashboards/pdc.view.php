@@ -2,7 +2,7 @@
 
 <main>
     <div class="">
-        Dashboard
+        PDC Dashboard
     </div>
 </main>
 

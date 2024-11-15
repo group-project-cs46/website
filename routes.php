@@ -2,18 +2,13 @@
 
 
 $router->get('/', 'index.php');
-$router->get('/contact', 'contact.php');
-$router->get( '/about', 'about.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
-$router->get('/notes', 'notes/index.php')->only('auth');
-$router->get('/note', 'notes/show.php');
-$router->patch('/note', 'notes/update.php');
-$router->get( '/note/edit', 'notes/edit.php');
-$router->delete('/note', 'notes/destroy.php',);
-$router->get( '/notes/create', 'notes/create.php');
-$router->post( '/notes', 'notes/store.php');
-
+$router->get('/dashboard/admin', 'dashboards/admin.php')->only('auth');
+$router->get('/dashboard/student', 'dashboards/student.php')->only('auth');
+$router->get('/dashboard/pdc', 'dashboards/pdc.php')->only('auth');
+$router->get('/dashboard/company', 'dashboards/company.php')->only('auth');
+$router->get('/dashboard/lecturer', 'dashboards/lecturer.php')->only('auth');
 
 $router->get('/register', 'users/create.php')->only('guest');
 $router->post('/register', 'users/store.php')->only('guest');
@@ -24,3 +19,10 @@ $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 
 $router->get('/jobs', 'jobs/index.php')->only('student');
+
+
+$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
+
+$router->get('/account', 'account.php')->only('auth');
+$router->post('/cv/store', 'cv/store.php')->only('student');
+$router->get('/cv/show', 'cv/show.php')->only('student');
