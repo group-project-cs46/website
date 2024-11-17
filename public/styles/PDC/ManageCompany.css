@@ -1,102 +1,102 @@
 .above {
-    display: flex;
-    align-items: center;
-  }
-  
-  .above i{
-    margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.above i {
+  margin-right: 10px;
+}
+
+.above h2 {
+  font-size: 28px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #F9FAFB;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.search-bar {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #d9dcdc;
+  width: 250px;
+}
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.table-title h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.table-title p {
+  margin: 0;
+  color: #777;
+}
+
+.company-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.company-table th, .company-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.company-table th {
+  background-color: #F9FAFB;
+}
+
+.view-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .sidebar {
+      width: 40px; /* Narrower sidebar for mobile */
   }
 
-  .above h2{
-    font-size: 28px;
-  }
-  
   .main-content {
-    flex: 1;
-    padding: 20px;
-    background-color: #F9FAFB;
+      margin-left: 40px; /* Adjust main content margin for mobile */
   }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .header h2 {
-    margin: 0;
-  }
-  
-  .search-bar {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #d9dcdc;
-    width: 250px;
-  }
-  
-  .content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  table{
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
-  .table-title {
-  /*   display: flex;
-    justify-content: space-between; */
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .table-title h3 {
-    margin: 0;
-    font-size: 20px;
-  }
-  
-  .table-title p {
-    margin: 0;
-    color: #777;
-  }
-  
-  .company-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .company-table th, .company-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .company-table th {
-    background-color: #F9FAFB;
-  }
-  
-  .view-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 5px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-  }
-
-  /* Responsive Design for Mobile */
-  @media (max-width: 600px) {
-    .sidebar {
-        width: 40px; /* Narrower sidebar for mobile */
-    }
-  
-    .main-content {
-        margin-left: 40px; /* Adjust main content margin for mobile */
-    }
-  }
+}

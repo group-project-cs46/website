@@ -9,4 +9,4 @@ $db = App::resolve(Database::class);
 
 //dd($user);
 
-view('PDC/ScheduleCompanyvisits.view.php');
+view('PDC/sample.view.php');

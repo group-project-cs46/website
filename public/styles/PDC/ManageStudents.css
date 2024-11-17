@@ -2,14 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    /* background-color: #f4f4f8; */
     box-sizing: border-box;
-    
-}
-
-.container {
-    display: flex;
-    height: 100vh;
 }
 
 .above {
@@ -17,12 +10,8 @@ body {
     align-items: center;
 }
 
-.above i{
-  margin-right: 10px;
-}
-
-.above h2{
-    font-size: 28px;
+.above i {
+    margin-right: 10px;
 }
 
 .main-content {
@@ -38,10 +27,6 @@ body {
     margin-bottom: 20px;
 }
 
-.header h2 {
-    margin: 0;
-}
-
 .search-bar {
     padding: 10px;
     border-radius: 5px;
@@ -55,12 +40,7 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-table{
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+
 .table-title {
     display: flex;
     justify-content: space-between;
@@ -68,18 +48,12 @@ table{
     margin-bottom: 20px;
 }
 
-.table-title h3 {
-    margin: 0;
-    font-size: 20px;
-}
-
-.table-title p {
-    margin: 0;
-    color: #777;
+.table-title-txt {
+    margin-bottom: 0;
 }
 
 .add-button {
-    padding: 5px 15px;
+    padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
@@ -91,45 +65,126 @@ table{
 .student-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-.student-table th, .student-table td {
+.student-table th,
+.student-table td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-.student-table th {
-    background-color: #F9FAFB;
-}
-
-.disable-button, .view-button {
-    padding: 8px 12px;
+.disable-button,
+.view-button {
+    padding: 8px;
+    margin-right: 5px;
     border: none;
     border-radius: 5px;
-    margin-right: 5px;
-    cursor: pointer;
+    color: white;
 }
 
 .disable-button {
     background-color: #dc3545;
-    color: white;
 }
 
 .view-button {
     background-color: #007bff;
-    color: white;
 }
 
+/* Improved Popup Modal Form Design */
+.popup-form {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
 
-/* Responsive Design for Mobile */
-@media (max-width: 600px) {
-    .sidebar {
-        width: 40px; /* Narrower sidebar for mobile */
-    }
+.form-container {
+    width: 400px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease;
+}
 
-    .main-content {
-        margin-left: 40px; /* Adjust main content margin for mobile */
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
     }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-btn {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form input[type="file"] {
+    padding: 8px;
+}
+
+hr {
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
 }

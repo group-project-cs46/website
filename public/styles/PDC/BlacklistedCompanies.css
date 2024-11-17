@@ -24,10 +24,6 @@
   margin-bottom: 20px;
 }
 
-.header h2 {
-  margin: 0;
-}
-
 .search-bar {
   padding: 10px;
   border-radius: 5px;
@@ -41,31 +37,12 @@
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-table {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-.table-title {
+
+.titles {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-}
-
-.table-title h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.table-title p {
-  margin: 0;
-  color: #777;
-}
-
-.right-buttons {
-  display: flex;
 }
 
 .add-button {
@@ -76,12 +53,16 @@ table {
   border-radius: 50%;
   font-size: 20px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
 }
 
 .blacklist-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
 }
 
 .blacklist-table th,
@@ -97,11 +78,15 @@ table {
 
 /* Responsive Design for Mobile */
 @media (max-width: 600px) {
-  .sidebar {
-    width: 40px; /* Narrower sidebar for mobile */
+  .main-content {
+      margin-left: 40px;
   }
 
-  .main-content {
-    margin-left: 40px; /* Adjust main content margin for mobile */
+  .search-bar {
+      width: 150px;
+  }
+
+  .add-button {
+      padding: 5px 10px;
   }
 }

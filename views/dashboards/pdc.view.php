@@ -17,13 +17,13 @@
                     <h2>PDC Dashboard</h2>
                 </div>
                 <div class="content-boxes">
-                    <div class="box"><h3>Selected students</h3><h2>20</h2></div>
-                    <div class="box"><h3>Applied students</h3><h2>50</h2></div>
-                    <div class="box"><h3>Next Techtalk Date</h3><h2>15.08.2024</h2><p>3.00 P.M</p></div>
+                    <div class="box"><h3>Companies Registered</h3><h2>20</h2></div>
+                    <div class="box"><h3>Blacklisted Companies</h3><h2>50</h2></div>
+                    <div class="box"><h3>Number of Students Registered</h3><h2>15.08.2024</h2><p>3.00 P.M</p></div>
                 </div>
                 <div class="table-title">
                     <div class="table-title-txt">
-                        <h3>Applied students</h3>
+                        <h3>Advertistments</h3>
                     </div>
                     <button class="view-button">View</button>
                 </div>
