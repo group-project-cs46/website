@@ -12,18 +12,19 @@ class Cv
         $db = App::resolve(Database::class);
 
 
-        $cv = $db->query('SELECT * FROM cvs WHERE user_id = ?', [$id])->find();
+        $cvs = $db->query('SELECT * FROM cvs WHERE user_id = ?', [$id])->get();
 
-        return $cv;
+        return $cvs;
     }
 
-    public static function create($userId, $fileName)
+    public static function create($userId, $fileName, $originalName)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO cvs (user_id, filename) VALUES (?, ?)', [
+        $db->query('INSERT INTO cvs (user_id, filename, original_name) VALUES (?, ?, ?)', [
             $userId,
             $fileName,
+            $originalName,
         ]);
     }
 

@@ -1,49 +1,63 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
-<main class="p-6">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-4">Account Information</h1>
-        <div class="mb-4">
-            <label class="block text-gray-700">Name:</label>
-            <p class="text-lg"><?= htmlspecialchars($user['name']) ?></p>
-        </div>
-        <div class="mb-4">
-            <label class="block text-gray-700">Email:</label>
-            <p class="text-lg"><?= htmlspecialchars($user['email']) ?></p>
-        </div>
-
-        <?php if ($user['role'] === 2) : ?>
-            <div class="mb-4">
-                <h2 class="text-xl font-bold mb-2">CV</h2>
-                <?php if ($cv) : ?>
-                    <div class="mb-4">
-                        <form action="/cv/show" method="GET">
-                            <input type="hidden" name="id" value="<?= $cv['id'] ?>">
-                            <button type="submit" class="text-blue-500">
-                                Download CV
-                            </button>
-                        </form>
-                    </div>
-                <?php endif ?>
-                <form action="/cv/store" method="POST" enctype="multipart/form-data" class="space-y-4">
-                    <div>
-                        <label for="cv" class="block text-gray-700">Choose CV:</label>
-                        <input type="file" name="cv" id="cv" class="mt-1 block w-full">
-                        <?php if (isset($errors['cv'])) : ?>
-                            <p class="text-rose-700 text-xs"><?= $errors['cv'] ?></p>
-                        <?php endif ?>
-                    </div>
-                    <div>
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                            Upload
-                        </button>
-                    </div>
-                </form>
+    <main style="margin-top: 4rem">
+        <div class="container">
+            <h1 class="title">Account Information</h1>
+            <div class="info">
+                <label class="label">Name:</label>
+                <p class="text"><?= htmlspecialchars($user['name']) ?></p>
             </div>
-        <?php endif ?>
+            <div class="info">
+                <label class="label">Email:</label>
+                <p class="text"><?= htmlspecialchars($user['email']) ?></p>
+            </div>
 
-    </div>
-</main>
+            <?php if ($user['role'] === 2) : ?>
+                <div class="cv-section">
+                    <h2 class="subtitle">Your CVs</h2>
+                    <?php if ($cvs) : ?>
+                    <?php foreach ($cvs as $cv) : ?>
+                        <div class="cv" style="display: flex; gap: 1rem; align-items: center">
+                            <span class=""><?= $cv['original_name'] ?></span>
+                            <form action="/cv/delete" method="POST">
+                                <input type="hidden" name="id" value="<?= $cv['id'] ?>">
+                                <button type="submit" class="button small" style="background-color: maroon">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    <?php endforeach ?>
+<!--                        <div class="cv-download">-->
+<!--                            <form action="/cv/show" method="GET">-->
+<!--                                <input type="hidden" name="id" value="--><?php //= $cv['id'] ?><!--">-->
+<!--                                <button type="submit" class="download-button">-->
+<!--                                    Download CV-->
+<!--                                </button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+                    <?php else : ?>
+                        You have no uploaded CVs
+                    <?php endif ?>
+                    <form action="/cv/store" method="POST" enctype="multipart/form-data" class="upload-form" style="margin-top: 1rem">
+                        <div>
+                            <label for="cv" class="label">Choose CV:</label>
+                            <input type="file" name="cv" id="cv" class="file-input">
+                            <?php if (isset($errors['cv'])) : ?>
+                                <p class="error"><?= $errors['cv'] ?></p>
+                            <?php endif ?>
+                        </div>
+                        <div>
+                            <button type="submit" class="button">
+                                Upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            <?php endif ?>
 
+        </div>
+    </main>
+
+    <link rel="stylesheet" href="/styles/thathsara/thathsara.css">
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
