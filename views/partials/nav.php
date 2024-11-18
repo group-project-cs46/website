@@ -35,6 +35,36 @@ $navItems = [
         'only' => [Role::Company],
     ],
     [
+        'text' => 'Advertisment',
+        'href' => '/company/advertisment',
+        'icon' => 'fa-regular fa-rectangle-ad',
+        'only' => [Role::Company], 
+    ],
+    [
+        'text' => 'Student List',
+        'href' => '/company/shortedStudent',
+        'icon' => 'fa-solid fa-user-shield',
+        'only' => [Role::Company], 
+    ],
+    [
+        'text' => 'Schedule',
+        'href' => '/company/schedule',
+        'icon' => 'fa-solid fa-calendar-days',
+        'only' => [Role::Company], 
+    ],
+    [
+        'text' => 'Complaint',
+        'href' => '/company/complaint',
+        'icon' => 'fa-brands fa-readme',
+        'only' => [Role::Company], 
+    ],
+    [
+        'text' => 'Report',
+        'href' => '/company/report',
+        'icon' => 'fa-solid fa-file-invoice',
+        'only' => [Role::Company], 
+    ],
+    [
         'text' => 'Dashboard',
         'href' => '/dashboard/Lecturer',
         'icon' => 'fa-dashboard',

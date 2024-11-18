@@ -1,0 +1,157 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left {
+  display: flex;
+  align-items: center;
+}
+
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.above-left img, 
+.above-right img {
+  margin-right: 10px;
+}
+  .company-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .company-name {
+    margin-left: 10px; /* Space between logo and name */
+    text-align: left;
+    line-height: 1.2; /* Adjust line-height*/
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+
+.main-content {
+  flex: 1;
+  padding: 15px;
+  background-color: #f4f4f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.table-title h3 {
+  margin: 0;
+  font-size: 24px; /* Larger font size for the heading */
+  font-weight: bold; /* Emphasize the heading */
+}
+
+.table-title p {
+  margin: 0;
+  font-size: 16px; /* Smaller font size for the paragraph */
+  color: #777;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .sidebar {
+      width: 40px; /* Narrower sidebar for mobile */
+  }
+
+  .main-content {
+      margin-left: 40px; /* Adjust main content margin for mobile */
+  }
+}
+
+/* Form container */
+.form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use flexbox for centering */  
+  flex-direction: column; /* Stack items vertically */  
+  align-items: center; /* Center items horizontally */  
+}
+
+
+.card {  
+  padding: 20px; 
+  font-weight: bold;
+  font-size: 20px;
+  margin: 5px ;  
+  display: flex;  
+  justify-content: space-between;  
+  align-items: center;  
+  border-radius: 5px;
+  width: 30%;  
+  height: 100px;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
+  position: relative; /* Required for absolute positioning of the button */ 
+  background-color: rgb(247, 247, 247);
+
+}  
+
+.card button {  
+  background-color: #00aaff;  
+  color: white;  
+  border: none;  
+  padding: 2px 4px;  
+  border-radius: 5px;  
+  cursor: pointer;  
+  position: absolute; /* Position the button absolutely */  
+  top: 10px; /* Adjust top positioning */  
+  right: 10px; /* Align it to the right */ 
+}  
+
+.card button:hover {  
+  background-color: #0a0b0b;  
+}  

@@ -26,3 +26,13 @@ $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
+
+$router->get('/company/report', '/company/report.php');
+$router->get('/company/advertisment', '/company/advertisment.php');
+$router->get('/company/appliedStudent', '/company/appliedStudent.php');
+$router->get('/company/schedule', 'company/schedule.php');
+$router->get('/company/selectedStudent', '/company/selectedStudent.php');
+$router->get('/company/shortedStudent', '/company/shortedStudent.php');
+$router->get('/company/complaint', '/company/complaint.php');
+$router->get('/company/list', '/company/list.php');
+$router->get('/company/addInterview', '/company/addInterview.php');

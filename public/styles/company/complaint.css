@@ -1,0 +1,214 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left {
+  display: flex;
+  align-items: center;
+}
+
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.above-left img,
+.above-right img {
+  margin-right: 10px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 15px;
+  background-color: #f4f4f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: 85%;
+}
+
+.complaint-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 0;
+  gap: 10px;
+}
+
+.complaint-system-txt,
+.complaint-student-txt {
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.complaint-system-txt:hover,
+.complaint-student-txt:hover {
+  background-color: #f4f4f4;
+  color: #007bff;
+}
+
+.complaint-system-txt h3,
+.complaint-student-txt h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.complaint-system-txt p,
+.complaint-student-txt p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 40px;
+  width: 2px;
+  background-color: #ddd;
+  margin: 0 0px;
+}
+
+.complaint-box {
+  width: 60%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Make the box visible with a slight upward movement */
+.complaint-box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.complaint-box h2{
+  font-size: 18px;
+  font-weight: 550;
+  padding-bottom: 10px;
+}
+textarea {
+  width: 60%;
+  height: 250px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  resize: none;
+  margin-left: 100px;
+}
+
+textarea::placeholder {
+  color: #aaa;
+}
+
+.submit-btn {
+  background-color: #636667;
+  color: black;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.submit-btn:hover {
+    background-color:black;
+  color: white;
+}
+
+.active {
+  background-color: #222323;
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .main-content {
+    margin-left: 40px;
+  }
+}
+
+/* Popup Overlay for Success Message */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-overlay p {
+  background-color: #fff;
+  padding: 20px 30px;
+  font-size: 18px;
+  color: #333;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
