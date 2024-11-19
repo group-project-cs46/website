@@ -4,7 +4,7 @@ body {
     font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
-
+ 
 .above {
     display: flex;
     align-items: center;
@@ -13,6 +13,10 @@ body {
 .above i {
     margin-right: 10px;
 }
+
+.above h2 {
+    font-size: 28px;
+  }
 
 .main-content {
     flex: 1;
@@ -48,10 +52,16 @@ body {
     margin-bottom: 20px;
 }
 
-.table-title-txt {
-    margin-bottom: 0;
-}
-
+.table-title-txt h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  .table-title-txt p {
+    margin: 0;
+    color: #777;
+  }
+  
 .add-button {
     padding: 10px 15px;
     background-color: #007bff;
@@ -61,6 +71,14 @@ body {
     font-size: 20px;
     cursor: pointer;
 }
+
+
+table {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
 
 .student-table {
     width: 100%;
@@ -74,6 +92,10 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
+.student-table th {
+    background-color: #F9FAFB;
+}
+
 .disable-button,
 .view-button {
     padding: 8px;
@@ -81,6 +103,8 @@ body {
     border: none;
     border-radius: 5px;
     color: white;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .disable-button {
@@ -188,3 +212,14 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 40px; /* Narrower sidebar for mobile */
+    }
+  
+    .main-content {
+        margin-left: 40px; /* Adjust main content margin for mobile */
+    }
+  }

@@ -29,13 +29,13 @@
             </thead>
             <tbody id="companyTableBody">
                 <!-- Example Table Rows -->
-                <tr>
+                <!-- <tr>
                     <td>WSO2</td>
                     <td>Nimal</td>
                     <td>0771234567</td>
                     <td>Hiring@gmail.com</td>
-                    <td><button class="view-button">View</button></td>
-                </tr>
+                    <td><button class="view-button">view</button></td>
+                </tr> -->
             </tbody>
         </table>
     </section>

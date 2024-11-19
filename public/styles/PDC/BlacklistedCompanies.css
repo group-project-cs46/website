@@ -45,6 +45,23 @@
   margin-bottom: 20px;
 }
 
+.table-title {
+  align-items: center;
+  display: flex;
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.table-title h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.table-title p {
+  margin: 0;
+  color: #777;
+}
+
 .add-button {
   padding: 5px 15px;
   background-color: #007bff;
