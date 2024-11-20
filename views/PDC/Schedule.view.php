@@ -92,7 +92,6 @@
     </section>
 </div>    
 </main>
-<a href="sample">sample</a>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
