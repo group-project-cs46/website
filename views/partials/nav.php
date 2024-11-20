@@ -106,12 +106,12 @@ function filterNavItemsByRole($navItems, $userRole)
 
 <nav role="navigation" aria-label="main navigation"
      style="position: fixed; left: 0; top: 0; height: 100vh; width: 50px;">
-    <div style="height: 100vh; display: flex; flex-direction: column; justify-content: space-between"
-         class="border-r p-1 py-2">
-        <div style="display: flex; flex-direction: column;" class="gap-2">
+    <div style="height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filterNavItemsByRole($navItems, $_SESSION['user']['role']) as $item) : ?>
                 <a href="<?= $item['href'] ?>"
-                   class="tooltip text-center rounded-full py-2  <?= urlIs($item['href']) ? 'outline outline-1 text-sky-500 bg-white' : 'text-gray-700 hover:outline outline-1 outline-gray-200' ?>"
+                   class="tooltip"
+                   style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href']) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>"
                 >
                     <i class="fa-solid <?= $item['icon'] ?> fa-lg"></i>
                     <span class="tooltiptext">
@@ -121,15 +121,13 @@ function filterNavItemsByRole($navItems, $userRole)
             <?php endforeach ?>
         </div>
 
-
-        <div style="display: flex; flex-direction: column">
-            <form style="width: 100%; margin: 0" action="/sessions" method="post">
+        <div style="display: flex; flex-direction: column; margin-bottom: 0.5rem">
+            <form style="width: 100%; margin: 0;" action="/sessions" method="post">
                 <input type="hidden" name="_method" value="DELETE">
-                <button style="width: 100%; margin: 0" class="button text-rose-700">
+                <button style="width: 100%; margin: 0; color: #be123c;" class="astext">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-lg"></i>
                 </button>
             </form>
         </div>
-
     </div>
 </nav>
