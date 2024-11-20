@@ -139,10 +139,10 @@ table{
 .btn-container {
   display: flex;
   justify-content: flex-end; /* Align buttons to the left */
-  gap: 50px; /* Add space between buttons */
+  gap: 30px; /* Add space between buttons */
  
 }
-.edit-btn {
+.edit-btn,.view-btn {
   background-color: #0ea5e9;
   color: white;
   border: none;
@@ -158,9 +158,8 @@ table{
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 80px;
 }
-
+.view-btn
 .edit-btn:hover,
 .delete-btn:hover {
   background-color: #01080a;
@@ -317,4 +316,36 @@ input[type="text"] {
 .close:focus {
   color: black;
   text-decoration: none;
+}
+.success-popup {
+  position: fixed;
+  top: 20px;
+  right: 45%;
+  padding: 15px 25px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 200;
+  animation: fadeInOut 3s ease-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  20% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  80% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  100% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
 }
