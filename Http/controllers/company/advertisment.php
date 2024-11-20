@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // Retrieve all advertisements
-$query = "SELECT id, job_type, vacancy_count FROM advertisements";
+$query = "SELECT id, job_type, max_cvs FROM advertisements";
 $advertisements = $db->query($query, [])->get();
 
 // Pass data to the view

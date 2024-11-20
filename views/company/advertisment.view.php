@@ -45,7 +45,7 @@
                         <td>
                             <div class="count">
                                 <button class="decrease-btn" onclick="changeCount(<?= $ad['id'] ?>, -1)">-</button>
-                                <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['vacancy_count'] ?></span>
+                                <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['max_cvs'] ?></span>
                                 <button class="increase-btn" onclick="changeCount(<?= $ad['id'] ?>, 1)">+</button>
                             </div>
                         </td>
@@ -86,8 +86,7 @@
             <div class="popup-text">
                 <h1>Details about Advertisement</h1>
             </div>
-            <form class="form-content" method="POST">
-                <input type="hidden" name="action" value="create">
+            <form class="form-content" method="POST" action="/ads/store">
                 <div class="form-field">
                     <label for="job_type">Job Type :</label>
                     <input type="text" name="job_type" id="job_type" placeholder="About the Job Type" required />
