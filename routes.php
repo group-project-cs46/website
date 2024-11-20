@@ -20,12 +20,12 @@ $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 $router->get('/jobs', 'jobs/index.php')->only('student');
 
-
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
+
 
 $router->get('/company/report', '/company/report.php');
 $router->get('/company/advertisment', '/company/advertisment.php');
@@ -36,3 +36,12 @@ $router->get('/company/shortedStudent', '/company/shortedStudent.php');
 $router->get('/company/complaint', '/company/complaint.php');
 $router->get('/company/list', '/company/list.php');
 $router->get('/company/addInterview', '/company/addInterview.php');
+
+$router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
+$router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
+$router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
+$router->get('/PDC/Schedule', '/PDC/Schedule.php');
+$router->get('/PDC/sample', '/PDC/sample.php');
+$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+
