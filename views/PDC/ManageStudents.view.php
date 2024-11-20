@@ -112,6 +112,8 @@
     const addStudentForm = document.getElementById('addStudentForm');
     const studentTableBody = document.getElementById('studentTableBody');
     const uploadCsvForm = document.getElementById('uploadCsvForm');
+    const searchInput = document.getElementById('searchInput'); // Reference to the search input
+
 
     // Add Student
     document.getElementById('submitStudent').addEventListener('click', () => {
@@ -214,6 +216,27 @@
     document.getElementById('closeEditFormButton').addEventListener('click', () => {
         document.getElementById('editPopupForm').style.display = 'none';
     });
+
+// Search Functionality
+function searchTable() {
+        const filter = searchInput.value.toLowerCase();
+        const rows = studentTableBody.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+
+            for (let j = 0; j < cells.length - 1; j++) { // Exclude the "Actions" column
+                if (cells[j].textContent.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = match ? '' : 'none';
+        }
+    }
+
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

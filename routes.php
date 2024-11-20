@@ -43,7 +43,6 @@ $router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
 $router->get('/PDC/Schedule', '/PDC/Schedule.php');
-$router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
