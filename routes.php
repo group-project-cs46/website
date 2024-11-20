@@ -37,6 +37,8 @@ $router->get('/company/complaint', '/company/complaint.php');
 $router->get('/company/list', '/company/list.php');
 $router->get('/company/addInterview', '/company/addInterview.php');
 
+$router->post('/ads/store', 'ads/store.php');
+
 $router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
