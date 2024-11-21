@@ -44,14 +44,12 @@
                     <tr id="row-<?= $ad['id'] ?>">
                         <td><?= htmlspecialchars($ad['job_role']) ?></td>
                         <td>
-<<<<<<< Updated upstream
                             <div class="count">
                                 <button class="decrease-btn" onclick="changeCount(<?= $ad['id'] ?>, -1)">-</button>
                                 <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['vacancy_count'] ?></span>
                                 <button class="increase-btn" onclick="changeCount(<?= $ad['id'] ?>, 1)">+</button>
-=======
                                 <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['max_cvs'] ?></span>
->>>>>>> Stashed changes
+
                             </div>
                         </td>
                         <td><?= htmlspecialchars($ad['deadline']) ?></td>
@@ -165,12 +163,4 @@ async function deleteAd(id) {
 }
 
 }
-
-
-
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
 </script>
