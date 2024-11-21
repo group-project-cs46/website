@@ -1,4 +1,4 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php') ;?>
 
 <link rel="stylesheet" href="/styles/company/advertisment.css" />
 
@@ -33,27 +33,33 @@
         <table class="student-table">
             <thead>
                 <tr>
-                    <th>Job Type</th>
+                    <th>Job Role</th>
                     <th>Vacancy Count</th>
+                    <th>Deadline</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody id="advertisementTable">
                 <?php foreach ($advertisements as $ad): ?>
                     <tr id="row-<?= $ad['id'] ?>">
-                        <td><?= htmlspecialchars($ad['job_type']) ?></td>
+                        <td><?= htmlspecialchars($ad['job_role']) ?></td>
                         <td>
+<<<<<<< Updated upstream
                             <div class="count">
                                 <button class="decrease-btn" onclick="changeCount(<?= $ad['id'] ?>, -1)">-</button>
                                 <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['vacancy_count'] ?></span>
                                 <button class="increase-btn" onclick="changeCount(<?= $ad['id'] ?>, 1)">+</button>
+=======
+                                <span id="vacancy-<?= $ad['id'] ?>" class="vacancy-count"><?= $ad['max_cvs'] ?></span>
+>>>>>>> Stashed changes
                             </div>
                         </td>
+                        <td><?= htmlspecialchars($ad['deadline']) ?></td>
                         <td>
                             <div class="btn-container">
-                                <button class="view-btn" onclick="viewRow(<?= $ad['id'] ?>)">View</button>
-                                <button class="edit-btn" onclick="editRow(<?= $ad['id'] ?>)">Edit</button>
-                                <button class="delete-btn" onclick="deleteRow(<?= $ad['id'] ?>)">Delete</button>
+                                <button class="view-btn"  >View</button>
+                                <button class="edit-btn" >Edit</button>
+                                <button class="delete-btn" onclick="deleteAd(<?= $ad['id'] ?>)">Delete</button>
                             </div>
                         </td>
                     </tr>
@@ -84,14 +90,10 @@
         <div class="form-container">
             <span class="close" onclick="closeModal()">&times;</span>
             <div class="popup-text">
-                <h1>Details about Advertisement</h1>
+                <h2>Details about Advertisement</h2>
             </div>
             <form class="form-content" method="POST">
                 <input type="hidden" name="action" value="create">
-                <div class="form-field">
-                    <label for="job_type">Job Type :</label>
-                    <input type="text" name="job_type" id="job_type" placeholder="About the Job Type" required />
-                </div>
                 <div class="form-field">
                     <label for="job_role">Job Role :</label>
                     <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />
@@ -105,12 +107,12 @@
                     <input type="text" name="qualification_skills" id="qualification_skills" placeholder="Enter Qualifications And Skills" />
                 </div>
                 <div class="form-field">
-                    <label for="maxCVs">Maximum CV's Count:</label>
-                    <input type="number" name="maxCVs" id="maxCVs" placeholder="Enter the Maximum CV's Count" />
+                    <label for="deadline">Deadline Date :</label>
+                    <input type="date" name="deadline" id="deadline" placeholder="Enter Deadline Date" />
                 </div>
                 <div class="form-field">
-                    <label for="company_link">Company Details Link :</label>
-                    <input type="url" name="company_link" id="company_link" placeholder="Update the link here" />
+                    <label for="maxCVs">Maximum CV's Count:</label>
+                    <input type="number" name="maxCVs" id="maxCVs" placeholder="Enter the Maximum CV's Count" />
                 </div>
                 <button class="submit-btn" type="submit">Submit</button>
             </form>
@@ -119,29 +121,7 @@
 </div>
 
 <script>
-    // Fetch and display advertisement details
-function viewRow(id) {
-    fetch(`/advertisment.php?id=${id}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const ad = data.advertisement;
-                const detailsHTML = `
-                    <p><strong>Job Type:</strong> ${ad.job_type}</p>
-                    <p><strong>Job Role:</strong> ${ad.job_role}</p>
-                    <p><strong>Responsibilities:</strong> ${ad.responsibilities}</p>
-                    <p><strong>Qualifications & Skills:</strong> ${ad.qualification_skills}</p>
-                    <p><strong>Maximum CVs:</strong> ${ad.maxCVs}</p>
-                    <p><strong>Company Link:</strong> <a href="${ad.company_link}" target="_blank">${ad.company_link}</a></p>
-                `;
-                document.getElementById('adDetails').innerHTML = detailsHTML;
-                document.getElementById('viewModal').style.display = 'block';
-            } else {
-                alert('Error fetching advertisement details.');
-            }
-        });
-}
-
+    
 // Modal controls
 function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
@@ -155,86 +135,42 @@ function closeModal() {
     document.getElementById('addModal').style.display = 'none';
 }
 
-function deleteRow(id) {
-    if (confirm('Are you sure you want to delete this advertisement?')) {
-        fetch('/advertisment.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'delete',
-                id: id,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Remove the row from the table
-                const row = document.getElementById(`row-${id}`);
-                row.parentNode.removeChild(row);
-                alert('Advertisement deleted successfully.');
-            } else {
-                alert('Error deleting advertisement.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error deleting advertisement.');
-        });
+
+async function deleteAd(id) {
+    try {
+    const response = await fetch('/ads/delete', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id }),
+    });
+
+    if (response.ok) {
+        alert('Ad deleted successfully!');
+         location.reload();
+        const adElement = document.getElementById(`ad-${id}`);
+        if (adElement) {
+            adElement.remove();
+        } else {
+            console.warn(`Element with id ad-${id} not found.`);
+        }
+        
+    } else {
+        const errorText = await response.text();
+        console.error('Error Response:', errorText);
+        alert('Failed to delete the ad.');
     }
+} catch (error) {
+    console.error('Fetch Error:', error.message);
+    alert('An error occurred while deleting the ad.');
 }
 
-// Edit advertisement
-function editRow(id) {
-    fetch(`/advertisment.php?id=${id}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const ad = data.advertisement;
-                document.getElementById('job_type').value = ad.job_type;
-                document.getElementById('job_role').value = ad.job_role;
-                document.getElementById('responsibilities').value = ad.responsibilities;
-                document.getElementById('qualification_skills').value = ad.qualification_skills;
-                document.getElementById('maxCVs').value = ad.maxCVs;
-                document.getElementById('company_link').value = ad.company_link;
-                document.getElementById('addModal').style.display = 'block';
-            } else {
-                alert('Error fetching advertisement details.');
-            }
-        });
 }
 
-// Update vacancy count
-function changeCount(id, change) {
-    const currentCount = parseInt(document.getElementById(`vacancy-${id}`).innerText);
-    const newCount = currentCount + change;
-    if (newCount >= 0) {
-        document.getElementById(`vacancy-${id}`).innerText = newCount;
 
-        // Update the database
-        fetch('/advertisment.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'update',
-                id: id,
-                vacancy_count: newCount,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success) {
-                alert('Error updating vacancy count.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error updating vacancy count.');
-        });
-    }
-}
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 </script>
