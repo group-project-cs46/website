@@ -9,7 +9,6 @@ use Core\App;
 $db = App::resolve(Database::class);
 
 // Handle CRUD operations
-<<<<<<< Updated upstream
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Create Advertisement
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $qualifications = $_POST['qualification_skills'];
         $maxCVs = $_POST['maxCVs'];
         $companyLink = $_POST['company_link'];
-=======
+
 // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 //     // Create Advertisement
@@ -31,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //         $qualifications = $_POST['qualification_skills'];
 //         $maxCVs = $_POST['maxCVs'];
 //         $companyLink = $_POST['company_link'];
->>>>>>> Stashed changes
 
         $query = "INSERT INTO advertisements (job_type, job_role, responsibilities, qualification_skills, maxCVs, company_link, vacancy_count) 
                   VALUES (:job_type, :job_role, :responsibilities, :qualification_skills, :maxCVs, :company_link, 1)";
@@ -66,18 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 }
 
 // Handle DELETE action
-<<<<<<< Updated upstream
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
-=======
+
 // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //     $input = json_decode(file_get_contents('php://input'), true);
->>>>>>> Stashed changes
 
 //     if (isset($input['action']) && $input['action'] === 'delete') {
 //         $id = $input['id'];
 
-<<<<<<< Updated upstream
+
         $query = "DELETE FROM advertisements WHERE id = :id";
         $params = ['id' => $id];
         $result = $db->query($query, $params);
@@ -85,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => $result]);
         exit;
     }
-}
+
 // Handle UPDATE action
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = json_decode(file_get_contents('php://input'), true);
@@ -106,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Retrieve all advertisements
 $query = "SELECT id, job_type, vacancy_count FROM advertisements";
-=======
+
 //         $query = "DELETE FROM advertisements WHERE id = :id";
 //         $params = ['id' => $id];
 //         $result = $db->query($query, $params);
@@ -135,7 +132,6 @@ $query = "SELECT id, job_type, vacancy_count FROM advertisements";
 
 // Retrieve all advertisements
 $query = "SELECT * FROM advertisements";
->>>>>>> Stashed changes
 $advertisements = $db->query($query, [])->get();
 
 
