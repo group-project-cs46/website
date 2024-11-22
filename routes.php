@@ -18,13 +18,17 @@ $router->post('/sessions', 'sessions/store.php')->only('guest');
 $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 
-$router->get('/jobs', 'jobs/index.php')->only('student');
+$router->get('/advertisements', 'advertisements/index.php')->only('student');
+$router->get('/advertisements/show', 'advertisements/show.php')->only('student');
+
+$router->post('/applications', 'applications/store.php')->only('student');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
+$router->delete('/cv/delete', 'cv/destroy.php')->only('student');
 
 
 //company
