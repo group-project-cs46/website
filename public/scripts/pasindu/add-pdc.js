@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add event listeners for buttons and pagination
     document.querySelector('.delete-btn').addEventListener('click', () => alert('Delete functionality not implemented'));
-    document.querySelector('.new-btn').addEventListener('click', () => alert('New lecturer functionality not implemented'));
+    // document.querySelector('.new-btn').addEventListener('click', () => alert('New lecturer functionality not implemented'));
     document.querySelector('.search-input').addEventListener('input', (e) => console.log('Search:', e.target.value));
     document.querySelector('.prev-btn').addEventListener('click', () => alert('Previous page'));
     document.querySelector('.next-btn').addEventListener('click', () => alert('Next page'));
