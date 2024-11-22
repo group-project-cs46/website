@@ -1,77 +1,66 @@
 <?php require base_path('views/partials/layouts/guest/open.php') ?>
 
-    <link rel="stylesheet" href="/styles/thathsara/thathsara3.css">
+<link rel="stylesheet" href="/styles/thathsara/thathsara3.css">
 
-    <section>
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-800">
-                <img class="w-8 h-8 mr-2" src="/logo.svg" alt="logo">
-                Launchpad
-            </a>
-            <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 bg-gray-100 border-gray-300">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                        Sign in to your account
-                    </h1>
-                    <form class="space-y-4 md:space-y-6" method="post" action="/sessions">
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900">
-                                Your email
-                                <input
-                                        type="email"
-                                        name="email"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5"
-                                        placeholder="name@company.com" required
-                                        value="<?= old('email') ?? '' ?>"
-                                >
-                                <?php if (isset($errors['email'])) : ?>
-                                    <p class="text-rose-700 text-xs"><?= $errors['email'] ?></p>
-                                <?php endif ?>
-                            </label>
-                        </div>
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900">
-                                Password
-                                <input type="password"
-                                       name="password"
-                                       placeholder="••••••••"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5"
-                                       required=""
-                                       value="<?= old('password') ?? '' ?>"
-                                >
-                                <?php if (isset($errors['password'])) : ?>
-                                    <p class="text-rose-700 text-xs"><?= $errors['password'] ?></p>
-                                <?php endif ?>
-                            </label>
-                        </div>
-                        <!--                    <div class="flex items-center justify-between">-->
-                        <!--                        <div class="flex items-start">-->
-                        <!--                            <div class="flex items-center h-5">-->
-                        <!--                                <input id="remember" aria-describedby="remember" type="checkbox"-->
-                        <!--                                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-sky-300"-->
-                        <!--                                       >-->
-                        <!--                            </div>-->
-                        <!--                            <div class="ml-3 text-sm">-->
-                        <!--                                <label for="remember" class="text-gray-500">Remember me</label>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                        <!--                        <a href="#" class="text-sm font-medium text-sky-600 hover:underline">Forgot password?</a>-->
-                        <!--                    </div>-->
-                        <button type="submit"
-                                class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                            Sign in
-                        </button>
-                        <p class="text-sm font-light text-gray-500">
-                            Don’t have an account yet?
-                            <a href="/register"
-                               class="font-medium text-sky-600 hover:underline">
-                                Sign up
-                            </a>
-                        </p>
-                    </form>
-                </div>
+<section>
+    <div
+        style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; margin: auto; height: 100vh;">
+        <a href="/"
+            style="display: flex; align-items: center; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 600; color: var(--gray-800)">
+            <img style="width: 2rem; height: 2rem; margin-right: 0.5rem;" src="/logo.svg" alt="logo">
+            Launchpad
+        </a>
+        <div
+            style="width: 100%; background-color: #f7fafc; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); margin-top: 0; max-width: 28rem; padding: 0;">
+            <div style="padding: 1.5rem; space-y: 1rem;">
+                <h1 style="font-size: 1.25rem; font-weight: 700; line-height: 1.25; color: var(--gray-800)">
+                    Sign in to your account
+                </h1>
+                <form style="space-y: 1rem;" method="post" action="/sessions">
+                    <div>
+                        <label
+                            style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #1a202c;">
+                            Your email
+                            <input type="email" name="email" style="
+                                        background-color: #fff;
+                                        border: 1px solid #d1d5db;
+                                        color: #1a202c;
+                                        border-radius: 0.5rem;
+                                        focus:ring: #0284c7;
+                                        focus:border: #0284c7;
+                                        display: block; width: 100%; 
+                                        padding: 0.625rem;" placeholder="name@company.com" required
+                                value="<?= old('email') ?? '' ?>">
+                            <?php if (isset($errors['email'])): ?>
+                                <p style="color: #e11d48; font-size: 0.75rem;"><?= $errors['email'] ?></p>
+                            <?php endif ?>
+                        </label>
+                    </div>
+                    <div>
+                        <label
+                            style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #1a202c;">
+                            Password
+                            <input type="password" name="password" placeholder="••••••••"
+                                style="background-color: #fff; border: 1px solid #d1d5db; color: #1a202c; border-radius: 0.5rem; focus:ring: #0284c7; focus:border: #0284c7; display: block; width: 100%; padding: 0.625rem;"
+                                required="" value="<?= old('password') ?? '' ?>">
+                            <?php if (isset($errors['password'])): ?>
+                                <p style="color: #e11d48; font-size: 0.75rem;"><?= $errors['password'] ?></p>
+                            <?php endif ?>
+                        </label>
+                    </div>
+                    <button type="submit" class="button" style="width: 100%; ">
+                        Sign in
+                    </button>
+                    <p style="font-size: 0.875rem; font-weight: 300; color: #6b7280;">
+                        Don’t have an account yet?
+                        <a href="/register" style="font-weight: 500; color: #0284c7; hover:underline;">
+                            Sign up
+                        </a>
+                    </p>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 <?php require base_path('views/partials/layouts/guest/close.php') ?>
