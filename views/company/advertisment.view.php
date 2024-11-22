@@ -50,8 +50,8 @@
                                 <button class="view-btn" onclick="viewAd(<?= $ad['id'] ?>)">View</button>
                                 <button class="edit-btn" onclick="editAd(<?= $ad['id'] ?>)">Edit</button>
                                 <form method="POST" action="/ads/delete" onsubmit="return confirmDelete();">
-                                    
                                     <input type="hidden" name="id" value="<?= $ad['id'] ?>">
+                                    <input type="hidden" name="_method" value="DELETE">
                                     <button class="delete-btn" type="submit">Delete</button>
                                 </form>
                             </div>

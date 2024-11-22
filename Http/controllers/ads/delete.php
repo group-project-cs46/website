@@ -7,7 +7,7 @@ use Models\deleteAd;
 // Get the ID of the advertisement to delete from the POST data
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     try {
         // Validate if ID is provided in the POST request
         if (!isset($_POST['id']) || empty($_POST['id'])) {
@@ -35,6 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /company/advertisment?error=' . urlencode($e->getMessage()));
         exit();
     }
-}
+
 
 
