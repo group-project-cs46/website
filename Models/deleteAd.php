@@ -15,6 +15,4 @@ class deleteAd
         // Execute the query to delete the advertisement
         $db->query('DELETE FROM advertisements WHERE id = ?', [$id]);
     }
-
-    // Other methods like create or getAll can remain as is
 }

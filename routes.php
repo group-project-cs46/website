@@ -43,9 +43,8 @@ $router->get('/company/addInterview', '/company/addInterview.php');
 
 //company action
 $router->post('/ads/store', 'ads/store.php');
-$router->delete('/ads/delete', 'ads/delete.php');
-$router->post('/ads/retrieve', 'ads/retrieve.php');
-$router->post('/ads/update', 'ads/update.php');
+$router->post('/ads/delete', 'ads/delete.php');
+$router->post('/ads/edit', 'ads/edit.php');
 
 //PDC
 
