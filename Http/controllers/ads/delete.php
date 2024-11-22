@@ -7,26 +7,34 @@ use Models\deleteAd;
 // Get the ID of the advertisement to delete from the POST data
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $data = json_decode(file_get_contents('php://input'), true);
-        $id = $data['id'] ?? null;
-
-        if ($id) {
-            deleteAd::delete($id);
-           
-            http_response_code(200);
-            echo json_encode(['message' => 'Ad deleted successfully']);
-            
-            
-        } else {
-            throw new Exception('Invalid advertisement ID');
+        // Validate if ID is provided in the POST request
+        if (!isset($_POST['id']) || empty($_POST['id'])) {
+            throw new Exception('Invalid or missing advertisement ID.');
         }
+
+        // Sanitize and fetch the ID
+        $id = $_POST['id'];
+
+        if (!$id) {
+            throw new Exception('Invalid advertisement ID format.');
+        }
+
+        // Attempt to delete the advertisement
+        deleteAd::delete($id);
+
+        // Redirect after successful deletion
+        header('Location: /company/advertisment');
+        exit();
     } catch (Exception $e) {
-        http_response_code(400);
-        echo json_encode(['message' => $e->getMessage()]);
+        // Log the error (optional, depending on your logging setup)
+        error_log('Error deleting ad: ' . $e->getMessage());
+
+        // Redirect to the advertisements page with an error message
+        header('Location: /company/advertisment?error=' . urlencode($e->getMessage()));
+        exit();
     }
-    // header mean redirect 
-    
 }
+
 
