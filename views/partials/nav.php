@@ -107,8 +107,8 @@ $navItems = [
         'only' => [Role::Pdc]
     ],
     [
-        'text' => 'Jobs',
-        'href' => '/jobs',
+        'text' => 'Advertisements',
+        'href' => '/advertisements',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
     ],

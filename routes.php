@@ -18,7 +18,10 @@ $router->post('/sessions', 'sessions/store.php')->only('guest');
 $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 
-$router->get('/jobs', 'jobs/index.php')->only('student');
+$router->get('/advertisements', 'advertisements/index.php')->only('student');
+$router->get('/advertisements/show', 'advertisements/show.php')->only('student');
+
+$router->post('/applications', 'applications/store.php')->only('student');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
@@ -38,7 +41,7 @@ $router->get('/company/complaint', '/company/complaint.php');
 $router->get('/company/list', '/company/list.php');
 $router->get('/company/addInterview', '/company/addInterview.php');
 
-$router->post('/ads/store', 'ads/store.php');
+$router->post('/ads/store', 'advertisements/store.php');
 
 $router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
