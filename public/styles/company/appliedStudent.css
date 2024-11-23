@@ -1,0 +1,165 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left {
+  display: flex;
+  align-items: center;
+}
+
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.above-left img,
+.above-right img {
+  margin-right: 10px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px; /* Space between logo and name */
+  text-align: left;
+  line-height: 1.2; /* Adjust line-height*/
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 15px;
+  background-color: #f4f4f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.table-title h3 {
+  margin: 0;
+  font-size: 24px; /* Larger font size for the heading */
+  font-weight: bold; /* Emphasize the heading */
+}
+
+.table-title p {
+  margin: 0;
+  font-size: 16px; /* Smaller font size for the paragraph */
+  color: #777;
+}
+
+.add-button {
+  padding: 5px 10px;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.add-button:hover {
+  background-color: #01060c;
+}
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.student-table th,
+.student-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.student-table th {
+  background-color: #f4f4f8;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .sidebar {
+    width: 40px; /* Narrower sidebar for mobile */
+  }
+
+  .main-content {
+    margin-left: 40px; /* Adjust main content margin for mobile */
+  }
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+.status-btn {
+  background-color: #f4f4f4;
+  color: black;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+.view-btn {
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.status-btn:hover {
+  background-color: #01080a;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #01080a;
+  color: white;
+}

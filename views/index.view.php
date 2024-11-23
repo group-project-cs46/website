@@ -1,4 +1,4 @@
-<?php require base_path('views/partials/layouts/guest/open.php') ?>
+<?php require base_path('views/partials/layouts/guest/open.php') ;?>
 
     <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; margin-inline: 0.5rem">
         <?php if ($_SESSION['user'] ?? false) : ?>
