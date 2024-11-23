@@ -113,8 +113,8 @@ $navItems = [
         'only' => [Role::Pdc]
     ],
     [
-        'text' => 'Jobs',
-        'href' => '/jobs',
+        'text' => 'Advertisements',
+        'href' => '/advertisements',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
     ],
@@ -123,6 +123,12 @@ $navItems = [
         'href' => '/pdc-users',
         'icon' => 'fa-users',
         'only' => [Role::Admin],
+    ],
+    [
+        'text' => "Applications",
+        'href' => '/students/applications',
+        'icon' => 'fa-file-invoice',
+        'only' => [Role::Student],
     ],
     [
         'text' => 'Account',
