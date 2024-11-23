@@ -72,37 +72,43 @@ $navItems = [
     ],
     [
         'text' => 'Manage Student',
-        'href' => '/PDC/ManageStudents',
+        'href' => '/PDC/managestudents',
         'icon' => 'fa-user-graduate',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Advertisements",
-        'href' => '/PDC/Advertisements',
+        'href' => '/PDC/advertisements',
         'icon' => 'fa-rectangle-ad',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "ManageCompany",
-        'href' => '/PDC/ManageCompany',
+        'href' => '/PDC/managecompany',
         'icon' => 'fa-building',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Schedule",
-        'href' => '/PDC/Schedule',
+        'href' => '/PDC/schedule',
         'icon' => 'fa-calendar-days',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Complaints&Feedback",
-        'href' => '/PDC/Complaints&Feedback',
+        'href' => '/PDC/complaints&feedback',
         'icon' => 'fa-comments',
         'only' => [Role::Pdc]
     ],
     [
+        'text' => "StudentReport",
+        'href' => '/PDC/studentreport',
+        'icon' => 'fa-address-book',
+        'only' => [Role::Pdc]
+    ],
+    [
         'text' => "BlacklistedCompanies",
-        'href' => '/PDC/BlacklistedCompanies',
+        'href' => '/PDC/blacklistedcompanies',
         'icon' => 'fa-ban',
         'only' => [Role::Pdc]
     ],
