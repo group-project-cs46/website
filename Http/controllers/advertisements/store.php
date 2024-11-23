@@ -1,24 +1,21 @@
 <?php
 
+use Core\App;
+use Core\Database;
 use Core\Validator;
-use Models\storeAd;
+use Models\Ad;
 
+
+$job_type = $_POST['job_type'] ?? null;
 $job_role = $_POST['job_role'] ?? null;
 $responsibilities = $_POST['responsibilities'] ?? null;
 $qualifications_skills = $_POST['qualification_skills'] ?? null;
-$vacancy_count = $_POST['vacancy_count'] ?? null;
 $maxCVs = $_POST['maxCVs'] ?? null;
-$deadline = $_POST['deadline'] ?? null;
 
-
-storeAd::create( $job_role, $responsibilities, $qualifications_skills, $vacancy_count, $maxCVs, $deadline);
+Ad::create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs);
 
 
 
-// header mean redirect 
+// header mean redirect
 header('location: /company/advertisment');
 die();
-
-
-
-

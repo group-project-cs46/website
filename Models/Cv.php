@@ -17,6 +17,22 @@ class Cv
         return $cvs;
     }
 
+    public static function delete($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM cvs WHERE id = ?', [$id]);
+    }
+
+    public static function find($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $cv = $db->query('SELECT * FROM cvs WHERE id = ?', [$id])->find();
+
+        return $cv;
+    }
+
     public static function create($userId, $fileName, $originalName)
     {
         $db = App::resolve(Database::class);
