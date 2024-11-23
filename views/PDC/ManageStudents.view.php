@@ -50,6 +50,7 @@
                         <th>Registration No.</th>
                         <th>Course</th>
                         <th>Email</th>
+                        <th>Index No.</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -83,6 +84,7 @@
                         <th>Registration No.</th>
                         <th>Course</th>
                         <th>Email</th>
+                        <th>Index No.</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -93,6 +95,7 @@
                         <td>2024/CS/123</td>
                         <td>CS</td>
                         <td>johndoe@example.com</td>
+                        <td>22001417</td>
                         <td>
                             <button class="Edit-button">Edit</button>
                             <button class="disable-button">Disable</button>
@@ -103,6 +106,7 @@
                         <td>2024/IS/456</td>
                         <td>IS</td>
                         <td>janesmith@example.com</td>
+                        <td>22301213</td>
                         <td>
                             <button class="Edit-button">Edit</button>
                             <button class="disable-button">Disable</button>
@@ -127,6 +131,7 @@
                     <th>Registration No.</th>
                     <th>Course</th>
                     <th>Email</th>
+                    <th>Index No.</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -137,6 +142,7 @@
                     <td>2024/CS/123</td>
                     <td>CS</td>
                     <td>johndoe@example.com</td>
+                    <td>256336566</td>
                     <td>
                         <button class="Edit-button">Edit</button>
                         <button class="disable-button">Disable</button>
@@ -163,23 +169,26 @@
         <hr>
 
         <h3>Add a student</h3>
-        <form id="viewstudentForm">
+        <form id="viewstudentForm" method="post" action="/PDC/addstudent">
             <label for="name">Name:</label>
-            <input type="text" id="name" required>
+            <input type="text" id="name" name="name" required>
+
+            <label for="indexno">Index No.:</label>
+            <input type="text" id="indexno" name="indexno" required>
 
             <label for="regNo">Register Number:</label>
-            <input type="text" id="regNo" required>
+            <input type="text" id="regNo" name="regNo" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" required>
+            <input type="email" id="email" name="email" required>
 
             <label for="course">Course:</label>
-            <select id="course">
+            <select id="course" name="course">
                 <option value="CS">CS</option>
                 <option value="IS">IS</option>
             </select>
 
-            <button type="button" id="submitStudent">Add Student</button>
+            <button type="submit" id="submitStudent">Add Student</button>
         </form>
 
         <button id="closeFormButton">Close</button>
@@ -193,31 +202,36 @@
             name: "John Doe",
             regNo: "2024/CS/123",
             course: "CS",
-            email: "johndoe@example.com"
+            email: "johndoe@example.com",
+            indexno: "200023220"
         },
         {
             name: "Jane Smith",
             regNo: "2024/IS/456",
             course: "IS",
-            email: "janesmith@example.com"
+            email: "janesmith@example.com",
+            indexno: "200023220"
         },
         {
             name: "Emily Johnson",
             regNo: "2024/CS/789",
             course: "CS",
-            email: "emilyjohnson@example.com"
+            email: "emilyjohnson@example.com",
+            indexno: "200023220"
         },
         {
             name: "Michael Brown",
             regNo: "2024/IS/101",
             course: "IS",
-            email: "michaelbrown@example.com"
+            email: "michaelbrown@example.com",
+            indexno: "200023220"
         },
         {
             name: "Sarah Wilson",
             regNo: "2024/CS/112",
             course: "CS",
-            email: "sarahwilson@example.com"
+            email: "sarahwilson@example.com",
+            indexno: "200023220"
         }
 
     ];
@@ -272,16 +286,16 @@
     openFormButton.addEventListener('click', () => popupForm.style.display = 'flex');
     closeFormButton.addEventListener('click', () => popupForm.style.display = 'none');
 
-    document.getElementById('submitStudent').addEventListener('click', () => {
-        const name = document.getElementById('name').value;
-        const regNo = document.getElementById('regNo').value;
-        const email = document.getElementById('email').value;
-        const course = document.getElementById('course').value;
+    // document.getElementById('submitStudent').addEventListener('click', () => {
+    //     const name = document.getElementById('name').value;
+    //     const regNo = document.getElementById('regNo').value;
+    //     const email = document.getElementById('email').value;
+    //     const course = document.getElementById('course').value;
 
-        viewstudentRow(name, regNo, course, email);
-        viewstudentForm.reset();
-        popupForm.style.display = 'none';
-    });
+    //     viewstudentRow(name, regNo, course, email);
+    //     viewstudentForm.reset();
+    //     popupForm.style.display = 'none';
+    // });
 
     // Initialize an empty array to store student data
 
@@ -320,6 +334,7 @@
             <td>${student.regNo}</td>
             <td>${student.course}</td>
             <td>${student.email}</td>
+            <td>${student.indexno}</td>
             <td>
                 <button class="Edit-button">Edit</button>
                 <button class="disable-button">Delete</button>
