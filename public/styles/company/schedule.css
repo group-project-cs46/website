@@ -1,0 +1,277 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9fafb;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left,
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Schedule Section */
+.schedule-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.schedule-system-txt,
+.schedule-student-txt {
+  text-align: left;
+  padding: 10px;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  width: 48%;
+  position: relative;
+  cursor: pointer;
+}
+
+.schedule-system-txt:hover,
+.schedule-student-txt:hover {
+  background-color: #f0f6f6;
+  color: #007bff;
+}
+
+.schedule-system-txt h3,
+.schedule-student-txt h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.schedule-system-txt button,
+.schedule-student-txt button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.schedule-system-txt button:hover,
+.schedule-student-txt button:hover {
+  background-color: black;
+}
+
+/* Calendar Section */
+.calendars {
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar-box {
+  width: 48%;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.calendar-header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.day {
+  font-weight: bold;
+  background-color: #f4f4f4;
+  padding: 5px 0;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+/* Day Boxes */
+.day-box {
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+/* Highlighted Day */
+.highlight {
+  background-color: #a4ccf4;
+  color: white;
+  border-color: #c4dbf3;
+}
+
+.highlight:hover {
+  background-color: #0056b3;
+}
+
+.day-box:hover {
+  background-color: black;
+  
+}
+
+.event {
+  background-color: #e6f7ff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #007bff;
+}
+
+
+/* Modal Styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 30%;
+  position: relative;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.modal-content h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.modal-content label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
+}
+
+.modal-content input[type="date"],
+.modal-content input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.modal-content button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: black;
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #333;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Event Detail Popup Modal */
+#eventDetailModal .modal-content p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 10px;
+}

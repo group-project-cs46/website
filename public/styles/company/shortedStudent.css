@@ -1,0 +1,309 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left {
+  display: flex;
+  align-items: center;
+}
+
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.above-left img,
+.above-right img {
+  margin-right: 10px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px; /* Space between logo and name */
+  text-align: left;
+  line-height: 1.2; /* Adjust line-height*/
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.main-content {
+  flex: 1;
+  padding: 15px;
+  background-color: #f4f4f8;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.table-title h3 {
+  margin: 0;
+  font-size: 24px; /* Larger font size for the heading */
+  font-weight: bold; /* Emphasize the heading */
+}
+
+.table-title p {
+  margin: 0;
+  font-size: 16px; /* Smaller font size for the paragraph */
+  color: #777;
+}
+
+.add-button {
+  padding: 5px 10px;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.add-button:hover {
+  background-color: #01060c;
+}
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.student-table th,
+.student-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.student-table th {
+  background-color: #f4f4f8;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .sidebar {
+    width: 40px; /* Narrower sidebar for mobile */
+  }
+
+  .main-content {
+    margin-left: 40px; /* Adjust main content margin for mobile */
+  }
+}
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+.status-btn {
+  background-color: #f4f4f4;
+  color: black;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+.view-btn {
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+.schedule-btn {
+  background-color: #f4f4f4;
+  color: black;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 100px;
+}
+.status-btn:hover {
+  background-color: #01080a;
+  color: white;
+}
+.schedule-btn:hover {
+  background-color: #01080a;
+  color: white;
+}
+.view-btn:hover {
+  background-color: #01080a;
+  color: white;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column; /* Changed from row to column to stack content */
+  margin-bottom: 15px;
+  margin-top: 30px;
+}
+label {
+  font-size: 18px;
+  color: #333;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px; /* Added margin to create space between label and content */
+}
+.period {
+  display: flex; /* Align the inputs in a row */
+  flex-direction: column; /* Stack the "From" and "To" inputs vertically */
+  margin: 5px 0px 10px 40px; /* Adjust space */
+  width: 250px;
+}
+.date-picker {
+  position: relative;
+  display: inline-block;
+
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+}
+.form-row button {
+  text-align: center;
+}
+.save-button {
+  background-color: #495358;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.save-button:hover {
+  background-color: black;
+}
+
+.duration {
+  width: 150px;
+  padding: 10px;
+  flex-grow: 1;
+  margin: 30px 10px 10px 80px;
+  border:solid black 1px ;
+  border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: inline-block;
+  width: 100%; /* Ensures full-width for input within container */
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding-right: 30px; /* Adds space on the right for the icon */
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  box-sizing: border-box; /* Ensures padding doesn’t alter the input’s width */
+}
+
+.input-with-icon i {
+  position: absolute;
+  right: 10px; /* Aligns icon inside input */
+  top: 50%;
+  transform: translateY(-50%); /* Centers icon vertically */
+  color: #555;
+  pointer-events: none; /* Ensures icon doesn’t block input interaction */
+}
+.interview-heading {
+  font-size: 20px; /* Adjust to your desired h1 size */
+  font-weight: bold; /* Ensure it has a bold appearance */
+  margin-top: 0; /* Optional: adjust top margin if needed */
+  text-align: center;
+}
+
+/* Full-screen overlay for the modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: none; /* Hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it sits on top */
+}
+
+/* Modal content styling */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button styling */
+.close {
+  cursor: pointer;
+  float: right;
+  font-size: 24px;
+  margin: -10px -10px 0 0;
+}
+
+/* Blur effect when modal is open */
+body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
+  filter: blur(5px);
+}
