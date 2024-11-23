@@ -30,6 +30,8 @@ $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
 $router->delete('/cv/delete', 'cv/destroy.php')->only('student');
 
+$router->get('/students/applications', 'students/applications/index.php')->only('student');
+
 
 //company
 

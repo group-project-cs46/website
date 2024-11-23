@@ -1,13 +1,21 @@
 <?php
 
 use Models\Ad;
+use Models\Company;
 
-$ads = Ad::allWIthCompany();
+$companies = Company::all();
 
-// dd($ads);
+$company_id = $_GET['company_id'] ?? null;
+
+if ($company_id) {
+    $ads = Ad::allWithCompanyByCompanyId($company_id);
+} else {
+    $ads = Ad::allWIthCompany();
+}
 
 
 view('advertisements/index.view.php', [
     'heading' => 'Jobs',
-    'ads' => $ads
+    'ads' => $ads,
+    'companies' => $companies,
 ]);
