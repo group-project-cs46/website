@@ -2,7 +2,7 @@
 
 use Core\Validator;
 use Models\editAd;
-
+ echo dd('er');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Log received POST data
