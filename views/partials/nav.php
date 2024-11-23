@@ -119,6 +119,12 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
+        'text' => "Applications",
+        'href' => '/students/applications',
+        'icon' => 'fa-file-invoice',
+        'only' => [Role::Student],
+    ],
+    [
         'text' => 'Account',
         'href' => '/account',
         'icon' => 'fa-user',

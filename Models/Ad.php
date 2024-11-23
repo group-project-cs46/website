@@ -21,6 +21,13 @@ class Ad
         return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();
     }
 
+    public static function allWithCompanyByCompanyId($company_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE companies.id = ?', [$company_id])->get();
+    }
+
     public static function find($id)
     {
         $db = App::resolve(Database::class);
