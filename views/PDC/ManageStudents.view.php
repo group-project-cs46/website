@@ -55,17 +55,19 @@
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
-                    <!-- Example Table Rows -->
-                    <tr>
-                        <td>Thathsara</td>
-                        <td>2022/CS/141</td>
-                        <td>CS</td>
-                        <td>thathsara@gmail.com</td>
-                        <td>
-                            <button class="Edit-button">Edit</button>
-                            <button class="disable-button">Delete</button>
-                        </td>
-                    </tr>
+                <?php foreach ($students as $student): ?>
+                        <tr id="row-<?= $student['id'] ?>">
+                            <td><?= htmlspecialchars($student['name']) ?></td>
+                            <td><?= htmlspecialchars($student['regNo']) ?></td>
+                            <td><?= htmlspecialchars($student['course']) ?></td>
+                            <td><?= htmlspecialchars($student['email']) ?></td>
+                            <td><?= htmlspecialchars($student['indexno']) ?></td>
+                            <td>
+                                <button class="Edit-button">Edit</button>
+                                <button class="disable-button">Delete</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -169,7 +171,7 @@
         <hr>
 
         <h3>Add a student</h3>
-        <form id="viewstudentForm" method="post" action="/PDC/AddStudent">
+        <form id="viewstudentForm" method="post" action="/PDC/addstudent">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -198,7 +200,7 @@
 <!-- JavaScript -->
 <script>
     // Toggle between Approve Section and Complaint Section
-    let students = [{
+    const students = [{
             name: "John Doe",
             regNo: "2024/CS/123",
             course: "CS",
@@ -235,6 +237,7 @@
         }
 
     ];
+    
 
     const openFormButton = document.getElementById('openFormButton');
     const popupForm = document.getElementById('popupForm');
@@ -316,14 +319,15 @@
         };
 
         // Add the student object to the array
-        students.push(student);
+        student.push(student);
 
         // Render the table with updated data
-        renderTable(students);
+        renderTable(student);
     }
 
     // Function to render the table based on the provided data
     function renderTable(data) {
+        
         // Clear the table body
         studentTableBody.innerHTML = '';
 
@@ -351,7 +355,7 @@
         const search_data = e.target.value.toLowerCase();
 
         // Filter the students array by name
-        const filteredStudents = students.filter((student) =>
+        const filteredStudents = student.filter((student) =>
             student.name.toLowerCase().includes(search_data)
         );
 
