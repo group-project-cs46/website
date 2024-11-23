@@ -1,5 +1,6 @@
 <?php
 
+use Core\Router;
 
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
@@ -34,15 +35,16 @@ $router->get('/company/schedule', 'company/schedule.php');
 $router->get('/company/selectedStudent', '/company/selectedStudent.php');
 $router->get('/company/shortedStudent', '/company/shortedStudent.php');
 $router->get('/company/complaint', '/company/complaint.php');
-$router->get('/company/list', '/company/list.php');
+$router->get('/company/list', '/company/appili.php');
 $router->get('/company/addInterview', '/company/addInterview.php');
 
 $router->post('/ads/store', 'ads/store.php');
 
-$router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
-$router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
-$router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
-$router->get('/PDC/Schedule', '/PDC/Schedule.php');
-$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
-$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+$router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
+$router->get('/PDC/advertisements', '/PDC/Advertisements.php');
+$router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
+$router->get('/PDC/schedule', '/PDC/Schedule.php');
+$router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
+$router->get('/PDC/studentreport', '/PDC/StudentReport.php');
 
