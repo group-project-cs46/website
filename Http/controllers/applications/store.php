@@ -19,5 +19,5 @@ Application::create($user_id, $cv_id, $ad_id);
 
 
 // header mean redirect
-header('location: /advertisments');
+header('location: /advertisements');
 die();
