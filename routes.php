@@ -52,7 +52,7 @@ $router->post('/ads/edit', 'ads/edit.php');
 
 //pdc action
 
-$router->post('/PDC/addstudent', '/PDC/addstudent.php');
+$router->post('/PDC/AddStudent', '/PDC/AddStudent.php');
 
 //PDC
 

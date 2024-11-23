@@ -169,7 +169,7 @@
         <hr>
 
         <h3>Add a student</h3>
-        <form id="viewstudentForm" method="post" action="/PDC/addstudent">
+        <form id="viewstudentForm" method="post" action="/PDC/AddStudent">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -305,13 +305,14 @@
 
 
     // Function to add a student row and store it as an object in the array
-    function viewstudentRow(name, regNo, course, email) {
+    function viewstudentRow(name, regNo, course, email, indexno) {
         // Create a new object for the student
         const student = {
             name,
             regNo,
             course,
-            email
+            email,
+            indexno
         };
 
         // Add the student object to the array
@@ -391,9 +392,10 @@
                 const regNo = columns[1].trim();
                 const course = columns[2].trim();
                 const email = columns[3].trim();
+                const indexno = colums[4].trim();
 
-                if (name && regNo && course && email) {
-                    viewstudentRow(name, regNo, course, email);
+                if (name && regNo && course && email && indexno) {
+                    viewstudentRow(name, regNo, course, email, indexno);
                 }
             }
         });
@@ -417,6 +419,7 @@
             document.getElementById('editRegNo').value = row.children[1].textContent;
             document.getElementById('editCourse').value = row.children[2].textContent;
             document.getElementById('editEmail').value = row.children[3].textContent;
+            document.getElementById('editindexno').value = row.children[4].textContent;
 
             document.getElementById('editPopupForm').style.display = 'flex';
         }
@@ -427,8 +430,10 @@
         const row = studentTableBody.children[index];
 
         row.children[0].textContent = document.getElementById('editName').value;
+        row.children[2].textContent = document.getElementById('editRegNo')
         row.children[2].textContent = document.getElementById('editCourse').value;
         row.children[3].textContent = document.getElementById('editEmail').value;
+        row.childern[4].textContent = document.getElementById('editindexno').value;
 
         document.getElementById('editPopupForm').style.display = 'none';
     });

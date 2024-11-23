@@ -11,8 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($name && $indexno && $regNo && $email && $course) {
         $password = password_hash($indexno, PASSWORD_DEFAULT);
-        AddStudent::create_user($name, $email, $password);
-        //AddStudent::create_student($regNo, $course, $email, $name, $indexno);
+        //AddStudent::create_user($name, $email, $password);
+        AddStudent::create_student($regNo, $course, $email, $name, $indexno);
        
 
         header('Location: /PDC/schedule');

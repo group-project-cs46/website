@@ -5,12 +5,12 @@ use Core\App;
 use Core\Database;
 
 class AddStudent {
-    public static function create_student($regNo, $course, $email, $stuname, $indexno)
+    public static function create_student($regno, $course, $email, $stuname, $indexno)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO students (regNo, course, email, stuname, indexno) VALUES (?, ?, ?, ?, ?)', [
-            $regNo,
+        $db->query('INSERT INTO students (regno, course, email, stuname, indexno) VALUES (?, ?, ?, ?, ?)', [
+            $regno,
             $course,
             $email,
             $stuname,
