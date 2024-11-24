@@ -30,8 +30,6 @@ $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
 $router->delete('/cv/delete', 'cv/destroy.php')->only('student');
 
-$router->get('/students/applications', 'students/applications/index.php')->only('student');
-
 
 //company
 
@@ -52,19 +50,22 @@ $router->post('/ads/store', 'ads/store.php');
 $router->delete('/ads/delete', 'ads/delete.php');
 $router->post('/ads/edit', 'ads/edit.php');
 
+//pdc action
+
+$router->post('/PDC/addstudent', '/PDC/addstudent.php');
+
 //PDC
 
 
-$router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
-$router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
-$router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
-$router->get('/PDC/Schedule', '/PDC/Schedule.php');
+$router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
+$router->get('/PDC/advertisements', '/PDC/Advertisements.php');
+$router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
+$router->get('/PDC/schedule', '/PDC/Schedule.php');
 
-$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
-$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+$router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 $router->get('/PDC/sample', '/PDC/sample.php');
-$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
-$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
-
-
+$router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
+$router->get('/PDC/studentreport', '/PDC/StudentReport.php');
