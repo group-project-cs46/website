@@ -2,40 +2,50 @@
 
 <link rel="stylesheet" href="/styles/PDC/Dashboard.css" />
 
-    <main class="main-content">
-            <header class="header">
-                <div class="above">
-                        <i class="fa fa-dashboard" style="font-size: 40px;"></i>
-                        <h2>PDC Dashboard</h2>
-                </div>
-            </header>
+<main class="main-content">
+    <header class="header">
+        <div class="above">
+            <i class="fa fa-dashboard" style="font-size: 40px;"></i>
+            <h2>PDC Dashboard</h2>
+        </div>
+    </header>
 
-            <section class="content">
-            
-                <div class="cards">
-                <div class="card">
-                    <h3>Ending Date of First Round</h3>
-                    <input type="date" id="endDate" class="date-input" value="2024-11-19">
-                </div>
-                <div class="card">
-                    <h3>Starting Date of Second Round</h3>
-                    <input type="date" id="endDate" class="date-input" value="2024-11-19">
-                </div>
-                </div>
+    <section class="content">
 
-                <div class="content-boxes">
-                    <div class="box"><h3>Companies Registered</h3><h2>20</h2></div>
-                    <div class="box"><h3>Blacklisted Companies</h3><h2>50</h2></div>
-                    <div class="box"><h3>Students Registered</h3><h2>150</h2></div>
-                </div>
-                <div class="table-title">
-                    <div class="table-title-txt">
-                        <h3>Advertistments</h3>
-                    </div>
-                    <button class="view-button">View</button>
-                </div>
+        <div class="cards">
+            <div class="card">
+                <h3>First Round</h3>
+                <p>
+                    <input type="date" id="firstRoundStart" class="date-input">
+                    to
+                    <input type="date" id="firstRoundEnd" class="date-input">
+                </p>
+                <button id="disableFirstRound" class="disable-button">Disable First Round</button>
+            </div>
+            <div class="card">
+                <h3>Second Round</h3>
+                <p>
+                    <input type="date" id="secondRoundStart" class="date-input" disabled>
+                    to
+                    <input type="date" id="secondRoundEnd" class="date-input" disabled>
+                </p>
+                <button id="enableSecondRound" class="enable-button" disabled>Enable Second Round</button>
+            </div>
+        </div>
 
-                <table class="advertistment-table">
+        <div class="content-boxes">
+            <div class="box"><h3>Companies Registered</h3><h2>50</h2></div>
+            <div class="box"><h3>Blacklisted Companies</h3><h2>5</h2></div>
+            <div class="box"><h3>Students Registered</h3><h2>150</h2></div>
+        </div>
+        <div class="table-title">
+            <div class="table-title-txt">
+                <h3>Advertisements</h3>
+            </div>
+            <button class="view-button">View</button>
+        </div>
+
+        <table class="advertisement-table">
             <thead>
                 <tr>
                     <th>Advertisement</th>
@@ -49,24 +59,55 @@
                 <!-- Dynamic content will be injected here -->
             </tbody>
         </table>
-            </section>
-    </main>
-
+    </section>
+</main>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-  const endDateInput = document.getElementById("endDate");
+    const firstRoundStart = document.getElementById('firstRoundStart');
+    const firstRoundEnd = document.getElementById('firstRoundEnd');
+    const disableFirstRoundButton = document.getElementById('disableFirstRound');
 
-  // Add event listener to handle changes
-  endDateInput.addEventListener("change", () => {
-    const selectedDate = endDateInput.value;
-    console.log("Selected date:", selectedDate);
-    // Here you can add code to save the date if needed
-  });
+    const secondRoundStart = document.getElementById('secondRoundStart');
+    const secondRoundEnd = document.getElementById('secondRoundEnd');
+    const enableSecondRoundButton = document.getElementById('enableSecondRound');
 
-  // Sample data for demonstration. You can replace this with an API call if needed.
-  const advertisements = [
+    // Disable first round if end date has passed
+    function checkFirstRoundStatus() {
+        const now = new Date();
+        const endDate = new Date(firstRoundEnd.value);
+
+        if (endDate < now) {
+            disableFirstRound();
+        }
+    }
+
+    // Disable first round
+    function disableFirstRound() {
+        firstRoundStart.disabled = true;
+        firstRoundEnd.disabled = true;
+        disableFirstRoundButton.disabled = true;
+
+        secondRoundStart.disabled = false;
+        secondRoundEnd.disabled = false;
+        enableSecondRoundButton.disabled = false;
+    }
+
+    // Enable second round
+    enableSecondRoundButton.addEventListener('click', () => {
+        secondRoundStart.disabled = false;
+        secondRoundEnd.disabled = false;
+        enableSecondRoundButton.disabled = true;
+    });
+
+    // Check the first round status on page load
+    window.addEventListener('load', () => {
+        checkFirstRoundStatus();
+    });
+
+    // Sample data for demonstration
+    const advertisements = [
         { title: "Software Engineer Intern (WSO2)", status: "Hiring", role: "Intern", applied: 10, email: "hiring@gmail.com" },
         { title: "Data Analyst Intern (Virtusa)", status: "Closed", role: "Intern", applied: 8, email: "apply@virtusa.com" },
         { title: "Frontend Developer Intern (99x)", status: "Hiring", role: "Intern", applied: 15, email: "jobs@99x.com" },
@@ -74,7 +115,7 @@
         { title: "UI/UX Designer Intern (CreativeHub)", status: "Closed", role: "Intern", applied: 5, email: "careers@creativehub.com" }
     ];
 
-    // Function to render advertisements
+    // Render advertisements
     function renderAdvertisements(data) {
         const advertisementList = document.getElementById('advertisement-list');
         advertisementList.innerHTML = ''; // Clear existing content
@@ -92,6 +133,5 @@
         });
     }
 
-    renderAdvertisements(advertisements)
-
+    renderAdvertisements(advertisements);
 </script>
