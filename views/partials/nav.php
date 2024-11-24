@@ -42,7 +42,7 @@ $navItems = [
     ],
     [
         'text' => 'Student List',
-        'href' => '/company/shortedStudent',
+        'href' => '/company/list',
         'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Company], 
     ],
