@@ -18,7 +18,12 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();
+        return $db->query('SELECT advertisements.*,
+       companies.company_name,
+       companies.building_name,
+         companies.street_name,
+            companies.city
+       FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();
     }
 
     public static function allWithCompanyByCompanyId($company_id)
@@ -41,7 +46,7 @@ class Ad
 
         return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE advertisements.id = ?', [$id])->find();
     }
-    
+
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)
     {
         $db = App::resolve(Database::class);
