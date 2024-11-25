@@ -44,8 +44,9 @@ $router->get('/company/schedule', 'company/schedule.php');
 $router->get('/company/selectedStudent', '/company/selectedStudent.php');
 $router->get('/company/shortedStudent', '/company/shortedStudent.php');
 $router->get('/company/complaint', '/company/complaint.php');
-$router->get('/company/list', '/company/appili.php');
+$router->get('/company/list', '/company/list.php'); 
 $router->get('/company/addInterview', '/company/addInterview.php');
+$router->get('/company/account', '/company/account.php');
 
 
 
