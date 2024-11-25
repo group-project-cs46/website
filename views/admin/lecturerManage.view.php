@@ -6,16 +6,16 @@
     <header class="header">
         <div class="above">
             <i class="fas fa-user-graduate" style="font-size: 40px;"></i>
-            <h2><b>Manage PDC</b></h2>
+            <h2><b>Manage Lecturer</b></h2>
         </div>
-        <input type="text" placeholder="Search PDC Accounts..." class="search-bar" id="searchInput" onkeyup="searchTable()">
+        <input type="text" placeholder="Search Lecturer Accounts..." class="search-bar" id="searchInput" onkeyup="searchTable()">
     </header>
 
     <section class="content">
         <div class="table-title">
             <div class="table-title-txt">
-                <h3><b>Manage PDC</b></h3>
-                <p>Manage PDC Accounts</p>
+                <h3><b>Manage Lecturer</b></h3>
+                <p>Manage Lecturer Accounts</p>
             </div>
             <button class="add-button" id="openFormButton"><a href="additionpdc-form">+ New</a></button>
         </div>

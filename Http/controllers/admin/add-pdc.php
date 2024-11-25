@@ -1,3 +1,4 @@
 <?php
 
-view('admin/add-pdc.view.php', []);
+var_dump($_POST);
+exit;

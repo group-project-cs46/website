@@ -47,6 +47,14 @@ body {
     flex: 1;
     padding: 30px;
     margin-left: 60px;
+    width: 700px;
+    justify-content: center;
+
+    
+        /* width: 700px;
+        max-width: calc(100vw - 100px);
+        margin: 20px;
+        padding: 20px; */
 }
 
 .header {

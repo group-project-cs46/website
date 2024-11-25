@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New PDC</title>
+    <title>Add New Lecturer</title>
     <link rel="stylesheet" href="/styles/pasindu/addition-form.css">
 </head>
 
 <body>
     <div class="container">
         <div class="add-lecturer-card">
-            <h1>Add New PDC</h1>
+            <h1>Add New Lecturer</h1>
 
             <div class="form-container">
                 <h2>Addition Form</h2>
@@ -58,7 +58,7 @@
                     })
                 </script>
 
-                <form id="lecturerForm" class="lecturer-form">
+                <form id="lecturerForm" class="lecturer-form" method="post" action="/add-pdc">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>

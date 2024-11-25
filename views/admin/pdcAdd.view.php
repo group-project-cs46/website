@@ -1,21 +1,23 @@
 <?php require base_path(path: 'views/partials/auth/auth.php') ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Lecturer</title>
+    <title>Add New PDC</title>
     <link rel="stylesheet" href="/styles/pasindu/addition-form.css">
 </head>
+
 <body>
     <div class="container">
         <div class="add-lecturer-card">
-            <h1>Add New Lecturer</h1>
-            
+            <h1>Add New PDC</h1>
+
             <div class="form-container">
                 <h2>Addition Form</h2>
-                
-                <div class="image-upload-section">
+
+                <!-- <div class="image-upload-section">
                     <div class="image-container">
                         <img id="previewImage" src="/api/placeholder/150/150" alt="Profile Picture">
                         <div class="camera-icon">
@@ -28,25 +30,49 @@
                             <input type="file" id="imageUpload" accept="image/*" hidden>
                         </div>
                     </div>
-                </div>
+                </div> -->
+                <label class="image-upload">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                    <img src="" alt="">
+                    <input type="file" id="imageUpload" accept="image/*">
+                </label>
+                <script>
+                    const imageUpload = document.querySelector(".image-upload")
+                    const img = imageUpload.querySelector("img")
+                    const svg = imageUpload.querySelector("svg")
+                    img.style.display = 'none';
+                    imageUpload.addEventListener("change", (e) => {
+                        const file = e.target.files.length ? e.target.files[0] : null;
+                        if (!file) {
+                            img.style.display = 'none';
+                            svg.style.display = 'block';
+                            return;
+                        }
+                        let url = URL.createObjectURL(file)
+                        img.style.display = 'block';
+                        svg.style.display = 'none';
+                        img.src = url;
+                    })
+                </script>
 
-                <form id="lecturerForm" class="lecturer-form">
+                <form id="lecturerForm" class="lecturer-form" method="post" action="/add-pdc">
                     <div class="form-group">
-                        <label for="name">Lecturer Name:</label>
+                        <label for="name">Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="lecturerId">Lecturer ID No:</label>
+                        <label for="lecturerId">Employee No:</label>
                         <input type="text" id="lecturerId" name="lecturerId" placeholder="Enter Lecturer ID No. Here" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="position">Academic Position:</label>
+                        <label for="position">Title:</label>
                         <select id="position" name="position" required>
-                            <option value="">Select Position</option>
-                            <option value="Dr">Dr</option>
-                            <option value="Prof">Prof</option>
+                            <option value="">Select Title</option>
                             <option value="Mr">Mr</option>
                             <option value="Mrs">Mrs</option>
                             <option value="Ms">Ms</option>
@@ -70,5 +96,6 @@
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>
 <?php require base_path('views/partials/auth/auth-close.php') ?>

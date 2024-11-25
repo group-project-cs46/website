@@ -113,16 +113,22 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => "Add Lecture",
-        'href' => '/add-lecture',
-        'icon' => 'fa-fire-flame-curved',
-        'only' => [Role::Admin]
+        'text' => "Managec PDC",
+        'href' => '/ManagePdc',
+        'icon' => 'fa-user-graduate',
+        'only' => [Role::Admin],
     ],
     [
-        'text' => "Add PDC",
-        'href' => '/add-pdc',
-        'icon' => 'fa-square-poll-horizontal',
-        'only' => [Role::Admin]
+        'text' => "Managec Lecturer",
+        'href' => '/ManageLecturer',
+        'icon' => 'fa-solid fa-user-shield',
+        'only' => [Role::Admin],
+    ],
+    [
+        'text' => "Complaints",
+        'href' => '/complaints',
+        'icon' => 'fa-comments',
+        'only' => [Role::Admin],
     ],
     [
         'text' => 'Calendar',
@@ -137,23 +143,12 @@ $navItems = [
         'only' => [Role::Lecturer],
     ],
     [
-        'text' => "Complaints",
-        'href' => '/complaints',
-        'icon' => 'fa-users',
-        'only' => [Role::Admin],
-    ],
-    [
         'text' => 'Account',
         'href' => '/account',
         'icon' => 'fa-user',
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
     ],
-    [
-        'text' => "Managec PDC",
-        'href' => '/ManageLecturer',
-        'icon' => 'fa-user-graduate',
-        'only' => [Role::Admin],
-    ],
+   
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
