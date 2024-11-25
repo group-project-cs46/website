@@ -56,12 +56,8 @@
             <div style="flex: 1; position: relative;">
                 <!-- Modern floating cards effect -->
                 <div style="position: relative; height: 400px;">
-                    <div style="position: absolute; width: 300px; height: 200px; background: white; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); top: 0; right: 0; transform: rotate(3deg);">
-                        <img src="/api/placeholder/300/200" alt="Student Dashboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
-                    </div>
-                    <div style="position: absolute; width: 280px; height: 180px; background: white; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); bottom: 0; left: 0; transform: rotate(-5deg);">
-                        <img src="/api/placeholder/280/180" alt="Company Interface" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
-                    </div>
+                        <img src="/logo.svg" alt="Student Dashboard" style=" height: 100%; object-fit: cover; border-radius: 16px;">
+
                 </div>
             </div>
         </div>
