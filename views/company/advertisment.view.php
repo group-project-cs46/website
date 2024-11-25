@@ -126,7 +126,7 @@
             <div class="popup-text">
                 <h3>Edit Advertisement</h3>
             </div>
-            <form id="editAdForm" onsubmit="submitEditAd(event)">
+            <form id="editAdForm" method="post" action="/ads/edit">
                 <input type="hidden" id="edit_id" name="id">
                 <div class="form-field">
                     <label for="edit_job_role">Job Role :</label>
@@ -291,3 +291,4 @@
         }
     }
 </script>
+<?php require base_path('views/partials/auth/auth-close.php') ?>

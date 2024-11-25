@@ -23,38 +23,30 @@
       </div>
     </div>
   </header>
-<!-- 
+
   <section class="content">
     <div class="complaint-title">
-      <div class="complaint-system-txt" id="systemTab">
+      <div class="complaint-system-txt">
         <h3>Complain Form</h3>
-        <p>Complaint description</p>
+        <p>Details About Complaint</p>
       </div>
+    </div>
 
-      <div class="complaint-box" id="systemComplaintContent">
-        <h2>Complaint Details</h2>
-        <textarea id="systemComplaintText" placeholder="Describe the system issue"></textarea>
-        <button class="submit-btn" onclick="submitComplaint('system')">Submit</button>
-      </div>
+    <form class="form-container show" id="complaintForm">
+      <h2>Complaint Details</h2>
+      <label for="complaintType">Complaint Type</label>
+      <select id="complaintType" class="select-input" required>
+        <option value="" disabled selected>Select complaint type</option>
+        <option value="system">System Complaint</option>
+        <option value="student">Student Complaint</option>
+      </select>
 
+      <label for="complaintDescription">Complaint Description</label>
+      <textarea id="complaintDescription" placeholder="Enter complaint description here" required></textarea>
 
-  </section> -->
-  <section class="content">
-          <div class="complaint-title">
-            <div class="complaint-system-txt">
-              <h3>Complain Form</h3>
-              <p>Complaint description</p>
-            </div>>
-          </div>
-
-          <div class="complaint-box">
-            <div>
-              <h2>Complaint Details</h2>
-            </div>
-            <textarea placeholder="Description"></textarea>
-            <button class="submit-btn">Submit</button>
-          </div>
-        </section>
+      <button type="button" class="submit-btn" onclick="submitComplaint()">Submit</button>
+    </form>
+  </section>
 
   <!-- Popup Overlay for Success Message -->
   <div class="popup-overlay" id="popupOverlay">
@@ -63,35 +55,36 @@
 </main>
 
 <script>
-  // Submit complaint dynamically
-  function submitComplaint(complaintType) {
-    let complaintText = '';
+  function submitComplaint() {
+    const complaintType = document.getElementById('complaintType').value;
+    const complaintDescription = document.getElementById('complaintDescription').value;
 
-    // Get complaint text based on the selected type
-    if (complaintType === 'system') {
-      complaintText = document.getElementById('systemComplaintText').value;
-    } else if (complaintType === 'student') {
-      complaintText = document.getElementById('studentComplaintText').value;
-    }
-
-    // Validate if the complaint text is not empty
-    if (complaintText.trim() === '') {
-      alert('Please enter a complaint before submitting.');
+    if (!complaintType || complaintDescription.trim() === '') {
+      alert('Please fill out all fields before submitting.');
       return;
     }
 
-    // Simulate an AJAX request (no page reload)
-    const responseMessage = ' complaint has been submitted successfully.';
+    // Simulate an AJAX request or server-side handling
+    const responseMessage = `You ${complaintType} complaint has been submitted successfully.`;
 
-    // Display the popup overlay message
+    // Show success popup
     showPopup(responseMessage);
 
-    // Clear the textarea
-    if (complaintType === 'system') {
-      document.getElementById('systemComplaintText').value = '';
-    } else if (complaintType === 'student') {
-      document.getElementById('studentComplaintText').value = '';
-    }
+    // Clear form fields
+    document.getElementById('complaintType').value = '';
+    document.getElementById('complaintDescription').value = '';
+  }
+
+  function showPopup(message) {
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupMessage = document.getElementById('popupMessage');
+
+    popupMessage.textContent = message;
+    popupOverlay.style.display = 'flex';
+
+    setTimeout(() => {
+      popupOverlay.style.display = 'none';
+    }, 3000);
   }
 </script>
 

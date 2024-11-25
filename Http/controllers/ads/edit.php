@@ -2,31 +2,30 @@
 
 use Core\Validator;
 use Models\editAd;
- echo dd('er');
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // Log received POST data
-        error_log('Received POST data: ' . json_encode($_POST));
+ 
+        $id = $_POST['id'];
+        $job_role = $_POST['job_role'] ?? null;
+        $responsibilities = $_POST['responsibilities'] ?? null;
+        $qualifications_skills = $_POST['qualifications_skills'] ?? null;
+        $vacancy_count = $_POST['vacancy_count'] ?? null;
+        $maxCVs = $_POST['max_cvs'] ?? null;
+        $deadline = $_POST['deadline'] ?? null;
 
-        // Call the edit function with the POST data
-        editAd::edit($_POST);
+        editAd::edit($job_role, $responsibilities, $qualifications_skills, $vacancy_count, $maxCVs, $deadline, $id);
+        header('Location: /company/advertisment');
+        exit();
+       
 
-        // Return success response
-        header('Content-Type: application/json');
-        echo json_encode([
-            'success' => true,
-            'id' => $_POST['id'],
-            'job_role' => $_POST['job_role'],
-            'vacancy_count' => $_POST['vacancy_count'],
-            'deadline' => $_POST['deadline']
-        ]);
-        exit();
-    } catch (Exception $e) {
-        // Log the error and return an error response
-        error_log('Error editing advertisement: ' . $e->getMessage());
-        header('Content-Type: application/json', true, 400);
-        echo json_encode(['error' => $e->getMessage()]);
-        exit();
-    }
+       
+}
+catch(Exception $e) {
+    echo "Error: " . $e->getMessage();
+
+}
+
 }
 
