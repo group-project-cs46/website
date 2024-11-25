@@ -5,18 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Lecturer</title>
-    <link rel="stylesheet" href="/styles/pasindu/addition-form.css">
+    <title>Lecturer Profile</title>
+    <link rel="stylesheet" href="/styles/pasindu/pdcedit.css">
 </head>
 
 <body>
     <div class="container">
-        
         <div class="add-lecturer-card">
             <h1>Lecturer Profile</h1>
 
             <div class="form-container">
-                <h2>Addition Form</h2>
+                <h2>Editing Form</h2>
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">
@@ -61,21 +60,19 @@
 
                 <form id="lecturerForm" class="lecturer-form">
                     <div class="form-group">
-                        <label for="name">Lecturer Name:</label>
+                        <label for="name"> Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
                     </div>
 
                     <div class="form-group">
                         <label for="lecturerId">Employee No:</label>
-                        <input type="text" id="lecturerId" name="lecturerId" placeholder="Enter Employee No. Here" required>
+                        <input type="text" id="lecturerId" name="lecturerId" placeholder="Enter Lecturer ID No. Here" required>
                     </div>
 
                     <div class="form-group">
                         <label for="position">Title:</label>
                         <select id="position" name="position" required>
                             <option value="">Select Title</option>
-                            <option value="Dr">Dr</option>
-                            <option value="Prof">Prof</option>
                             <option value="Mr">Mr</option>
                             <option value="Mrs">Mrs</option>
                             <option value="Ms">Ms</option>
@@ -92,12 +89,12 @@
                         <input type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
                     </div>
 
-                    <button type="submit" class="add-button">Add</button>
+                    <button type="submit" class="add-button">Update</button>
                 </form>
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/scripts/pasindu/addition-form.js"></script>
 </body>
 
 </html>

@@ -50,12 +50,12 @@ $router->get('/add-lecture', 'admin/add-lecture.php');
 $router->get('/add-lecture/profile', controller: 'admin/profile-view.php');
 $router->get('/addition-form', 'admin/addition-form.php');
 $router->get('/add-lecture/addition', controller: 'admin/addition-form-view.php');
+$router->post('/add-pdc', controller: 'admin/add-pdc.php');
 
-$router->get('/add-pdc', controller: 'admin/add-pdc.php');
 // $router->get('/add-pdc/profilepdc', controller: 'admin/profilepdc-view.php');
-$router->get('/add-pdc/profilepdc', controller: 'admin/pdcedit.php');
+$router->get('/managePdc/edit-pdc', controller: 'admin/pdcEdit.php');
 
-$router->get('/additionpdc-form', 'admin/additionpdc-form.php');
+$router->get('/pdcAdd', 'admin/pdcAdd.php');
 
 $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaints-form', controller: 'admin/complaints-form.php');
@@ -64,5 +64,7 @@ $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/report', 'lecturer/report.php');
 
 $router->get('/new', 'admin/new.php');
-$router->get('/ManageLecturer', 'admin/managelecturer.php');
+$router->get('/ManagePdc', 'admin/pdcManage.php');
+
+$router->get('/ManageLecturer', 'admin/lecturerManage.php');
 

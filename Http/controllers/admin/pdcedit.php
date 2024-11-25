@@ -1,3 +1,3 @@
 <?php
 
-view('admin/pdcedit.view.php', []);
+view('admin/pdcEdit.view.php', []);
