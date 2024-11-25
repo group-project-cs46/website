@@ -52,7 +52,9 @@ $router->get('/addition-form', 'admin/addition-form.php');
 $router->get('/add-lecture/addition', controller: 'admin/addition-form-view.php');
 
 $router->get('/add-pdc', controller: 'admin/add-pdc.php');
-$router->get('/add-pdc/profilepdc', controller: 'admin/profilepdc-view.php');
+// $router->get('/add-pdc/profilepdc', controller: 'admin/profilepdc-view.php');
+$router->get('/add-pdc/profilepdc', controller: 'admin/pdcedit.php');
+
 $router->get('/additionpdc-form', 'admin/additionpdc-form.php');
 
 $router->get('/complaints', controller: 'admin/complaints.php');

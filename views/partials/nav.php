@@ -149,7 +149,7 @@ $navItems = [
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
     ],
     [
-        'text' => "ManagecLecturer",
+        'text' => "Managec PDC",
         'href' => '/ManageLecturer',
         'icon' => 'fa-user-graduate',
         'only' => [Role::Admin],
