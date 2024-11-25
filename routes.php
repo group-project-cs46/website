@@ -61,3 +61,6 @@ $router->get('/complaints-form', controller: 'admin/complaints-form.php');
 $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/report', 'lecturer/report.php');
 
+$router->get('/new', 'admin/new.php');
+$router->get('/ManageLecturer', 'admin/managelecturer.php');
+
