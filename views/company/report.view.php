@@ -28,10 +28,12 @@
         <p>Report to PDC about students</p>
       </div>
     </div>
+
     <div class="form-container">
       <div>
         <h2>Details about Report</h2>
       </div>
+      
       <form class="form-content" onsubmit="handleSubmit(event)">
         <div class="form-field">
           <label for="name">Student Name :</label>

@@ -1,0 +1,221 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left {
+  display: flex;
+  align-items: center;
+}
+
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+
+.above-left img,
+.above-right img {
+  margin-right: 10px;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px; /* Space between logo and name */
+  text-align: left;
+  line-height: 1.2; /* Adjust line-height*/
+  font-size: 20px;
+  font-weight: bold;
+}
+.main-content {
+    flex: 1;
+    padding: 15px;
+    background-color: #f4f4f8;
+  }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.header h2 {
+    margin: 0;
+    padding-left: 6px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px; /* Space between logo and name */
+  text-align: left;
+  line-height: 1.2; /* Adjust line-height if needed */
+}
+
+.content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.table-title {
+  margin-bottom: 20px;
+}
+
+.table-title h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.table-title p {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px; /* Adds space between title and subtitle */
+  margin-bottom: 0;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .form-container {
+    width: 90%;
+  }
+
+  .address-group {
+    flex-direction: column; /* Stack address fields on smaller screens */
+  }
+}
+
+/* Complaint Details Heading */
+.content h2 {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form container */
+.form-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* For the Edit button */
+}
+.edit-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Added consistent gaps between form fields */
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column; /* Stacked label and input */
+  gap: 10px; /* Gap between label and input */
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  background-color: #f9f9f9;
+}
+.address-group {
+  display: flex;
+  gap: 10px; /* Added gap between address fields */
+}
+
+.address-group input {
+  flex: 1; /* Make all address inputs equally sized */
+}
+.upload-with-icon {
+  position: relative;
+}
+
+.upload-with-icon input {
+  padding-right: 40px;
+}
+
+.icon-link {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-image: url("upload.svg");
+  background-size: cover;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: flex-end;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
