@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecturer Profile</title>
-    <link rel="stylesheet" href="/styles/pasindu/profile.css">
+    <link rel="stylesheet" href="/styles/pasindu/pdcedit.css">
 </head>
 <body>
     <div class="container">

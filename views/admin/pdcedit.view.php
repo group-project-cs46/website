@@ -5,17 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New PDC</title>
-    <link rel="stylesheet" href="/styles/pasindu/addition-form.css">
+    <title>PDC Profile</title>
+    <link rel="stylesheet" href="/styles/pasindu/pdcedit.css">
 </head>
 
 <body>
     <div class="container">
         <div class="add-lecturer-card">
-            <h1>Add New PDC</h1>
+            <h1>PDC Profile</h1>
 
             <div class="form-container">
-                <h2>Addition Form</h2>
+                <h2>Editing Form</h2>
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">
@@ -60,7 +60,7 @@
 
                 <form id="lecturerForm" class="lecturer-form">
                     <div class="form-group">
-                        <label for="name">Name:</label>
+                        <label for="name"> Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
                     </div>
 
@@ -89,7 +89,7 @@
                         <input type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
                     </div>
 
-                    <button type="submit" class="add-button">Add</button>
+                    <button type="submit" class="add-button">Update</button>
                 </form>
             </div>
         </div>
