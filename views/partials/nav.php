@@ -148,6 +148,12 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
     ],
+    [
+        'text' => "ManagecLecturer",
+        'href' => '/ManageLecturer',
+        'icon' => 'fa-user-graduate',
+        'only' => [Role::Admin],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
