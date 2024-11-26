@@ -38,31 +38,31 @@ $navItems = [
         'text' => 'Advertisment',
         'href' => '/company/advertisment',
         'icon' => 'fa-regular fa-rectangle-ad',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Student List',
         'href' => '/company/list',
         'icon' => 'fa-solid fa-user-shield',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Schedule',
         'href' => '/company/schedule',
         'icon' => 'fa-solid fa-calendar-days',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Complaint',
         'href' => '/company/complaint',
         'icon' => 'fa-brands fa-readme',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Report',
         'href' => '/company/report',
         'icon' => 'fa-solid fa-file-invoice',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Account',
@@ -70,7 +70,7 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Company],
     ],
-    
+
     [
         'text' => 'Dashboard',
         'href' => '/dashboard/Lecturer',
@@ -155,10 +155,18 @@ $navItems = [
         'href' => '/report',
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
+    ],
+    [
 
         'text' => "Applications",
         'href' => '/students/applications',
         'icon' => 'fa-file-invoice',
+        'only' => [Role::Student],
+    ],
+    [
+        'text' => "Cvs",
+        'href' => '/students/cvs',
+        'icon' => 'fa-user-pen',
         'only' => [Role::Student],
     ],
     [
@@ -167,7 +175,7 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
     ],
-   
+
 ];
 
 function filterNavItemsByRole($navItems, $userRole)

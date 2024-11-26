@@ -20,7 +20,7 @@ class Ad
 
         return $db->query('SELECT advertisements.*,
        companies.company_name,
-       companies.building_name,
+       companies.building,
          companies.street_name,
             companies.city
        FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();

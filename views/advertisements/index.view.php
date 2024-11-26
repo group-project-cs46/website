@@ -36,7 +36,7 @@
                         <div>
                             <span><?= $item['company_name'] ?></span>
                             <br/>
-                            <span style="font-size: 0.7rem; color: var(--gray-400)"><?= $item['building_name'] ?>,
+                            <span style="font-size: 0.7rem; color: var(--gray-400)"><?= $item['building'] ?>,
                                 <?= $item['street_name'] ?>,
                                 <?= $item['city'] ?>
                             </span>
