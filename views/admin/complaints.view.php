@@ -37,7 +37,7 @@
                 <span class="title">New Complaints</span>
                 <div class="actions">
                     <button class="btn-view"><a href="complaintsForm">View</a></button>
-                    <button class="btn-mark">Mark as read</button>
+                    <button class="btn-mark">Mark as Read</button>
                 </div>
                 <span class="timestamp">10:00 am</span>
             </div>

@@ -46,14 +46,6 @@ $router->get('/PDC/Schedule', '/PDC/Schedule.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
-// $router->get('/add-lecture', 'admin/add-lecture.php');
-// $router->get('/add-lecture/profile', controller: 'admin/profile-view.php');
-// $router->get('/addition-form', 'admin/addition-form.php');
-// $router->get('/add-lecture/addition', controller: 'admin/addition-form-view.php');
-// $router->post('/add-pdc', controller: 'admin/add-pdc.php');
-// $router->get('/add-pdc/profilepdc', controller: 'admin/profilepdc-view.php');
-
-
 $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
 
