@@ -2,6 +2,7 @@
 
 use Core\App;
 use Core\Database;
+use Core\Session;
 use Http\Forms\Register;
 
 //dd($_POST);
@@ -27,18 +28,18 @@ if ($user) {
     die();
 }
 
-$db->query('INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-    [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 4]);
+$db->query('INSERT INTO users (email, password, role, approved) VALUES (?, ?, ?, ?)',
+    [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 4, 0]);
 
 $lastInsertedId = $db->connection->lastInsertId();
 
 $db->query('INSERT INTO companies (id, company_name, building, street_name, address_line_2, city, postal_code, website) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
     [$lastInsertedId, $attributes['name'], $attributes['building'], $attributes['street_name'], $attributes['address_line_2'], $attributes['city'], $attributes['postal_code'], $attributes['website']]);
 
-login([
-    'email' => $attributes['email'],
-    'role' => 4
-]);
+//login([
+//    'email' => $attributes['email'],
+//    'role' => 4
+//]);
 
-header('location: /dashboard');
-die();
+Session::flash('toast', 'Account created successfully. Please wait for the admin to approve your account.');
+redirect('/');
