@@ -126,12 +126,36 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => "PDC Users",
-        'href' => '/pdc-users',
-        'icon' => 'fa-users',
+        'text' => "Managec PDC",
+        'href' => '/pdcManage',
+        'icon' => 'fa-user-graduate',
         'only' => [Role::Admin],
     ],
     [
+        'text' => "Managec Lecturer",
+        'href' => '/lecturerManage',
+        'icon' => 'fa-solid fa-user-shield',
+        'only' => [Role::Admin],
+    ],
+    [
+        'text' => "Complaints",
+        'href' => '/complaints',
+        'icon' => 'fa-comments',
+        'only' => [Role::Admin],
+    ],
+    [
+
+        'text' => 'Calendar',
+        'href' => '/calendar',
+        'icon' => 'fa-fire-flame-curved',
+        'only' => [Role::Lecturer],
+    ],
+    [
+        'text' => 'Report',
+        'href' => '/report',
+        'icon' => 'fa-sheet-plastic',
+        'only' => [Role::Lecturer],
+
         'text' => "Applications",
         'href' => '/students/applications',
         'icon' => 'fa-file-invoice',
@@ -143,6 +167,7 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
     ],
+   
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
