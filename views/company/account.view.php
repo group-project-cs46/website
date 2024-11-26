@@ -23,25 +23,24 @@
 
   <section class="content">
     <div class="table-title">
-    <div class="table-title-txt">
-      <h3>Company Details</h3>
-      <p>View and manage company information</p>
-    </div>
+      <div class="table-title-txt">
+        <h3>Company Details</h3>
+        <p>View and manage company information</p>
+      </div>
     </div>
 
     <!-- Form container -->
     <div class="form-container">
       <div class="form-header">
-        <h2>Details about the Company</h2>
-        <img
-          src="edit-icon.svg"
-          alt="Edit Icon"
-          class="edit-icon"
+        <h2 class="form-title">Details about the Company</h2>
+        <i
+          class="fa-regular fa-pen-to-square edit-icon"
           title="Edit Details"
-          onclick="toggleEditMode()" />
+          onclick="toggleEditMode()"
+        ></i>
       </div>
 
-      <form id="companyDetailsForm">
+      <form id="companyDetailsForm" onsubmit="handleSubmit(event)">
         <div class="form-content">
           <!-- Company Name -->
           <div class="form-field">
@@ -55,7 +54,7 @@
 
           <!-- Company Address -->
           <div class="form-field">
-            <label>Company Address:</label>
+            <label style="font-size: 16px;">Company Address:</label>
             <div class="address-group">
               <input
                 type="text"
@@ -136,7 +135,6 @@
         </div>
       </form>
     </div>
-
   </section>
 </main>
 
@@ -145,18 +143,32 @@
     const formFields = document.querySelectorAll('#companyDetailsForm input');
     const saveButton = document.getElementById('saveChangesBtn');
 
-    // Enable all form fields for editing
+    // Enable or disable all form fields for editing
     formFields.forEach((field) => {
       field.disabled = !field.disabled;
     });
 
-    // Show the Save button
-    if (formFields[0].disabled) {
-      saveButton.style.display = 'none';
-    } else {
-      saveButton.style.display = 'block';
-    }
+    // Show or hide the Save button
+    saveButton.style.display = formFields[0].disabled ? 'none' : 'block';
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    const formData = new FormData(document.getElementById('companyDetailsForm'));
+
+    // Simulate saving changes and updating fields dynamically
+    formData.forEach((value, key) => {
+      const inputField = document.getElementById(key);
+      if (inputField) {
+        inputField.value = value; // Update values dynamically
+      }
+    });
+
+    // Re-disable fields after saving changes
+    toggleEditMode();
+    alert('Changes saved successfully!');
   }
 </script>
-</body>
+
 <?php require base_path('views/partials/auth/auth-close.php') ?>
