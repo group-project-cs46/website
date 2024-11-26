@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New PDC</title>
-    <link rel="stylesheet" href="/styles/pasindu/addition-form.css">
+    <link rel="stylesheet" href="/styles/pasindu/pdcAdd.css">
 </head>
 
 <body>
@@ -58,7 +58,7 @@
                     })
                 </script>
 
-                <form id="lecturerForm" class="lecturer-form" method="post" action="/add-pdc">
+                <form id="lecturerForm" class="lecturer-form" method="post" action="/pdcAddition">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/scripts/pasindu/addition-form.js"></script>
 </body>
 
 </html>

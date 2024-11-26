@@ -20,4 +20,19 @@ class Pdc
         ]);
     }
 
+    // public static function update($id, $title, $name, $contact_No, $email)
+    // {
+    //     $db = App::resolve(Database::class);
+
+    //     $db->query('UPDATE pdc SET id = ?,title = ?,name = ?,contact_No = ?,email = ? WHERE id = ?', [
+    //         $id, 
+    //         $title, 
+    //         $name, 
+    //         $contact_No, 
+    //         $email
+    //     ]);
+    // }
+
 }
+
+

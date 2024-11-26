@@ -114,13 +114,13 @@ $navItems = [
     ],
     [
         'text' => "Managec PDC",
-        'href' => '/ManagePdc',
+        'href' => '/pdcManage',
         'icon' => 'fa-user-graduate',
         'only' => [Role::Admin],
     ],
     [
         'text' => "Managec Lecturer",
-        'href' => '/ManageLecturer',
+        'href' => '/lecturerManage',
         'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Admin],
     ],
