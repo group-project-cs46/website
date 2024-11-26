@@ -17,6 +17,11 @@ $router->get('/login', 'sessions/create.php')->only('guest');
 $router->post('/sessions', 'sessions/store.php')->only('guest');
 $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
+$router->get('/forgot_password', 'users/forgot_password.php')->only('guest');
+$router->post('/forgot_password', 'users/send_reset_link.php')->only('guest');
+$router->get('/reset_password', 'users/reset_password.php')->only('guest');
+$router->post('/reset_password', 'users/update_password.php')->only('guest');
+
 
 $router->get('/advertisements', 'advertisements/index.php')->only('student');
 $router->get('/advertisements/show', 'advertisements/show.php')->only('student');

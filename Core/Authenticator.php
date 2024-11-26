@@ -23,6 +23,18 @@ class Authenticator
         return false;
     }
 
+    public function checkDisabled($email)
+    {
+        $user = User::find($email);
+        return $user['disabled'];
+    }
+
+    public function checkApproved($email)
+    {
+        $user = User::find($email);
+        return $user['approved'];
+    }
+
     protected function login($user)
     {
         $_SESSION['user'] = [
