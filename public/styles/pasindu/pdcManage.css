@@ -238,3 +238,16 @@ button:hover {
         margin-left: 40px; /* Adjust main content margin for mobile */
     }
   }
+
+
+
+  .actions{
+    display: flex;
+    gap: 5px;
+  }
+
+  .actions button ,.actions a{
+    margin: 0;
+  }
+
+  

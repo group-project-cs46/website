@@ -7,31 +7,57 @@ use Core\Database;
 
 class Pdc
 {
-    public static function create($id, $title, $name, $contact_No, $email)
+    public static function create($employee_id , $title, $name, $contact_no, $email)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO pdc(id, title, name , contact_No, email) VALUES (?, ?, ?, ?, ?)', [
-            $id,
+        $db->query('INSERT INTO pdc(employee_id, title, name , contact_no, email) VALUES (?, ?, ?, ?, ?)', [
+            $employee_id,
             $title,
             $name,
-            $contact_No,
+            $contact_no,
             $email
         ]);
     }
 
-    // public static function update($id, $title, $name, $contact_No, $email)
-    // {
-    //     $db = App::resolve(Database::class);
+    public static function get_all(){
+        $db = App::resolve(Database::class);
+        $result =  $db->query('SELECT * FROM pdc',[]);
+        return $result->get();
+    }
 
-    //     $db->query('UPDATE pdc SET id = ?,title = ?,name = ?,contact_No = ?,email = ? WHERE id = ?', [
-    //         $id, 
-    //         $title, 
-    //         $name, 
-    //         $contact_No, 
-    //         $email
-    //     ]);
-    // }
+    public static function get_by_id(string $id){
+        $db = App::resolve(Database::class);
+        $result =  $db->query('SELECT * FROM pdc WHERE employee_id=?',[$id]);
+        $data= $result->get();
+        if(empty($data)){
+            return null;
+        }
+        return $data[0];
+    }
+
+    public static function update($employee_id , $title, $name, $contact_no, $email)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE pdc SET title=?, name=?, contact_no=?,email=? WHERE employee_id=?', [
+            $title,
+            $name,
+            $contact_no,
+            $email,
+            $employee_id,
+        ]);
+    }
+
+    public static function update_disabled($employee_id , $status)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE pdc SET is_disabled=? WHERE employee_id=?', [
+            $status,
+            $employee_id,
+        ]);
+    }
 
 }
 

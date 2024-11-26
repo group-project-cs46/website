@@ -62,6 +62,8 @@ $router->get('/lecturerAdd', 'admin/lecturerAdd.php');
 $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
+$router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
+$router->post('/pdcUpdationDisabletion', controller: 'admin/update-disabled-pdc.php');
 
 
 
