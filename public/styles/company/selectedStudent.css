@@ -121,15 +121,7 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.status-btn {
-  background-color: #f4f4f8;
-  color: black;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 100px;
-}
+
 .view-btn {
   background-color: #0EA5E9;
   color: white;
@@ -137,12 +129,7 @@ body {
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 100px;
-}
-
-.status-btn:hover{
-  background-color: #01080a;
-  color: white;
+  margin-left: 100px;
 }
 
 .view-btn:hover {

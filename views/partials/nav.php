@@ -42,7 +42,7 @@ $navItems = [
     ],
     [
         'text' => 'Student List',
-        'href' => '/company/shortedStudent',
+        'href' => '/company/list',
         'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Company], 
     ],
@@ -64,6 +64,13 @@ $navItems = [
         'icon' => 'fa-solid fa-file-invoice',
         'only' => [Role::Company], 
     ],
+    [
+        'text' => 'Account',
+        'href' => '/company/account',
+        'icon' => 'fa-user',
+        'only' => [Role::Company],
+    ],
+    
     [
         'text' => 'Dashboard',
         'href' => '/dashboard/Lecturer',
@@ -134,7 +141,7 @@ $navItems = [
         'text' => 'Account',
         'href' => '/account',
         'icon' => 'fa-user',
-        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
+        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
     ],
 ];
 
