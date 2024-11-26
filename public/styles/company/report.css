@@ -69,18 +69,24 @@ body {
 }
 
 .table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-}
+} 
 
 .table-title h3 {
-  font-size: 24px;
-  font-weight: bold;
+  margin: 0;
+  font-size: 24px; /* Larger font size for the heading */
+  font-weight: bold; /* Emphasize the heading */
 }
 
 .table-title p {
-  font-size: 16px;
+  margin: 0;
+  font-size: 16px; /* Smaller font size for the paragraph */
   color: #777;
 }
+
 
 .form-container {
   background-color: #fff;
