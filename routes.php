@@ -1,6 +1,5 @@
 <?php
 
-
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
