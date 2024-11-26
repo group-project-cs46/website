@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDC Profile</title>
-    <link rel="stylesheet" href="/styles/pasindu/pdcedit.css">
+    <link rel="stylesheet" href="/styles/pasindu/pdcEdit.css">
 </head>
 
 <body>

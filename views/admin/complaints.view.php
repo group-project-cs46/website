@@ -36,7 +36,7 @@
             <div class="complaint-item new">
                 <span class="title">New Complaints</span>
                 <div class="actions">
-                    <button class="btn-view"><a href="complaints-form">View</a></button>
+                    <button class="btn-view"><a href="complaintsForm">View</a></button>
                     <button class="btn-mark">Mark as read</button>
                 </div>
                 <span class="timestamp">10:00 am</span>

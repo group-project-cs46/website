@@ -46,25 +46,33 @@ $router->get('/PDC/Schedule', '/PDC/Schedule.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
-$router->get('/add-lecture', 'admin/add-lecture.php');
-$router->get('/add-lecture/profile', controller: 'admin/profile-view.php');
-$router->get('/addition-form', 'admin/addition-form.php');
-$router->get('/add-lecture/addition', controller: 'admin/addition-form-view.php');
-$router->post('/add-pdc', controller: 'admin/add-pdc.php');
-
+// $router->get('/add-lecture', 'admin/add-lecture.php');
+// $router->get('/add-lecture/profile', controller: 'admin/profile-view.php');
+// $router->get('/addition-form', 'admin/addition-form.php');
+// $router->get('/add-lecture/addition', controller: 'admin/addition-form-view.php');
+// $router->post('/add-pdc', controller: 'admin/add-pdc.php');
 // $router->get('/add-pdc/profilepdc', controller: 'admin/profilepdc-view.php');
-$router->get('/managePdc/edit-pdc', controller: 'admin/pdcEdit.php');
 
-$router->get('/pdcAdd', 'admin/pdcAdd.php');
 
 $router->get('/complaints', controller: 'admin/complaints.php');
-$router->get('/complaints-form', controller: 'admin/complaints-form.php');
+$router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/report', 'lecturer/report.php');
 
-$router->get('/new', 'admin/new.php');
-$router->get('/ManagePdc', 'admin/pdcManage.php');
+$router->get('/pdcManage', 'admin/pdcManage.php');
+$router->get('/pdcAdd', 'admin/pdcAdd.php');
+$router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
 
-$router->get('/ManageLecturer', 'admin/lecturerManage.php');
+
+$router->get('/lecturerManage', 'admin/lecturerManage.php');
+$router->get('/lecturerAdd', 'admin/lecturerAdd.php');
+$router->get('/lecturerEdit', 'admin/lecturerEdit.php');
+
+$router->post('/pdcAddition', controller: 'admin/add-pdc.php');
+
+
+
+
+
 

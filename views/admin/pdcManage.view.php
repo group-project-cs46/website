@@ -1,6 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
-<link rel="stylesheet" href="/styles/pasindu/managelecturer.css" />
+<link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
 
 <main class="main-content">
     <header class="header">
@@ -40,7 +40,7 @@
                     <td>0717248485</td>
                     <td>kasun@gmail.com</td>
                     <td>
-                        <button class="Edit-button"><a href="/managePdc/edit-pdc">Edit</a></button>
+                        <button class="Edit-button"><a href="/pdcEdit">Edit</a></button>
                         <button class="disable-button">Disable</button>
                     </td>
                 </tr>
