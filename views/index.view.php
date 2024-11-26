@@ -18,11 +18,11 @@
                     </a>
                 <?php else : ?>
                     <a href="/register">
-                        <?php echo render('components/button.view.php', ['text' => 'Company Sign up']) ?>
+                        <?php echo render('components/button.view.php', ['text' => 'Company Sign Up']) ?>
                     </a>
                     <a href="/login">
                         <button type="button" style="background-color: white; color: var(--sky-500)" class="button">
-                            Log in
+                            Log In
                         </button>
                     </a>
                 <?php endif; ?>
