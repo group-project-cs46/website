@@ -51,12 +51,12 @@
                     <button type="submit" class="button" style="width: 100%; ">
                         Sign in
                     </button>
-                    <p style="font-size: 0.875rem; font-weight: 300; color: #6b7280;">
-                        Don’t have an account yet?
-                        <a href="/register" style="font-weight: 500; color: #0284c7; hover:underline;">
-                            Sign up
-                        </a>
-                    </p>
+<!--                    <p style="font-size: 0.875rem; font-weight: 300; color: #6b7280;">-->
+<!--                        Don’t have an account yet?-->
+<!--                        <a href="/register" style="font-weight: 500; color: #0284c7; hover:underline;">-->
+<!--                            Sign up-->
+<!--                        </a>-->
+<!--                    </p>-->
                 </form>
             </div>
         </div>
