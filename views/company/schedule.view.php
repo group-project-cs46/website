@@ -25,158 +25,241 @@
 
     <section class="content">
         <div class="schedule-title">
-            <div class="schedule-system-txt">
+            <div id="techTalkTab" class="schedule-system-txt" onclick="toggleSchedule('tech-talks')">
                 <h3>Schedule Tech Talks</h3>
-                <button onclick="showAddScheduleModal('tech-talks')">Add Schedule</button>
+                <p>Manage Schedule Tech Talks</p>
             </div>
 
-            <div class="schedule-student-txt">
+            <div class="divider"></div>
+
+            <div id="companyVisitTab" class="schedule-student-txt" onclick="toggleSchedule('company-visits')">
                 <h3>Schedule Company Visits</h3>
-                <button onclick="showAddScheduleModal('company-visits')">Add Schedule</button>
+                <p>Manage Schedule Company Visits</p>
             </div>
         </div>
 
-        <div class="calendars">
-            <!-- Tech Talks Calendar Section -->
-            <div class="calendar-box">
-                <div id="tech-talks-calendar" class="calendar-container"></div>
+        <div id="techTalksSection" class="calendar-section active">
+            <div class="calendar-navigation-container">
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <h2 id="calendarHeader" class="calendar-header"></h2>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
             </div>
 
-            <!-- Company Visits Calendar Section -->
-            <div class="calendar-box">
-                <div id="company-visits-calendar" class="calendar-container"></div>
-            </div>
+            <div id="tech-talks-calendar" class="calendar-container"></div>
         </div>
 
-        <!-- Add Schedule Modal for Adding Events -->
-        <div id="addScheduleModal" class="modal">
+        <div id="companyVisitsSection" class="calendar-section">
+            <div class="calendar-navigation-container">
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <h2 id="calendarHeaderCompanyVisits" class="calendar-header"></h2>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+            </div>
+            <div id="company-visits-calendar" class="calendar-container"></div>
+        </div>
+
+        <!-- Modal for Adding Tech Talk Details -->
+        <div id="techTalkModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h3>Add Schedule</h3>
-                <label for="date">Select Date:</label>
-                <input type="date" id="schedule-date">
-                <label for="event">Event Description:</label>
-                <input type="text" id="schedule-event" placeholder="Event Details">
-                <button onclick="addEvent()">Add</button>
+                <span class="close" onclick="closeModal('techTalkModal')">&times;</span>
+                <h3>Tech Talk Details</h3>
+                <form id="techTalkForm">
+                    <label for="techDate">Date:</label>
+                    <input type="text" id="techDate" readonly />
+
+                    <label for="techTime">Time:</label>
+                    <input type="text" id="techTime" readonly />
+
+                    <label for="constructorName">Constructor Name:</label>
+                    <input type="text" id="constructorName" placeholder="Enter Constructor Name" required />
+
+                    <label for="constructorEmail">Constructor Email:</label>
+                    <input type="email" id="constructorEmail" placeholder="Enter Constructor Email" required />
+
+                    <label for="description">Description:</label>
+                    <textarea id="description" placeholder="Enter Description" required></textarea>
+
+                    <button type="submit">Save</button>
+                </form>
             </div>
         </div>
 
-        <!-- Event Detail Modal to Display Event Info on Click -->
-        <div id="eventDetailModal" class="modal">
+        <!-- Modal for Approving Company Visit -->
+        <div id="companyVisitModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeEventDetailModal()">&times;</span>
-                <h3>Event Details</h3>
-                <p id="event-details"></p>
+                <span class="close" onclick="closeModal('companyVisitModal')">&times;</span>
+                <h3>Company Visit Details</h3>
+                <p><strong>Date:</strong> <span id="visitDate"></span></p>
+                <p><strong>Time:</strong> <span id="visitTime"></span></p>
+                <p><strong>Lecturer Name:</strong> <span id="lecturerName"></span></p>
+                <p><strong>Email:</strong> <span id="lecturerEmail"></span></p>
+                <button id="approveButton" onclick="approveVisit()">Approve</button>
             </div>
         </div>
     </section>
 </main>
 
 <script>
-const events = {
-    'tech-talks': [
-        { date: '2024-07-02', time: '3:00 p.m', location: 'WSO2', description: 'Introduction to C' },
-        { date: '2024-07-09', time: '1:00 p.m', location: 'Pajero', description: 'Python Basics' }
-    ],
-    'company-visits': [
-        { date: '2024-07-16', time: '3:00 p.m', location: 'IFS', description: 'Git & GitHub' },
-        { date: '2024-07-23', time: '3:00 p.m', location: 'CISCO', description: 'OOP Concepts' }
-    ]
-};
+    let currentYear = new Date().getFullYear(); // Start with current year
+    let currentMonth = new Date().getMonth(); // Start with current month (0-indexed)
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const events = {
+        'tech-talks': [
+            { date: '2024-11-12', time: '3:00 PM' },
+            { date: '2024-12-07', time: '10:00 AM' }
+        ],
+        'company-visits': [
+            { date: '2024-11-07', time: '2:00 PM', lecturer_name: 'John', email: 'John1234@gmail.com' },
+            { date: '2024-11-14', time: '4:00 PM', lecturer_name: 'Nimal', email: 'Nimal1234@gmail.com' }
+        ]
+    };
 
-function createCalendar(containerId, events, year, month) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
+    function changeMonth(direction) {
+        currentMonth += direction;
 
-    const monthYearHeader = document.createElement('h2');
-    monthYearHeader.classList.add('calendar-header');
-    monthYearHeader.textContent = `${monthNames[month]} ${year}`;
-    container.appendChild(monthYearHeader);
-
-    const daysContainer = document.createElement('div');
-    daysContainer.classList.add('calendar-days');
-    const dayHeaders = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    dayHeaders.forEach(day => {
-        const dayDiv = document.createElement('div');
-        dayDiv.className = 'day';
-        dayDiv.textContent = day;
-        daysContainer.appendChild(dayDiv);
-    });
-    container.appendChild(daysContainer);
-
-    const calendarGrid = document.createElement('div');
-    calendarGrid.classList.add('calendar');
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-        const emptyCell = document.createElement('div');
-        calendarGrid.appendChild(emptyCell);
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayCell = document.createElement('div');
-        dayCell.classList.add('day-box');
-        dayCell.textContent = day;
-
-        const event = events.find(event => event.date === dateStr);
-        if (event) {
-            dayCell.classList.add('highlight');
-            dayCell.onclick = () => showEventDetail(event);
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
         }
 
-        calendarGrid.appendChild(dayCell);
+        updateCalendarHeader('tech-talks');
+        updateCalendarHeader('company-visits');
+        initializeCalendar('tech-talks');
+        initializeCalendar('company-visits');
     }
 
-    container.appendChild(calendarGrid);
-}
-
-function initializeCalendars() {
-    const year = 2024;
-    const month = 6; // July (months are 0-indexed in JavaScript)
-
-    createCalendar('tech-talks-calendar', events['tech-talks'], year, month);
-    createCalendar('company-visits-calendar', events['company-visits'], year, month);
-}
-
-function showAddScheduleModal(calendarId) {
-    document.getElementById('addScheduleModal').style.display = 'block';
-    window.selectedCalendar = calendarId;
-}
-
-function closeModal() {
-    document.getElementById('addScheduleModal').style.display = 'none';
-}
-
-function addEvent() {
-    const date = document.getElementById('schedule-date').value;
-    const eventText = document.getElementById('schedule-event').value;
-
-    if (date && eventText) {
-        const time = prompt("Enter event time:");
-        const location = prompt("Enter event location:");
-        const newEvent = { date, time, location, description: eventText };
-        
-        events[window.selectedCalendar].push(newEvent);
-        createCalendar(`${window.selectedCalendar}-calendar`, events[window.selectedCalendar], 2024, 6);
+    function updateCalendarHeader(section) {
+        const headerElement = section === 'tech-talks'
+            ? document.getElementById('calendarHeader')
+            : document.getElementById('calendarHeaderCompanyVisits');
+        headerElement.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
     }
-    closeModal();
-}
 
-function showEventDetail(event) {
-    document.getElementById('event-details').innerHTML = `${event.time} - ${event.location}<br>${event.description}`;
-    document.getElementById('eventDetailModal').style.display = 'block';
-}
+    function initializeCalendar(section) {
+        const containerId = section === 'tech-talks' ? 'tech-talks-calendar' : 'company-visits-calendar';
+        const eventList = events[section];
+        createCalendar(containerId, eventList, currentYear, currentMonth);
+    }
 
-function closeEventDetailModal() {
-    document.getElementById('eventDetailModal').style.display = 'none';
-}
+    function createCalendar(containerId, events, year, month) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
 
-window.onload = initializeCalendars;
+        const daysContainer = document.createElement('div');
+        daysContainer.className = 'calendar-days';
+        ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].forEach(day => {
+            const dayElement = document.createElement('div');
+            dayElement.className = 'day';
+            dayElement.textContent = day;
+            daysContainer.appendChild(dayElement);
+        });
+        container.appendChild(daysContainer);
+
+        const calendarGrid = document.createElement('div');
+        calendarGrid.className = 'calendar';
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement('div');
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayCell = document.createElement('div');
+            dayCell.className = 'day-box';
+            dayCell.textContent = day;
+
+            const event = events.find(e => e.date === dateStr);
+            if (event) {
+                dayCell.classList.add('highlight');
+                if (containerId === 'tech-talks-calendar') {
+                    dayCell.onclick = () => openTechTalkModal(event.date, event.time);
+                } else if (containerId === 'company-visits-calendar') {
+                    dayCell.onclick = () =>
+                        openCompanyVisitModal(event.date, event.time, event.lecturer_name, event.email, dayCell);
+                }
+            }
+
+            calendarGrid.appendChild(dayCell);
+        }
+
+        container.appendChild(calendarGrid);
+    }
+
+    window.onload = () => {
+        updateCalendarHeader('tech-talks');
+        updateCalendarHeader('company-visits');
+        initializeCalendar('tech-talks');
+        initializeCalendar('company-visits');
+        toggleSchedule('tech-talks');
+    };
+
+    function toggleSchedule(section) {
+        const techTalksTab = document.getElementById('techTalkTab');
+        const companyVisitsTab = document.getElementById('companyVisitTab');
+        const techTalksSection = document.getElementById('techTalksSection');
+        const companyVisitsSection = document.getElementById('companyVisitsSection');
+
+        if (section === 'tech-talks') {
+            techTalksTab.classList.add('active');
+            companyVisitsTab.classList.remove('active');
+            companyVisitsSection.classList.remove('active');
+            companyVisitsSection.style.display = 'none';
+            techTalksSection.style.display = 'flex';
+            setTimeout(() => techTalksSection.classList.add('active'), 10);
+        } else {
+            companyVisitsTab.classList.add('active');
+            techTalksTab.classList.remove('active');
+            techTalksSection.classList.remove('active');
+            techTalksSection.style.display = 'none';
+            companyVisitsSection.style.display = 'flex';
+            setTimeout(() => companyVisitsSection.classList.add('active'), 10);
+        }
+    }
+
+    function openTechTalkModal(date, time) {
+        document.getElementById('techDate').value = date;
+        document.getElementById('techTime').value = time;
+        document.getElementById('techTalkModal').style.display = 'flex';
+    }
+
+    function openCompanyVisitModal(date, time, lecturerName, email, dateElement) {
+        document.getElementById('visitDate').textContent = date;
+        document.getElementById('visitTime').textContent = time;
+        document.getElementById('lecturerName').textContent = lecturerName;
+        document.getElementById('lecturerEmail').textContent = email;
+        lastClickedDateElement = dateElement;
+        document.getElementById('companyVisitModal').style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function approveVisit() {
+        if (lastClickedDateElement) {
+            lastClickedDateElement.style.backgroundColor = 'green';
+            lastClickedDateElement.style.color = 'white';
+        }
+        closeModal('companyVisitModal');
+        alert('Company Visit Approved!');
+    }
+
+    document.getElementById('techTalkForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const constructorName = document.getElementById('constructorName').value;
+        const constructorEmail = document.getElementById('constructorEmail').value;
+        const description = document.getElementById('description').value;
+        alert(`Tech Talk Details Saved:
+        Constructor Name: ${constructorName}
+        Constructor Email: ${constructorEmail}
+        Description: ${description}`);
+        closeModal('techTalkModal');
+    });
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

@@ -3,6 +3,38 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
+.above {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.above-left,
+.above-right {
+  display: flex;
+  align-items: center;
+}
+
+.above-right > div {
+  margin-left: 20px;
+}
+.above-left img,
+.above-right img {
+  margin-right: 10px;
+}
+.company-info {
+  display: flex;
+  align-items: center;
+}
+
+.company-name {
+  margin-left: 10px;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 20px;
+  font-weight: bold;
+}
 
 .main-content {
   flex: 1;
@@ -23,67 +55,40 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
-
-.above {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.above-left,
-.above-right {
-  display: flex;
-  align-items: center;
-}
-
-.above-right > div {
-  margin-left: 20px;
-}
-
-.company-info {
-  display: flex;
-  align-items: center;
-}
-
-.company-name {
-  margin-left: 10px;
-  text-align: left;
-  line-height: 1.2;
-  font-size: 20px;
-  font-weight: bold;
-}
-
 .content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  height: 85%;
 }
 
-/* Schedule Section */
 .schedule-title {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 30px;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 10px;
 }
-
+.schedule-title .active {
+  background-color: black;
+  color: #fff;
+  padding: 8px 13px;
+}
 .schedule-system-txt,
 .schedule-student-txt {
   text-align: left;
   padding: 10px;
+  cursor: pointer;
   font-weight: bold;
   color: #333;
-  transition: color 0.3s ease, background-color 0.3s ease;
-  width: 48%;
-  position: relative;
-  cursor: pointer;
+  transition: color 0.1s ease, background-color 0.1s ease;
+  margin-left: 10px;
 }
 
 .schedule-system-txt:hover,
 .schedule-student-txt:hover {
-  background-color: #f0f6f6;
-  color: #007bff;
+  background-color: #f4f4f4;
+  color: rgb(34, 21, 135);
 }
 
 .schedule-system-txt h3,
@@ -92,82 +97,168 @@ body {
   font-size: 18px;
 }
 
-.schedule-system-txt button,
-.schedule-student-txt button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.schedule-system-txt p,
+.schedule-student-txt p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 40px;
+  width: 2px;
+  background-color: #ddd;
+  margin: 0 0px;
+}
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Buttons and Header Container */
+.calendar-navigation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Add space between buttons and the header */
+}
+.calendar-navigation button {
+  padding: 10px 20px;
+  font-size: 16px;
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 15px;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.schedule-system-txt button:hover,
-.schedule-student-txt button:hover {
-  background-color: black;
+.calendar-navigation button:hover {
+  background-color: #0056b3;
 }
 
-/* Calendar Section */
-.calendars {
-  display: flex;
-  justify-content: space-between;
+/* Calendar Section: Add transition for opacity */
+.calendar-section {
+  opacity: 0; /* Start hidden */
+  visibility: hidden; /* Invisible */
+  display: none; /* No space taken initially */
+  transition: opacity 0.5s ease, visibility 0s 0.5s; /* Smooth transition */
+  flex-direction: column; /* Maintain layout */
+  align-items: center;
+  margin-top: 20px;
+  gap: 20px;
 }
 
-.calendar-box {
-  width: 48%;
-  padding: 15px;
+.calendar-section.active {
+  opacity: 1; /* Fully visible */
+  visibility: visible; /* Make it visible */
+  display: flex; /* Display the section */
+  transition: opacity 0.5s ease, visibility 0s 0s; /* Smooth fade-in */
+  animation: fadeIn 0.5s ease; /* Add fade-in animation */
+}
+
+/* Fade-in Keyframe Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* Slight movement from below */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade-out Keyframe Animation */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px); /* Slight movement below */
+  }
+}
+/* Calendar Grid */
+.calendar-container {
+  text-align: center;
+  background-color: white;
+  padding: 40px;
   border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: auto; /* Allow the calendar to adjust dynamically */
 }
-
+.calendar-header-container {
+  display: flex;
+  align-items: center; /* Align buttons and header vertically */
+  justify-content: center; /* Center everything horizontally */
+  margin-bottom: 20px; /* Add space below the navigation bar */
+  gap: 15px; /* Space between buttons and the header */
+}
 
 .calendar-header {
-  text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1; /* Ensure header takes space proportionally */
 }
 
+.nav-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  text-align: center;
   margin-bottom: 10px;
 }
 
 .day {
   font-weight: bold;
-  background-color: #f4f4f4;
-  padding: 5px 0;
 }
-
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(
+    7,
+    minmax(100px, 1fr)
+  ); /* Increase minimum width for each column */
+  gap: 5px; /* Add space between day cells */
+  justify-content: center;
 }
 
-/* Day Boxes */
 .day-box {
-  width: 100%;
-  height: 60px;
-  padding: 10px;
-  text-align: center;
+  padding: 15px; /* Add more padding to day cells */
   border: 1px solid #ddd;
-  box-sizing: border-box;
-  position: relative;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
+
+.day-box.highlight {
+  background-color: #007bff;
+  color: white;
+}
+
+.day-box:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
 /* Highlighted Day */
 .highlight {
   background-color: #a4ccf4;
@@ -181,7 +272,6 @@ body {
 
 .day-box:hover {
   background-color: black;
-  
 }
 
 .event {
@@ -193,7 +283,6 @@ body {
   color: #007bff;
 }
 
-
 /* Modal Styling */
 .modal {
   display: none;
@@ -204,34 +293,31 @@ body {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
   background-color: white;
-  margin: 10% auto;
   padding: 20px;
   border-radius: 10px;
-  width: 30%;
+  width: 400px;
   position: relative;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content h3 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 15px;
+  margin-top: 0;
 }
 
 .modal-content label {
-  font-size: 14px;
-  margin-bottom: 5px;
   display: block;
-  text-align: left;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
-.modal-content input[type="date"],
-.modal-content input[type="text"] {
+.modal-content input,
+.modal-content textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
@@ -245,24 +331,22 @@ body {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 5px;
-  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 14px;
 }
 
 .modal-content button:hover {
-  background-color: black;
+  background-color: #0056b3;
 }
 
 .close {
   position: absolute;
-  right: 10px;
-  top: 5px;
-  cursor: pointer;
+  top: 10px;
+  right: 15px;
   font-size: 18px;
-  color: #333;
+  cursor: pointer;
 }
 
 .close:hover {
@@ -274,4 +358,23 @@ body {
   font-size: 14px;
   line-height: 1.5;
   margin-top: 10px;
+}
+
+#approveButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#approveButton:hover {
+  background-color: #218838;
+}
+
+.day-box.approved {
+  background-color: green;
+  color: white;
 }
