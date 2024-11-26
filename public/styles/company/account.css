@@ -72,29 +72,29 @@ body {
 }
 
 .content {
-  background-color: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
-}
-
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
 .table-title {
-  margin-bottom: 20px;
-}
-
-.table-title h3 {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-}
-
-.table-title p {
-  font-size: 14px;
-  color: #777;
-  margin-top: 5px; /* Adds space between title and subtitle */
-  margin-bottom: 0;
-}
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  } 
+  
+  .table-title h3 {
+    margin: 0;
+    font-size: 24px; /* Larger font size for the heading */
+    font-weight: bold; /* Emphasize the heading */
+  }
+  
+  .table-title p {
+    margin: 0;
+    font-size: 16px; /* Smaller font size for the paragraph */
+    color: #777;
+  }
 
 /* Responsive Design for Mobile */
 @media (max-width: 600px) {
@@ -120,19 +120,19 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  width: 75%;
+  width: 55%;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative; /* For the Edit button */
 }
-.edit-icon {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
+
+  .edit-icon {
+    font-size: 20px; /* FontAwesome icon size */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
 .form-header {
   display: flex;
   justify-content: space-between;
@@ -143,8 +143,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px; /* Added consistent gaps between form fields */
-  width: 100%;
-  margin-top: 20px;
+  width: 75%;
+  margin: 20px  20px 20px 70px;
 }
 
 .form-field {
@@ -154,23 +154,14 @@ body {
 }
 
 label {
-  font-size: 14px;
-  color: #333;
-  font-weight: bold;
-}
+    font-size: 16px; /* Minimized label font size for address fields */
+  }
 
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  background-color: #f9f9f9;
-}
+  input {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
 .address-group {
   display: flex;
   gap: 10px; /* Added gap between address fields */
@@ -215,7 +206,7 @@ input[type="password"] {
 }
 
 .form-title {
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
+    font-size: 22px; /* Set the title font size */
+    font-weight: bold;
+    text-align: center; /* Center align the title */
+  }
