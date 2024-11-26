@@ -46,4 +46,4 @@ if (move_uploaded_file($fileTmpPath, $targetFile)) {
 
 //dd($attributes);
 
-redirect('/account');
+redirect('/students/cvs');

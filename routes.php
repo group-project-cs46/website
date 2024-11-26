@@ -40,6 +40,8 @@ $router->delete('/students/applications/delete', 'students/applications/destroy.
 $router->get('/students/applications/edit', 'students/applications/edit.php')->only('student');
 $router->patch('/students/applications/update', 'students/applications/update.php')->only('student');
 
+$router->get('/students/cvs', 'students/cvs/index.php')->only('student');
+
 //company
 
 $router->get('/company/report', '/company/report.php');

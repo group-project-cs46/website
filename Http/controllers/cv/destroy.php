@@ -3,6 +3,8 @@
 use Models\Cv;
 
 
+//dd($_POST);
+
 $cv = Cv::find($_POST['id']);
 
 if ($cv) {
@@ -19,5 +21,4 @@ if ($cv) {
     Cv::delete($cv['id']);
 }
 
-header('location: /account');
-die();
+redirect('/students/cvs');
