@@ -1,0 +1,15 @@
+<?php
+
+use Models\Ad;
+use Models\Company;
+use Models\Application;
+
+$user = \Models\User::find($_SESSION['user']['email']);
+$user_id = $user['id'];
+
+$applications = Application::getByStudentIdWithDetails($user_id);
+
+view('students/applications/index.view.php', [
+    'heading' => 'Jobs',
+    'applications' => $applications
+]);

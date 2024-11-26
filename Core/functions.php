@@ -89,3 +89,9 @@ function old($key, $default = '')
 {
     return Session::getFlash('old')[$key] ?? $default;
 }
+
+function auth_user()
+{
+    $user = \Models\User::find($_SESSION['user']['email']);
+    return $user;
+}
