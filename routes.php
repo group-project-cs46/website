@@ -18,14 +18,24 @@ $router->post('/sessions', 'sessions/store.php')->only('guest');
 $router->delete('/sessions', 'sessions/destroy.php')->only('auth');
 
 
-$router->get('/jobs', 'jobs/index.php')->only('student');
+$router->get('/advertisements', 'advertisements/index.php')->only('student');
+$router->get('/advertisements/show', 'advertisements/show.php')->only('student');
+
+$router->post('/applications', 'applications/store.php')->only('student');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
+$router->delete('/cv/delete', 'cv/destroy.php')->only('student');
 
+$router->get('/students/applications', 'students/applications/index.php')->only('student');
+$router->delete('/students/applications/delete', 'students/applications/destroy.php')->only('student');
+$router->get('/students/applications/edit', 'students/applications/edit.php')->only('student');
+$router->patch('/students/applications/update', 'students/applications/update.php')->only('student');
+
+//company
 
 $router->get('/company/report', '/company/report.php');
 $router->get('/company/advertisment', '/company/advertisment.php');
@@ -34,17 +44,28 @@ $router->get('/company/schedule', 'company/schedule.php');
 $router->get('/company/selectedStudent', '/company/selectedStudent.php');
 $router->get('/company/shortedStudent', '/company/shortedStudent.php');
 $router->get('/company/complaint', '/company/complaint.php');
-$router->get('/company/list', '/company/list.php');
+$router->get('/company/list', '/company/list.php'); 
 $router->get('/company/addInterview', '/company/addInterview.php');
+$router->get('/company/account', '/company/account.php');
 
+
+
+//company action
 $router->post('/ads/store', 'ads/store.php');
+$router->delete('/ads/delete', 'ads/delete.php');
+$router->post('/ads/edit', 'ads/edit.php');
+
+//PDC
+
 
 $router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
 $router->get('/PDC/Schedule', '/PDC/Schedule.php');
+
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+
 
 $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
@@ -63,8 +84,8 @@ $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
 
-
-
-
+$router->get('/PDC/sample', '/PDC/sample.php');
+$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
 
