@@ -43,7 +43,6 @@ body {
   font-weight: bold;
 }
 
-
 .table-title {
   display: flex;
   align-items: center;
@@ -167,7 +166,6 @@ body {
   }
 }
 
-
 .view-btn {
   background-color: #0ea5e9;
   color: white;
@@ -176,11 +174,44 @@ body {
   border-radius: 5px;
   cursor: pointer;
   margin-left: 100px;
-
 }
-
 
 .view-btn:hover {
   background-color: #01080a;
   color: white;
+}
+/* Filter Container Styles */
+.filter-container {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.filter-container label {
+  font-size: 16px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for select dropdown */
+.filter-container select:hover {
+  background-color: #e8e8e8;
+}
+
+/* Select dropdown focus styles */
+.filter-container select:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #e9f5ff;
 }
