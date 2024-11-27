@@ -3,10 +3,9 @@
 use Models\Pdc;
 
 $id = $_POST['id'];
-$status = $_POST['status'];
 
 try {
-    Pdc::update_disabled($id, $status);
+    Pdc::delete($id);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
