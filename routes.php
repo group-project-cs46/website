@@ -1,6 +1,5 @@
 <?php
 
-
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -90,6 +89,8 @@ $router->get('/lecturerAdd', 'admin/lecturerAdd.php');
 $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
+$router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
+$router->post('/pdcUpdationDisabletion', controller: 'admin/update-disabled-pdc.php');
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');

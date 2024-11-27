@@ -46,6 +46,7 @@ body {
   flex: 1;
   padding: 15px;
   background-color: #f4f4f8;
+  margin: 0 auto;
 }
 
 .header {
