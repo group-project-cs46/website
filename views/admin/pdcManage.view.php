@@ -3,7 +3,7 @@
 
 
 <link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
-
+<div class=" mmm">
 <main class="main-content">
     <header class="header">
         <div class="above">
@@ -57,6 +57,7 @@
         </table>
     </section>
 </main>
+</div>
 
 
 
