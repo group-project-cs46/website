@@ -43,7 +43,7 @@ $router->get('/company/complaint', '/company/complaint.php');
 $router->get('/company/list', '/company/list.php'); 
 $router->get('/company/addInterview', '/company/addInterview.php');
 $router->get('/company/account', '/company/account.php');
-
+$router->get('/company/cv', '/company/account.php');
 
 
 //company action
