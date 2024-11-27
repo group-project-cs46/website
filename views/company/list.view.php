@@ -32,6 +32,8 @@
                 <p>Manage student accounts</p>
             </div>
 
+            <div class="divider"></div>
+
             <div class="table-student-txt" id="shortedTab" onclick="toggleSection('shorted')">
                 <h3>Shorted Student List</h3>
                 <p>Manage student accounts</p>
