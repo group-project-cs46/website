@@ -30,16 +30,16 @@
         </div>
         <div class="content-boxes">
             <div class="box">
-                <h3>Applied students</h3>
+                <h2>Applied students</h2>
                 <h3>50</h3>
             </div>
             <div class="box">
-                <h3>Selected students</h3>
+                <h2>Selected students</h2>
                 <h3>20</h3>
             </div>
 
             <div class="box">
-                <h3>Next Techtalk Date</h3>
+                <h2>Next Techtalk Date</h2>
                 <h3>15.08.2024</h3>
                 <h3>3.00 P.M</h3>
             </div>
