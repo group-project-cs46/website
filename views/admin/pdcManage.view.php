@@ -44,10 +44,9 @@
                         <td><?= $pdc['email'] ?></td>
                         <td class="actions">
                         <a href="/pdcEdit?id=<?= $pdc['employee_id'] ?>" class="view-button">Edit</a>
-                        <form action="/pdcUpdationDisabletion" method="post">
+                        <form action="/pdcDeletion" method="post">
                             <input type="hidden" name="id" value="<?= $pdc['employee_id'] ?>">
-                            <input type="hidden" name="status" value="<?= $pdc['is_disabled'] ? 0 : 1 ?>">
-                            <button type="submit" class="disable-button"><?= $pdc['is_disabled'] ? "Enable" : "Disable" ?></button>  
+                            <button type="submit" class="disable-button">Disable</button>  
                         </form>
                         </td>
                     </tr>
