@@ -44,6 +44,7 @@ body {
 .main-content {
     flex: 1;
     padding: 30px;
+    padding-left: 70px;
 }
 
 .header {
@@ -66,7 +67,7 @@ h1 {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    width: 270%;
+    width: 100%;
 }
 
 .complaint-item {
@@ -126,7 +127,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    width: 270%;
+    width: 100%;
 }
 
 .page-numbers {
