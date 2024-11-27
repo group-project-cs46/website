@@ -49,12 +49,11 @@ class Pdc
         ]);
     }
 
-    public static function update_disabled($employee_id , $status)
+    public static function delete($employee_id)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('UPDATE pdc SET is_disabled=? WHERE employee_id=?', [
-            $status,
+        $db->query('DELETE FROM pdc WHERE employee_id=?', [
             $employee_id,
         ]);
     }

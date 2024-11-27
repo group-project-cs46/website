@@ -95,7 +95,7 @@ $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
 $router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
-$router->post('/pdcUpdationDisabletion', controller: 'admin/update-disabled-pdc.php');
+$router->post('/pdcDeletion', controller: 'admin/delete-pdc.php');
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
