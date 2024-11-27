@@ -30,16 +30,16 @@
         </div>
         <div class="content-boxes">
             <div class="box">
-                <h3>Applied students</h3>
+                <h2>Applied students</h2>
                 <h3>50</h3>
             </div>
             <div class="box">
-                <h3>Selected students</h3>
+                <h2>Selected students</h2>
                 <h3>20</h3>
             </div>
 
             <div class="box">
-                <h3>Next Techtalk Date</h3>
+                <h2>Next Techtalk Date</h2>
                 <h3>15.08.2024</h3>
                 <h3>3.00 P.M</h3>
             </div>
@@ -49,65 +49,104 @@
                 <h3>Applied students</h3>
                 <p>Manage student accounts</p>
             </div>
+            <!-- Filter Dropdown -->
+            <div class="filter-container">
+                <label for="applied-course-filter">Filter by Course:</label>
+                <select id="applied-course-filter" onchange="filterAppliedStudents()">
+                    <option value="all">All</option>
+                    <option value="CS">CS</option>
+                    <option value="IS">IS</option>
+                </select>
+            </div>
         </div>
 
         <table class="student-table">
-                    <thead>
-                        <tr>
-                            <th>Student Name</th>
-                            <th>Index No</th>
-                            <th>Email</th>
-                            <th>Course</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="studentTableBody">
-                        <!-- Student rows will be dynamically populated here -->
-                    </tbody>
-                </table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Index No</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <!-- Student rows will be dynamically populated here -->
+            </tbody>
+        </table>
     </section>
 </main>
-<script>;
-        
-        // Sample student data
-        const students = [
-            { name: "Thathsara", index: "22001123", email: "thathsara@gmail.com", course:"CS" },
-            { name: "Karunya", index: "22001124", email: "karunya@gmail.com", course:"IS"},
-            { name: "Nivethan", index: "22001125", email: "nivethan@gmail.com" , course:"CS"},
-            { name: "Pasindu", index: "22001126", email: "pasindu@gmail.com", course:"IS"},
-            { name: "Sarma", index: "22020888", email: "sarma@gmail.com", course:"CS"}, 
-        ];
 
-     // Function to render the student table
-function renderTable() {
-    const tableBody = document.getElementById("studentTableBody");
-    tableBody.innerHTML = ""; // Clear existing rows
+<script>
+    // List of students
+    const appliedStudents = [{
+            name: "Thathsara",
+            index: "22001123",
+            email: "thathsara@gmail.com",
+            course: "CS"
+        },
+        {
+            name: "Karunya",
+            index: "22001124",
+            email: "karunya@gmail.com",
+            course: "IS"
+        },
+        {
+            name: "Nivethan",
+            index: "22001125",
+            email: "nivethan@gmail.com",
+            course: "CS"
+        },
+        {
+            name: "Pasindu",
+            index: "22001126",
+            email: "pasindu@gmail.com",
+            course: "IS"
+        },
+        {
+            name: "Sarma",
+            index: "22020888",
+            email: "sarma@gmail.com",
+            course: "CS"
+        }
+    ];
 
-    students.forEach((student, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
+    // Function to render the student table
+    function renderAppliedTable(students) {
+        const tableBody = document.getElementById("studentTableBody");
+        tableBody.innerHTML = ""; // Clear existing table rows
+        students.forEach(student => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
             <td>${student.name}</td>
             <td>${student.index}</td>
             <td>${student.email}</td>
             <td>${student.course}</td>
             <td>
-                <div class="btn-container">
-                    <button class="view-btn" onclick="viewStudent(${index})">View</button>
-                </div>
+                <button class="view-btn" onclick="viewAppliedStudent('${student.index}')">View</button>
             </td>
         `;
-        tableBody.appendChild(row);
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Function to filter applied students by course
+    function filterAppliedStudents() {
+        const courseFilter = document.getElementById("applied-course-filter").value;
+        const filteredStudents = courseFilter === "all" ? appliedStudents : appliedStudents.filter(student => student.course === courseFilter);
+        renderAppliedTable(filteredStudents);
+    }
+
+    // View applied student details
+    function viewAppliedStudent(index) {
+        const student = appliedStudents.find(student => student.index === index);
+        alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+    }
+
+    // Initialize default render
+    document.addEventListener("DOMContentLoaded", () => {
+        renderAppliedTable(appliedStudents); // Render all applied students by default
     });
-}
+</script>
 
-// Function to handle View button click
-function viewStudent(index) {
-    const student = students[index];
-    alert(`Viewing details for:\n\nName: ${student.name}\nIndex: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
-}
-
-// Initial render of the student table
-renderTable();
-
-    </script>
 <?php require base_path('views/partials/auth/auth-close.php') ?>

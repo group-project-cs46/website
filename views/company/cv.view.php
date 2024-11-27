@@ -34,7 +34,6 @@
 
             <div class="button-container">
                 <button class="submit-btn" type="submit">Select</button>
-                <button class="submit-btn" type="submit">Pending</button>
                 <button class="submit-btn" type="submit">Reject</button>
             </div>
 
