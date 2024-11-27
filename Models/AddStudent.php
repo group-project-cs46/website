@@ -28,4 +28,25 @@ class AddStudent {
             $password
         ]);
     }
+
+    public static function update_student($regno, $course, $email, $stuname, $indexno,$id){
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE students SET regno = ?, course = ?, email = ?, stuname = ?, indexno = ? WHERE id = ?', [
+            $regno,
+            $course,
+            $email,
+            $stuname,
+            $indexno,
+            $id
+        ]);
+    }
+
+    public static function delete_student($id){
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM students WHERE id = ?', [$id]);
+    }
+
+    
 }

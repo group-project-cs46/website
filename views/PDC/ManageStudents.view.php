@@ -1,4 +1,5 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php') ;
+?>
 
 <link rel="stylesheet" href="/styles/PDC/ManageStudents.css" />
 
@@ -189,62 +190,79 @@
                 <option value="CS">CS</option>
                 <option value="IS">IS</option>
             </select>
-
-            <button type="submit" id="submitStudent">Add Student</button>
+             <div  style="display: flex; justify-content: space-between;">
+             <button type="submit" id="submitStudent">Add Student</button>
+             <button id="closeFormButton">Close</button>
+             </div>
+            
         </form>
 
-        <button id="closeFormButton">Close</button>
+
+
+        
+    </div>
+</div>
+
+
+
+<div id="editForm" class="popup-form">
+    <div class="form-container">
+        <h2>Update Students</h2>
+        <h3>Upload CSV File</h3>
+        <form id="uploadCsvForm">
+            <input type="file" id="csvFileInput" accept=".csv">
+            <button type="button" id="uploadCsvButton">Upload CSV</button>
+        </form>
+
+        <hr>
+
+        <h3>Update a student</h3>
+        <form id="editstudentForm" method="post" action="/PDC/updatestudent">
+
+        <input type="hidden"  name="student_id" id="student_id" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="indexno">Index No.:</label>
+            <input type="text" id="indexno" name="indexno" required>
+
+            <label for="regNo">Register Number:</label>
+            <input type="text" id="regNo" name="regNo" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="course">Course:</label>
+            <select id="course" name="course">
+                <option value="CS">CS</option>
+                <option value="IS">IS</option>
+            </select>
+
+            <button type="submit" id="submitStudent">Save changes</button>
+            <button id="closeFormButton" onclick="closeeditform()">Close</button>
+        </form>
+
+
+
+        <!-- //<button id="closeFormButton" onclick="closeeditform()">Close</button> -->
     </div>
 </div>
 
 <!-- JavaScript -->
 <script>
     // Toggle between Approve Section and Complaint Section
-    const students = [{
-            name: "John Doe",
-            regNo: "2024/CS/123",
-            course: "CS",
-            email: "johndoe@example.com",
-            indexno: "200023220"
-        },
-        {
-            name: "Jane Smith",
-            regNo: "2024/IS/456",
-            course: "IS",
-            email: "janesmith@example.com",
-            indexno: "200023220"
-        },
-        {
-            name: "Emily Johnson",
-            regNo: "2024/CS/789",
-            course: "CS",
-            email: "emilyjohnson@example.com",
-            indexno: "200023220"
-        },
-        {
-            name: "Michael Brown",
-            regNo: "2024/IS/101",
-            course: "IS",
-            email: "michaelbrown@example.com",
-            indexno: "200023220"
-        },
-        {
-            name: "Sarah Wilson",
-            regNo: "2024/CS/112",
-            course: "CS",
-            email: "sarahwilson@example.com",
-            indexno: "200023220"
-        }
-
-    ];
+    const students = <?php echo json_encode($students); ?>
     
 
     const openFormButton = document.getElementById('openFormButton');
+    const editformbutton = document.getElementById('editformbutton');
     const popupForm = document.getElementById('popupForm');
+    const editform = document.getElementById('editForm');
     const closeFormButton = document.getElementById('closeFormButton');
     const viewstudentForm = document.getElementById('viewstudentForm');
     const studentTableBody = document.getElementById('studentTableBody');
     const uploadCsvForm = document.getElementById('uploadCsvForm');
+    const studenteditform = document.getElementById('editstudentForm');
 
     
     renderTable(students)
@@ -325,6 +343,23 @@
         renderTable(student);
     }
 
+    function openeditform(id) {
+        console.log(id);
+        const student = students.find(stu => stu.id == id);
+        console.log(student);
+        editform.style.display = 'flex';
+        studenteditform.elements.student_id.value = student.id;
+        studenteditform.elements.name.value = student.stuname;
+        studenteditform.elements.regNo.value = student.regno;
+        studenteditform.elements.course.value = "CS";
+        studenteditform.elements.email.value = student.email;
+        studenteditform.elements.indexno.value = student.indexno;
+    }
+
+    function closeeditform() {
+        editform.style.display = 'none';
+    }
+
     // Function to render the table based on the provided data
     function renderTable(data) {
         
@@ -335,14 +370,18 @@
         data.forEach((student) => {
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-            <td>${student.name}</td>
-            <td>${student.regNo}</td>
+            <td>${student.stuname}</td>
+            <td>${student.regno}</td>
             <td>${student.course}</td>
             <td>${student.email}</td>
             <td>${student.indexno}</td>
             <td>
-                <button class="Edit-button">Edit</button>
-                <button class="disable-button">Delete</button>
+                
+                <form id="deleteform" action="/PDC/deletestudent" method="post">
+                    <input type="hidden" name="student_id" value="${student.id}">
+                    <button class="Edit-button" id ="editformbutton" onclick="openeditform('${student.id}')">Edit</button>
+                <button type = 'submit' class="disable-button id ="deleteformbutton"">Delete</button>
+                </form>
             </td>
         `;
             studentTableBody.appendChild(newRow);
