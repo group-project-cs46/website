@@ -47,52 +47,67 @@
         <div class="table-title">
             <div class="table-title-txt">
                 <h3>Applied students</h3>
+                <p>Manage student accounts</p>
             </div>
         </div>
 
         <table class="student-table">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Index No.</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Thathsara</td>
-                    <td>200132444</td>
-                    <td>company1@gmail.com</td>
-                    <td><button class="view-button">View</button></td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr>
-                    <td>Thathsara</td>
-                    <td>200132444</td>
-                    <td>company1@gmail.com</td>
-                    <td><button class="view-button">View</button></td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr>
-                    <td>Thathsara</td>
-                    <td>200132444</td>
-                    <td>company1@gmail.com</td>
-                    <td><button class="view-button">View</button></td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr>
-                    <td>Thathsara</td>
-                    <td>200132444</td>
-                    <td>company1@gmail.com</td>
-                    <td><button class="view-button">View</button></td>
-                </tr>
-            </tbody>
-        </table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Index No</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <!-- Student rows will be dynamically populated here -->
+                    </tbody>
+                </table>
     </section>
 </main>
+<script>;
+        
+        // Sample student data
+        const students = [
+            { name: "Thathsara", index: "22001123", email: "thathsara@gmail.com", course:"CS" },
+            { name: "Karunya", index: "22001124", email: "karunya@gmail.com", course:"IS"},
+            { name: "Nivethan", index: "22001125", email: "nivethan@gmail.com" , course:"CS"},
+            { name: "Pasindu", index: "22001126", email: "pasindu@gmail.com", course:"IS"},
+            { name: "Sarma", index: "22020888", email: "sarma@gmail.com", course:"CS"}, 
+        ];
 
+     // Function to render the student table
+function renderTable() {
+    const tableBody = document.getElementById("studentTableBody");
+    tableBody.innerHTML = ""; // Clear existing rows
+
+    students.forEach((student, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.index}</td>
+            <td>${student.email}</td>
+            <td>${student.course}</td>
+            <td>
+                <div class="btn-container">
+                    <button class="view-btn" onclick="viewStudent(${index})">View</button>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Function to handle View button click
+function viewStudent(index) {
+    const student = students[index];
+    alert(`Viewing details for:\n\nName: ${student.name}\nIndex: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+}
+
+// Initial render of the student table
+renderTable();
+
+    </script>
 <?php require base_path('views/partials/auth/auth-close.php') ?>
