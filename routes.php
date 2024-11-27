@@ -64,10 +64,15 @@ $router->post('/ads/edit', 'ads/edit.php');
 //PDC
 
 
-$router->get('/PDC/ManageStudents', '/PDC/ManageStudents.php');
-$router->get('/PDC/Advertisements', '/PDC/Advertisements.php');
-$router->get('/PDC/ManageCompany', '/PDC/ManageCompany.php');
-$router->get('/PDC/Schedule', '/PDC/Schedule.php');
+$router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
+$router->get('/PDC/advertisements', '/PDC/Advertisements.php');
+$router->get('/PDC/manageCompany', '/PDC/ManageCompany.php');
+$router->get('/PDC/schedule', '/PDC/Schedule.php');
+
+$router->post('/PDC/addstudent', '/PDC/addstudent.php');
+$router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
+$router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
+
 
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');

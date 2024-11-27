@@ -86,7 +86,7 @@
             <div class="popup-text">
                 <h2>Details about Advertisement</h2>
             </div>
-            <form class="form-content" method="POST" action="/ads/store">
+            <form class="form-content" method="POST" action="/ads/store"  onsubmit="return validateForm();">
                 <div class="form-field">
                     <label for="job_role">Job Role :</label>
                     <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />
@@ -289,6 +289,19 @@
             console.error("Fetch Error:", err); // Debugging
             alert('An error occurred while updating the advertisement.');
         }
+    }
+    function validateForm() {
+        const vacancyCount = document.getElementById('vacancy_count').value;
+        const maxCVs = document.getElementById('maxCVs').value;
+
+        // Check if values are less than zero
+        if (vacancyCount < 0 || maxCVs < 0 || !Number.isInteger(Number(vacancyCount)) || !Number.isInteger(Number(maxCVs))) {
+            // Show the popup alert message
+            alert('Vacancy Count and Maximum CV\'s Count cannot be negative.');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
     }
 </script>
 <?php require base_path('views/partials/auth/auth-close.php') ?>
