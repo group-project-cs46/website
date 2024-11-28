@@ -47,6 +47,7 @@ $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
 $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/report', 'lecturer/report.php');
