@@ -63,10 +63,12 @@ $router->post('/ads/edit', 'ads/edit.php');
 
 //PDC
 
+$router->get('/pdcs/companies', '/pdcs/companies/index.php');
+$router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
-$router->get('/PDC/manageCompany', '/PDC/ManageCompany.php');
+//$router->get('/PDC/manageCompany', '/PDC/ManageCompany.php');
 $router->get('/PDC/schedule', '/PDC/Schedule.php');
 
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');
