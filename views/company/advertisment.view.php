@@ -6,7 +6,7 @@
     <header class="header">
         <div class="above">
             <div class="above-left">
-                <i class="fa-solid fa-file-invoice" style="font-size: 40px;"></i>
+            <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
                 <h2>Ads</h2>
             </div>
             <div class="above-right">
@@ -120,35 +120,35 @@
 
 <!-- Modal for Editing Advertisement Details -->
 <div id="editModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="form-container">
+    <div class="edit-modal-content">
+        <div class="edit-form-container">
             <span class="close" onclick="closeEditModal()">&times;</span>
             <div class="popup-text">
                 <h3>Edit Advertisement</h3>
             </div>
             <form id="editAdForm" method="post" action="/ads/edit">
                 <input type="hidden" id="edit_id" name="id">
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_job_role">Job Role :</label>
                     <input type="text" id="edit_job_role" name="job_role" required>
                 </div>
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_responsibilities">Responsibilities :</label>
                     <textarea id="edit_responsibilities" name="responsibilities" required></textarea>
                 </div>
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_qualifications_skills">Qualifications And Skills :</label>
                     <textarea id="edit_qualifications_skills" name="qualifications_skills" required></textarea>
                 </div>
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_vacancy_count">Vacancy Count:</label>
                     <input type="number" id="edit_vacancy_count" name="vacancy_count" required>
                 </div>
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_max_cvs">Maximum CVs:</label>
                     <input type="number" id="edit_max_cvs" name="max_cvs" required>
                 </div>
-                <div class="form-field">
+                <div class="edit-form-field">
                     <label for="edit_deadline">Deadline:</label>
                     <input type="date" id="edit_deadline" name="deadline" required>
                 </div>
