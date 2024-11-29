@@ -15,7 +15,7 @@
             <h1>Add New Lecturer</h1>
 
             <div class="form-container">
-                <h2>Addition Form</h2>
+               
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">
