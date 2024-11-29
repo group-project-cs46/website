@@ -66,7 +66,7 @@ $navItems = [
     ],
     [
         'text' => 'Account',
-        'href' => '/company/cv',
+        'href' => '/company/account',
         'icon' => 'fa-user',
         'only' => [Role::Company],
     ],
