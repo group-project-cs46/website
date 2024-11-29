@@ -53,7 +53,9 @@ $router->get('/company/complaint', '/company/complaint.php');
 $router->get('/company/list', '/company/list.php'); 
 $router->get('/company/addInterview', '/company/addInterview.php');
 $router->get('/company/account', '/company/account.php');
-$router->get('/company/cv', '/company/account.php');
+$router->get('/company/cv', '/company/cv.php');
+$router->get('/company/dashcv', '/company/dashcv.php');
+$router->get('/company/onlycv', '/company/onlycv.php');
 
 
 //company action
@@ -68,7 +70,7 @@ $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
-//$router->get('/PDC/manageCompany', '/PDC/ManageCompany.php');
+$router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
 $router->get('/PDC/schedule', '/PDC/Schedule.php');
 
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');

@@ -34,7 +34,7 @@
             <img src="/assests/CV.png" alt="Student CV">
             <div class="button-container">
                 <!-- Back button stays as it is -->
-                <button class="submit-btn" type="button" onclick="window.location.href = '/company/list';">Back</button>
+                <button class="submit-btn" type="button" onclick="window.location.href = '/dashboard/company';">Back</button>
 
                 <!-- Select button with onclick to show alert and change text -->
                 <button id="select-btn" class="submit-btn" type="button" onclick="selectStudent()">Select</button>
