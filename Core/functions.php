@@ -92,6 +92,6 @@ function old($key, $default = '')
 
 function auth_user()
 {
-    $user = \Models\User::find($_SESSION['user']['email']);
+    $user = \Models\User::findByEmail($_SESSION['user']['email']);
     return $user;
 }
