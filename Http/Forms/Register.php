@@ -15,8 +15,8 @@ class Register
             $this->errors['email'] = 'Invalid email';
         }
 
-        if (!Validator::string($attributes['password'])) {
-            $this->errors['password'] = "Password can't be empty";
+        if (!Validator::string($attributes['password'], 8)) {
+            $this->errors['password'] = "Password can't be empty or less than 8 characters";
         }
 
         if (!Validator::string($attributes['name'])) {
