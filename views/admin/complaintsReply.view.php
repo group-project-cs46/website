@@ -33,19 +33,29 @@
 
         <div class="complaint-details-container">
             <div class="complaint-card">
-                <h2>Complaint Details</h2>
+                <h2>Reply Complaints</h2>
                 
                 <div class="complaint-form">
                     <div class="form-group">
                         <textarea 
                             id="complaintDescription" 
-                            placeholder="Description"
+                            placeholder="Complaint"
                             rows="10"
                         ></textarea>
                     </div>
-                    
+                </div>
+                <div class="complaint-form">
+                    <div class="form-group">
+                        <textarea 
+                            id="complaintDescription" 
+                            placeholder="Reply"
+                            rows="10"
+                        ></textarea>
+                    </div>
+                </div>
+                    <div>
                     <div class="button-container">
-                        <button id="markButton" class="btn-mark">Send</button>
+                        <button id="markButton" class="btn-mark"><a href="/complaints">Send</a></button>
                     </div>
                 </div>
             </div>

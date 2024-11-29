@@ -63,22 +63,36 @@
 <body>
   <div class="dashboard">
     <header>
+      <!-- <div>
+    <i class="fas fa-user-graduate" style="font-size: 40px;"></i>
+
       <h1>Dashboard</h1>
       <p>View current progress</p>
+      </div> -->
+      <div class="above">
+            <i class="fa-solid fa-gauge" style="font-size: 40px;"></i>
+            <h2><b>Dashboard</b></h2>
+        </div>
     </header>
     <div class="stats">
+    <a href="/PDC/ManageCompany">
       <div class="stat">
         <h2>15</h2>
         <p>Companies Registered</p>
       </div>
+    </a>
+    <a href="/company/appliedStudent">
       <div class="stat">
         <h2>320</h2>
-        <p>Total No. of students</p>
+        <p>Applied students</p>
       </div>
+    </a>
+    <a href="/PDC/Advertisements">
       <div class="stat">
-        <h2>210</h2>
-        <p>No. of students Got Intern</p>
+        <h2>20</h2>
+        <p>Advertisments</p>
       </div>
+    </a>
     </div>
     <div class="charts">
       <div class="chart-container">

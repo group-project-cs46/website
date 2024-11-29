@@ -1,133 +1,167 @@
-class Calendar {
-    constructor() {
-        this.date = new Date();
-        this.currentMonth = this.date.getMonth();
-        this.currentYear = this.date.getFullYear();
-        this.events = {
-            '2024-07-01': [{ time: '3:00 p.m.', company: 'WSO2' }],
-            '2024-07-04': [{ time: '1:00 p.m.', company: 'IFS' }],
-            '2024-07-09': [{ time: '1:00 p.m.', company: 'Pajero' }],
-            '2024-07-12': [{ time: '3:00 p.m.', company: 'WSO2' }],
-            '2024-07-22': [{ time: '3:00 p.m.', company: 'CISCO' }],
-            '2024-07-25': [{ time: '3:00 p.m.', company: 'IFS' }]
-        };
+// const calendar = document.getElementById('dates');
+// const monthYear = document.getElementById('month-year');
+// const prevMonth = document.getElementById('prev-month');
+// const nextMonth = document.getElementById('next-month');
 
-        this.initializeCalendar();
-        this.addEventListeners();
-    }
+// let currentMonth = new Date().getMonth();
+// let currentYear = new Date().getFullYear();
 
-    initializeCalendar() {
-        this.updateMonthDisplay();
-        this.renderCalendar();
-    }
+// const events = [
+//   { date: '2024-11-01', event: '3:00 p.m - WSO2' },
+//   { date: '2024-11-04', event: '1:00 p.m - IFS' },
+//   { date: '2024-11-09', event: '1:00 p.m - Pajero' },
+//   { date: '2024-11-12', event: '3:00 p.m - WSO2' },
+//   { date: '2024-11-22', event: '3:00 p.m - CISCO' },
+//   { date: '2024-11-25', event: '3:00 p.m - IFS' },
+//   { date: '2024-12-22', event: '3:00 p.m - CISCO' },
+//   { date: '2024-12-27', event: '3:00 p.m - IFS' },
+// ];
 
-    addEventListeners() {
-        document.querySelector('.prev-month').addEventListener('click', () => {
-            this.navigateMonth(-1);
-        });
-        document.querySelector('.next-month').addEventListener('click', () => {
-            this.navigateMonth(1);
-        });
-    }
+// function generateCalendar(month, year) {
+//   calendar.innerHTML = '';
+//   monthYear.textContent = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
 
-    updateMonthDisplay() {
-        const months = [
-            'January', 'February', 'March', 'April', 'May', 'June', 
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
-        document.querySelector('.month-name').textContent = `${months[this.currentMonth]}`;
-    }
+//   const firstDay = new Date(year, month, 1).getDay();
+//   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    navigateMonth(direction) {
-        this.currentMonth += direction;
-        if (this.currentMonth > 11) {
-            this.currentMonth = 0;
-            this.currentYear++;
-        } else if (this.currentMonth < 0) {
-            this.currentMonth = 11;
-            this.currentYear--;
-        }
-        this.updateMonthDisplay();
-        this.renderCalendar();
-    }
+//   for (let i = 0; i < firstDay; i++) {
+//     calendar.innerHTML += '<div></div>';
+//   }
 
-    formatDate(date) {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
+//   for (let day = 1; day <= daysInMonth; day++) {
+//     const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+//     const event = events.find(e => e.date === date);
 
-    getEventForDate(date) {
-        const dateString = this.formatDate(date);
-        return this.events[dateString] || [];
-    }
+//     calendar.innerHTML += `
+//       <div>
+//         <span>${day}</span>
+//         ${event ? `<span>${event.event}</span>` : ''}
+//       </div>
+//     `;
+//   }
+// }
 
-    renderCalendar() {
-        const daysContainer = document.querySelector('.days');
-        daysContainer.innerHTML = '';
+// prevMonth.addEventListener('click', () => {
+//   currentMonth--;
+//   if (currentMonth < 0) {
+//     currentMonth = 11;
+//     currentYear--;
+//   }
+//   generateCalendar(currentMonth, currentYear);
+// });
 
-        const firstDay = new Date(this.currentYear, this.currentMonth, 1);
-        const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
-        const startingDay = firstDay.getDay();
-        const monthDays = lastDay.getDate();
+// nextMonth.addEventListener('click', () => {
+//   currentMonth++;
+//   if (currentMonth > 11) {
+//     currentMonth = 0;
+//     currentYear++;
+//   }
+//   generateCalendar(currentMonth, currentYear);
+// });
 
-        // Previous month's days
-        const prevMonthLastDay = new Date(this.currentYear, this.currentMonth, 0).getDate();
-        for (let i = startingDay - 1; i >= 0; i--) {
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day other-month';
-            dayDiv.innerHTML = `<div class="day-number">${prevMonthLastDay - i}</div>`;
-            daysContainer.appendChild(dayDiv);
-        }
+// // Initialize Calendar
+// generateCalendar(currentMonth, currentYear);
+const calendar = document.getElementById('dates');
+const monthYear = document.getElementById('month-year');
+const prevMonth = document.getElementById('prev-month');
+const nextMonth = document.getElementById('next-month');
 
-        // Current month's days
-        for (let day = 1; day <= monthDays; day++) {
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day';
-            
-            const currentDate = new Date(this.currentYear, this.currentMonth, day);
-            const events = this.getEventForDate(currentDate);
-            
-            let eventsHtml = '';
-            events.forEach(event => {
-                eventsHtml += `
-                    <div class="event" title="${event.company} - ${event.time}">
-                        ${event.time} - ${event.company}
-                    </div>
-                `;
-            });
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
 
-            dayDiv.innerHTML = `
-                <div class="day-number">${day}</div>
-                ${eventsHtml}
-            `;
-            
-            // Highlight current day
-            if (
-                day === this.date.getDate() && 
-                this.currentMonth === this.date.getMonth() && 
-                this.currentYear === this.date.getFullYear()
-            ) {
-                dayDiv.classList.add('current-day');
-            }
-            
-            daysContainer.appendChild(dayDiv);
-        }
+const events = [
+  { date: '2024-11-01', event: '3:00 p.m - WSO2' },
+  { date: '2024-11-04', event: '1:00 p.m - IFS' },
+  { date: '2024-11-09', event: '1:00 p.m - Pajero' },
+  { date: '2024-11-12', event: '3:00 p.m - WSO2' },
+  { date: '2024-11-22', event: '3:00 p.m - CISCO' },
+  { date: '2024-11-25', event: '3:00 p.m - IFS' },
+  { date: '2024-12-22', event: '3:00 p.m - CISCO' },
+  { date: '2024-12-27', event: '3:00 p.m - IFS' },
+];
 
-        // Next month's days
-        const totalDays = daysContainer.children.length;
-        const remainingDays = 42 - totalDays; // 6 rows × 7 days = 42 total grid cells
-        for (let day = 1; day <= remainingDays; day++) {
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day other-month';
-            dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
-            daysContainer.appendChild(dayDiv);
-        }
-    }
+function generateCalendar(month, year) {
+  calendar.innerHTML = '';
+  monthYear.textContent = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    calendar.innerHTML += '<div></div>';
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const event = events.find(e => e.date === date);
+
+    const dayElement = document.createElement('div');
+    dayElement.innerHTML = `
+      <span>${day}</span>
+      ${event ? `<span>${event.event}</span>` : ''}
+    `;
+    dayElement.className = 'calendar-day';
+    dayElement.dataset.date = date;
+
+    // Add click event listener
+    dayElement.addEventListener('click', () => {
+      window.location.href = `/visit-details?date=${date}`;
+    });
+
+    calendar.appendChild(dayElement);
+  }
 }
 
-// Initialize calendar when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    new Calendar();
+prevMonth.addEventListener('click', () => {
+  currentMonth--;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear--;
+  }
+  generateCalendar(currentMonth, currentYear);
 });
+
+nextMonth.addEventListener('click', () => {
+  currentMonth++;
+  if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear++;
+  }
+  generateCalendar(currentMonth, currentYear);
+});
+
+// Initialize Calendar
+generateCalendar(currentMonth, currentYear);
+function generateCalendar(month, year) {
+  calendar.innerHTML = '';
+  monthYear.textContent = new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    calendar.innerHTML += '<div></div>';
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const event = events.find(e => e.date === date);
+
+    const dayElement = document.createElement('div');
+    dayElement.innerHTML = `
+      <span>${day}</span>
+      ${event ? `<span>${event.event}</span>` : ''}
+    `;
+    dayElement.className = 'calendar-day';
+    dayElement.dataset.date = date;
+
+    // Add click event listener
+    dayElement.addEventListener('click', () => {
+      // Redirect to YouTube with the date as a query parameter
+      window.location.href = `/calendarVisit?date=${date}`;
+    });
+
+    calendar.appendChild(dayElement);
+  }
+}
+
