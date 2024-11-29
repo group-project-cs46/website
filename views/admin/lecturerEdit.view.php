@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecturer Profile</title>
-    <link rel="stylesheet" href="/styles/pasindu/lecturerEdit.css">
+    <title>Add New Lecturer</title>
+    <link rel="stylesheet" href="/styles/pasindu/lecturerAdd.css">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <h1>Lecturer Profile</h1>
 
             <div class="form-container">
-                <h2>Editing Form</h2>
+            
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">
@@ -31,36 +31,11 @@
                         </div>
                     </div>
                 </div> -->
-                <!-- <label class="image-upload">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-                        <circle cx="12" cy="13" r="4" />
-                    </svg>
-                    <img src="" alt="">
-                    <input type="file" id="imageUpload" accept="image/*">
-                </label>
-                <script>
-                    const imageUpload = document.querySelector(".image-upload")
-                    const img = imageUpload.querySelector("img")
-                    const svg = imageUpload.querySelector("svg")
-                    img.style.display = 'none';
-                    imageUpload.addEventListener("change", (e) => {
-                        const file = e.target.files.length ? e.target.files[0] : null;
-                        if (!file) {
-                            img.style.display = 'none';
-                            svg.style.display = 'block';
-                            return;
-                        }
-                        let url = URL.createObjectURL(file)
-                        img.style.display = 'block';
-                        svg.style.display = 'none';
-                        img.src = url;
-                    })
-                </script> -->
+        
 
-                <form id="lecturerForm" class="lecturer-form">
+                <form id="lecturerForm" class="lecturer-form" method="post" action="/add-pdc">
                     <div class="form-group">
-                        <label for="name"> Name:</label>
+                        <label for="name">Name:</label>
                         <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
                     </div>
 
