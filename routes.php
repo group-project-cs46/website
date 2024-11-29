@@ -1,6 +1,5 @@
 <?php
 
-
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -66,6 +65,8 @@ $router->post('/ads/edit', 'ads/edit.php');
 
 //PDC
 
+$router->get('/pdcs/companies', '/pdcs/companies/index.php');
+$router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
@@ -83,6 +84,7 @@ $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
 $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/report', 'lecturer/report.php');
@@ -97,6 +99,8 @@ $router->get('/lecturerAdd', 'admin/lecturerAdd.php');
 $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
+$router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
+$router->post('/pdcDeletion', controller: 'admin/delete-pdc.php');
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');

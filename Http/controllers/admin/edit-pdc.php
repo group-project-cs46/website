@@ -9,7 +9,7 @@ $title = $_POST['position'];
 $contact = $_POST['contact'];
 
 try {
-    Pdc::create($employee_id,$title,$name,$contact,$email);
+    Pdc::update($employee_id,$title,$name,$contact,$email);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
