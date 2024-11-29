@@ -72,14 +72,14 @@ $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
 $router->get('/PDC/schedule', '/PDC/Schedule.php');
-
+$router->get('/PDC/studentreport', '/PDC/StudentReport.php');
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');
 $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
 
 
-$router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
-$router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+$router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
+$router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
 $router->get('/complaints', controller: 'admin/complaints.php');
