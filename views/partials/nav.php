@@ -142,18 +142,18 @@ $navItems = [
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
     ],
-    [
-        'text' => 'Profile',
-        'href' => '/profilelec',
-        'icon' => 'fa-user',
-        'only' => [Role::Lecturer],
-    ],
-    [
-        'text' => 'Profile',
-        'href' => '/profile',
-        'icon' => 'fa-user',
-        'only' => [Role::Admin],
-    ],
+    // [
+    //     'text' => 'Profile',
+    //     'href' => '/profilelec',
+    //     'icon' => 'fa-user',
+    //     'only' => [Role::Lecturer],
+    // ],
+    // [
+    //     'text' => 'Profile',
+    //     'href' => '/profile',
+    //     'icon' => 'fa-user',
+    //     'only' => [Role::Admin],
+    // ],
     [
         'text' => 'Account',
         'href' => '/account',
