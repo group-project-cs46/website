@@ -30,23 +30,21 @@
                 <input type="text" id="internStudents" placeholder="Enter number of intern students" required>
             </div>
 
-            <div class="form-group">
-                <label>What Rate this Company:</label>
-                <div class="rating-container">
-                    <span class="material-symbols-outlined rating-icon">star</span>
-                    <span class="material-symbols-outlined rating-icon">star</span>
-                    <span class="material-symbols-outlined rating-icon">star</span>
-                    <span class="material-symbols-outlined rating-icon">star</span>
-                    <span class="material-symbols-outlined rating-icon">star</span>
-                </div>
-            </div>
+           
 
             <div class="form-group">
                 <label for="note">Note:</label>
                 <textarea id="note" placeholder="Enter any additional notes" required></textarea>
             </div>
 
+            <div class="form-group">
+                <label for="imageUpload">Upload FIle </label>
+                <input type="file" id="imageUpload" accept="image/*">
+            </div>
+            <div class="pagination">
+            <button id="submitButton" class="submit-button"><a href="/reportMain">Close</button>
             <button id="submitButton" class="submit-button">Submit</button>
+            </div>
         </div>
     </div>
 

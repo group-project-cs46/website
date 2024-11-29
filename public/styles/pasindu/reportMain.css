@@ -161,3 +161,8 @@ button {
     padding: 5px 15px;
 }
 
+
+.above {
+    display: flex;
+    align-items: center;
+}

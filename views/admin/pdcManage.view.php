@@ -7,7 +7,7 @@
 <main class="main-content">
     <header class="header">
         <div class="above">
-            <i class="fas fa-user-graduate" style="font-size: 40px;"></i>
+            <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
             <h2><b>Manage PDC</b></h2>
         </div>
         <input type="text" placeholder="Search PDC Accounts..." class="search-bar" id="searchInput" onkeyup="searchTable()">

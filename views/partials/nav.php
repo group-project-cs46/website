@@ -66,7 +66,7 @@ $navItems = [
     ],
     [
         'text' => 'Dashboard',
-        'href' => '/dashboard/Lecturer',
+        'href' => '/dashboard/lecturer',
         'icon' => 'fa-dashboard',
         'only' => [Role::Lecturer],
     ],
@@ -115,13 +115,13 @@ $navItems = [
     [
         'text' => "Managec PDC",
         'href' => '/pdcManage',
-        'icon' => 'fa-user-graduate',
+        'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Admin],
     ],
     [
         'text' => "Managec Lecturer",
         'href' => '/lecturerManage',
-        'icon' => 'fa-solid fa-user-shield',
+        'icon' => 'fa-user-graduate',
         'only' => [Role::Admin],
     ],
     [
@@ -138,9 +138,21 @@ $navItems = [
     ],
     [
         'text' => 'Report',
-        'href' => '/report',
+        'href' => '/reportMain',
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
+    ],
+    [
+        'text' => 'Profile',
+        'href' => '/profilelec',
+        'icon' => 'fa-user',
+        'only' => [Role::Lecturer],
+    ],
+    [
+        'text' => 'Profile',
+        'href' => '/profile',
+        'icon' => 'fa-user',
+        'only' => [Role::Admin],
     ],
     [
         'text' => 'Account',

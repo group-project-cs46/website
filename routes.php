@@ -50,7 +50,15 @@ $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
+$router->get('/calendarVisit', 'lecturer/calendarVisit.php');
+$router->get('/profilelec', 'lecturer/account.php');
+$router->get('/profile', 'admin/account.php');
+
+
+
 $router->get('/report', 'lecturer/report.php');
+$router->get('/reportMain', 'lecturer/reportMain.php');
+$router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
 
 $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');
