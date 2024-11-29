@@ -14,6 +14,13 @@ class Application
         return $db->query('SELECT * FROM applications WHERE student_id = ?', [$student_id])->get();
     }
 
+    public static function getByCvId($id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM applications WHERE cv_id = ?', [$id])->get();
+    }
+
     public static function findByStudentIdAndAdId($student_id, $ad_id)
     {
         $db = App::resolve(Database::class);

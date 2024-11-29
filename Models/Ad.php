@@ -30,7 +30,10 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE companies.id = ?', [$company_id])->get();
+        return $db->query('SELECT advertisements.*,
+       companies.company_name, companies.building,
+         companies.street_name,
+            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE companies.id = ?', [$company_id])->get();
     }
 
     public static function find($id)
@@ -44,7 +47,10 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, companies.company_name FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE advertisements.id = ?', [$id])->find();
+        return $db->query('SELECT advertisements.*, companies.company_name, companies.building,
+         companies.street_name,
+         companies.address_line_2,
+            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE advertisements.id = ?', [$id])->find();
     }
 
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)

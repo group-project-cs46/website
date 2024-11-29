@@ -11,7 +11,7 @@ use Core\Mail;
 
 $email = trim($_POST['email']);
 
-$user = User::find($email);
+$user = User::findByEmail($email);
 
 if (!$user) {
     Session::flash('toast', 'Email not found.');

@@ -28,8 +28,8 @@ if ($user) {
     die();
 }
 
-$db->query('INSERT INTO users (email, password, role, approved) VALUES (?, ?, ?, ?)',
-    [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 4, 0]);
+$db->query('INSERT INTO users (email, password, role, approved, name) VALUES (?, ?, ?, ?)',
+    [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 4, 0, $attributes['name']]);
 
 $lastInsertedId = $db->connection->lastInsertId();
 

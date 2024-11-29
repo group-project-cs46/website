@@ -13,7 +13,7 @@ use Models\Application;
 $ad_id = $_POST['ad_id'];
 $cv_id = $_POST['cv_id'];
 
-$user = \Models\User::find($_SESSION['user']['email']);
+$user = \Models\User::findByEmail($_SESSION['user']['email']);
 $user_id = $user['id'];
 
 $existing_application = Application::findByStudentIdAndAdId($user_id, $ad_id);

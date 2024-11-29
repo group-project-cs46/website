@@ -21,7 +21,7 @@ $fileExtension = strtolower(end($fileNameCmps));
 // Sanitize and hash file name
 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
-$user = User::find($_SESSION['user']['email']);
+$user = User::findByEmail($_SESSION['user']['email']);
 //$existingCv = Cv::findByUserId($user['id']);
 //dd($existingCv);
 //if ($existingCv) {
