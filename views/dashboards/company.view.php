@@ -140,7 +140,8 @@
     // View applied student details
     function viewAppliedStudent(index) {
         const student = appliedStudents.find(student => student.index === index);
-        alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+        window.location.href = "/company/dashcv";
+        //alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
     }
 
     // Initialize default render

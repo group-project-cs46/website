@@ -6,7 +6,7 @@
   <header class="header">
     <div class="above">
       <div class="above-left">
-        <i class="fa-solid fa-file-invoice" style="font-size: 40px;"></i>
+        <i class="fa-solid fa-user" style="font-size: 40px;"></i>
         <h2>Account</h2>
       </div>
       <div class="above-right">

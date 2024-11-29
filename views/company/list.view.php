@@ -269,7 +269,8 @@
     // View applied student details
     function viewAppliedStudent(index) {
         const student = appliedStudents[index];
-        alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+        //alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+        window.location.href = "/company/cv";
     }
 
     const shortedStudents = [{
@@ -471,7 +472,8 @@
     // Function to view student details
     function viewStudent(index) {
         const student = selectedStudents[index];
-        alert(`Student Details:\n\nName: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+        //alert(`Student Details:\n\nName: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+        window.location.href = "/company/onlycv";
     }
     // Initialize default render
     document.addEventListener("DOMContentLoaded", () => {
