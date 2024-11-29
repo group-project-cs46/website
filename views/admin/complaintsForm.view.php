@@ -39,13 +39,13 @@
                     <div class="form-group">
                         <textarea 
                             id="complaintDescription" 
-                            placeholder="Description"
+                            placeholder="Complaint"
                             rows="10"
                         ></textarea>
                     </div>
                     
                     <div class="button-container">
-                        <button id="markButton" class="btn-mark"><a href="complaintsReply">Mark</a></button>
+                        <button id="markButton" class="btn-mark"><a href="complaintsReply">Reply</a></button>
                     </div>
                 </div>
             </div>

@@ -89,7 +89,7 @@
                         <input type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
                     </div>
 
-                    <button type="submit" class="add-button">Add</button>
+                    <button type="submit" class="add-button"><a href="lecturerManage">Add</button>
                 </form>
             </div>
         </div>

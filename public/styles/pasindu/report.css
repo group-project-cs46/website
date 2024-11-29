@@ -80,7 +80,7 @@ body {
 }
 
 .submit-button {
-    background-color: #4a5568;
+    background-color: #007bff;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -91,7 +91,7 @@ body {
 }
 
 .submit-button:hover {
-    background-color: #2d3748;
+    background-color: #007bff;
 }
 
 @media (max-width: 768px) {
@@ -99,4 +99,12 @@ body {
         width: 90%;
         padding: 20px;
     }
+}
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
