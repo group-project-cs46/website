@@ -23,6 +23,7 @@ body {
     padding: 20px;
     /* background-color: #F9FAFB; */
     background-color: #F5F5F5;
+    padding-left: 70px;
 
 }
 
@@ -238,3 +239,20 @@ button:hover {
         margin-left: 40px; /* Adjust main content margin for mobile */
     }
   }
+
+
+
+  .actions{
+    display: flex;
+    gap: 5px;
+  }
+
+  .actions button ,.actions a{
+    margin: 0;
+  }
+  /* .mmm {
+display: flex;
+width: 90%;
+  } */
+
+  

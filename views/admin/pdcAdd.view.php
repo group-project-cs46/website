@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    <script src="/scripts/pasindu/addition-form.js"></script>
+    <!-- <script src="/scripts/pasindu/addition-form.js"></script> -->
 </body>
 
 </html>

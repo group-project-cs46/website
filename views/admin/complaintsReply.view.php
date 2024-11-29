@@ -28,7 +28,7 @@
 
     <div class="main-content">
         <div class="header">
-            <h1>New Complaints</h1>
+            <h1>Reply Complaints</h1>
         </div>
 
         <div class="complaint-details-container">
@@ -45,7 +45,7 @@
                     </div>
                     
                     <div class="button-container">
-                        <button id="markButton" class="btn-mark"><a href="complaintsReply">Mark</a></button>
+                        <button id="markButton" class="btn-mark">Send</button>
                     </div>
                 </div>
             </div>

@@ -91,7 +91,7 @@ $navItems = [
     ],
     [
         'text' => "ManageCompany",
-        'href' => '/PDC/managecompany',
+        'href' => '/pdcs/companies',
         'icon' => 'fa-building',
         'only' => [Role::Pdc]
     ],

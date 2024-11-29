@@ -1,4 +1,6 @@
-<?php require base_path(path: 'views/partials/auth/auth.php') ?>
+<?php require base_path(path: 'views/partials/auth/auth.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,35 +60,36 @@
                     })
                 </script>
 
-                <form id="lecturerForm" class="lecturer-form">
+                <form id="lecturerForm" class="lecturer-form" action="/pdcEdition" method="post">
                     <div class="form-group">
                         <label for="name"> Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter Name Here" required>
+                        <input type="text" value="<?= $PDC['name'] ?>" id="name" name="name" placeholder="Enter Name Here" required>
                     </div>
 
                     <div class="form-group">
                         <label for="lecturerId">Employee No:</label>
-                        <input type="text" id="lecturerId" name="lecturerId" placeholder="Enter Lecturer ID No. Here" required>
+                        <input type="text" disabled value="<?= $PDC['employee_id'] ?>" id="lecturerId" name="lecturerId" placeholder="Enter Lecturer ID No. Here">
+                        <input type="hidden" value="<?= $PDC['employee_id'] ?>" name="lecturerId">
                     </div>
 
                     <div class="form-group">
                         <label for="position">Title:</label>
                         <select id="position" name="position" required>
                             <option value="">Select Title</option>
-                            <option value="Mr">Mr</option>
-                            <option value="Mrs">Mrs</option>
-                            <option value="Ms">Ms</option>
+                            <option value="Mr" <?= $PDC['title']==="Mr" ? "selected" : ""?> >Mr</option>
+                            <option value="Mrs" <?= $PDC['title']==="Mrs" ? "selected" : ""?> >Mrs</option>
+                            <option value="Ms" <?= $PDC['title']==="Ms" ? "selected" : ""?> >Ms</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" placeholder="Enter Email Address Here" required>
+                        <input value="<?= $PDC['email'] ?>" type="email" id="email" name="email" placeholder="Enter Email Address Here" required>
                     </div>
 
                     <div class="form-group">
                         <label for="contact">Contact No:</label>
-                        <input type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
+                        <input value="<?= $PDC['contact_no'] ?>" type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
                     </div>
 
                     <button type="submit" class="add-button">Update</button>
@@ -94,7 +97,7 @@
             </div>
         </div>
     </div>
-    <script src="/scripts/pasindu/addition-form.js"></script>
+    <!-- <script src="/scripts/pasindu/addition-form.js"></script> -->
 </body>
 
 </html>

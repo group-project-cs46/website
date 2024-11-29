@@ -1,7 +1,9 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php'); ?>
+
+
 
 <link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
-
+<div class=" mmm">
 <main class="main-content">
     <header class="header">
         <div class="above">
@@ -33,21 +35,28 @@
             </thead>
             <tbody id="studentTableBody">
                 <!-- Example Table Rows -->
-                <tr>
-                    <td>1001</td>
-                    <td>Mr</td>
-                    <td>Kasun Gunawardhana</td>
-                    <td>0717248485</td>
-                    <td>kasun@gmail.com</td>
-                    <td>
-                        <button class="Edit-button"><a href="/pdcEdit">Edit</a></button>
-                        <button class="disable-button">Disable</button>
-                    </td>
-                </tr>
+                <?php foreach ($PDC_data as $pdc): ?>
+                    <tr>
+                        <td><?= $pdc['employee_id'] ?></td>
+                        <td><?= $pdc['title'] ?></td>
+                        <td><?= $pdc['name'] ?></td>
+                        <td><?= $pdc['contact_no'] ?></td>
+                        <td><?= $pdc['email'] ?></td>
+                        <td class="actions">
+                        <a href="/pdcEdit?id=<?= $pdc['employee_id'] ?>" class="view-button">Edit</a>
+                        <form action="/pdcDeletion" method="post">
+                            <input type="hidden" name="id" value="<?= $pdc['employee_id'] ?>">
+                            <button type="submit" class="disable-button">Disable</button>  
+                        </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
             </tbody>
         </table>
     </section>
 </main>
+</div>
 
 
 
