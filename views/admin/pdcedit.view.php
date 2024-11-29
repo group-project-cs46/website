@@ -17,7 +17,7 @@
             <h1>PDC Profile</h1>
 
             <div class="form-container">
-                <h2>Editing Form</h2>
+                
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">

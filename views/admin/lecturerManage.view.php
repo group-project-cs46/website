@@ -5,7 +5,7 @@
 <main class="main-content">
     <header class="header">
         <div class="above">
-            <i class="fas fa-user-graduate" style="font-size: 40px;"></i>
+            <i class="fa-user-graduate" style="font-size: 40px;"></i>
             <h2><b>Manage Lecturer</b></h2>
         </div>
         <input type="text" placeholder="Search Lecturer Accounts..." class="search-bar" id="searchInput" onkeyup="searchTable()">
@@ -34,11 +34,66 @@
             <tbody id="studentTableBody">
                 <!-- Example Table Rows -->
                 <tr>
-                    <td>1001</td>
+                    <td>2020/UCSC/001</td>
                     <td>Mr</td>
                     <td>Kasun Gunawardhana</td>
                     <td>0717248485</td>
                     <td>kasun@gmail.com</td>
+                    <td>
+                        <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
+                        <button class="disable-button">Disable</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2020/UCSC/002</td>
+                    <td>Mrs</td>
+                    <td>Dinuni</td>
+                    <td>0717248439</td>
+                    <td>dinuni@gmail.com</td>
+                    <td>
+                        <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
+                        <button class="disable-button">Disable</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2020/UCSC/003</td>
+                    <td>Mr</td>
+                    <td>Manju</td>
+                    <td>0717248987</td>
+                    <td>manju@gmail.com</td>
+                    <td>
+                        <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
+                        <button class="disable-button">Disable</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2020/UCSC/004</td>
+                    <td>Mrs</td>
+                    <td>Lasanthi</td>
+                    <td>0717248000</td>
+                    <td>lasanthi@gmail.com</td>
+                    <td>
+                        <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
+                        <button class="disable-button">Disable</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2020/UCSC/005</td>
+                    <td>Mr</td>
+                    <td>Kasun De Soyza</td>
+                    <td>0717248083</td>
+                    <td>kasunde@gmail.com</td>
+                    <td>
+                        <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
+                        <button class="disable-button">Disable</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2020/UCSC/00</td>
+                    <td>Mr</td>
+                    <td>Keneth</td>
+                    <td>0717248290</td>
+                    <td>keneth@gmail.com</td>
                     <td>
                         <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
                         <button class="disable-button">Disable</button>

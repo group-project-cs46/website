@@ -15,7 +15,7 @@
             <h1>Add New Lecturer</h1>
 
             <div class="form-container">
-                <h2>Addition Form</h2>
+               
 
                 <!-- <div class="image-upload-section">
                     <div class="image-container">
@@ -89,7 +89,7 @@
                         <input type="tel" id="contact" name="contact" placeholder="Enter Contact No Here" required>
                     </div>
 
-                    <button type="submit" class="add-button">Add</button>
+                    <button type="submit" class="add-button"><a href="lecturerManage">Add</button>
                 </form>
             </div>
         </div>

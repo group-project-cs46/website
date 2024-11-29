@@ -1,3 +1,3 @@
 <?php
 
-view('admin/lecturerEdit.view.php', []);
+view('admin/lecturerAdd.view.php', []);
