@@ -3,15 +3,22 @@
 use Models\User;
 use Models\Cv;
 
-$user = User::find($_SESSION['user']['email']);
-$cv = Cv::findByUserId($user['id']);
+$cv_id = $_GET['id'];
+
+$cv = Cv::find($cv_id);
+
+if ($cv['user_id'] != auth_user()['id']) {
+    redirect('/students/cvs');
+}
 
 if ($cv) {
     $filePath = base_path('storage/cvs/' . $cv['filename']);
+    $originalName = $cv['original_name'];
+
     if (file_exists($filePath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Disposition: attachment; filename="' . $originalName . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');

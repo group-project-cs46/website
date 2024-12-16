@@ -39,7 +39,8 @@
                             <th>Student Name</th>
                             <th>Index No</th>
                             <th>Email</th>
-                            <th>Status</th>
+                            <th>Course</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody">
@@ -50,54 +51,47 @@
         </main>
     </div>
 
-    <script>
-        // Define the possible statuses in an array
-        const statuses = ["Hired", "Pending", "Not Hired"];
+    <script>;
         
         // Sample student data
         const students = [
-            { name: "Thathsara", index: "22001123", email: "thathsara@gmail.com", status: "Hired" },
-            { name: "Karunya", index: "22001124", email: "karunya@gmail.com", status: "Pending" },
-            { name: "Nivethan", index: "22001125", email: "nivethan@gmail.com", status: "Not Hired" },
-            { name: "Pasindu", index: "22001126", email: "pasindu@gmail.com", status: "Pending" },
-            { name: "Sarma", index: "22020888", email: "sarma@gmail.com", status: "Not Hired" }
+            { name: "Thathsara", index: "22001123", email: "thathsara@gmail.com", course:"CS" },
+            { name: "Karunya", index: "22001124", email: "karunya@gmail.com", course:"IS"},
+            { name: "Nivethan", index: "22001125", email: "nivethan@gmail.com" , course:"CS"},
+            { name: "Pasindu", index: "22001126", email: "pasindu@gmail.com", course:"IS"},
+            { name: "Sarma", index: "22020888", email: "sarma@gmail.com", course:"CS"}, 
         ];
 
-        // Function to render the student table
-        function renderTable() {
-            const tableBody = document.getElementById("studentTableBody");
-            tableBody.innerHTML = ""; // Clear existing rows
+     // Function to render the student table
+function renderTable() {
+    const tableBody = document.getElementById("studentTableBody");
+    tableBody.innerHTML = ""; // Clear existing rows
 
-            students.forEach(student => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${student.name}</td>
-                    <td>${student.index}</td>
-                    <td>${student.email}</td>
-                    <td>
-                        <div class="btn-container">
-                            <button class="status-btn" onclick="toggleStatus('${student.index}')">${student.status}</button>
-                            <button class="view-btn">View</button>
-                        </div>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+    students.forEach((student, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.index}</td>
+            <td>${student.email}</td>
+            <td>${student.course}</td>
+            <td>
+                <div class="btn-container">
+                    <button class="view-btn" onclick="viewStudent(${index})">View</button>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
 
-        // Function to toggle the status of a student
-        function toggleStatus(index) {
-            const student = students.find(student => student.index === index);
-            if (student) {
-                // Cycle through the statuses
-                const currentStatusIndex = statuses.indexOf(student.status);
-                const nextStatusIndex = (currentStatusIndex + 1) % statuses.length;
-                student.status = statuses[nextStatusIndex];
-                renderTable();
-            }
-        }
+// Function to handle View button click
+function viewStudent(index) {
+    const student = students[index];
+    alert(`Viewing details for:\n\nName: ${student.name}\nIndex: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
+}
 
-        // Initial render of the student table
-        renderTable();
+// Initial render of the student table
+renderTable();
+
     </script>
 <?php require base_path('views/partials/auth/auth-close.php') ?>

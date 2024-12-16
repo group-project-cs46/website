@@ -4,7 +4,7 @@ use Models\Ad;
 
 $ad = Ad::findWithCompany($_GET['id']);
 
-$user = \Models\User::find($_SESSION['user']['email']);
+$user = \Models\User::findByEmail($_SESSION['user']['email']);
 
 $userCvs = \Models\Cv::findByUserId($user['id']);
 

@@ -1,5 +1,5 @@
 {
-    "name": "thathsara/refresher",
+    "name": "thathsara/launchpad",
     "authors": [
         {
             "name": "nova9",
@@ -7,7 +7,7 @@
         }
     ],
     "require": {
-        "illuminate/collections": "^11.19"
+        "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
         "pestphp/pest": "^2.35"

@@ -6,7 +6,7 @@
     <header class="header">
         <div class="above">
             <div class="above-left">
-                <i class="fa-solid fa-file-invoice" style="font-size: 40px;"></i>
+            <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
                 <h2>Ads</h2>
             </div>
             <div class="above-right">
@@ -86,7 +86,7 @@
             <div class="popup-text">
                 <h2>Details about Advertisement</h2>
             </div>
-            <form class="form-content" method="POST" action="/ads/store">
+            <form class="form-content" method="POST" action="/ads/store"  onsubmit="return validateForm();">
                 <div class="form-field">
                     <label for="job_role">Job Role :</label>
                     <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />
@@ -120,42 +120,42 @@
 
 <!-- Modal for Editing Advertisement Details -->
 <div id="editModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <div class="form-container">
-      <span class="close" onclick="closeEditModal()">&times;</span>
-      <div class="popup-text">
-        <h3>Edit Advertisement</h3>
-      </div>
-      <form id="editAdForm" onsubmit="submitEditAd(event)">
-        <input type="hidden" id="edit_id" name="id">
-        <div class="form-field">
-          <label for="edit_job_role">Job Role :</label>
-          <input type="text" id="edit_job_role" name="job_role" required>
+    <div class="edit-modal-content">
+        <div class="edit-form-container">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <div class="popup-text">
+                <h3>Edit Advertisement</h3>
+            </div>
+            <form id="editAdForm" method="post" action="/ads/edit">
+                <input type="hidden" id="edit_id" name="id">
+                <div class="edit-form-field">
+                    <label for="edit_job_role">Job Role :</label>
+                    <input type="text" id="edit_job_role" name="job_role" required>
+                </div>
+                <div class="edit-form-field">
+                    <label for="edit_responsibilities">Responsibilities :</label>
+                    <textarea id="edit_responsibilities" name="responsibilities" required></textarea>
+                </div>
+                <div class="edit-form-field">
+                    <label for="edit_qualifications_skills">Qualifications And Skills :</label>
+                    <textarea id="edit_qualifications_skills" name="qualifications_skills" required></textarea>
+                </div>
+                <div class="edit-form-field">
+                    <label for="edit_vacancy_count">Vacancy Count:</label>
+                    <input type="number" id="edit_vacancy_count" name="vacancy_count" required>
+                </div>
+                <div class="edit-form-field">
+                    <label for="edit_max_cvs">Maximum CVs:</label>
+                    <input type="number" id="edit_max_cvs" name="max_cvs" required>
+                </div>
+                <div class="edit-form-field">
+                    <label for="edit_deadline">Deadline:</label>
+                    <input type="date" id="edit_deadline" name="deadline" required>
+                </div>
+                <button class="submit-btn" type="submit">Save Changes</button>
+            </form>
         </div>
-        <div class="form-field">
-          <label for="edit_responsibilities">Responsibilities :</label>
-          <textarea id="edit_responsibilities" name="responsibilities" required></textarea>
-        </div>
-        <div class="form-field">
-          <label for="edit_qualification_skills">Qualifications And Skills :</label>
-          <textarea id="edit_qualification_skills" name="qualification_skills" required></textarea>
-        </div>
-        <div class="form-field">
-          <label for="edit_vacancy_count">Vacancy Count:</label>
-          <input type="number" id="edit_vacancy_count" name="vacancy_count" required>
-        </div>
-        <div class="form-field">
-          <label for="edit_maxCVs">Maximum CVs:</label>
-          <input type="number" id="edit_maxCVs" name="maxCVs" required>
-        </div>
-        <div class="form-field">
-          <label for="edit_deadline">Deadline:</label>
-          <input type="date" id="edit_deadline" name="deadline" required>
-        </div>
-        <button class="submit-btn" type="submit">Save Changes</button>
-      </form>
     </div>
-  </div>
 </div>
 
 <script>
@@ -186,11 +186,11 @@
                 </div>
                 <div class="form-field">
                     <label for="qualification_skills">Qualifications And Skills:</label>
-                    <textarea id="qualification_skills" readonly>${ad.qualification_skills}</textarea>
+                    <textarea id="qualification_skills" readonly>${ad.qualifications_skills}</textarea>
                 </div>
                 <div class="form-field">
                     <label for="max_cvs">Vacancy Count:</label>
-                    <input type="text" id="max_cvs" value="${ad.vacancy_count}" readonly>
+                    <input type="text" id="vacancy_count" value="${ad.vacancy_count}" readonly>
                 </div>
                 <div class="form-field">
                     <label for="max_cvs">Maximum CVs:</label>
@@ -227,102 +227,81 @@
         document.getElementById('addModal').style.display = 'none';
     }
 
+
+
     // Function to open the Edit Modal and populate fields
-function editAd(adId) {
-  const ad = advertisement.find(ad => ad.id === adId);
+    function editAd(adId) {
 
-  if (ad) {
-    document.getElementById('edit_id').value = ad.id;
-    document.getElementById('edit_job_role').value = ad.job_role;
-    document.getElementById('edit_responsibilities').value = ad.responsibilities;
-    document.getElementById('edit_qualification_skills').value = ad.qualification_skills;
-    document.getElementById('edit_vacancy_count').value = ad.vacancy_count;
-    document.getElementById('edit_maxCVs').value = ad.max_cvs;
-    document.getElementById('edit_deadline').value = ad.deadline;
-    
-    document.getElementById('editModal').style.display = 'block';
-  }
-}
+        const ad = advertisement.find(ad => ad.id === adId);
 
-// Function to close the Edit Modal
-function closeEditModal() {
-  document.getElementById('editModal').style.display = 'none';
-}
+        if (ad) {
+            document.getElementById('edit_id').value = ad.id;
+            document.getElementById('edit_job_role').value = ad.job_role;
+            document.getElementById('edit_responsibilities').value = ad.responsibilities;
+            document.getElementById('edit_qualifications_skills').value = ad.qualifications_skills;
+            document.getElementById('edit_vacancy_count').value = ad.vacancy_count;
+            document.getElementById('edit_max_cvs').value = ad.max_cvs;
+            document.getElementById('edit_deadline').value = ad.deadline;
 
-// Function to handle form submission and update data
-async function submitEditAd(event) {
-  event.preventDefault(); // Prevent default form submission
-
-  const form = document.getElementById('editAdForm');
-  const formData = new FormData(form);
-
-  // Log formData for debugging
-//   for (let [key, value] of formData.entries()) {
-//         console.log(`${key}: ${value}`);
-//     }
-
-  try {
-    const response = await fetch('/ads/edit', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (response.ok) {
-      const updatedAd = await response.json();
-    //   console.log('Updated Ad:', updatedAd);
-
-      // Update the table dynamically
-      const row = document.getElementById(`row-${updatedAd.id}`);
-            row.querySelector('td:nth-child(1)').textContent = updatedAd.job_role;
-            row.querySelector('td:nth-child(2)').textContent = updatedAd.vacancy_count;
-            row.querySelector('td:nth-child(3)').textContent = updatedAd.deadline;
-
-      // Close the modal
-      closeEditModal();
-      alert('Advertisement updated successfully!');
-    } else {
-           // Log and handle error responses
-            const error = await response.json();
-            console.error("Error response:", error);
-            alert(error.message || 'Failed to update the advertisement.');
+            document.getElementById('editModal').style.display = 'block';
+        }
     }
-  } catch (err) {
-        console.error("Fetch Error:", err); // Debugging
-        alert('An error occurred while updating the advertisement.');
-  }
-}
 
-    // async function deleteAd(id) {
-    //     try {
-    //         const response = await fetch('/ads/delete', {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 id
-    //             }),
-    //         });
+    // Function to close the Edit Modal
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+    }
 
-    //         if (response.ok) {
-    //             alert('Ad deleted successfully!');
-    //             location.reload();
-    //             const adElement = document.getElementById(`ad-${id}`);
-    //             if (adElement) {
-    //                 adElement.remove();
-    //             } else {
-    //                 console.warn(`Element with id ad-${id} not found.`);
-    //             }
+    // Function to handle form submission and update data
+    async function submitEditAd(event) {
 
-    //         } else {
-    //             const errorText = await response.text();
-    //             console.error('Error Response:', errorText);
-    //             alert('Failed to delete the ad.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Fetch Error:', error.message);
-    //         alert('An error occurred while deleting the ad.');
-    //     }
+        event.preventDefault(); // Prevent default form submission
 
-    // }
+        const form = document.getElementById('editAdForm');
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('/ads/edit', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const updatedAd = await response.json();
+                console.log('Updated Ad:', updatedAd);
+
+                // Update the table dynamically
+                const row = document.getElementById(`row-${updatedAd.id}`);
+                row.querySelector('td:nth-child(1)').textContent = updatedAd.job_role;
+                row.querySelector('td:nth-child(2)').textContent = updatedAd.vacancy_count;
+                row.querySelector('td:nth-child(3)').textContent = updatedAd.deadline;
+
+                // Close the modal
+                closeEditModal();
+                alert('Advertisement updated successfully!');
+            } else {
+                // Log and handle error responses
+                const error = await response.json();
+                console.error("Error response:", error);
+                alert(error.error || 'Failed to update the advertisement.');
+            }
+        } catch (err) {
+            console.error("Fetch Error:", err); // Debugging
+            alert('An error occurred while updating the advertisement.');
+        }
+    }
+    function validateForm() {
+        const vacancyCount = document.getElementById('vacancy_count').value;
+        const maxCVs = document.getElementById('maxCVs').value;
+
+        // Check if values are less than zero
+        if (vacancyCount < 0 || maxCVs < 0 || !Number.isInteger(Number(vacancyCount)) || !Number.isInteger(Number(maxCVs))) {
+            // Show the popup alert message
+            alert('Vacancy Count and Maximum CV\'s Count cannot be negative.');
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
 </script>
+<?php require base_path('views/partials/auth/auth-close.php') ?>

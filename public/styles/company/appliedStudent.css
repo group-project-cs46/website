@@ -43,6 +43,54 @@ body {
   font-weight: bold;
 }
 
+.table-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 0;
+  gap: 10px;
+}
+
+.table-system-txt,
+.table-student-txt {
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.table-system-txt:hover,
+.table-student-txt:hover {
+  background-color: #f4f4f4;
+  color: #007bff;
+}
+
+.table-system-txt h3,
+.table-student-txt h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.table-system-txt p,
+.table-student-txt p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 50px;
+  width: 3px;
+  background-color: #3f3d3d;
+  margin: 0 0px;
+}
+.active {
+  background-color: #222323;
+  color: white;
+}
 .main-content {
   flex: 1;
   padding: 15px;
@@ -89,20 +137,6 @@ body {
   color: #777;
 }
 
-.add-button {
-  padding: 5px 10px;
-  background-color: #0ea5e9;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 30px;
-  cursor: pointer;
-  margin-right: 20px;
-}
-
-.add-button:hover {
-  background-color: #01060c;
-}
 .student-table {
   width: 100%;
   border-collapse: collapse;
@@ -131,19 +165,7 @@ body {
     margin-left: 40px; /* Adjust main content margin for mobile */
   }
 }
-.btn-container {
-  display: flex;
-  justify-content: space-between;
-}
-.status-btn {
-  background-color: #f4f4f4;
-  color: black;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 100px;
-}
+
 .view-btn {
   background-color: #0ea5e9;
   color: white;
@@ -151,15 +173,45 @@ body {
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 100px;
-}
-
-.status-btn:hover {
-  background-color: #01080a;
-  color: white;
+  margin-left: 100px;
 }
 
 .view-btn:hover {
   background-color: #01080a;
   color: white;
+}
+/* Filter Container Styles */
+.filter-container {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.filter-container label {
+  font-size: 16px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for select dropdown */
+.filter-container select:hover {
+  background-color: #e8e8e8;
+}
+
+/* Select dropdown focus styles */
+.filter-container select:focus {
+  outline: none;
+  border-color: #007bff;
+  background-color: #e9f5ff;
 }
