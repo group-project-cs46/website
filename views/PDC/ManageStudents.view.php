@@ -132,8 +132,8 @@
                     <th>Student Name</th>
                     <th>Registration No.</th>
                     <th>Course</th>
-                    <th>Email</th>
-                    <th>Index No.</th>
+                    <th>HiredBy</th>
+                    <th>jobrole</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -143,8 +143,8 @@
                     <td>John Doe</td>
                     <td>2024/CS/123</td>
                     <td>CS</td>
-                    <td>johndoe@example.com</td>
-                    <td>256336566</td>
+                    <td>CISCO labs</td>
+                    <td>Software Engineer</td>
                     <td>
                         <button class="Edit-button">Edit</button>
                         <button class="disable-button">Disable</button>
