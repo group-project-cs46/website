@@ -1,6 +1,6 @@
 <?php
 
-$user = \Models\User::find($_SESSION['user']['email']);
+$user = \Models\User::findByEmail($_SESSION['user']['email']);
 
 if ($user['role'] === 1) {
     redirect('/dashboard/admin');

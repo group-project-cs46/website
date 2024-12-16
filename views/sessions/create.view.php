@@ -52,9 +52,9 @@
                         Sign in
                     </button>
                     <p style="font-size: 0.875rem; font-weight: 300; color: #6b7280;">
-                        Don’t have an account yet?
-                        <a href="/register" style="font-weight: 500; color: #0284c7; hover:underline;">
-                            Sign up
+                        Forgot your password?
+                        <a href="/forgot_password" style="font-weight: 500; color: #0284c7; hover:underline;">
+                            Reset it
                         </a>
                     </p>
                 </form>

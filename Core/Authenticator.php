@@ -8,7 +8,7 @@ class Authenticator
 {
     public function attempt($email, $password)
     {
-        $user = User::find($email);
+        $user = User::findByEmail($email);
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
@@ -21,6 +21,18 @@ class Authenticator
             }
         }
         return false;
+    }
+
+    public function checkDisabled($email)
+    {
+        $user = User::findByEmail($email);
+        return $user['disabled'];
+    }
+
+    public function checkApproved($email)
+    {
+        $user = User::findByEmail($email);
+        return $user['approved'];
     }
 
     protected function login($user)

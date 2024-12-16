@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         AddStudent::create_student($regNo, $course, $email, $name, $indexno);
        
 
-        header('Location: /PDC/schedule');
+        header('Location: /PDC/managestudents');
         exit; // Ensure the script stops after the redirect
     } else {
         // Handle missing fields (optional)

@@ -15,6 +15,11 @@ class Validator
         return filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
+    public static function url(string $value)
+    {
+        return filter_var($value, FILTER_VALIDATE_URL);
+    }
+
     public static function file($file, $allowedExtensions = [], $maxSize = INF)
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {
