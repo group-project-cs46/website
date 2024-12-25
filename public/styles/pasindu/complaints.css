@@ -45,6 +45,7 @@ body {
     flex: 1;
     padding: 30px;
     padding-left: 70px;
+    width: 230%;
 }
 
 .header {
