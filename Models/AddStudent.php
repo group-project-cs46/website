@@ -48,5 +48,14 @@ class AddStudent {
         $db->query('DELETE FROM students WHERE id = ?', [$id]);
     }
 
+    // check for duplicates
+    public static function check_duplicate($indexno, $regno)
+    {
+        $db = App::resolve(Database::class);
+
+        $result = $db->query('SELECT * FROM students WHERE indexno = ? OR regno = ?', [$indexno, $regno]);
+
+        return $result->fetch();//returns a row if duplicate exists , false otherwise
+    }
     
 }
