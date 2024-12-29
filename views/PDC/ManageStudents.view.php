@@ -1,4 +1,4 @@
-<?php require base_path('views/partials/auth/auth.php') ;
+<?php require base_path('views/partials/auth/auth.php');
 ?>
 
 <link rel="stylesheet" href="/styles/PDC/ManageStudents.css" />
@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
-                <?php foreach ($students as $student): ?>
+                    <?php foreach ($students as $student): ?>
                         <tr id="row-<?= $student['id'] ?>">
                             <td><?= htmlspecialchars($student['name']) ?></td>
                             <td><?= htmlspecialchars($student['regNo']) ?></td>
@@ -85,6 +85,7 @@
                     <tr>
                         <th>Student Name</th>
                         <th>Registration No.</th>
+                        <th>Application_Status</th>
                         <th>Course</th>
                         <th>Email</th>
                         <th>Index No.</th>
@@ -96,65 +97,67 @@
                     <tr>
                         <td>John Doe</td>
                         <td>2024/CS/123</td>
+                        <td>pending</td>
                         <td>CS</td>
                         <td>johndoe@example.com</td>
                         <td>22001417</td>
                         <td>
-                            <button class="Edit-button">Edit</button>
+                            <!-- <button class="Edit-button">Edit</button> -->
                             <button class="disable-button">Disable</button>
                         </td>
                     </tr>
                     <tr>
                         <td>Jane Smith</td>
                         <td>2024/IS/456</td>
+                        <td>hired</td>
                         <td>IS</td>
                         <td>janesmith@example.com</td>
                         <td>22301213</td>
                         <td>
-                            <button class="Edit-button">Edit</button>
+                            <!-- <button class="Edit-button">Edit</button> -->
                             <button class="disable-button">Disable</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    
 
-    <div class="container" id="hiredstudentsection" style="display: none;">
-        <div class="table-title">
-            <div class="table-title-txt">
-                <h3><b>Hired Students</b></h3>
-                <p>view hired students list</p>
+
+        <div class="container" id="hiredstudentsection" style="display: none;">
+            <div class="table-title">
+                <div class="table-title-txt">
+                    <h3><b>Hired Students</b></h3>
+                    <p>view hired students list</p>
+                </div>
             </div>
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Registration No.</th>
+                        <th>Course</th>
+                        <th>HiredBy</th>
+                        <th>jobrole</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                    <!-- Example Table Rows -->
+                    <tr>
+                        <td>John Doe</td>
+                        <td>2024/CS/123</td>
+                        <td>CS</td>
+                        <td>CISCO labs</td>
+                        <td>Software Engineer</td>
+                        <td>
+                            <!-- <button class="Edit-button">Edit</button> -->
+                            <button class="disable-button">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table class="student-table">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Registration No.</th>
-                    <th>Course</th>
-                    <th>HiredBy</th>
-                    <th>jobrole</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="studentTableBody">
-                <!-- Example Table Rows -->
-                <tr>
-                    <td>John Doe</td>
-                    <td>2024/CS/123</td>
-                    <td>CS</td>
-                    <td>CISCO labs</td>
-                    <td>Software Engineer</td>
-                    <td>
-                        <button class="Edit-button">Edit</button>
-                        <button class="disable-button">Disable</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+    </section>
 
 
 </main>
@@ -179,6 +182,7 @@
             <label for="indexno">Index No.:</label>
             <input type="text" id="indexno" name="indexno" required>
 
+
             <label for="regNo">Register Number:</label>
             <input type="text" id="regNo" name="regNo" required>
 
@@ -190,16 +194,16 @@
                 <option value="CS">CS</option>
                 <option value="IS">IS</option>
             </select>
-             <div  style="display: flex; justify-content: space-between;">
-             <button type="submit" id="submitStudent">Add Student</button>
-             <button id="closeFormButton">Close</button>
-             </div>
-            
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit" id="submitStudent">Add Student</button>
+                <button id="closeFormButton">Close</button>
+            </div>
+
         </form>
 
 
 
-        
+
     </div>
 </div>
 
@@ -219,7 +223,7 @@
         <h3>Update a student</h3>
         <form id="editstudentForm" method="post" action="/PDC/updatestudent">
 
-        <input type="hidden"  name="student_id" id="student_id" required>
+            <input type="hidden" name="student_id" id="student_id" required>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -252,7 +256,7 @@
 <script>
     // Toggle between Approve Section and Complaint Section
     const students = <?php echo json_encode($students); ?>
-    
+
 
     const openFormButton = document.getElementById('openFormButton');
     const editformbutton = document.getElementById('editformbutton');
@@ -264,7 +268,7 @@
     const uploadCsvForm = document.getElementById('uploadCsvForm');
     const studenteditform = document.getElementById('editstudentForm');
 
-    
+
     renderTable(students)
 
 
@@ -307,25 +311,6 @@
     openFormButton.addEventListener('click', () => popupForm.style.display = 'flex');
     closeFormButton.addEventListener('click', () => popupForm.style.display = 'none');
 
-    // document.getElementById('submitStudent').addEventListener('click', () => {
-    //     const name = document.getElementById('name').value;
-    //     const regNo = document.getElementById('regNo').value;
-    //     const email = document.getElementById('email').value;
-    //     const course = document.getElementById('course').value;
-
-    //     viewstudentRow(name, regNo, course, email);
-    //     viewstudentForm.reset();
-    //     popupForm.style.display = 'none';
-    // });
-
-    // Initialize an empty array to store student data
-
-
-
-    // Initialize an empty array to store student data
-
-
-    // Function to add a student row and store it as an object in the array
     function viewstudentRow(name, regNo, course, email, indexno) {
         // Create a new object for the student
         const student = {
@@ -337,10 +322,10 @@
         };
 
         // Add the student object to the array
-        student.push(student);
+        student.push(students);
 
         // Render the table with updated data
-        renderTable(student);
+        renderTable(students);
     }
 
     function openeditform(id) {
@@ -362,7 +347,7 @@
 
     // Function to render the table based on the provided data
     function renderTable(data) {
-        
+
         // Clear the table body
         studentTableBody.innerHTML = '';
 
@@ -389,21 +374,24 @@
     }
 
     // Event listener for the search filter
-    const search_filter = document.getElementById("searchInput");
-    search_filter.addEventListener('input', (e) => {
-        const search_data = e.target.value.toLowerCase();
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
 
-        // Filter the students array by name
-        const filteredStudents = student.filter((student) =>
-            student.name.toLowerCase().includes(search_data)
-        );
+        // Filter the students array based on multiple fields
+        const filteredStudents = students.filter((student) => {
+            return (
+                student.stuname.toLowerCase().includes(searchTerm) ||
+                student.regno.toLowerCase().includes(searchTerm) ||
+                student.course.toLowerCase().includes(searchTerm) ||
+                student.email.toLowerCase().includes(searchTerm) ||
+                student.indexno.toLowerCase().includes(searchTerm)
+            );
+        });
 
         // Render the table with the filtered data
         renderTable(filteredStudents);
     });
-
-
-
 
 
     // CSV Upload Handler
@@ -435,7 +423,7 @@
                 const regNo = columns[1].trim();
                 const course = columns[2].trim();
                 const email = columns[3].trim();
-                const indexno = colums[4].trim();
+                const indexno = columns[4].trim();
 
                 if (name && regNo && course && email && indexno) {
                     viewstudentRow(name, regNo, course, email, indexno);
@@ -448,7 +436,7 @@
     }
 
     // Open and Close Add Form
-    openFormButton.addEventListener('click', () => popupForm.style.display = 'flex');
+    // openFormButton.addEventListener('click', () => popupForm.style.display = 'flex');
     closeFormButton.addEventListener('click', () => popupForm.style.display = 'none');
 
     // Edit and Save Functionality
@@ -473,17 +461,18 @@
         const row = studentTableBody.children[index];
 
         row.children[0].textContent = document.getElementById('editName').value;
-        row.children[2].textContent = document.getElementById('editRegNo')
+        row.children[1].textContent = document.getElementById('editRegNo').value;
         row.children[2].textContent = document.getElementById('editCourse').value;
         row.children[3].textContent = document.getElementById('editEmail').value;
-        row.childern[4].textContent = document.getElementById('editindexno').value;
+        row.children[4].textContent = document.getElementById('editindexno').value;
 
         document.getElementById('editPopupForm').style.display = 'none';
     });
 
-    document.getElementById('closeEditFormButton').addEventListener('click', () => {
+    document.getElementById('closeFormButton').addEventListener('click', () => {
         document.getElementById('editPopupForm').style.display = 'none';
     });
+    
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
