@@ -18,7 +18,7 @@
                 <p>View Blacklisted Companies</p>
             </div>
             <div class="right-buttons">
-                <button class="add-button" onclick="addCompany()">+</button>
+                <button class="add-button" onclick="showAddCompanyPopup()">+</button>
             </div>
         </div>
 
@@ -27,64 +27,109 @@
                 <tr>
                     <th>Blacklisted Companies</th>
                     <th>Email</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="companyTableBody">
                 <tr>
                     <td>Company1</td>
                     <td>company1@gmail.com</td>
+                    <td><Button class="remove-button">Remove</Button></td>
                 </tr>
                 <tr>
                     <td>Company2</td>
                     <td>company2@gmail.com</td>
+                    <td><Button class="remove-button">Remove</Button></td>
                 </tr>
                 <tr>
                     <td>Company3</td>
                     <td>company3@gmail.com</td>
-                </tr>
-                <tr>
-                    <td>Company4</td>
-                    <td>company4@gmail.com</td>
+                    <td><Button class="remove-button">Remove</Button></td>
                 </tr>
             </tbody>
         </table>
     </section>
 </main>
 
+<!-- Popup Modal -->
+<div id="addCompanyPopup" class="popup-modal">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closeAddCompanyPopup()">&times;</span>
+        <h2>Add Blacklisted Company</h2>
+        <form id="addCompanyForm" onsubmit="submitAddCompany(event)">
+            <label for="companyName">Company Name:</label>
+            <input type="text" id="companyName" name="companyName" required />
+
+            <label for="companyEmail">Company Email:</label>
+            <input type="email" id="companyEmail" name="companyEmail" required />
+
+            <button type="submit" class="submit-button">Add Company</button>
+        </form>
+    </div>
+</div>
+
 <script>
-    // Function to filter companies based on search input
-    function filterCompanies() {
-        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-        const tableRows = document.querySelectorAll('#companyTableBody tr');
+// Show the Add Company Popup
+function showAddCompanyPopup() {
+    document.getElementById('addCompanyPopup').style.display = 'flex';
+}
 
-        tableRows.forEach(row => {
-            const companyName = row.cells[0].textContent.toLowerCase();
-            const email = row.cells[1].textContent.toLowerCase();
-            if (companyName.includes(searchInput) || email.includes(searchInput)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+// Close the Add Company Popup
+function closeAddCompanyPopup() {
+    document.getElementById('addCompanyPopup').style.display = 'none';
+}
+
+// Handle Add Company Form Submission
+function submitAddCompany(event) {
+    event.preventDefault();
+
+    const companyName = document.getElementById('companyName').value;
+    const companyEmail = document.getElementById('companyEmail').value;
+
+    if (companyName && companyEmail) {
+        const tableBody = document.getElementById('companyTableBody');
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td>${companyName}</td>
+            <td>${companyEmail}</td>
+        `;
+        tableBody.appendChild(newRow);
+
+        // Clear the form and close the popup
+        document.getElementById('addCompanyForm').reset();
+        closeAddCompanyPopup();
+
+        alert('Company added to blacklist');
+    } else {
+        alert('Please fill out all fields.');
     }
+}
 
-    // Function to add a new company to the blacklist
-    function addCompany() {
-        const companyName = prompt("Enter the company name:");
-        const email = prompt("Enter the company email:");
+// Function to filter companies based on search input
+function filterCompanies() {
+    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#companyTableBody tr');
+    
+    tableRows.forEach(row => {
+        const companyName = row.cells[0].textContent.toLowerCase();
+        const companyEmail = row.cells[1].textContent.toLowerCase();
 
-        if (companyName && email) {
-            const tableBody = document.getElementById('companyTableBody');
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${companyName}</td>
-                <td>${email}</td>
-            `;
-            tableBody.appendChild(newRow);
+        // Check if the company name or email matches the search input
+        if (companyName.includes(searchInput) || companyEmail.includes(searchInput)) {
+            row.style.display = '';
         } else {
-            alert("Please enter valid company details.");
+            row.style.display = 'none';
         }
+    });
+}
+
+// Close popup when clicking outside of it
+window.onclick = function (event) {
+    const popup = document.getElementById('addCompanyPopup');
+    if (event.target === popup) {
+        closeAddCompanyPopup();
     }
+};
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
