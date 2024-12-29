@@ -38,6 +38,74 @@ body {
     width: 250px;
 }
 
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: 85%;
+  }
+
+.tabs {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 0;
+    gap: 10px;
+  }
+/* 
+  .tabs div.active-tab {
+    background-color: #007BFF;
+    color: white;
+} */
+
+.tabs {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    margin: 20px 0;
+    /* background-color: #f4f4f4;
+    border: 1px solid #ddd; */
+    /* border-radius: 8px; */
+    /* overflow: hidden; */
+    /* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+
+.add-student:hover,
+.view-student:hover,
+.hired-students:hover {
+  cursor: pointer;
+  color: #007bff;
+}
+
+.add-student.active-tab,.view-student.active-tab,.hired-students.active-tab{
+    cursor: pointer;
+    color: #007bff;
+}
+
+.add-student h3,
+.view-student h3 ,
+.hired-students h3{
+  margin: 0;
+  font-size: 18px;
+}
+
+.add-student p,
+.view-student p ,
+.hired-students p{
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 40px;
+  width: 2px;
+  background-color: #ddd;
+  margin: 0 0px;
+}
+
 .content {
     background-color: white;
     padding: 20px;
@@ -130,8 +198,8 @@ table {
 }
 
 .form-container {
-    width: 400px;
-    padding: 30px;
+    width: 500px;
+    padding: 25px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -167,14 +235,13 @@ form input,
 form select {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
     border-radius: 5px;
     border: 1px solid #ddd;
     font-size: 14px;
 }
 
 form button {
-    width: 100%;
+    width:fit-content;
     padding: 10px;
     background-color: #007bff;
     color: white;

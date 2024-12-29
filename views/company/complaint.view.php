@@ -26,32 +26,26 @@
 
   <section class="content">
     <div class="complaint-title">
-      <div class="complaint-system-txt" id="systemTab" onclick="toggleComplaint('system')">
-        <h3>System Complaint</h3>
-        <p>Complaint about System</p>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="complaint-student-txt" id="studentTab" onclick="toggleComplaint('student')">
-        <h3>Student Complaint</h3>
-        <p>Complaint from students</p>
+      <div class="complaint-system-txt">
+        <h3>Complain Form</h3>
+        <p>Details About Complaint</p>
       </div>
     </div>
 
-    <!-- System Complaint Form -->
-    <div class="complaint-box" id="systemComplaintContent" style="display: none;">
-      <h2>System Complaint Details</h2>
-      <textarea id="systemComplaintText" placeholder="Describe the system issue"></textarea>
-      <button class="submit-btn" onclick="submitComplaint('system')">Submit</button>
-    </div>
+    <form class="form-container show" id="complaintForm">
+      <h2>Complaint Details</h2>
+      <label for="complaintType">Complaint Type</label>
+      <select id="complaintType" class="select-input" required>
+        <option value="" disabled selected>Select complaint type</option>
+        <option value="system">System Complaint</option>
+        <option value="student">Student Complaint</option>
+      </select>
 
-    <!-- Student Complaint Form -->
-    <div class="complaint-box" id="studentComplaintContent" style="display: none;">
-      <h2>Student Complaint Details</h2>
-      <textarea id="studentComplaintText" placeholder="Describe the student issue"></textarea>
-      <button class="submit-btn" onclick="submitComplaint('student')">Submit</button>
-    </div>
+      <label for="complaintDescription">Complaint Description</label>
+      <textarea id="complaintDescription" placeholder="Enter complaint description here" required></textarea>
+
+      <button type="button" class="submit-btn" onclick="submitComplaint()">Submit</button>
+    </form>
   </section>
 
   <!-- Popup Overlay for Success Message -->
@@ -61,78 +55,36 @@
 </main>
 
 <script>
-  // Toggle complaint forms
-  function toggleComplaint(complaintType) {
-    const systemComplaintContent = document.getElementById('systemComplaintContent');
-    const studentComplaintContent = document.getElementById('studentComplaintContent');
+  function submitComplaint() {
+    const complaintType = document.getElementById('complaintType').value;
+    const complaintDescription = document.getElementById('complaintDescription').value;
 
-    // Hide both complaint boxes initially
-    systemComplaintContent.style.display = 'none';
-    studentComplaintContent.style.display = 'none';
-    systemComplaintContent.classList.remove('show');
-    studentComplaintContent.classList.remove('show');
-
-    // Show and animate the selected complaint box
-    if (complaintType === 'system') {
-      systemComplaintContent.style.display = 'block';
-      setTimeout(() => systemComplaintContent.classList.add('show'), 10);
-    } else if (complaintType === 'student') {
-      studentComplaintContent.style.display = 'block';
-      setTimeout(() => studentComplaintContent.classList.add('show'), 10);
-    }
-
-    // Update active tab styles
-    document.getElementById('systemTab').classList.toggle('active', complaintType === 'system');
-    document.getElementById('studentTab').classList.toggle('active', complaintType === 'student');
-  }
-
-  // Initialize with system complaint tab selected
-  window.onload = function() {
-    toggleComplaint('system');
-  };
-
-  // Show popup overlay on submission
-  function showPopup(message) {
-    const popupOverlay = document.getElementById('popupOverlay');
-    const popupMessage = document.getElementById('popupMessage');
-    popupMessage.innerText = message;
-    popupOverlay.style.display = 'flex';
-
-    // Hide popup after 3 seconds
-    setTimeout(() => {
-      popupOverlay.style.display = 'none';
-    }, 3000);
-  }
-
-  // Submit complaint dynamically
-  function submitComplaint(complaintType) {
-    let complaintText = '';
-
-    // Get complaint text based on the selected type
-    if (complaintType === 'system') {
-      complaintText = document.getElementById('systemComplaintText').value;
-    } else if (complaintType === 'student') {
-      complaintText = document.getElementById('studentComplaintText').value;
-    }
-
-    // Validate if the complaint text is not empty
-    if (complaintText.trim() === '') {
-      alert('Please enter a complaint before submitting.');
+    if (!complaintType || complaintDescription.trim() === '') {
+      alert('Please fill out all fields before submitting.');
       return;
     }
 
-    // Simulate an AJAX request (no page reload)
-    const responseMessage = 'Your ' + complaintType + ' complaint has been submitted successfully.';
+    // Simulate an AJAX request or server-side handling
+    const responseMessage = `You ${complaintType} complaint has been submitted successfully.`;
 
-    // Display the popup overlay message
+    // Show success popup
     showPopup(responseMessage);
 
-    // Clear the textarea
-    if (complaintType === 'system') {
-      document.getElementById('systemComplaintText').value = '';
-    } else if (complaintType === 'student') {
-      document.getElementById('studentComplaintText').value = '';
-    }
+    // Clear form fields
+    document.getElementById('complaintType').value = '';
+    document.getElementById('complaintDescription').value = '';
+  }
+
+  function showPopup(message) {
+    const popupOverlay = document.getElementById('popupOverlay');
+    const popupMessage = document.getElementById('popupMessage');
+
+    popupMessage.textContent = message;
+    popupOverlay.style.display = 'flex';
+
+    setTimeout(() => {
+      popupOverlay.style.display = 'none';
+    }, 3000);
   }
 </script>
 

@@ -327,14 +327,23 @@ a {
     touch-action: manipulation;
 }
 
-.small {
-    font-size: 12px;
-    padding: 5px 8px;
-}
-
 .button:hover,
 .button:focus {
     background-color: var(--sky-700);
+}
+
+.is-red {
+    background-color: var(--red-700);
+}
+
+.is-red:hover,
+.is-red:focus {
+    background-color: var(--red-800);
+}
+
+.small {
+    font-size: 12px;
+    padding: 5px 8px;
 }
 
 * {

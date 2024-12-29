@@ -9,8 +9,23 @@ $form = Forms\Login::validate($attributes = [
     'password' => $_POST['password']
 ]);
 
+$authenticator = new Authenticator;
 
-$signedIn = (new Authenticator)->attempt(
+$disabled = $authenticator->checkDisabled($attributes['email']);
+
+if ($disabled) {
+    $form->error('email', "Account is disabled")
+        ->throw();
+}
+
+$approved = $authenticator->checkApproved($attributes['email']);
+
+if (! $approved) {
+    $form->error('email', "Account is not approved yet")
+        ->throw();
+}
+
+$signedIn = $authenticator->attempt(
     $attributes['email'],
     $attributes['password']
 );

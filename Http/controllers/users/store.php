@@ -2,41 +2,46 @@
 
 use Core\App;
 use Core\Database;
-use Core\Validator;
+use Core\Session;
+use Http\Forms\Register;
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+//dd($_POST);
 
-$errors = [];
-
-if (! Validator::email($email)) {
-    $errors['email'] = 'Invalid email';
-}
-
-if (! Validator::string($password, 8)) {
-    $errors['password'] = 'Password must be at least 8 characters';
-}
-
-if (! empty($errors)) {
-    view('users/create.view.php', ['errors' => $errors]);
-    return;
-}
+$form = Register::validate($attributes = [
+    'email' => $_POST['email'],
+    'password' => $_POST['password'],
+    'name' => $_POST['name'],
+    'building' => $_POST['building'],
+    'street_name' => $_POST['street_name'],
+    'address_line_2' => $_POST['address_line_2'],
+    'city' => $_POST['city'],
+    'postal_code' => $_POST['postal_code'],
+    'website' => $_POST['website'],
+]);
 
 $db = App::resolve(Database::class);
 
-$user = $db->query('SELECT * FROM users WHERE email = ?', [$email])->find();
+//dd($attributes);
+
+$user = $db->query('SELECT * FROM users WHERE email = ?', [$attributes['email']])->find();
 
 if ($user) {
     header('location: /');
     die();
 }
 
-$db->query('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', [$email, password_hash($password, PASSWORD_DEFAULT), 1]);
+$db->query('INSERT INTO users (email, password, role, approved, name) VALUES (?, ?, ?, ?, ?)',
+    [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 4, 0, $attributes['name']]);
 
-login([
-    'email' => $email,
-    'role' => 1
-]);
+$lastInsertedId = $db->connection->lastInsertId();
 
-header('location: /dashboard');
-die();
+$db->query('INSERT INTO companies (id, company_name, building, street_name, address_line_2, city, postal_code, website) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [$lastInsertedId, $attributes['name'], $attributes['building'], $attributes['street_name'], $attributes['address_line_2'], $attributes['city'], $attributes['postal_code'], $attributes['website']]);
+
+//login([
+//    'email' => $attributes['email'],
+//    'role' => 4
+//]);
+
+Session::flash('toast', 'Account created successfully. Please wait for the admin to approve your account.');
+redirect('/');

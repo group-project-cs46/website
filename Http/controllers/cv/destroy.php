@@ -1,11 +1,20 @@
 <?php
 
+use Core\Session;
 use Models\Cv;
+use Models\Application;
 
 
-$cv = Cv::find($_POST['id']);
+//dd($_POST);
+$cv_id = $_POST['id'];
+$cv = Cv::find($cv_id);
 
-if ($cv) {
+// check if cv is beign used by any application
+$cvApplications = Application::getByCvId($cv_id);
+
+if (count($cvApplications) > 0) {
+    Session::flash('toast', 'This CV is being used by an application and cannot be deleted');
+} else if ($cv) {
     // Define the target directory
     $targetDir = base_path('storage/cvs/');
     $filePath = $targetDir . $cv['filename'];
@@ -19,5 +28,4 @@ if ($cv) {
     Cv::delete($cv['id']);
 }
 
-header('location: /account');
-die();
+redirect('/students/cvs');
