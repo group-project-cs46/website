@@ -18,12 +18,21 @@
   background-color: #F9FAFB;
 }
 
+
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
 /* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 
 .header h2 {
@@ -33,22 +42,24 @@
 /* Card Section */
 .cards {
   display: flex;
-  justify-content: left;
+  justify-content: start;
   align-items: center;
   gap: 20px;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 40px;
+  padding-left: 10px;
   flex-wrap: wrap;
 }
 
 .card {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 250px; /* Reduced width */
-  height: 180px; /* Reduced height */
-  background-color: #fff;
+  width: 600px;
+  height: auto;
+  background-color: #F9FAFB;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 10px;
@@ -60,7 +71,7 @@
 }
 
 .card p {
-  display: flex;
+  display: inline-block;
   justify-content: center;
   gap: 5px;
 }
@@ -113,7 +124,49 @@
   background-color: #007bff; /* Change to blue on hover */
 }
 
-/* Content Boxes */
+.info-boxes {
+  padding: 1em 10px 2em;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 2em;
+}
+
+.info-box {
+  background: #F9FAFB;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 3em;
+  border: 1px solid #ede8f0;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+}
+
+path,circle {
+          fill: #99a0b0;
+        }
+
+.box-content {			
+  padding-left: 1.25em;
+  white-space: nowrap;
+}
+
+.big {
+  display: block;
+  font-size: 2em;
+  line-height: 150%;
+  color: #1b253d;
+}
+
+
+/* Content Boxes
 .content-boxes {
   display: flex;
   justify-content: left;
@@ -134,7 +187,7 @@
 
 .box h3 {
   margin-bottom: 10px;
-}
+} */
 
 /* Table Styles */
 .advertisement-table {
