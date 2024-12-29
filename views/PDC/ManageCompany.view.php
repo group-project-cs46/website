@@ -12,32 +12,48 @@
     </header>
 
     <section class="content">
-        <div class="table-title">
-           <h3><b>Manage Company</b></h3>
-            <p>Manage Company accounts</p>
+        <div class="tabs">
+            <button class="tab-button" id="currentCompaniesTab">Current Companies</button>
+            <button class="tab-button" id="registeredCompaniesTab">Registered Companies</button>
         </div>
 
-        <table class="company-table">
-            <thead>
-                <tr>
-                    <th>Company</th>
-                    <th>Contact person</th>
-                    <th>Contact No.</th>
-                    <th>Email</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="companyTableBody">
-                <!-- Example Table Rows -->
-                <!-- <tr>
-                    <td>WSO2</td>
-                    <td>Nimal</td>
-                    <td>0771234567</td>
-                    <td>Hiring@gmail.com</td>
-                    <td><button class="view-button">view</button></td>
-                </tr> -->
-            </tbody>
-        </table>
+        <div id="currentCompaniesContent" class="tab-content">
+            <h3><b>Current Companies</b></h3>
+            <p>Manage Current Company accounts</p>
+            <table class="company-table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Contact person</th>
+                        <th>Contact No.</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="currentCompanyTableBody">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="registeredCompaniesContent" class="tab-content" style="display: none;">
+            <h3><b>Registered Companies</b></h3>
+            <p>Manage Registered Company accounts</p>
+            <table class="company-table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Contact person</th>
+                        <th>Contact No.</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="registeredCompanyTableBody">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
     </section>
 </main>
 
@@ -46,20 +62,28 @@
 <script>
     // Get DOM elements
     const searchInput = document.getElementById('searchInput');
-    const companyTableBody = document.getElementById('companyTableBody');
+    const currentCompanyTableBody = document.getElementById('currentCompanyTableBody');
+    const registeredCompanyTableBody = document.getElementById('registeredCompanyTableBody');
+    const currentCompaniesTab = document.getElementById('currentCompaniesTab');
+    const registeredCompaniesTab = document.getElementById('registeredCompaniesTab');
+    const currentCompaniesContent = document.getElementById('currentCompaniesContent');
+    const registeredCompaniesContent = document.getElementById('registeredCompaniesContent');
 
     // Sample data for companies (can be replaced with data from a database or API)
-    const companies = [
+    const currentCompanies = [
         { name: 'WSO2', contactPerson: 'Nimal', contactNo: '0771234567', email: 'Hiring@gmail.com' },
         { name: 'Google', contactPerson: 'Sirius', contactNo: '0781234567', email: 'contact@google.com' },
         { name: 'Microsoft', contactPerson: 'Alex', contactNo: '0791234567', email: 'careers@microsoft.com' },
+    ];
+
+    const registeredCompanies = [
         { name: 'Amazon', contactPerson: 'John', contactNo: '0701234567', email: 'hr@amazon.com' },
-        { name: 'Facebook', contactPerson: 'Mark', contactNo: '0772345678', email: 'hr@facebook.com' }
+        { name: 'Facebook', contactPerson: 'Mark', contactNo: '0772345678', email: 'hr@facebook.com' },
     ];
 
     // Function to render companies in the table
-    function renderCompanies(data) {
-        companyTableBody.innerHTML = ''; // Clear existing rows
+    function renderCompanies(data, tableBody, includeApproveButton = true) {
+        tableBody.innerHTML = ''; // Clear existing rows
         data.forEach(company => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -67,28 +91,60 @@
                 <td>${company.contactPerson}</td>
                 <td>${company.contactNo}</td>
                 <td>${company.email}</td>
-                <td><button class="view-button">View</button></td>
+                <td>${includeApproveButton ? '<button class="approve-button">Approve</button>' : ''}</td>
             `;
-            companyTableBody.appendChild(row);
+            tableBody.appendChild(row);
         });
     }
 
     // Function to handle search functionality
     function handleSearch() {
         const query = searchInput.value.toLowerCase();
-        const filteredCompanies = companies.filter(company => 
+        const filteredCurrentCompanies = currentCompanies.filter(company => 
             company.name.toLowerCase().includes(query) || 
             company.contactPerson.toLowerCase().includes(query) ||
             company.contactNo.includes(query) ||
             company.email.toLowerCase().includes(query)
         );
-        renderCompanies(filteredCompanies);
+        const filteredRegisteredCompanies = registeredCompanies.filter(company => 
+            company.name.toLowerCase().includes(query) || 
+            company.contactPerson.toLowerCase().includes(query) ||
+            company.contactNo.includes(query) ||
+            company.email.toLowerCase().includes(query)
+        );
+
+        renderCompanies(filteredCurrentCompanies, currentCompanyTableBody);
+        renderCompanies(filteredRegisteredCompanies, registeredCompanyTableBody, false); // No "Approve" button for registered companies
     }
 
-    // Initial rendering of companies
-    renderCompanies(companies);
+    // Function to handle tab switching
+    function switchTab(event) {
+        if (event.target === currentCompaniesTab) {
+            currentCompaniesContent.style.display = 'block';
+            registeredCompaniesContent.style.display = 'none';
+            currentCompaniesTab.classList.add('active');
+            registeredCompaniesTab.classList.remove('active');
+            renderCompanies(currentCompanies, currentCompanyTableBody); // Re-render current companies
+        } else if (event.target === registeredCompaniesTab) {
+            currentCompaniesContent.style.display = 'none';
+            registeredCompaniesContent.style.display = 'block';
+            currentCompaniesTab.classList.remove('active');
+            registeredCompaniesTab.classList.add('active');
+            renderCompanies(registeredCompanies, registeredCompanyTableBody, false); // Re-render registered companies without approve button
+        }
+    }
+
+    // Ensure the first tab (Current Companies) is visible and rendered by default
+    window.addEventListener('DOMContentLoaded', () => {
+        renderCompanies(currentCompanies, currentCompanyTableBody); // Initial render for current companies
+        renderCompanies(registeredCompanies, registeredCompanyTableBody, false); // Initial render for registered companies
+        currentCompaniesTab.classList.add('active'); // Set current companies tab as active by default
+    });
 
     // Add event listener for search input
     searchInput.addEventListener('input', handleSearch);
-</script>
 
+    // Add event listeners for tab switching
+    currentCompaniesTab.addEventListener('click', switchTab);
+    registeredCompaniesTab.addEventListener('click', switchTab);
+</script>

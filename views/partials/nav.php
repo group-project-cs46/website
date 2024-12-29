@@ -38,71 +38,84 @@ $navItems = [
         'text' => 'Advertisment',
         'href' => '/company/advertisment',
         'icon' => 'fa-regular fa-rectangle-ad',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Student List',
-        'href' => '/company/shortedStudent',
+        'href' => '/company/list',
         'icon' => 'fa-solid fa-user-shield',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Schedule',
         'href' => '/company/schedule',
         'icon' => 'fa-solid fa-calendar-days',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Complaint',
         'href' => '/company/complaint',
         'icon' => 'fa-brands fa-readme',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
         'text' => 'Report',
         'href' => '/company/report',
         'icon' => 'fa-solid fa-file-invoice',
-        'only' => [Role::Company], 
+        'only' => [Role::Company],
     ],
     [
+        'text' => 'Account',
+        'href' => '/company/account',
+        'icon' => 'fa-user',
+        'only' => [Role::Company],
+    ],
+
+    [
         'text' => 'Dashboard',
-        'href' => '/dashboard/Lecturer',
+        'href' => '/dashboard/lecturer',
         'icon' => 'fa-dashboard',
         'only' => [Role::Lecturer],
     ],
     [
         'text' => 'Manage Student',
-        'href' => '/PDC/ManageStudents',
+        'href' => '/PDC/managestudents',
         'icon' => 'fa-user-graduate',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Advertisements",
-        'href' => '/PDC/Advertisements',
+        'href' => '/PDC/advertisements',
         'icon' => 'fa-rectangle-ad',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "ManageCompany",
-        'href' => '/PDC/ManageCompany',
+        'href' => '/pdcs/companies',
         'icon' => 'fa-building',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Schedule",
-        'href' => '/PDC/Schedule',
+        'href' => '/PDC/schedule',
         'icon' => 'fa-calendar-days',
         'only' => [Role::Pdc]
     ],
     [
         'text' => "Complaints&Feedback",
-        'href' => '/PDC/Complaints&Feedback',
+        'href' => '/PDC/complaints&feedback',
         'icon' => 'fa-comments',
         'only' => [Role::Pdc]
     ],
     [
+        'text' => "StudentReport",
+        'href' => '/PDC/studentreport',
+        'icon' => 'fa-address-book',
+        'only' => [Role::Pdc]
+    ],
+    [
         'text' => "BlacklistedCompanies",
-        'href' => '/PDC/BlacklistedCompanies',
+        'href' => '/PDC/blacklistedcompanies',
         'icon' => 'fa-ban',
         'only' => [Role::Pdc]
     ],
@@ -113,23 +126,68 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => "PDC Users",
-        'href' => '/pdc-users',
-        'icon' => 'fa-users',
+        'text' => "Managec PDC",
+        'href' => '/pdcManage',
+        'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Admin],
     ],
     [
+        'text' => "Managec Lecturer",
+        'href' => '/lecturerManage',
+        'icon' => 'fa-user-graduate',
+        'only' => [Role::Admin],
+    ],
+    [
+        'text' => "Complaints",
+        'href' => '/complaints',
+        'icon' => 'fa-comments',
+        'only' => [Role::Admin],
+    ],
+    [
+
+        'text' => 'Calendar',
+        'href' => '/calendar',
+        'icon' => 'fa-fire-flame-curved',
+        'only' => [Role::Lecturer],
+    ],
+    [
+        'text' => 'Report',
+        'href' => '/reportMain',
+        'icon' => 'fa-sheet-plastic',
+        'only' => [Role::Lecturer],
+    ],
+    // [
+    //     'text' => 'Profile',
+    //     'href' => '/profilelec',
+    //     'icon' => 'fa-user',
+    //     'only' => [Role::Lecturer],
+    // ],
+    // [
+    //     'text' => 'Profile',
+    //     'href' => '/profile',
+    //     'icon' => 'fa-user',
+    //     'only' => [Role::Admin],
+    // ],
+    [
+
         'text' => "Applications",
         'href' => '/students/applications',
         'icon' => 'fa-file-invoice',
         'only' => [Role::Student],
     ],
     [
+        'text' => "Cvs",
+        'href' => '/students/cvs',
+        'icon' => 'fa-user-pen',
+        'only' => [Role::Student],
+    ],
+    [
         'text' => 'Account',
         'href' => '/account',
         'icon' => 'fa-user',
-        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Company, Role::Lecturer],
+        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
     ],
+
 ];
 
 function filterNavItemsByRole($navItems, $userRole)

@@ -5,8 +5,9 @@ use \Core\App;
 
 $db = App::resolve(Database::class);
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
+$query = "SELECT * FROM students";
+$students = $db->query($query, [])->get();
 
 //dd($user);
 
-view('PDC/ManageStudents.view.php');
+view('PDC/ManageStudents.view.php',['students' => $students]);
