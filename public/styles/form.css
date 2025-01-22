@@ -2,7 +2,7 @@ input[type=file] {
     width: 350px;
     max-width: 100%;
     color: #444;
-    padding: 5px;
+    padding: 0px;
     background: #fff;
     border-radius: 10px;
     border: 1px solid var(--gray-100);
@@ -22,6 +22,16 @@ input[type=file]::file-selector-button {
 
 input[type=file]::file-selector-button:hover {
     background: var(--sky-700);
+}
+
+input[type=text] {
+    width: 350px;
+    max-width: 100%;
+    color: #444;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--gray-100);
 }
 
 .drop-container {
@@ -59,4 +69,9 @@ input[type=file]::file-selector-button:hover {
     font-weight: bold;
     text-align: center;
     transition: color .2s ease-in-out;
+}
+
+.error {
+    color: #e11d48;
+    font-size: 0.75rem;
 }
