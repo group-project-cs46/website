@@ -54,4 +54,15 @@ class User
 
         return $student;
     }
+
+    public static function create($attributes)
+    {
+        $db = App::resolve(Database::class);
+
+        $user = $db->query('INSERT INTO users (email, password, role, approved, name) VALUES (?, ?, ?, ?, ?)',
+            [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 2, 1, $attributes['name']]);
+
+        $lastInsertedId = $db->connection->lastInsertId();
+        return $lastInsertedId;
+    }
 }
