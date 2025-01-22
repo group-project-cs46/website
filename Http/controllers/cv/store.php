@@ -5,9 +5,12 @@ use Http\Forms;
 use Models\Cv;
 use Models\User;
 
+
 $form = Forms\CvUpload::validate($attributes = [
     'cv' => $_FILES['cv'],
+    'type' => $_POST['type']
 ]);
+
 
 // Define the target directory
 $targetDir = base_path('storage/cvs/');
@@ -31,7 +34,7 @@ $user = User::findByEmail($_SESSION['user']['email']);
 //    }
 //    Cv::update($existingCv['id'], $newFileName);
 //} else {
-Cv::create($user['id'], $newFileName, $attributes['cv']['name']);
+Cv::create($user['id'], $newFileName, $attributes['cv']['name'], $attributes['type']);
 //}
 
 // Define the target file path

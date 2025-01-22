@@ -33,14 +33,15 @@ class Cv
         return $cv;
     }
 
-    public static function create($userId, $fileName, $originalName)
+    public static function create($userId, $fileName, $originalName, $type)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO cvs (user_id, filename, original_name) VALUES (?, ?, ?)', [
+        $db->query('INSERT INTO cvs (user_id, filename, original_name, type) VALUES (?, ?, ?, ?)', [
             $userId,
             $fileName,
             $originalName,
+            $type
         ]);
     }
 
