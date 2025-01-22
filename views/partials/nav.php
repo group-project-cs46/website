@@ -70,7 +70,6 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Company],
     ],
-
     [
         'text' => 'Dashboard',
         'href' => '/dashboard/lecturer',
@@ -186,7 +185,7 @@ $navItems = [
         'href' => '/account',
         'icon' => 'fa-user',
         'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
-    ],
+    ]
 
 ];
 
