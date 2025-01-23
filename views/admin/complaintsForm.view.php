@@ -14,7 +14,7 @@
         }
 
         .container {
-            width: 80%;
+            width: 90%;
             margin: 2rem auto;
             background-color: #fff;
             padding: 2rem;
@@ -83,7 +83,7 @@
 
         .btn {
             padding: 0.7rem 1.5rem;
-            background-color: #4b56cc;
+            background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -92,7 +92,7 @@
         }
 
         .btn:hover {
-            background-color: #3948a1;
+            background-color: #007bff;
         }
     </style>
 </head>
@@ -109,15 +109,15 @@
             </div>
             <div class="form-group">
                 <label for="student-email">Email</label>
-                <input type="email" id="student-email" placeholder="Enter Name Here">
+                <input type="email" id="student-email" placeholder="Enter Email Here">
             </div>
             <div class="form-group">
                 <label for="index-no">Index No</label>
-                <input type="text" id="index-no" placeholder="Enter Name Here">
+                <input type="text" id="index-no" placeholder="Enter Index No Here">
             </div>
             <div class="form-group">
                 <label for="telephone">Telephone No</label>
-                <input type="text" id="telephone" placeholder="Enter Name Here">
+                <input type="text" id="telephone" placeholder="Enter Telephone No Here">
             </div>
         </div>
 
@@ -129,7 +129,7 @@
             </div>
             <div class="form-group">
                 <label for="location">Location</label>
-                <input type="text" id="location" placeholder="Enter Name Here">
+                <input type="text" id="location" placeholder="Enter Location Here">
             </div>
             <div class="form-group">
                 <label for="date-time">Date and Time</label>
@@ -137,12 +137,12 @@
             </div>
             <div class="form-group">
                 <label for="complaint-details">Complaint Details</label>
-                <textarea id="complaint-details" placeholder="Enter Name Here"></textarea>
+                <textarea id="complaint-details" placeholder="Enter Complaint Here"></textarea>
             </div>
         </div>
 
         <div class="btn-container">
-            <button class="btn">Reply</button>
+            <button class="btn"><a href="complaintsReply">Reply</a></button>
         </div>
     </div>
 </body>
