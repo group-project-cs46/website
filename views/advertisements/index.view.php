@@ -10,21 +10,24 @@
         </div>
 
         <div>
-            <form action="/advertisements" method="get">
-                <label>
-                    <select name="company_id">
-                        <option value="">Select Company</option>
-                        <?php foreach ($companies as $company): ?>
-                            <option value="<?= $company['id'] ?>">
-                                <?= $company['company_name'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </label>
+            <form action="/advertisements" method="get" style="display: flex; gap: 10px">
+                <div>
+                    <div class="select">
+                        <select name="company_id" class="select">
+                            <option value="">Select Company</option>
+                            <?php foreach ($companies as $company): ?>
+                                <option value="<?= $company['id'] ?>">
+                                    <?= $company['company_name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="down_note"></div>
+                </div>
 
-                <button type="submit">Filter</button>
-                <a href="/advertisements">
-                    <button type="button">Clear</button>
+                <button type="submit" class="button">Filter</button>
+                <a href="/advertisements" style="display: flex">
+                    <button type="button" class="button">Clear</button>
                 </a>
             </form>
         </div>
@@ -35,7 +38,7 @@
                     <div class="job-header">
                         <div>
                             <span><?= $item['company_name'] ?></span>
-                            <br/>
+                            <br />
                             <span style="font-size: 0.7rem; color: var(--gray-400)"><?= $item['building'] ?>,
                                 <?= $item['street_name'] ?>,
                                 <?= $item['city'] ?>
@@ -57,5 +60,6 @@
 </main>
 
 <link rel="stylesheet" href="/styles/thathsara/thathsara4.css">
+<link rel="stylesheet" href="/styles/select.css">
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
