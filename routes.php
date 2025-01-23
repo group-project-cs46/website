@@ -21,6 +21,7 @@ $router->post('/forgot_password', 'users/send_reset_link.php')->only('guest');
 $router->get('/reset_password', 'users/reset_password.php')->only('guest');
 $router->post('/reset_password', 'users/update_password.php')->only('guest');
 
+$router->post('/users/change_password', 'users/change_password.php')->only('auth');
 
 $router->get('/advertisements', 'advertisements/index.php')->only('student');
 $router->get('/advertisements/show', 'advertisements/show.php')->only('student');
