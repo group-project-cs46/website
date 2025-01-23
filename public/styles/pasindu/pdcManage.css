@@ -23,7 +23,7 @@ body {
     padding: 20px;
     /* background-color: #F9FAFB; */
     background-color: white;
-    padding-left: 70px;
+    padding-left: 40px;
 
 }
 
@@ -31,7 +31,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px 20px;
 }
 
 .search-bar {
