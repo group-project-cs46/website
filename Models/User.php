@@ -29,7 +29,7 @@ class User
     {
         $db = App::resolve(Database::class);
 
-        $student = $db->query('SELECT
+        $user = $db->query('SELECT
                 u.name,
                 u.email,
                 u.mobile,
@@ -52,7 +52,7 @@ class User
             WHERE u.id = ?', [$id])
             ->find();
 
-        return $student;
+        return $user;
     }
 
     public static function create($attributes)
