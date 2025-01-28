@@ -17,7 +17,7 @@
                             <option value="">Select Company</option>
                             <?php foreach ($companies as $company): ?>
                                 <option value="<?= $company['id'] ?>">
-                                    <?= $company['company_name'] ?>
+                                    <?= $company['name'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -37,7 +37,7 @@
                 <div class="job-card">
                     <div class="job-header">
                         <div>
-                            <span><?= $item['company_name'] ?></span>
+                            <span><?= $item['name'] ?></span>
                             <br />
                             <span style="font-size: 0.7rem; color: var(--gray-400)"><?= $item['building'] ?>,
                                 <?= $item['street_name'] ?>,
