@@ -35,11 +35,24 @@ class Authenticator
         return $user['approved'];
     }
 
+    public function checkRejected($email)
+    {
+        $user = User::findByEmail($email);
+        return $user['rejected'];
+    }
+
     protected function login($user)
     {
+        $email = $user['email'];
+
+        $id = User::findByEmail($email)['id'];
+        $user = User::findByIdWithRoleData($id);
+
+
         $_SESSION['user'] = [
             'email' => $user['email'],
             'role' => $user['role'],
+            'name' => $user['name'],
         ];
         session_regenerate_id(true);
     }

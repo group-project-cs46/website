@@ -19,11 +19,12 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT advertisements.*,
-       companies.company_name,
+       users.name,
        companies.building,
          companies.street_name,
             companies.city
-       FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();
+       FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id
+       LEFT JOIN users ON companies.id = users.id', [])->get();
     }
 
     public static function allWithCompanyByCompanyId($company_id)
@@ -31,9 +32,11 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT advertisements.*,
-       companies.company_name, companies.building,
+       users.name, companies.building,
          companies.street_name,
-            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE companies.id = ?', [$company_id])->get();
+            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
+                           LEFT JOIN users ON companies.id = users.id
+                           WHERE companies.id = ?', [$company_id])->get();
     }
 
     public static function find($id)
