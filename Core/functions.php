@@ -62,14 +62,6 @@ function render($path, $attributes = [])
     return ob_get_clean();
 }
 
-function login($user) {
-    $_SESSION['user'] = [
-        'email' => $user['email'],
-        'role' => $user['role']
-    ];
-    session_regenerate_id(true);
-}
-
 function logout()
 {
     $_SESSION = [];
@@ -94,4 +86,9 @@ function auth_user()
 {
     $user = \Models\User::findByEmail($_SESSION['user']['email']);
     return $user;
+}
+
+function getUserProfilePhotoUrl($user)
+{
+    return $user['photo'] ? '/assets/photos/' . $user['photo'] : '/assets/default_profile.jpg';
 }

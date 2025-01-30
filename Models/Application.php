@@ -7,6 +7,13 @@ use Core\Database;
 
 class Application
 {
+    public static function getByAdId($ad_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM applications WHERE ad_id = ?', [$ad_id])->get();
+
+    }
     public static function getByStudentId($student_id)
     {
         $db = App::resolve(Database::class);
@@ -31,15 +38,16 @@ class Application
     public static function getByStudentIdWithDetails($student_id)
     {
         $db = App::resolve(Database::class);
-    
+
         return $db->query('
             SELECT 
                 applications.id, 
-                advertisements.job_role, 
-                companies.company_name 
+                advertisements.job_role,
+                users.name
             FROM applications 
-            JOIN advertisements ON applications.ad_id = advertisements.id 
-            JOIN companies ON advertisements.company_id = companies.id 
+            LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
+            LEFT JOIN companies ON advertisements.company_id = companies.id
+            LEFT JOIN users ON companies.id = users.id
             WHERE student_id = ?', [$student_id])->get();
     }
 

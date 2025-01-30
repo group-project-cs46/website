@@ -14,4 +14,5 @@ $user = User::find($user_id);
 view('/account.view.php', [
     'user' => $user,
     'errors' => Session::getFlash('errors', []),
+    'photo' => getUserProfilePhotoUrl($user)
 ]);

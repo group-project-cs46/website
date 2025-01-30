@@ -22,11 +22,14 @@ $router->get('/reset_password', 'users/reset_password.php')->only('guest');
 $router->post('/reset_password', 'users/update_password.php')->only('guest');
 
 $router->post('/users/change_password', 'users/change_password.php')->only('auth');
+$router->patch('/users/profile/photo', 'users/profile/photo/update.php')->only('auth');
 
-$router->get('/advertisements', 'advertisements/index.php')->only('student');
-$router->get('/advertisements/show', 'advertisements/show.php')->only('student');
+$router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
+$router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
 
-$router->post('/applications', 'applications/store.php')->only('student');
+$router->post('/students/applications', 'students/applications/store.php')->only('student');
+
+$router->get('/students/companies/show', 'students/companies/show.php')->only('student');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
@@ -70,6 +73,7 @@ $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
+// remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/managecompany', '/PDC/ManageCompany.php');

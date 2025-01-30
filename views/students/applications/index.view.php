@@ -1,5 +1,7 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
+
+
 <main>
     <div class="container">
         <div style="padding-bottom:10px">
@@ -29,7 +31,7 @@
                     ?>
                 </div>
                 <div class="grid-item">
-                    <?php echo htmlspecialchars($application['company_name']); ?>
+                    <?php echo htmlspecialchars($application['name'] ?? ''); ?>
                 </div>
                 <div class="grid-item">
                     <a href="/students/applications/edit?id=<?= $application['id'] ?>"
