@@ -13,11 +13,6 @@ select {
     cursor: pointer;
 }
 
-/* Remove IE arrow */
-select::-ms-expand {
-    display: none;
-}
-
 /* Custom Select wrapper */
 .select {
     position: relative;
@@ -45,9 +40,7 @@ select::-ms-expand {
     color: #fff;
 }
 
-
 .down_note {
     display: flex;
     justify-content: center;
-
 }

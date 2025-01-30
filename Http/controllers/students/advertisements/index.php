@@ -14,7 +14,7 @@ if ($company_id) {
 }
 
 
-view('advertisements/index.view.php', [
+view('students/advertisements/index.view.php', [
     'heading' => 'Jobs',
     'ads' => $ads,
     'companies' => $companies,

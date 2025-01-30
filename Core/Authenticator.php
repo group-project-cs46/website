@@ -53,6 +53,7 @@ class Authenticator
             'email' => $user['email'],
             'role' => $user['role'],
             'name' => $user['name'],
+            'photo' => getUserProfilePhotoUrl($user)
         ];
         session_regenerate_id(true);
     }
