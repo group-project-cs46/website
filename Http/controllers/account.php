@@ -8,7 +8,9 @@ use Core\Session;
 
 
 $user_id = auth_user()['id'];
-$user = User::find($user_id);
+$user = User::findByIdWithRoleData($user_id);
+
+//dd($user);
 
 
 view('/account.view.php', [
