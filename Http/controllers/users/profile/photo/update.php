@@ -28,6 +28,8 @@ $user = auth_user();
 // Move the uploaded file to the target directory
 if (move_uploaded_file($fileTmpPath, $targetFile)) {
     $db->query('UPDATE users SET photo = ? WHERE id = ?', [$newFileName, $user['id']]);
+    $user = auth_user();
+    Session::sessionUserRefresh($user);
 } else {
     $form->error('file', 'Failed to update the profile photo.')->throw();
 }
