@@ -9,7 +9,7 @@
                 <i class="fa-solid fa-bell fa-xl"></i>
             </span>
             <div style="font-weight: 500"><?php echo $_SESSION['user']['name'] ?></div>
-            <a href="/account">
+            <a href="/account" style="display: flex; align-items: center">
                 <img src="<?= $_SESSION['user']['photo'] ?>" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 100%; border: 1px solid var(--color-primary)" alt="">
 
             </a>
