@@ -20,6 +20,7 @@ class Ad
 
         return $db->query('SELECT advertisements.*,
        users.name,
+       users.id AS user_id,
        companies.building,
          companies.street_name,
             companies.city
@@ -32,7 +33,9 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT advertisements.*,
-       users.name, companies.building,
+       users.name,
+          users.id AS user_id,
+       companies.building,
          companies.street_name,
             companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
                            LEFT JOIN users ON companies.id = users.id
@@ -50,10 +53,13 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, companies.company_name, companies.building,
+        return $db->query('SELECT advertisements.*, users.name, companies.building,
          companies.street_name,
          companies.address_line_2,
-            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE advertisements.id = ?', [$id])->find();
+            companies.city FROM advertisements
+                LEFT JOIN companies ON advertisements.company_id = companies.id
+                           LEFT JOIN users ON users.id = companies.id
+                           WHERE advertisements.id = ?', [$id])->find();
     }
 
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)

@@ -356,3 +356,16 @@ a {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
+
+.bell-icon {
+    margin-right: 1rem;
+    color: var(--color-primary);
+}
+
+.bell-icon:hover {
+    cursor: pointer;
+}
+
+a {
+    color: var(--color-primary);
+}

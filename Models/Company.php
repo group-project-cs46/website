@@ -11,7 +11,7 @@ class Company
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM companies', [])->get();
+        return $db->query('SELECT * FROM companies LEFT JOIN users ON users.id = companies.id', [])->get();
     }
 
     public static function allWithUser()
