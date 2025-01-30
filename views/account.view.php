@@ -20,7 +20,8 @@
                 </div>
 
                 <div>
-                    <img src="<?= $photo ?>" alt="Profile Picture" id="profilePic" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gray-200);">
+                    <img src="<?= $photo ?>" alt="Profile Picture" id="profilePic"
+                         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gray-200);">
                     <form action="/users/profile/photo" enctype="multipart/form-data" method="post">
                         <input type="hidden" name="_method" value="PATCH">
 
@@ -34,22 +35,32 @@
                 <form action="/users/change_password" method="post"
                       style="display:flex; flex-direction: column; gap: 1rem">
                     <div>
-                        <label class="label">Current Password</label>
-                        <div>
+                        <label style="display: flex; flex-direction: column; font-size: 0.875rem; font-weight: 500; color: #1a202c;">
+                            Current Password
                             <input class="input" type="password" name="current_password" required>
-                        </div>
+                            <?php if (isset($errors['current_password'])): ?>
+                                <span style="color: #e11d48; font-size: 0.75rem;"><?= $errors['current_password'] ?></span>
+                            <?php endif ?>
+                        </label>
                     </div>
                     <div>
-                        <label class="label">New Password</label>
-                        <div>
-                            <input class="input" type="password" name="password" required>
-                        </div>
+                        <label style="display: flex; flex-direction: column; font-size: 0.875rem; font-weight: 500; color: #1a202c;">
+                            New Password
+                            <input class="input" type="password" name="password" required
+                                   value="<?= old('email') ?? '' ?>">
+                            <?php if (isset($errors['password'])): ?>
+                                <span style="color: #e11d48; font-size: 0.75rem;"><?= $errors['password'] ?></span>
+                            <?php endif ?>
+                        </label>
                     </div>
                     <div>
-                        <label class="label">Confirm Password</label>
-                        <div>
-                            <input class="input" type="password" name="password_confirmation" required>
-                        </div>
+                        <label style="display: flex; flex-direction: column; font-size: 0.875rem; font-weight: 500; color: #1a202c;">
+                            Confirm Password
+                            <input class="input" type="password" name="confirm_password" required>
+                            <?php if (isset($errors['confirm_password'])): ?>
+                                <span style="color: #e11d48; font-size: 0.75rem;"><?= $errors['confirm_password'] ?></span>
+                            <?php endif ?>
+                        </label>
                     </div>
                     <div>
                         <div>
