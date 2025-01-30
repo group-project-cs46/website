@@ -36,7 +36,8 @@ class User
                 u.role,
                 u.id,
                 u.disabled,
-                u.approved
+                u.approved,
+                u.photo
             FROM 
                 users u
             LEFT JOIN students s 
