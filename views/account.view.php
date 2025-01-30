@@ -17,6 +17,20 @@
                         <label class="label">Mobile:</label>
                         <p class="text"><?= htmlspecialchars($user['mobile'] ?? '') ?></p>
                     </div>
+
+                    <?php if (isset($user['index_number'])): ?>
+                        <div class="info">
+                            <label class="label">Index Number:</label>
+                            <p class="text"><?= htmlspecialchars($user['index_number']) ?></p>
+                        </div>
+                    <?php endif ?>
+
+                    <?php if (isset($user['registration_number'])): ?>
+                        <div class="info">
+                            <label class="label">Registration Number:</label>
+                            <p class="text"><?= htmlspecialchars($user['registration_number']) ?></p>
+                        </div>
+                    <?php endif ?>
                 </div>
 
                 <div>

@@ -37,7 +37,9 @@ class User
                 u.id,
                 u.disabled,
                 u.approved,
-                u.photo
+                u.photo,
+                s.index_number,
+                s.registration_number
             FROM 
                 users u
             LEFT JOIN students s 
