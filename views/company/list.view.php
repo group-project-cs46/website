@@ -65,6 +65,7 @@
                         <th>Index No</th>
                         <th>Email</th>
                         <th>Course</th>
+                        <th>Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -217,31 +218,36 @@
             name: "Thathsara",
             index: "22001123",
             email: "thathsara@gmail.com",
-            course: "CS"
+            course: "CS",
+            status: "Hired"
         },
         {
             name: "Karunya",
             index: "22001124",
             email: "karunya@gmail.com",
-            course: "IS"
+            course: "IS",
+            status: "Not Hired"
         },
         {
             name: "Nivethan",
             index: "22001125",
             email: "nivethan@gmail.com",
-            course: "CS"
+            course: "CS",
+            status: "Not Hired"
         },
         {
             name: "Pasindu",
             index: "22001126",
             email: "pasindu@gmail.com",
-            course: "IS"
+            course: "IS",
+            status: "Hired"
         },
         {
             name: "Sarma",
             index: "22020888",
             email: "sarma@gmail.com",
-            course: "CS"
+            course: "CS",
+            status: "Not Hired"
         }
     ];
 
@@ -260,8 +266,11 @@
                 <td>${student.email}</td>
                 <td>${student.course}</td>
                 <td>
+                <div class="btn-container">
+                    <button class="status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index})">${student.status}</button>
                     <button class="view-btn" onclick="viewAppliedStudent(${index})">View</button>
-                </td>
+                </div>
+                    </td>
             `;
             tableBody.appendChild(row);
         });
@@ -353,7 +362,17 @@
         button.innerText = "Hired";
         button.className = "status-btn hired"; // Update button class
     }
+    function toggleStatus(button, index) {
+        const student = appliedStudents[index];
+        if (student.status === "Hired") {
+            alert("The status is already 'Hired' and cannot be changed.");
+            return;
+        }
 
+        student.status = "Hired"; // Update status
+        button.innerText = "Hired";
+        button.className = "status-btn hired"; // Update button class
+    }
     // Function to open the modal to schedule an interview
     function openAddInterviewModal(button) {
         const studentIndex = button.getAttribute("data-student-index");
