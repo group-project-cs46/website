@@ -127,7 +127,7 @@ body {
 .calendar-navigation button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
+  background-color: #0ea5e9;
   color: white;
   border: none;
   border-radius: 5px;
@@ -136,7 +136,7 @@ body {
 }
 
 .calendar-navigation button:hover {
-  background-color: #0056b3;
+  background-color: #04213f;
 }
 
 /* Calendar Section: Add transition for opacity */
@@ -208,7 +208,7 @@ body {
 }
 
 .nav-button {
-  background-color: #007bff;
+  background-color: #0ea5e9;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -219,7 +219,7 @@ body {
 }
 
 .nav-button:hover {
-  background-color: #0056b3;
+  background-color: #060606;
 }
 
 .calendar-days {
@@ -250,7 +250,7 @@ body {
 }
 
 .day-box.highlight {
-  background-color: #007bff;
+  background-color: #0ea5e9;
   color: white;
 }
 
@@ -328,7 +328,7 @@ body {
 }
 
 .modal-content button {
-  background-color: #007bff;
+  background-color: #0ea5e9;
   color: white;
   border: none;
   padding: 10px;
@@ -338,7 +338,7 @@ body {
 }
 
 .modal-content button:hover {
-  background-color: #0056b3;
+  background-color: black;
 }
 
 .close {
