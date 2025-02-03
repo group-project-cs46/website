@@ -1,6 +1,7 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php') ; ?>
 
 <link rel="stylesheet" href="/styles/company/complaint.css" />
+
 <main class="main-content">
   <header class="header">
     <div class="above">
@@ -32,49 +33,39 @@
       </div>
     </div>
 
-    <form class="form-container show" id="complaintForm">
+    <!-- Complaint Form (POST method to send data to storeComplaint.php) -->
+    <form class="form-container show" id="complaintForm" method="POST" action="/company_complaint/store">
+      <?php if (isset($_GET['error'])): ?>
+        <div class="error-message">
+          <p>Error: Please fill out all fields correctly.</p>
+        </div>
+      <?php endif; ?>
+
       <h2>Complaint Details</h2>
+
       <label for="complaintType">Complaint Type</label>
-      <select id="complaintType" class="select-input" required>
+      <select id="complaintType" name="complaint_type" class="select-input" required>
         <option value="" disabled selected>Select complaint type</option>
         <option value="system">System Complaint</option>
         <option value="student">Student Complaint</option>
       </select>
 
       <label for="complaintDescription">Complaint Description</label>
-      <textarea id="complaintDescription" placeholder="Enter complaint description here" required></textarea>
+      <textarea id="complaintDescription" name="complaint_description" placeholder="Enter complaint description here" required></textarea>
 
-      <button type="button" class="submit-btn" onclick="submitComplaint()">Submit</button>
+      <button type="submit" class="submit-btn">Submit</button>
     </form>
   </section>
 
   <!-- Popup Overlay for Success Message -->
-  <div class="popup-overlay" id="popupOverlay">
+  <div class="popup-overlay" id="popupOverlay" style="display: none;">
     <p id="popupMessage">Your complaint has been submitted successfully.</p>
   </div>
 </main>
 
 <script>
-  function submitComplaint() {
-    const complaintType = document.getElementById('complaintType').value;
-    const complaintDescription = document.getElementById('complaintDescription').value;
 
-    if (!complaintType || complaintDescription.trim() === '') {
-      alert('Please fill out all fields before submitting.');
-      return;
-    }
-
-    // Simulate an AJAX request or server-side handling
-    const responseMessage = `You ${complaintType} complaint has been submitted successfully.`;
-
-    // Show success popup
-    showPopup(responseMessage);
-
-    // Clear form fields
-    document.getElementById('complaintType').value = '';
-    document.getElementById('complaintDescription').value = '';
-  }
-
+  // Display success popup
   function showPopup(message) {
     const popupOverlay = document.getElementById('popupOverlay');
     const popupMessage = document.getElementById('popupMessage');
@@ -86,6 +77,32 @@
       popupOverlay.style.display = 'none';
     }, 3000);
   }
-</script>
 
+
+   // Handle form submission and show success message
+   //const form = document.getElementById('complaintForm');
+  //form.addEventListener('submit', function(event) {
+    //event.preventDefault(); // Prevent default form submission
+
+    //const complaintType = document.getElementById('complaintType').value;
+    //const complaintDescription = document.getElementById('complaintDescription').value;
+
+    //if (!complaintType || complaintDescription.trim() === '') {
+      // Do not submit the form, display an error message
+      //window.location.href = '/complaint/form?error=true';
+      //return;
+    //}
+
+    // Simulate form submission (can replace with an actual AJAX request or server-side handling)
+   // const responseMessage = `Your ${complaintType} complaint has been submitted successfully.`;
+    
+    // Show success message
+    //showPopup(responseMessage);
+
+    // Optionally clear form
+    //document.getElementById('complaintType').value = '';
+    //document.getElementById('complaintDescription').value = '';
+  //});
+
+</script>
 <?php require base_path('views/partials/auth/auth-close.php') ?>
