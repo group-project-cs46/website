@@ -180,6 +180,12 @@ $navItems = [
         'icon' => 'fa-user-pen',
         'only' => [Role::Student],
     ],
+    [
+        'text' => "TechTalks",
+        'href' => '/students/techtalks',
+        'icon' => 'fa-microphone',
+        'only' => [Role::Student],
+    ]
 
 ];
 
