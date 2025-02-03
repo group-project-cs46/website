@@ -39,12 +39,18 @@ class User
                 u.approved,
                 u.photo,
                 s.index_number,
-                s.registration_number
+                s.registration_number,
+                c.website,
+                c.building,
+                c.street_name,
+                c.city,
+                c.postal_code,
+                c.address_line_2
             FROM 
                 users u
             LEFT JOIN students s 
                 ON u.id = s.id AND u.role = 2  -- Role::Student
-            LEFT JOIN lecturers l 
+            LEFT JOIN lecturers l
                 ON u.id = l.id AND u.role = 5  -- Role::Lecturer
             LEFT JOIN companies c 
                 ON u.id = c.id AND u.role = 4  -- Role::Company
