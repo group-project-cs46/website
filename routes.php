@@ -30,6 +30,7 @@ $router->get('/students/advertisements/show', 'students/advertisements/show.php'
 $router->post('/students/applications', 'students/applications/store.php')->only('student');
 
 $router->get('/students/companies/show', 'students/companies/show.php')->only('student');
+$router->get('/students/techtalks', 'students/techtalks/index.php')->only('student');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
