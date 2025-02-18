@@ -143,10 +143,16 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
+        'text' => 'Events',
+        'href' => '/events',
+        'icon' => 'fa-solid fa-calendar-days',
+        'only' => [Role::Admin],
+    ],
+    [
 
         'text' => 'Calendar',
         'href' => '/calendar',
-        'icon' => 'fa-fire-flame-curved',
+        'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Lecturer],
     ],
     [
@@ -155,18 +161,6 @@ $navItems = [
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
     ],
-    // [
-    //     'text' => 'Profile',
-    //     'href' => '/profilelec',
-    //     'icon' => 'fa-user',
-    //     'only' => [Role::Lecturer],
-    // ],
-    // [
-    //     'text' => 'Profile',
-    //     'href' => '/profile',
-    //     'icon' => 'fa-user',
-    //     'only' => [Role::Admin],
-    // ],
     [
 
         'text' => "Applications",
