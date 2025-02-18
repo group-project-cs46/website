@@ -33,7 +33,7 @@
             </thead>
             <tbody id="studentTableBody">
                 <!-- Example Table Rows -->
-                <tr>
+                <!-- <tr>
                     <td>2020/UCSC/001</td>
                     <td>Mr</td>
                     <td>Kasun Gunawardhana</td>
@@ -98,7 +98,23 @@
                         <button class="Edit-button"><a href="lecturerEdit">Edit</a></button>
                         <button class="disable-button">Disable</button>
                     </td>
-                </tr>
+                </tr> -->
+                <?php foreach ($LECTURER_data as $lecturer): ?>
+                    <tr>
+                        <td><?= $lecturer['employee_id'] ?></td>
+                        <td><?= $lecturer['title'] ?></td>
+                        <td><?= $lecturer['name'] ?></td>
+                        <td><?= $lecturer['contact_no'] ?></td>
+                        <td><?= $lecturer['email'] ?></td>
+                        <td class="actions">
+                        <a href="/lecturerEdit?id=<?= $lecturer['employee_id'] ?>" class="view-button">Edit</a>
+                        <form action="/lecturerDeletion" method="post">
+                            <input type="hidden" name="id" value="<?= $lecturer['employee_id'] ?>">
+                            <button type="submit" class="disable-button">Disable</button>  
+                        </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>
