@@ -25,6 +25,13 @@ if (! $approved) {
         ->throw();
 }
 
+$rejected = $authenticator->checkRejected($attributes['email']);
+
+if ($rejected) {
+    $form->error('email', "Account was rejected")
+        ->throw();
+}
+
 $signedIn = $authenticator->attempt(
     $attributes['email'],
     $attributes['password']

@@ -5,7 +5,7 @@
             <div class="job-details">
                 <h1 class="job-title"><?= $ad['job_role'] ?></h1>
                 <div style="margin-bottom: 2rem">
-                    <span class="company-name"><?= $ad['company_name'] ?></span>
+                    <span class="company-name"><?= $ad['name'] ?></span>
                     <br/>
                     <span style="font-size: 0.7rem; color: var(--gray-400)"><?= $ad['building'] ?>,
                                 <?= $ad['street_name'] ?>,
@@ -26,7 +26,7 @@
 
             <div class="apply-form">
                 <h2>Apply for this job</h2>
-                <form action="/applications" method="post">
+                <form action="/students/applications" method="post">
                     <input type="hidden" name="ad_id" value="<?= $ad['id'] ?>">
                     <div class="form-group">
                         <label for="resume">Resume</label>

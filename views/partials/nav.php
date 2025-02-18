@@ -119,12 +119,6 @@ $navItems = [
         'only' => [Role::Pdc]
     ],
     [
-        'text' => 'Advertisements',
-        'href' => '/advertisements',
-        'icon' => 'fa-briefcase',
-        'only' => [Role::Student],
-    ],
-    [
         'text' => "Managec PDC",
         'href' => '/pdcManage',
         'icon' => 'fa-solid fa-user-shield',
@@ -162,6 +156,12 @@ $navItems = [
         'only' => [Role::Lecturer],
     ],
     [
+        'text' => 'Advertisements',
+        'href' => '/students/advertisements',
+        'icon' => 'fa-briefcase',
+        'only' => [Role::Student],
+    ],
+    [
 
         'text' => "Applications",
         'href' => '/students/applications',
@@ -175,10 +175,10 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => 'Account',
-        'href' => '/account',
-        'icon' => 'fa-user',
-        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
+        'text' => "TechTalks",
+        'href' => '/students/techtalks',
+        'icon' => 'fa-microphone',
+        'only' => [Role::Student],
     ]
 
 ];
