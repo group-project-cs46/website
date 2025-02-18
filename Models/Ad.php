@@ -19,11 +19,13 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT advertisements.*,
-       companies.company_name,
+       users.name,
+       users.id AS user_id,
        companies.building,
          companies.street_name,
             companies.city
-       FROM advertisements JOIN companies ON advertisements.company_id = companies.id', [])->get();
+       FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id
+       LEFT JOIN users ON companies.id = users.id', [])->get();
     }
 
     public static function allWithCompanyByCompanyId($company_id)
@@ -31,9 +33,13 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT advertisements.*,
-       companies.company_name, companies.building,
+       users.name,
+          users.id AS user_id,
+       companies.building,
          companies.street_name,
-            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE companies.id = ?', [$company_id])->get();
+            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
+                           LEFT JOIN users ON companies.id = users.id
+                           WHERE companies.id = ?', [$company_id])->get();
     }
 
     public static function find($id)
@@ -47,10 +53,13 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, companies.company_name, companies.building,
+        return $db->query('SELECT advertisements.*, users.name, companies.building,
          companies.street_name,
          companies.address_line_2,
-            companies.city FROM advertisements JOIN companies ON advertisements.company_id = companies.id WHERE advertisements.id = ?', [$id])->find();
+            companies.city FROM advertisements
+                LEFT JOIN companies ON advertisements.company_id = companies.id
+                           LEFT JOIN users ON users.id = companies.id
+                           WHERE advertisements.id = ?', [$id])->find();
     }
 
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)

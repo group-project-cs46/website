@@ -297,10 +297,10 @@ a {
 }
 
 .astext {
-    background:none;
-    border:none;
-    margin:0;
-    padding:0;
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
     cursor: pointer;
 }
 
@@ -327,6 +327,11 @@ a {
     touch-action: manipulation;
 }
 
+.custom-select {
+    position: relative;
+    font-family: Arial;
+}
+
 .button:hover,
 .button:focus {
     background-color: var(--sky-700);
@@ -350,4 +355,17 @@ a {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-  }
+}
+
+.bell-icon {
+    margin-right: 1rem;
+    color: var(--color-primary);
+}
+
+.bell-icon:hover {
+    cursor: pointer;
+}
+
+a {
+    color: var(--color-primary);
+}
