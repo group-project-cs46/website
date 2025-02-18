@@ -125,6 +125,9 @@ $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
+// $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
+
+
 
 
 
