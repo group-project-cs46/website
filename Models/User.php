@@ -16,6 +16,8 @@ class User
         return $user;
     }
 
+    
+
     public static function findByEmail($email)
     {
         $db = App::resolve(Database::class);
