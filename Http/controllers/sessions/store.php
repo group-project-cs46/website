@@ -11,6 +11,12 @@ $form = Forms\Login::validate($attributes = [
 
 $authenticator = new Authenticator;
 
+$exists = $authenticator->checkExists($attributes['email']);
+if (! $exists) {
+    $form->error('email', "Account doesn't exist")
+        ->throw();
+}
+
 $disabled = $authenticator->checkDisabled($attributes['email']);
 
 if ($disabled) {

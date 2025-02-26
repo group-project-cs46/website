@@ -2,15 +2,26 @@
 
 use Models\Ad;
 use Models\Company;
+use Models\Round;
 
-$companies = Company::all();
+$currentRound = Round::currentRound();
 
-$company_id = $_GET['company_id'] ?? null;
+if ($currentRound) {
+    $companies = Company::byRoundId($currentRound['id']);
 
-if ($company_id) {
-    $ads = Ad::allWithCompanyByCompanyId($company_id);
+
+    $company_id = $_GET['company_id'] ?? null;
+
+
+    if ($company_id) {
+        $ads = Ad::byRoundIdAndComapnyId($currentRound['id'], $company_id);
+    } else {
+        $ads = Ad::byRoundId($currentRound['id']);
+    }
+
 } else {
-    $ads = Ad::allWIthCompany();
+    $companies = [];
+    $ads = [];
 }
 
 
@@ -18,4 +29,5 @@ view('students/advertisements/index.view.php', [
     'heading' => 'Jobs',
     'ads' => $ads,
     'companies' => $companies,
+    'currentRound' => $currentRound
 ]);
