@@ -23,6 +23,11 @@ class Authenticator
         return false;
     }
 
+    public function checkExists($email)
+    {
+        return User::findByEmail($email) ? true : false;
+    }
+
     public function checkDisabled($email)
     {
         $user = User::findByEmail($email);
