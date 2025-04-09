@@ -3,6 +3,7 @@
 namespace Core;
 
 use PDO;
+use PDOException;
 
 class Database
 {
@@ -42,6 +43,11 @@ class Database
     public function get()
     {
         return $this->statement->fetchAll();
+    }
+
+    public function getLastInsertedId()
+    {
+        return $this->connection->lastInsertId();
     }
 
     public function find()

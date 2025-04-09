@@ -8,23 +8,6 @@
     <link rel="stylesheet" href="/styles/pasindu/complaints.css">
 </head>
 <body>
-    <!-- <div class="sidebar">
-        <div class="sidebar-item">
-            <i class="icon">⊞</i>
-        </div>
-        <div class="sidebar-item">
-            <i class="icon">👤</i>
-        </div>
-        <div class="sidebar-item">
-            <i class="icon">▲</i>
-        </div>
-        <div class="sidebar-item active">
-            <i class="icon">📝</i>
-        </div>
-        <div class="sidebar-item settings">
-            <i class="icon">⚙</i>
-        </div>
-    </div> -->
 
     <div class="main-content">
         <div class="header">

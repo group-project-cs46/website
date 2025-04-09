@@ -1,9 +1,9 @@
 <?php
 
-use Models\Pdc;
+use Models\AddPdc;
 
 try {
-    $data = Pdc::get_all();
+    $data = AddPdc::get_all();
 } catch (Exception $e) {
     die($e->getMessage());
 }

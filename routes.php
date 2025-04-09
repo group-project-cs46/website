@@ -134,6 +134,16 @@ $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 // $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
 
 
+$router->get('/eventmanage', 'admin/eventmanage.php');
+$router->get('/eventView', 'admin/eventView.php');
+$router->get('/eventAdd', 'admin/eventAdd.php');
+
+
+$router->get('/e-pdcadd', 'admin/e-pdcadd.php');
+
+
+
+
 
 
 
