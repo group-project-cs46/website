@@ -138,7 +138,7 @@ $navItems = [
     ],
     [
         'text' => 'Events',
-        'href' => '/events',
+        'href' => '/eventmanage',
         'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Admin],
     ],

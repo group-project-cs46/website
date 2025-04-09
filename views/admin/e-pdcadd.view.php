@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Lecturer</title>
+    <title>Add New PDC</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -184,38 +184,38 @@
             <h2>Add New PDC</h2>
         </div>
         <!--add post -->
-        <div class="form-container" method="post" action="/pdcAddition" >
+        <div class="form-container" action="/pdcEdition" method="post">
             <div class="left-column">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" placeholder="Enter Name Here">
+                    <input type="text" value="<?= $PDC['name'] ?>" id="name" name="name" placeholder="Enter Name Here" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="employee-no">Employee No:</label>
-                    <input type="text" id="employee-no" placeholder="Enter Lecturer ID No. Here">
+                    <input type="text" disabled value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Lecturer ID No. Here">
+                    <input type="hidden" value="<?= $PDC['employee_id'] ?>" name="employee-no">
                 </div>
                 
                 <div class="form-group">
                     <label for="title">Title:</label>
-                    <select id="title">
+                    <select id="title" name="position" required>
                         <option value="">Select Title</option>
-                        <option value="mr">Mr.</option>
-                        <option value="mrs">Mrs.</option>
-                        <option value="ms">Ms.</option>
-                        <option value="dr">Dr.</option>
-                        <option value="prof">Prof.</option>
+                            <option value="Mr" <?= $PDC['title']==="Mr" ? "selected" : ""?> >Mr</option>
+                            <option value="Mrs" <?= $PDC['title']==="Mrs" ? "selected" : ""?> >Mrs</option>
+                            <option value="Ms" <?= $PDC['title']==="Ms" ? "selected" : ""?> >Ms</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" placeholder="Enter Email Address Here">
+                    <input value="<?= $PDC['email'] ?>" type="email" id="email" name="email" placeholder="Enter Email Address Here" required>
+
                 </div>
                 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" placeholder="Enter Contact No Here">
+                    <input value="<?= $PDC['contact_no'] ?>" type="text" id="contact-no" name="contact" placeholder="Enter Contact No Here" required>
                 </div>
             </div>
             
