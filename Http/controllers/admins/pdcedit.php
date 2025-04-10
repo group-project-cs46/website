@@ -9,7 +9,7 @@ try {
     }
 
     $data = Pdc::get_by_id($id);
-    view('admin/pdcEdit.view.php', ['PDC'=>$data]);
+    view('admins/pdcEdit.view.php', ['PDC'=>$data]);
 } catch (Exception $e) {
     die($e->getMessage());
 }

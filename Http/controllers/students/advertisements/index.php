@@ -6,7 +6,7 @@ use Models\Round;
 
 $currentRound = Round::currentRound();
 
-if ($currentRound) {
+if ($currentRound && !$currentRound['restricted']) {
     $companies = Company::byRoundId($currentRound['id']);
 
 
@@ -19,9 +19,13 @@ if ($currentRound) {
         $ads = Ad::byRoundId($currentRound['id']);
     }
 
+} else if ($currentRound && $currentRound['restricted']) {
+    $companies = null;
+    $ads = null;
+
 } else {
-    $companies = [];
-    $ads = [];
+    $companies = null;
+    $ads = null;
 }
 
 
