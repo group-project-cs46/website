@@ -22,7 +22,7 @@ class Pdc
 
     public static function get_all(){
         $db = App::resolve(Database::class);
-        $result =  $db->query('SELECT * FROM pdc',[]);
+        $result = $db->query('SELECT * FROM pdcs p LEFT JOIN users u ON p.id = u.id',[]);
         return $result->get();
     }
 
@@ -46,6 +46,15 @@ class Pdc
             $contact_no,
             $email,
             $employee_id,
+        ]);
+    }
+
+    public static function disable($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE users SET disabled = TRUE WHERE id = ?', [
+            $id,
         ]);
     }
 
