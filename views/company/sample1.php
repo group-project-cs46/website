@@ -40,9 +40,9 @@
 
         <div id="techTalksSection" class="calendar-section active">
             <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">←</button>
                 <h2 id="calendarHeader" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">→</button>
             </div>
 
             <div id="tech-talks-calendar" class="calendar-container"></div>
@@ -50,35 +50,33 @@
 
         <div id="companyVisitsSection" class="calendar-section">
             <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">←</button>
                 <h2 id="calendarHeaderCompanyVisits" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">→</button>
             </div>
             <div id="company-visits-calendar" class="calendar-container"></div>
         </div>
 
         <!-- Modal for Adding Tech Talk Details -->
-        <div id="techTalkModal" class="modal" >
+        <div id="techTalkModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('techTalkModal')">&times;</span>
+                <span class="close" onclick="closeModal('techTalkModal')">×</span>
                 <h3>Tech Talk Details</h3>
-                <form id="techTalkForm" method="POST" action="/company_scedule/store">
+                <form id="techTalkForm">
                     <label for="techDate">Date:</label>
-                    <input  type="text" id="techDate" readonly />
-
-                    <input type="text" name ="techid" id="techid"  hidden/>
+                    <input type="text" id="techDate" readonly />
 
                     <label for="techTime">Time:</label>
                     <input type="text" id="techTime" readonly />
 
-                    <label for="conductorName">Conductor Name:</label>
-                    <input  name ="conductorName" type="text" id="conductorName" placeholder="Enter Conductor Name" required />
+                    <label for="constructorName">Constructor Name:</label>
+                    <input type="text" id="constructorName" placeholder="Enter Constructor Name" required />
 
-                    <label for="conductorEmail">Conductor Email:</label>
-                    <input name ="conductorEmail" type="email" id="conductorEmail" placeholder="Enter Conductor Email" required />
+                    <label for="constructorEmail">Constructor Email:</label>
+                    <input type="email" id="constructorEmail" placeholder="Enter Constructor Email" required />
 
                     <label for="description">Description:</label>
-                    <textarea  name ="description" id="description" placeholder="Enter Description" required></textarea>
+                    <textarea id="description" placeholder="Enter Description" required></textarea>
 
                     <button type="submit">Save</button>
                 </form>
@@ -88,7 +86,7 @@
         <!-- Modal for Approving Company Visit -->
         <div id="companyVisitModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('companyVisitModal')">&times;</span>
+                <span class="close" onclick="closeModal('companyVisitModal')">×</span>
                 <h3>Company Visit Details</h3>
                 <p><strong>Date:</strong> <span id="visitDate"></span></p>
                 <p><strong>Time:</strong> <span id="visitTime"></span></p>
@@ -104,9 +102,19 @@
     let currentYear = new Date().getFullYear(); // Start with current year
     let currentMonth = new Date().getMonth(); // Start with current month (0-indexed)
 
-    techtalks = <?php echo json_encode($techtalk); ?>;
+    // Convert PHP techtalk data to JavaScript
+    const techTalksFromDB = <?php echo json_encode($techtalk); ?>;
+
+    // Format the tech talk data for the calendar
+    const formattedTechTalks = techTalksFromDB.map(event => {
+        const dateTime = new Date(event.date);
+        const date = dateTime.toISOString().split('T')[0]; // e.g., "2025-04-01"
+        const time = dateTime.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); // e.g., "8:00 AM"
+        return { date, time };
+    });
+
     const events = {
-        'tech-talks': techtalks,
+        'tech-talks': formattedTechTalks,
         'company-visits': [
             { date: '2024-11-07', time: '2:00 PM', lecturer_name: 'John', email: 'John1234@gmail.com' },
             { date: '2024-11-14', time: '4:00 PM', lecturer_name: 'Nimal', email: 'Nimal1234@gmail.com' }
@@ -173,12 +181,18 @@
             dayCell.className = 'day-box';
             dayCell.textContent = day;
 
-            const event = events.find(e => e.date === dateStr);
-            if (event) {
+            // Find all events for this date
+            const dayEvents = events.filter(e => e.date === dateStr);
+            if (dayEvents.length > 0) {
                 dayCell.classList.add('highlight');
-                if (containerId === 'tech-talks-calendar'){
-                    dayCell.onclick = () => openTechTalkModal(event.date, event.time,event.id,event.conductor_email,event.conductor_email,event.description);
+                if (containerId === 'tech-talks-calendar') {
+                    // For tech talks, show the first event's time and allow clicking to view details
+                    const firstEvent = dayEvents[0];
+                    dayCell.innerHTML += `<br><small>${firstEvent.time}</small>`;
+                    dayCell.onclick = () => openTechTalkModal(firstEvent.date, firstEvent.time);
                 } else if (containerId === 'company-visits-calendar') {
+                    // Company visits remain unchanged
+                    const event = dayEvents[0];
                     dayCell.onclick = () =>
                         openCompanyVisitModal(event.date, event.time, event.lecturer_name, event.email, dayCell);
                 }
@@ -221,14 +235,9 @@
         }
     }
 
-    function openTechTalkModal(date, time,id,conductor_name,conductor_email,description) {
-
+    function openTechTalkModal(date, time) {
         document.getElementById('techDate').value = date;
         document.getElementById('techTime').value = time;
-        document.getElementById('techid').value = id;
-        document.getElementById('conductorName').value = (conductor_name !== null && conductor_name !== undefined && conductor_name !== 'NULL') ? conductor_name : '';
-        document.getElementById('conductorEmail').value = (conductor_email !== null && conductor_email !== undefined && conductor_email !== 'NULL') ? conductor_email : '';
-        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description  : '';
         document.getElementById('techTalkModal').style.display = 'flex';
     }
 
@@ -254,7 +263,17 @@
         alert('Company Visit Approved!');
     }
 
-    
+    document.getElementById('techTalkForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const constructorName = document.getElementById('constructorName').value;
+        const constructorEmail = document.getElementById('constructorEmail').value;
+        const description = document.getElementById('description').value;
+        alert(`Tech Talk Details Saved:
+        Constructor Name: ${constructorName}
+        Constructor Email: ${constructorEmail}
+        Description: ${description}`);
+        closeModal('techTalkModal');
+    });
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
