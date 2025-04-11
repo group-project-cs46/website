@@ -8,4 +8,4 @@ try {
     die($e->getMessage());
 }
 
-view('admins/lecturerManage.view.php', ['LECTURER_data'=>$data]);
+view('admin/lecturerManage.view.php', ['LECTURER_data'=>$data]);

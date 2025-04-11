@@ -120,9 +120,15 @@ $navItems = [
         'icon' => 'fa-ban',
         'only' => [Role::Pdc]
     ],
+//    [
+//        'text' => "PDCs",
+//        'href' => '/admins/pdcs',
+//        'icon' => 'fa-solid fa-user-shield',
+//        'only' => [Role::Admin],
+//    ],
     [
-        'text' => "PDCs",
-        'href' => '/admins/pdcs',
+        'text' => "Managec PDC",
+        'href' => '/pdcManage',
         'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Admin],
     ],
