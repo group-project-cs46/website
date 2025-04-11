@@ -10,4 +10,4 @@ try {
     die($e->getMessage());
 }
 
-redirect('/pdcManage');
+redirect('/lecturerManage');

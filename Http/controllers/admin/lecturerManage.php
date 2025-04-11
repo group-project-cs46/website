@@ -1,9 +1,9 @@
 <?php
 
-use Models\lecturer;
+use Models\AddLecturer;
 
 try {
-    $data = lecturer::get_all();
+    $data = AddLecturer::get_all();
 } catch (Exception $e) {
     die($e->getMessage());
 }
