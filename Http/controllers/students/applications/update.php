@@ -23,6 +23,11 @@ if ($application['student_id'] != $user_id) {
     exit();
 }
 
+if ($application['selected'] || $application['failed']) {
+    Session::flash('toast', 'You cannot update this application');
+    redirect('/students/applications');
+}
+
 Application::updateCvId($application_id, $cv_id);
 
 

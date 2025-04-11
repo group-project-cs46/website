@@ -14,7 +14,9 @@
     text-align: center;
     padding: 5px 10px;
     border-radius: 6px;
-    left: 110%;
+    left: 120%;
+    top: 50%;
+    transform: translateY(-50%);
 
     /* Position the tooltip text - see examples below! */
     position: absolute;
