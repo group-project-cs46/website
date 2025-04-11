@@ -48,10 +48,10 @@ $router->get('/students/cvs', 'students/cvs/index.php')->only('student');
 
 // Admin by thathsara
 
-$router->get('/admins/pdcs', 'admins/pdcs/index.php');
-$router->post('/admins/pdcs/disable', 'admins/pdcs/disable.php');
-$router->get('/admins/pdcs/create', 'admins/pdcs/create.php');
-$router->post('/admins/pdcs/store', 'admins/pdcs/store.php');
+$router->get('/admin/pdcs', 'admin/pdcs/index.php');
+$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
+$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
+$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
 
 //company
 
@@ -95,14 +95,14 @@ $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
-$router->get('/complaints', controller: 'admins/complaints.php');
-$router->get('/complaintsForm', controller: 'admins/complaintsForm.php');
-$router->get('/complaintsReply', controller: 'admins/complaintsReply.php');
+$router->get('/complaints', controller: 'admin/complaints.php');
+$router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/calendarVisit', 'lecturer/calendarVisit.php');
 $router->get('/profilelec', 'lecturer/account.php');
-$router->get('/profile', 'admins/account.php');
+$router->get('/profile', 'admin/account.php');
 
 
 
@@ -110,20 +110,20 @@ $router->get('/report', 'lecturer/report.php');
 $router->get('/reportMain', 'lecturer/reportMain.php');
 $router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
 
-$router->get('/pdcManage', 'admins/pdcManage.php');
-$router->get('/pdcAdd', 'admins/pdcAdd.php');
-$router->get('/pdcEdit', controller: 'admins/pdcEdit.php');
+$router->get('/pdcManage', 'admin/pdcManage.php');
+$router->get('/pdcAdd', 'admin/pdcAdd.php');
+$router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
 
 $router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 
-$router->get('/lecturerManage', 'admins/lecturerManage.php');
-$router->get('/lecturerAdd', 'admins/lecturerAdd.php');
-$router->get('/lecturerEdit', 'admins/lecturerEdit.php');
+$router->get('/lecturerManage', 'admin/lecturerManage.php');
+$router->get('/lecturerAdd', 'admin/lecturerAdd.php');
+$router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
-$router->post('/pdcAddition', controller: 'admins/add-pdc.php');
-$router->post('/pdcEdition', controller: 'admins/edit-pdc.php');
-$router->post('/pdcDeletion', controller: 'admins/delete-pdc.php');
+$router->post('/pdcAddition', controller: 'admin/add-pdc.php');
+$router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
+$router->post('/pdcDeletion', controller: 'admin/delete-pdc.php');
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');

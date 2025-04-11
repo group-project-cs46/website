@@ -8,4 +8,4 @@ try {
     die($e->getMessage());
 }
 
-view('admins/pdcManage.view.php', ['PDC_data' => $data]);
+view('admin/pdcManage.view.php', ['PDC_data' => $data]);
