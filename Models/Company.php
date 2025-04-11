@@ -7,6 +7,12 @@ use Core\Database;
 
 class Company
 {
+    public static function getById($id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM companies WHERE id = ?', [$id])->find();
+    }
     public static function all()
     {
         $db = App::resolve(Database::class);

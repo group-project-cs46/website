@@ -59,7 +59,7 @@ foreach ($techtalks as $techtalk) {
                             <?php if (isset($techtalksByDay[$i])): ?>
                                 <?php foreach ($techtalksByDay[$i] as $techtalk): ?>
                                     <div style="display: flex; flex-direction: column; font-size: 0.7rem; gap: 0.5rem">
-                                        <span><?= htmlspecialchars($techtalk['title']) ?></span>
+                                        <span><?= htmlspecialchars($techtalk['description']) ?></span>
                                         <span><?= htmlspecialchars(date('H:i', strtotime($techtalk['datetime']))) ?></span>
                                         <span><?= htmlspecialchars($techtalk['name'] ?? '') ?></span>
                                     </div>

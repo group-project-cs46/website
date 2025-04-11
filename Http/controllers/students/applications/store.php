@@ -6,6 +6,7 @@ use Core\Session;
 use Core\Validator;
 use Models\Ad;
 use Models\Application;
+use Models\Settings;
 
 
 // dd($_POST);
@@ -36,8 +37,9 @@ if ($existing_application) {
 }
 
 $other_applications = Application::getByStudentId($user_id);
+$application_limit = Settings::getValueByKey('application_limit_per_student');
 
-if (count($other_applications) >= 5) {
+if (count($other_applications) >= $application_limit) {
     Session::flash('toast', 'No more than 5 applications allowed');
     redirect('/students/advertisements');
 }

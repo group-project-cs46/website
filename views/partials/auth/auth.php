@@ -181,6 +181,12 @@ $navItems = [
         'href' => '/students/techtalks',
         'icon' => 'fa-microphone',
         'only' => [Role::Student],
+    ],
+    [
+        'text' => "Internship Reports",
+        'href' => '/students/internship_reports',
+        'icon' => 'fa-file-pdf',
+        'only' => [Role::Student],
     ]
 
 ];

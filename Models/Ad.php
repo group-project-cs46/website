@@ -68,7 +68,14 @@ class Ad
                            WHERE advertisements.round_id = ? AND companies.id = ?', [$roundId, $companyId])->get();
     }
 
-    public static function find($id)
+//    public static function find($id)
+//    {
+//        $db = App::resolve(Database::class);
+//
+//        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+//    }
+
+    public static function getById($id)
     {
         $db = App::resolve(Database::class);
 

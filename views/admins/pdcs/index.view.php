@@ -20,7 +20,6 @@
                 <div class="grid-header">Contact No.</div>
                 <div class="grid-header">Email</div>
                 <div class="grid-header"></div>
-<!--                <div class="grid-header"></div>-->
                 <?php foreach ($pdcs as $item): ?>
                     <div class="grid-item"><?php echo htmlspecialchars($item['id']); ?></div>
                     <div class="grid-item">
