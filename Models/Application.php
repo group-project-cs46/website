@@ -43,12 +43,20 @@ class Application
             SELECT 
                 applications.id, 
                 advertisements.job_role,
-                users.name
+                users.name,
+                interviews.datetime AS interview_date,
+                interviews.complete AS interview_complete,
+                selected,
+                failed,
+                cvs.original_name AS cv_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
             LEFT JOIN companies ON advertisements.company_id = companies.id
             LEFT JOIN users ON companies.id = users.id
-            WHERE student_id = ?', [$student_id])->get();
+            LEFT JOIN interviews ON applications.interview_id = interviews.id
+            LEFT JOIN cvs ON applications.cv_id = cvs.id
+            WHERE applications.student_id = ?
+        ', [$student_id])->get();
     }
 
     public static function updateCvId($id, $cv_id)

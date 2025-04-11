@@ -28,11 +28,11 @@ $router->get('/students/advertisements', 'students/advertisements/index.php')->o
 $router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
 
 $router->post('/students/applications', 'students/applications/store.php')->only('student');
+$router->get('/students/applications/show', 'students/applications/show.php')->only('student');
 
 $router->get('/students/companies/show', 'students/companies/show.php')->only('student');
 $router->get('/students/techtalks', 'students/techtalks/index.php')->only('student');
 
-$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
@@ -113,6 +113,8 @@ $router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
 $router->get('/pdcManage', 'admins/pdcManage.php');
 $router->get('/pdcAdd', 'admins/pdcAdd.php');
 $router->get('/pdcEdit', controller: 'admins/pdcEdit.php');
+
+$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 
 $router->get('/lecturerManage', 'admins/lecturerManage.php');
