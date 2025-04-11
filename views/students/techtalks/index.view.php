@@ -2,7 +2,7 @@
 // Group techtalks by day
 $techtalksByDay = [];
 foreach ($techtalks as $techtalk) {
-    $day = (int)date('j', strtotime($techtalk['time']));
+    $day = (int)date('j', strtotime($techtalk['datetime']));
     if (!isset($techtalksByDay[$day])) {
         $techtalksByDay[$day] = [];
     }
@@ -58,10 +58,11 @@ foreach ($techtalks as $techtalk) {
                             </time>
                             <?php if (isset($techtalksByDay[$i])): ?>
                                 <?php foreach ($techtalksByDay[$i] as $techtalk): ?>
-                                    <span class="techtalk"><?= htmlspecialchars($techtalk['title']) ?></span>
-                                    <br/>
-                                <span><?= htmlspecialchars($techtalk['name'] ?? '') ?></span>
-
+                                    <div style="display: flex; flex-direction: column; font-size: 0.7rem; gap: 0.5rem">
+                                        <span><?= htmlspecialchars($techtalk['description']) ?></span>
+                                        <span><?= htmlspecialchars(date('H:i', strtotime($techtalk['datetime']))) ?></span>
+                                        <span><?= htmlspecialchars($techtalk['name'] ?? '') ?></span>
+                                    </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </li>

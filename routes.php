@@ -28,11 +28,11 @@ $router->get('/students/advertisements', 'students/advertisements/index.php')->o
 $router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
 
 $router->post('/students/applications', 'students/applications/store.php')->only('student');
+$router->get('/students/applications/show', 'students/applications/show.php')->only('student');
 
 $router->get('/students/companies/show', 'students/companies/show.php')->only('student');
 $router->get('/students/techtalks', 'students/techtalks/index.php')->only('student');
 
-$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
 $router->post('/cv/store', 'cv/store.php')->only('student');
@@ -45,6 +45,13 @@ $router->get('/students/applications/edit', 'students/applications/edit.php')->o
 $router->patch('/students/applications/update', 'students/applications/update.php')->only('student');
 
 $router->get('/students/cvs', 'students/cvs/index.php')->only('student');
+
+// Admin by thathsara
+
+$router->get('/admin/pdcs', 'admin/pdcs/index.php');
+$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
+$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
+$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
 
 //company
 
@@ -106,6 +113,8 @@ $router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
 $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');
 $router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
+
+$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 
 $router->get('/lecturerManage', 'admin/lecturerManage.php');
