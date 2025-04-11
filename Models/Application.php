@@ -42,6 +42,16 @@ class Application
         return $db->query('SELECT * FROM applications WHERE student_id = ? AND selected = TRUE', [$student_id])->get();
     }
 
+    public static function selectedCompanyByStudentId($student_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT companies.* FROM applications
+         LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+         LEFT JOIN companies ON advertisements.company_id = companies.id
+         WHERE student_id = ? AND selected = TRUE', [$student_id])->find();
+    }
+
     public static function getByStudentIdWithDetails($student_id)
     {
         $db = App::resolve(Database::class);

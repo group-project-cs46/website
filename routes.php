@@ -46,12 +46,19 @@ $router->patch('/students/applications/update', 'students/applications/update.ph
 
 $router->get('/students/cvs', 'students/cvs/index.php')->only('student');
 
+$router->get('/students/internship_reports', 'students/internship_reports/index.php')->only('student');
+$router->post('/students/internship_reports/store', 'students/internship_reports/store.php')->only('student');
+$router->get('/students/internship_reports/show', 'students/internship_reports/show.php')->only('student');
+$router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
+
+$router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+
 // Admin by thathsara
 
-$router->get('/admin/pdcs', 'admin/pdcs/index.php');
-$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
-$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
-$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
+//$router->get('/admin/pdcs', 'admin/pdcs/index.php');
+//$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
+//$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
+//$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
 
 //company
 

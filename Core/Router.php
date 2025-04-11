@@ -5,6 +5,7 @@ namespace Core;
 use Core\Middleware\Auth;
 use Core\Middleware\Guest;
 use Core\Middleware\Middleware;
+use Models\Notification;
 
 class Router
 {
@@ -69,6 +70,9 @@ class Router
         foreach ($this->routes as $route) {
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 Middleware::resolve($route['middleware']);
+
+                $notifications = Notification::getAllByUserId(auth_user()['id']);
+                $_SESSION['user']['notifications'] = $notifications;
 
                 return require base_path('Http/controllers/' . $route['controller']);
             }
