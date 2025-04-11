@@ -31,7 +31,7 @@ $router->post('/students/applications', 'students/applications/store.php')->only
 $router->get('/students/applications/show', 'students/applications/show.php')->only('student');
 
 $router->get('/students/companies/show', 'students/companies/show.php')->only('student');
-$router->get('/students/techtalks', 'students/techtalks/index.php')->only('student');
+$router->get('/students/events', 'students/events/index.php')->only('student');
 
 
 $router->get('/account', 'account.php')->only('auth');

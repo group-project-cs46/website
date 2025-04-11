@@ -2,6 +2,8 @@
 
 <?php
 
+use Models\Application;
+
 enum Role: int
 {
     case Admin = 1;
@@ -183,8 +185,8 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => "TechTalks",
-        'href' => '/students/techtalks',
+        'text' => "Calendar",
+        'href' => '/students/events',
         'icon' => 'fa-microphone',
         'only' => [Role::Student],
     ],
@@ -193,8 +195,10 @@ $navItems = [
         'href' => '/students/internship_reports',
         'icon' => 'fa-file-pdf',
         'only' => [Role::Student],
+        'filter' => function () {
+            return Application::isSelectedByStudentId(auth_user()['id']);
+        }
     ]
-
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
@@ -202,9 +206,17 @@ function filterNavItemsByRole($navItems, $userRole)
     return array_filter($navItems, function ($item) use ($userRole) {
 
         return !isset($item['only']) || in_array(
-            $userRole,
-            array_map(fn($role) => $role->value, $item['only'])
-        );
+                $userRole,
+                array_map(fn($role) => $role->value, $item['only'])
+            );
+    });
+}
+
+function filter($navItems)
+{
+    $navItems = filterNavItemsByRole($navItems, $_SESSION['user']['role']);
+    return array_filter($navItems, function ($item) {
+        return !isset($item['filter']) || $item['filter']();
     });
 }
 
@@ -215,7 +227,7 @@ function filterNavItemsByRole($navItems, $userRole)
     <div
         style="z-index: 20; grid-row: span 2; position: sticky; top:0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
-            <?php foreach (filterNavItemsByRole($navItems, $_SESSION['user']['role']) as $item): ?>
+            <?php foreach (filter($navItems) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
                     style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href']) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>">
                     <i class="fa-solid <?= $item['icon'] ?> fa-lg"></i>

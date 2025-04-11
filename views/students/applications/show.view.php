@@ -42,7 +42,7 @@
                     <h2 style="color: #0ea5e9; font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0;">Interview Details</h2>
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Date & Time:</strong>
-                            <?php if ($interview['complete']): ?>
+                            <?php if ($interview && $interview['complete']): ?>
                                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Completed</span>
                             <?php elseif (!empty($interview['datetime'])): ?>
                                 <?php echo htmlspecialchars($interview['datetime']) ?>

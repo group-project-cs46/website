@@ -6,6 +6,8 @@ use Models\Round;
 
 $currentRound = Round::currentRound();
 
+//dd($currentRound);
+
 if ($currentRound && !$currentRound['restricted']) {
     $companies = Company::byRoundId($currentRound['id']);
 
