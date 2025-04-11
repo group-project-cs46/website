@@ -35,6 +35,13 @@ class Application
         return $db->query('SELECT * FROM applications WHERE student_id = ? AND ad_id = ?', [$student_id, $ad_id])->find();
     }
 
+    public static function isSelectedByStudentId($student_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM applications WHERE student_id = ? AND selected = TRUE', [$student_id])->get();
+    }
+
     public static function getByStudentIdWithDetails($student_id)
     {
         $db = App::resolve(Database::class);
