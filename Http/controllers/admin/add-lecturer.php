@@ -1,6 +1,6 @@
 <?php
 
-use Models\AddPdc;
+use Models\AddLecturer;
 
 $name = $_POST['name'];
 $email = $_POST['email'];
@@ -20,7 +20,7 @@ try {
     //         'approved' => 1,
     //     ]
     // );
-    AddPdc::create($employee_id, $title, $email, $name, $contact, $password);
+    AddLecturer::create($employee_id, $title, $email, $name, $contact, $password);
 } catch (\Exception $e) {
     die($e->getMessage());
 }

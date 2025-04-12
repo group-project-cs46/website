@@ -12,7 +12,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: white
         }
 
         .container {
@@ -20,7 +20,7 @@
             margin: 20px auto;
             background-color: #fff;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -34,6 +34,7 @@
             font-size: 18px;
             font-weight: 600;
             color: #333;
+            text-align: center;
         }
 
         .form-container {
