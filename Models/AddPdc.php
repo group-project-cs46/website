@@ -20,26 +20,26 @@ class AddPdc
             1
         ]);
 
-        $user_id = $db->getLastInsertedId();
+        $id = $db->getLastInsertedId();
 
-        $db->query('INSERT INTO pdc(employee_id, title, user_id) VALUES (?, ?, ?)', [
+        $db->query('INSERT INTO pdcs(employee_id, title, id) VALUES (?, ?, ?)', [
             $employee_id,
             $title,
-            $user_id
+            $id
         ]);
     }
 
     public static function get_all()
     {
         $db = App::resolve(Database::class);
-        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdc as p ON u.id=p.user_id', []);
+        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdcs as p ON u.id=p.id', []);
         return $result->get();
     }
 
     public static function get_by_id(string $id)
     {
         $db = App::resolve(Database::class);
-        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdc as p ON u.id=p.user_id WHERE u.id=?', [$id]);
+        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdcs as p ON u.id=p.id WHERE u.id=?', [$id]);
         $data = $result->get();
         if (empty($data)) {
             return null;
@@ -87,7 +87,7 @@ class AddPdc
             $id
         ];
 
-        $db->query('UPDATE pdc SET employee_id=?,title=? WHERE user_id=?', $data);
+        $db->query('UPDATE pdcs SET employee_id=?,title=? WHERE id=?', $data);
     }
 
     public static function delete($id)
@@ -99,4 +99,20 @@ class AddPdc
             $id,
         ]);
     }
+
+    public static function toggle_status($id)
+{
+    $db = App::resolve(Database::class);
+
+    // Get current status
+    $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
+
+    if (empty($result)) return;
+
+    $current = $result[0]['approved'];
+    $new = $current ? 0 : 1;
+
+    $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
+}
+
 }

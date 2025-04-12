@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+<div class="center-wrapper">
     <div class="container">
         <header>
             <div class="search-container">
@@ -38,8 +39,10 @@
             </div>
             <!-- Additional cards will be cloned from this template -->
         </div>
+        </div>
     </div>
     <script src="/scripts/pasindu/eventmanage.js"></script>
 </body>
 </html>
 <?php require base_path('views/partials/auth/auth-close.php') ?>
+

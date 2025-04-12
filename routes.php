@@ -107,7 +107,6 @@ $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');
 $router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
 
-
 $router->get('/lecturerManage', 'admin/lecturerManage.php');
 $router->get('/lecturerAdd', 'admin/lecturerAdd.php');
 $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
@@ -115,6 +114,13 @@ $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
 $router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
 $router->post('/pdcDeletion', controller: 'admin/delete-pdc.php');
+$router->post('/pdcToggleStatus', controller: 'admin/toggle-pdc-status.php');
+
+$router->post('/lecturerAddition', controller: 'admin/add-lecturer.php');
+$router->post('/lecturerEdition', controller: 'admin/edit-lecturer.php');
+$router->post('/lecturerDeletion', controller: 'admin/delete-lecturer.php');
+$router->post('/lecturerToggleStatus', controller: 'admin/toggle-lecturer-status.php');
+
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
@@ -122,13 +128,18 @@ $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
 // $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
 
-
 $router->get('/eventmanage', 'admin/eventmanage.php');
-$router->get('/eventView', 'admin/eventView.php');
-$router->get('/eventAdd', 'admin/eventAdd.php');
+$router->get('/eventsView', 'admin/eventView.php');
+$router->get('/eventsAdd', 'admin/eventAdd.php');
 
+$router->post('/eventsAddition', controller: 'admin/add-events.php');
+$router->post('/lecturerEdition', controller: 'admin/edit-lecturer.php');
+$router->post('/lecturerDeletion', controller: 'admin/delete-lecturer.php');
 
-$router->get('/e-pdcadd', 'admin/e-pdcadd.php');
+$router->get('/eventStudentsManage', 'admin/eventStudentsManage.php');
+$router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
+$router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
+
 
 
 

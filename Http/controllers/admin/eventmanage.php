@@ -1,3 +1,15 @@
 <?php
 
-view('admin/eventmanage.view.php', []);
+view('admin/eventsmanage.view.php', []);
+
+// <?php
+
+// use Models\AddEvents;
+
+// try {
+//     $data = AddEvents::get_all();
+// } catch (Exception $e) {
+//     die($e->getMessage());
+// }
+
+// view('admin/eventsmanage.view.php', ['EVENTS_data'=>$data]);

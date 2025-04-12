@@ -1,6 +1,6 @@
 <?php
 
-use Models\AddPdc;
+use Models\AddLecturer;
 
 $name = $_POST['name'];
 $email = $_POST['email'];
@@ -11,9 +11,11 @@ $id = $_POST['id'];
 $password = $_POST['password'];
 
 try {
-    AddPdc::update($id, $name, $email, $employee_id, $contact, $title, $password);
+    AddLecturer::update($id, $name, $email, $employee_id, $contact, $title, $password);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
 
 redirect('/lecturerManage');
+
+
