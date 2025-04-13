@@ -47,18 +47,6 @@ class AddEventStudent
         return $data[0];
     }
 
-    // public static function update_pdc($employee_id, $title, $pdcname, $contact_no, $email)
-    // {
-    //     $db = App::resolve(Database::class);
-
-    //     $db->query('UPDATE pdc SET title=?, pdcname=?, contact_no=?,email=? WHERE employee_id=?', [
-    //         $title,
-    //         $pdcname,
-    //         $contact_no,
-    //         $email,
-    //         $employee_id,
-    //     ]);
-    // }
 
     public static function update($id, $name, $email, $employee_id, $contact, $title, $password)
     {
