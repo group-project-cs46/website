@@ -303,11 +303,11 @@ function filter($navItems)
                 dropdown.classList.toggle('show');
             });
 
-            // document.addEventListener('click', (e) => {
-            //     if (!bellIcon.contains(e.target) && !dropdown.contains(e.target)) {
-            //         dropdown.classList.remove('show');
-            //     }
-            // });
+            document.addEventListener('click', (e) => {
+                if (!bellIcon.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
         });
     </script>
 

@@ -1,5 +1,9 @@
 <?php require base_path('views/partials/layouts/guest/open.php') ;?>
 
+<?php
+dd($_SESSION);
+?>
+
     <!-- Glassmorphism navbar -->
     <nav style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; padding: 1rem;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
