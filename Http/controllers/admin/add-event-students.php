@@ -8,6 +8,7 @@ $employee_id = $_POST['employee_no'];
 $title = $_POST['title'];
 $contact = $_POST['contact'];
 $password = $_POST['password'];
+//this is addstudentevents part
 
 try {
     // Pdc::create($employee_id,$title,$name,$contact,$email);
