@@ -71,8 +71,13 @@ class Router
             if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                 Middleware::resolve($route['middleware']);
 
-                $notifications = Notification::getAllByUserId(auth_user()['id']);
-                $_SESSION['user']['notifications'] = $notifications;
+
+
+                if (isset($_SESSION['user'])) {
+                    $notifications = Notification::getAllByUserId(auth_user()['id']);
+                    $_SESSION['user']['notifications'] = $notifications;
+
+                }
 
                 return require base_path('Http/controllers/' . $route['controller']);
             }
