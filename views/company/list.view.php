@@ -35,7 +35,7 @@
             <div class="divider"></div>
 
             <div class="table-student-txt" id="shortedTab" onclick="toggleSection('shorted')">
-                <h3>Shorted Student List</h3>
+                <h3>Short Listed Student</h3>
                 <p>Manage student accounts</p>
             </div>
 
@@ -46,17 +46,30 @@
                 <p>Manage student accounts</p>
             </div>
         </div>
-
         <!-- Applied Student Section -->
         <div class="table-box" id="appliedSection" style="display: none;">
-            <!-- Filter Dropdown -->
+            <!-- Filter Dropdowns -->
             <div class="filter-container">
-                <label for="applied-course-filter">Filter by Course:</label>
-                <select id="applied-course-filter" onchange="filterAppliedStudents()">
-                    <option value="all">All</option>
-                    <option value="CS">CS</option>
-                    <option value="IS">IS</option>
-                </select>
+                <div class="filter-left">
+                    <label for="applied-course-filter">Filter by Course:</label>
+                    <select id="applied-course-filter" onchange="filterAppliedStudents()">
+                        <option value="all">All</option>
+                        <option value="CS">CS</option>
+                        <option value="IS">IS</option>
+                    </select>
+                </div>
+                <div class="filter-right">
+                    <label for="applied-jobrole-filter">Filter by Job Role:</label>
+                    <input list="applied-jobrole-options" id="applied-jobrole-filter" class="applied-jobrole-input" oninput="filterAppliedStudents()" placeholder="Type or select a job role">
+                    <datalist id="applied-jobrole-options">
+                        <option value="Software Engineer">
+                        <option value="Cybersecurity Analyst">
+                        <option value="DevOps Engineer">
+                        <option value="IT Support Specialist">
+                        <option value="AI/ML Engineer">
+                        <option value="Data Analyst">
+                    </datalist>
+                </div>
             </div>
             <table class="student-table">
                 <thead>
@@ -64,9 +77,10 @@
                         <th>Student Name</th>
                         <th>Index No</th>
                         <th>Email</th>
+                        <th>Job Role</th>
                         <th>Course</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th>Current Job Status</th>
+                        <th>View CV</th>
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
@@ -75,26 +89,32 @@
             </table>
         </div>
 
-        <!-- Shorted Student Section -->
+        <!-- Short Listed Student Section -->
         <div class="table-box" id="shortedSection" style="display: none;">
-            <!-- Filter Dropdown -->
+            <!-- Filter Dropdowns -->
             <div class="filter-container">
-                <label for="shorted-course-filter">Filter by Course:</label>
-                <select id="shorted-course-filter" onchange="filterShortedStudents()">
-                    <option value="all">All</option>
-                    <option value="CS">CS</option>
-                    <option value="IS">IS</option>
-                </select>
+                <div class="filter-right">
+                    <label for="shorted-jobrole-filter">Filter by Job Role:</label>
+                    <input list="shorted-jobrole-options" id="shorted-jobrole-filter" class="shorted-jobrole-input" oninput="filterShortedStudents()" placeholder="Type or select a job role">
+                    <datalist id="shorted-jobrole-options">
+                        <option value="Software Engineer">
+                        <option value="Cybersecurity Analyst">
+                        <option value="DevOps Engineer">
+                        <option value="IT Support Specialist">
+                        <option value="AI/ML Engineer">
+                        <option value="Data Analyst">
+                    </datalist>
+                </div>
             </div>
             <table class="student-table">
                 <thead>
                     <tr>
                         <th>Student Name</th>
-                        <th>Index No</th>
                         <th>Email</th>
-                        <th>Course</th>
-                        <th>Status</th>
-                        <th></th>
+                        <th>Job Role</th>
+                        <th>Current Job Status</th>
+                        <th>View CV</th>
+                        <th>Schedule Interview</th>
                     </tr>
                 </thead>
                 <tbody id="student-table-body">
@@ -102,7 +122,6 @@
                 </tbody>
             </table>
         </div>
-
         <!-- Modal Overlay for Add Interview Form -->
         <div id="addInterviewModal" class="modal-overlay">
             <div class="modal-content">
@@ -110,23 +129,30 @@
                 <h1 class="interview-heading">Create Interview Schedule</h1>
                 <form onsubmit="handleAddInterviewSubmit(event)">
                     <div class="form-row">
+                        <label for="from-venue">Venue:</label>
+                        <div class="input-with-icon">
+                            <input type="venue" name="venue" id="venue" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
                         <label for="from-date">Date:</label>
                         <div class="input-with-icon">
-                            <input type="date" id="from-date" required />
+                            <input type="date" name="date" id="from-date" required />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <label for="from-time">From:</label>
                         <div class="input-with-icon">
-                            <input type="time" id="from-time" required />
+                            <input type="time" name="from-time" id="from-time" required />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <label for="to-time">To:</label>
                         <div class="input-with-icon">
-                            <input type="time" id="to-time" required />
+                            <input type="time" name="to-time" id="to-time" required />
                         </div>
                     </div>
 
@@ -145,19 +171,30 @@
             </div>
         </div>
 
-
-
-
         <!-- Selected Student Section -->
         <div class="table-box" id="selectedSection" style="display: none;">
-            <!-- Filter Dropdown -->
+            <!-- Filter Dropdowns -->
             <div class="filter-container">
-                <label for="selected-course-filter">Filter by Course:</label>
-                <select id="selected-course-filter" onchange="filterSelectedStudents()">
-                    <option value="all">All</option>
-                    <option value="CS">CS</option>
-                    <option value="IS">IS</option>
-                </select>
+                <div class="filter-left">
+                    <label for="selected-course-filter">Filter by Course:</label>
+                    <select id="selected-course-filter" onchange="filterSelectedStudents()">
+                        <option value="all">All</option>
+                        <option value="CS">CS</option>
+                        <option value="IS">IS</option>
+                    </select>
+                </div>
+                <div class="filter-right">
+                    <label for="selected-jobrole-filter">Filter by Job Role:</label>
+                    <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
+                    <datalist id="selected-jobrole-options">
+                        <option value="Software Engineer">
+                        <option value="Cybersecurity Analyst">
+                        <option value="DevOps Engineer">
+                        <option value="IT Support Specialist">
+                        <option value="AI/ML Engineer">
+                        <option value="Data Analyst">
+                    </datalist>
+                </div>
             </div>
             <table class="student-table">
                 <thead>
@@ -165,7 +202,9 @@
                         <th>Student Name</th>
                         <th>Index No</th>
                         <th>Email</th>
+                        <th>Job Role</th>
                         <th>Course</th>
+                        <th>View CV</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -178,24 +217,63 @@
 </main>
 
 <script>
-    // Function to filter applied students by course
+    // Function to filter applied students by course and job role
     function filterAppliedStudents() {
         const courseFilter = document.getElementById("applied-course-filter").value;
-        const filteredStudents = courseFilter === "all" ? appliedStudents : appliedStudents.filter(student => student.course === courseFilter);
+        const jobRoleFilter = document.getElementById("applied-jobrole-filter").value.trim().toLowerCase();
+
+        let filteredStudents = appliedStudents;
+
+        // Filter by course
+        if (courseFilter !== "all") {
+            filteredStudents = filteredStudents.filter(student => student.course === courseFilter);
+        }
+
+        // Filter by job role (case-insensitive partial match)
+        if (jobRoleFilter) {
+            filteredStudents = filteredStudents.filter(student =>
+                student.jobrole && student.jobrole.toLowerCase().includes(jobRoleFilter)
+            );
+        }
+
         renderAppliedTable(filteredStudents);
     }
 
-    // Function to filter shorted students by course
+    // Function to filter shorted students by job role
     function filterShortedStudents() {
-        const courseFilter = document.getElementById("shorted-course-filter").value;
-        const filteredStudents = courseFilter === "all" ? shortedStudents : shortedStudents.filter(student => student.course === courseFilter);
+        const jobRoleFilter = document.getElementById("shorted-jobrole-filter").value.trim().toLowerCase();
+
+        let filteredStudents = shortedStudents;
+
+        // Filter by job role (case-insensitive partial match)
+        if (jobRoleFilter) {
+            filteredStudents = filteredStudents.filter(student =>
+                student.jobrole && student.jobrole.toLowerCase().includes(jobRoleFilter)
+            );
+        }
+
         loadStudents(filteredStudents);
     }
 
-    // Function to filter selected students by course
+    // Function to filter selected students by course and job role
     function filterSelectedStudents() {
         const courseFilter = document.getElementById("selected-course-filter").value;
-        const filteredStudents = courseFilter === "all" ? selectedStudents : selectedStudents.filter(student => student.course === courseFilter);
+        const jobRoleFilter = document.getElementById("selected-jobrole-filter").value.trim().toLowerCase();
+
+        let filteredStudents = selectedStudents;
+
+        // Filter by course
+        if (courseFilter !== "all") {
+            filteredStudents = filteredStudents.filter(student => student.course === courseFilter);
+        }
+
+        // Filter by job role (case-insensitive partial match)
+        if (jobRoleFilter) {
+            filteredStudents = filteredStudents.filter(student =>
+                student.jobrole && student.jobrole.toLowerCase().includes(jobRoleFilter)
+            );
+        }
+
         renderSelectedTable(filteredStudents);
     }
 
@@ -207,10 +285,24 @@
             document.getElementById(`${sec}Tab`).classList.toggle("active", sec === section);
         });
 
-        if (section === "applied") renderAppliedTable(appliedStudents);
-        if (section === "shorted") loadStudents(shortedStudents);
-        if (section === "selected") renderSelectedTable(selectedStudents);
+        // Reset filters and render the full list for the selected section
+        if (section === "applied") {
+            document.getElementById("applied-course-filter").value = "all";
+            document.getElementById("applied-jobrole-filter").value = "";
+            renderAppliedTable(appliedStudents);
+        }
+        if (section === "shorted") {
+            document.getElementById("shorted-jobrole-filter").value = "";
+            loadStudents(shortedStudents);
+        }
+        if (section === "selected") {
+            document.getElementById("selected-course-filter").value = "all";
+            document.getElementById("selected-jobrole-filter").value = "";
+            renderSelectedTable(selectedStudents);
+        }
     }
+
+
 
 
     // Sample student data
@@ -218,6 +310,7 @@
             name: "Thathsara",
             index: "22001123",
             email: "thathsara@gmail.com",
+            jobrole: "Software Engineer",
             course: "CS",
             status: "Hired"
         },
@@ -225,6 +318,7 @@
             name: "Karunya",
             index: "22001124",
             email: "karunya@gmail.com",
+            jobrole: "Cybersecurity Analyst",
             course: "IS",
             status: "Not Hired"
         },
@@ -232,6 +326,7 @@
             name: "Nivethan",
             index: "22001125",
             email: "nivethan@gmail.com",
+            jobrole: "Software Engineer",
             course: "CS",
             status: "Not Hired"
         },
@@ -239,6 +334,7 @@
             name: "Pasindu",
             index: "22001126",
             email: "pasindu@gmail.com",
+            jobrole: "DevOps Engineer",
             course: "IS",
             status: "Hired"
         },
@@ -246,6 +342,7 @@
             name: "Sarma",
             index: "22020888",
             email: "sarma@gmail.com",
+            jobrole: "Cybersecurity Analyst",
             course: "CS",
             status: "Not Hired"
         }
@@ -253,68 +350,101 @@
 
 
 
-
-    // Function to render applied student table
+    // Function to render applied student table with correctly aligned buttons
     function renderAppliedTable(students) {
         const tableBody = document.getElementById("studentTableBody");
         tableBody.innerHTML = "";
         students.forEach((student, index) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${student.name}</td>
-                <td>${student.index}</td>
-                <td>${student.email}</td>
-                <td>${student.course}</td>
-                <td>
-                <div class="btn-container">
-                    <button class="status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index})">${student.status}</button>
-                    <button class="view-btn" onclick="viewAppliedStudent(${index})">View</button>
-                </div>
-                    </td>
-            `;
+            <td>${student.name}</td>
+            <td>${student.index}</td>
+            <td>${student.email}</td>
+            <td>${student.jobrole}</td>
+            <td>${student.course}</td>
+            <td>
+                <button class="applied-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index}, 'applied')">${student.status}</button>
+            </td>
+            <td>
+                <button class="applied-view-btn" onclick="viewStudent(${index})">View</button>
+            </td>
+            <td>
+                <button class="applied-btn applied-select-btn" onclick="selectStudent(${index})">Select</button>
+            </td>
+            <td>
+                <button class="applied-btn applied-reject-btn" onclick="rejectStudent(${index})">Reject</button>
+            </td>
+        `;
             tableBody.appendChild(row);
         });
     }
-    // View applied student details
-    function viewAppliedStudent(index) {
+
+    // Function to handle selecting a student
+    function selectStudent(index) {
         const student = appliedStudents[index];
-        //alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
-        window.location.href = "/company/cv";
+
+        // Add student to shorted list if not already there
+        const alreadyShorted = shortedStudents.some(s => s.email === student.email);
+
+        if (!alreadyShorted) {
+            shortedStudents.push({
+                name: student.name,
+                email: student.email,
+                status: "Not Hired",
+                course: student.course,
+                index: student.index
+            });
+
+            alert(`${student.name} has been added to the Shorted Student List.`);
+        } else {
+            alert(`${student.name} is already in the Shorted Student List.`);
+        }
     }
+
+    // Function to handle rejecting a student
+    function rejectStudent(index) {
+        const student = appliedStudents[index];
+
+        if (confirm(`Are you sure you want to reject ${student.name}?`)) {
+            // You might want to add additional functionality here
+            // such as marking the student as rejected in the database
+
+            alert(`${student.name} has been rejected.`);
+        }
+    }
+
+
+
+
 
     const shortedStudents = [{
             name: "Thathsara",
-            index: "22001123",
             email: "thathsara@gmail.com",
-            course: "CS",
+            jobrole: "Software Engineer",
             status: "Hired"
         },
         {
             name: "Karunya",
-            index: "22001124",
             email: "karunya@gmail.com",
-            course: "IS",
+            jobrole: "DevOps Engineer",
             status: "Not Hired"
         },
         {
             name: "Nivethan",
-            index: "22001125",
             email: "nivethan@gmail.com",
-            course: "CS",
+            jobrole: "Software Engineer",
             status: "Not Hired"
         },
         {
             name: "Pasindu",
-            index: "22001126",
             email: "pasindu@gmail.com",
-            course: "IS",
+            jobrole: "DevOps Engineer",
             status: "Hired"
         },
         {
             name: "Sarma",
-            index: "22020888",
             email: "sarma@gmail.com",
-            course: "IS",
+            jobrole: "Cybersecurity Analyst",
             status: "Not Hired"
         }
     ];
@@ -322,7 +452,7 @@
 
     let scheduledStudents = []; // Track scheduled students
 
-    // Function to load the student data into the table dynamically
+    // Function short student data into the table dynamically
     function loadStudents(students) {
         const tableBody = document.getElementById("student-table-body");
         tableBody.innerHTML = ""; // Clear table body
@@ -331,48 +461,59 @@
             const row = document.createElement("tr");
             row.innerHTML = `
             <td>${student.name}</td>
-            <td>${student.index}</td>
             <td>${student.email}</td>
-             <td>${student.course}</td>
+            <td>${student.jobrole}</td>
             <td>
-                <div class="btn-container">
-                    <button class="status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index})">${student.status}</button>
-                    <button class="view-btn" onclick="viewStudent(${index})">View</button>
-                    <button class="schedule-btn" 
-                        data-student-index="${index}" 
-                        onclick="openAddInterviewModal(this)">
-                        ${scheduledStudents[index] ? "Scheduled" : "Schedule"}
-                    </button>
-                </div>
+                <button class="short-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index}, 'shorted')">${student.status}</button>
+            </td>
+            <td>
+                <button class="short-view-btn" onclick="viewStudent(${index})">View</button>
+            </td>
+            <td>
+                <button class="short-schedule-btn" 
+                    data-student-index="${index}" 
+                    onclick="openAddInterviewModal(this)">
+                    ${scheduledStudents[index] ? "Scheduled" : "Schedule"}
+                </button>
             </td>
         `;
             tableBody.appendChild(row);
         });
     }
 
-    // Function to toggle the status of a student
-    function toggleStatus(button, index) {
-        const student = shortedStudents[index];
+
+    // Unified toggleStatus function for both applied and shorted students
+    function toggleStatus(button, index, section) {
+        let student;
+
+        // Determine which student array to use based on the section
+        if (section === "applied") {
+            student = appliedStudents[index];
+        } else if (section === "shorted") {
+            student = shortedStudents[index];
+        } else {
+            return; // Invalid section, do nothing
+        }
+
+        // Check if the status is already "Hired"
         if (student.status === "Hired") {
             alert("The status is already 'Hired' and cannot be changed.");
             return;
         }
 
-        student.status = "Hired"; // Update status
+        // Update status to "Hired"
+        student.status = "Hired";
         button.innerText = "Hired";
-        button.className = "status-btn hired"; // Update button class
-    }
-    function toggleStatus(button, index) {
-        const student = appliedStudents[index];
-        if (student.status === "Hired") {
-            alert("The status is already 'Hired' and cannot be changed.");
-            return;
-        }
+        button.className = `${section}-status-btn hired`; // Update button class based on section
 
-        student.status = "Hired"; // Update status
-        button.innerText = "Hired";
-        button.className = "status-btn hired"; // Update button class
+        if (section === "applied") {
+            renderAppliedTable(appliedStudents); // Re-render for Applied Student section
+        } else if (section === "shorted") {
+            loadStudents(shortedStudents); // Re-render for Short Listed Student section
+        }
     }
+
+
     // Function to open the modal to schedule an interview
     function openAddInterviewModal(button) {
         const studentIndex = button.getAttribute("data-student-index");
@@ -439,30 +580,35 @@
             name: "Thathsara",
             index: "22001123",
             email: "thathsara@gmail.com",
+            jobrole: "Software Engineer",
             course: "CS"
         },
         {
             name: "Karunya",
             index: "22001124",
             email: "karunya@gmail.com",
+            jobrole: "Cybersecurity Analyst",
             course: "IS"
         },
         {
             name: "Nivethan",
             index: "22001125",
             email: "nivethan@gmail.com",
+            jobrole: "Software Engineer",
             course: "CS"
         },
         {
             name: "Pasindu",
             index: "22001126",
             email: "pasindu@gmail.com",
+            jobrole: "DevOps Engineer",
             course: "IS"
         },
         {
             name: "Sarma",
             index: "22020888",
             email: "sarma@gmail.com",
+            jobrole: "DevOps Engineer",
             course: "CS"
         }
     ];
@@ -479,9 +625,10 @@
                 <td>${student.name}</td>
                 <td>${student.index}</td>
                 <td>${student.email}</td>
+                <td>${student.jobrole}</td>
                 <td>${student.course}</td>
                 <td>
-                    <button class="view-btn" onclick="viewStudent(${index})">View</button>
+                    <button class="select-view-btn" onclick="viewStudent(${index})">View</button>
                 </td>
             `;
             tableBody.appendChild(row);
