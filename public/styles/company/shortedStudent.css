@@ -115,17 +115,18 @@ body {
   margin-bottom: 20px;
 }
 
-.student-table th,
+/* Ensure table cells are aligned properly */
 .student-table td {
   padding: 12px;
-  text-align: left;
+  text-align: center; /* Center-align the content in cells */
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
 }
 
+/* Ensure headers are centered as well */
 .student-table th {
   background-color: #f4f4f8;
-  
+  text-align: center; /* Center-align the headers */
 }
 
 /* Responsive Design for Mobile */
@@ -138,47 +139,40 @@ body {
     margin-left: 40px; /* Adjust main content margin for mobile */
   }
 }
-.btn-container {
-  display: flex;
-  justify-content: space-between;
+.short-btn-container {
+  display: block; 
 }
-.status-btn {
-  background-color: #f4f4f4;
-  color: black;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  /* margin-right: 100px; */
-}
-.view-btn {
-  background-color: #0ea5e9;
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  cursor: pointer;
 
-  margin-right: 100px;
-}
-.schedule-btn {
+/* Style for view button */
+.short-view-btn {
   background-color: #0ea5e9;
   color: white;
   border: none;
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 100px;
+  width: 120px; /* Ensure button takes full width of the cell */
+  text-align: center;
 }
-.status-btn:hover {
+/* Style for schedule button */
+.short-schedule-btn {
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; /* Ensure button takes full width of the cell */
+  text-align: center;
+}
+
+
+.short-view-btn:hover {
   background-color: #01080a;
   color: white;
 }
-.schedule-btn:hover {
-  background-color: #01080a;
-  color: white;
-}
-.view-btn:hover {
+
+.short-schedule-btn:hover {
   background-color: #01080a;
   color: white;
 }
@@ -311,16 +305,7 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
   filter: blur(5px);
 }
 
-.status-btn.hired {
-  background-color: #4caf50; /* Green */
-  color: white;
-  cursor: not-allowed; /* Show a "not-allowed" cursor */
-}
 
-.status-btn.not-hired {
-  background-color: #f44336; /* Red */
-  color: white;
-}
 /* Modal styling for success */
 .modal-success {
   position: fixed;
@@ -354,4 +339,72 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
   font-size: 24px;
   margin: -10px -10px 0 0;
   color: white;
+}
+/* Ensure consistent styling for status buttons in Short Listed Student section */
+.short-status-btn {
+  border: none;
+  padding: 8px 20px; /* Keep existing padding */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; /* Ensure buttons take full width of the cell */
+  text-align: center;
+  font-size: 16px; /* Keep font size */
+  font-weight: bold; /* Keep font weight */
+}
+
+/* Style for "Hired" buttons */
+.short-status-btn.hired {
+  background-color: #4caf50; /* Green background as in screenshot */
+  color: white; /* White text */
+  cursor: not-allowed; /* Show a "not-allowed" cursor */
+}
+
+/* Style for "Not Hired" buttons */
+.short-status-btn.not-hired {
+  background-color: #f44336; /* Red background as in screenshot */
+  color: white; /* White text */
+}
+
+/* Hover effect for "Not Hired" buttons (optional, to match interactivity) */
+.short-status-btn.not-hired:hover {
+  background-color: #d32f2f; /* Slightly darker red on hover */
+}
+/* Flexbox layout for filter container */
+.filter-container {
+  display: flex;
+  justify-content: flex-end; /* Only job role filter, align to the right */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-right {
+  display: flex;
+  align-items: center;
+}
+
+.filter-right label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-right .shorted-jobrole-input {
+  padding: 8px;
+  border: 1px solid #28a745; /* Green border for Short Listed section */
+  border-radius: 4px;
+  width: 250px;
+  font-size: 14px;
+  background-color: #f0fff0; /* Light green background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-right .shorted-jobrole-input:focus {
+  outline: none;
+  border-color: #1e7e34; /* Darker green on focus */
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+}
+
+.filter-right .shorted-jobrole-input::placeholder {
+  color: #888;
+  font-style: italic;
 }

@@ -102,7 +102,11 @@ body {
   border-bottom: 1px solid #ddd;
   vertical-align: middle
 }
-
+/* Ensure table headers and cells in the "View CV" column are centered */
+.student-table th:nth-child(5), /* Targets the "View CV" header (5th column) */
+.student-table td:nth-child(5) { /* Targets the "View" button cells (5th column) */
+    text-align: center; /* Center-align the content */
+}
 .student-table th {
   background-color: #f4f4f8;
 }
@@ -122,18 +126,65 @@ body {
   justify-content: space-between;
 }
 
-.view-btn {
+.select-view-btn {
   background-color: #0ea5e9;
   color: white;
   border: none;
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 100px;
+  width: 120px; /* Ensure button takes full width of the cell */
+  text-align: center;
 }
 
-.view-btn:hover {
+.select-view-btn:hover {
   background-color: #01080a;
   color: white;
 }
 
+/* Flexbox layout for filter container */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-left, .filter-right {
+  display: flex;
+  align-items: center;
+}
+
+.filter-left label, .filter-right label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-left select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filter-right .selected-jobrole-input {
+  padding: 8px;
+  border: 1px solid #dc3545; /* Red border for Selected section */
+  border-radius: 4px;
+  width: 250px;
+  font-size: 14px;
+  background-color: #fff0f0; /* Light red background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-right .selected-jobrole-input:focus {
+  outline: none;
+  border-color: #bd2130; /* Darker red on focus */
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.3);
+}
+
+.filter-right .selected-jobrole-input::placeholder {
+  color: #888;
+  font-style: italic;
+}
