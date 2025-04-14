@@ -1,12 +1,10 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
 
-$db = App::resolve(Database::class);
+use Models\pdc_studentreport;
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
 
-//dd($user);
 
-view('PDC/StudentReport.view.php');
+$reportdata = pdc_studentreport::fetchall();
+
+view('PDC/StudentReport.view.php',['reports' => $reportdata]);

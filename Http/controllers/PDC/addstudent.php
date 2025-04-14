@@ -1,10 +1,8 @@
 <?php
 
 use Models\AddStudent;
-
 use Core\App;
 use Models\User;
-
 
 $name = $_POST["name"] ?? null;
 $indexno = $_POST["indexno"] ?? null;
