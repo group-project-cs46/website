@@ -13,6 +13,8 @@ $today = date('j');
 
 $techtalks = TechTalk::findForCurrentMonth();
 
+//dd($techtalks[0]);
+
 //dd($techtalks);
 
 $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month_num, $year);
