@@ -3,20 +3,18 @@
 use Models\Cv;
 use Models\Student;
 use Models\User;
+use Core\Session;
 
 
 
 $user_id = auth_user()['id'];
+$user = User::findByIdWithRoleData($user_id);
 
-$user = User::find($user_id);
-
-
-
-$cvs = Cv::findByUserId($user_id);
+//dd($user);
 
 
 view('/account.view.php', [
     'user' => $user,
-    'errors' => $_SESSION['_flash']['errors'] ?? [],
-    'cvs' => $cvs
+    'errors' => Session::getFlash('errors', []),
+    'photo' => getUserProfilePhotoUrl($user)
 ]);

@@ -14,6 +14,9 @@ class CvUpload
         if (!Validator::file($attributes['cv'], ['pdf'])) {
             $this->errors['cv'] = "Invalid file type or size. Please upload a PDF file.";
         }
+        if (!Validator::optionalString($attributes['type'], 1, 255)) {
+            $this->errors['type'] = "Type must be a string between 1 and 255 characters.";
+        }
     }
 
     public static function validate($attributes)
