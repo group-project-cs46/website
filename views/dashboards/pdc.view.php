@@ -15,14 +15,6 @@
             <h2>Dashboard</h2>
         </div>
 
-
-
-        <!-- <div class="content-boxes">
-            <div class="box"><h3>Companies Registered</h3><h2>50</h2></div>
-            <div class="box"><h3>Blacklisted Companies</h3><h2>5</h2></div>
-            <div class="box"><h3>Students Registered</h3><h2>150</h2></div>
-        </div> -->
-
         <section class="info-boxes">
             <div class="info-box">
                 <div class="box-icon">
@@ -78,24 +70,66 @@
             </div>
         </section>
 
-        <div class="cards">
-            <div class="card">
-                <h3>First Round</h3>
-                <p>
-                    <input type="date" id="firstRoundStart" class="date-input">
-                    to
-                    <input type="date" id="firstRoundEnd" class="date-input">
-                </p>
-                <button id="disableFirstRound" class="disable-button">Disable First Round</button>
+        <div class="container">
+            <button class="button button-primary" onclick="openAddModal()">Set New Round</button>
+            <div id="rounds-container" style="margin-top: 20px;">
+                <div class="no-rounds">No rounds available. Click "Set New Round" to create one.</div>
             </div>
-            <div class="card">
-                <h3>Second Round</h3>
-                <p>
-                    <input type="date" id="secondRoundStart" class="date-input" disabled>
-                    to
-                    <input type="date" id="secondRoundEnd" class="date-input" disabled>
-                </p>
-                <button id="enableSecondRound" class="enable-button" disabled>Disable Second Round</button>
+        </div>
+
+        <!--ADD round Modal Form -->
+        <div id="roundModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalTitle">Set New Round</h2>
+                </div>
+                <form id="addRoundForm" method="POST" action="/PDC/setround">
+                    <input type="hidden" id="addRoundId">
+                    <div class="form-group">
+                        <label for="addRoundName">Round Name</label>
+                        <input type="text" id="addRoundName" name="round_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addStartDate">Start Date</label>
+                        <input type="date" id="addStartDate" name="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addEndDate">End Date</label>
+                        <input type="date" id="addEndDate" name="end_date" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button button-danger" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="button button-primary" id="addSubmitBtn">Set Round</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--Edit Round Modal Form -->
+        <div id="EditroundModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="editModalTitle">Edit Round</h2>
+                </div>
+                <form id="editRoundForm" method="POST" action="/PDC/updateround">
+                    <input type="hidden" id="editRoundId" name="id">
+                    <div class="form-group">
+                        <label for="editRoundName">Round Name</label>
+                        <input type="text" id="editRoundName" name="round_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStartDate">Start Date</label>
+                        <input type="date" id="editStartDate" name="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEndDate">End Date</label>
+                        <input type="date" id="editEndDate" name="end_date" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="button button-danger" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="button button-primary" id="editSubmitBtn">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -126,49 +160,223 @@
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-    const firstRoundStart = document.getElementById('firstRoundStart');
-    const firstRoundEnd = document.getElementById('firstRoundEnd');
-    const disableFirstRoundButton = document.getElementById('disableFirstRound');
+    // Store rounds data globally
+    let rounds = <?php echo json_encode($rounds); ?>;
 
-    const secondRoundStart = document.getElementById('secondRoundStart');
-    const secondRoundEnd = document.getElementById('secondRoundEnd');
-    const enableSecondRoundButton = document.getElementById('enableSecondRound');
+    // Format date to a readable string
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
 
-    // Disable first round if end date has passed
-    function checkFirstRoundStatus() {
-        const now = new Date();
-        const endDate = new Date(firstRoundEnd.value);
-
-        if (endDate < now) {
-            disableFirstRound();
+    // Render rounds in the DOM
+    function renderRounds() {
+        const container = document.getElementById('rounds-container');
+        if (rounds.length) {
+            let html = '';
+            rounds.forEach(round => {
+                html += `
+                <div class="round-item" id="round-${round.id}">
+                    <div class="round-info">
+                        <div class="round-title">${round.round_name}</div>
+                        <div class="round-dates">${formatDate(round.start_date)} - ${formatDate(round.end_date)}</div>
+                    </div>
+                    <div class="button-group">
+                        <button class="button button-edit" onclick="openEditModal(${round.id})">Edit</button>
+                        <button class="button button-danger" onclick="deleteRound(${round.id})">Delete</button>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<div class="no-rounds">No rounds available. Click "Set New Round" to create one.</div>';
         }
     }
 
-    // Disable first round
-    function disableFirstRound() {
-        firstRoundStart.disabled = true;
-        firstRoundEnd.disabled = true;
-        disableFirstRoundButton.disabled = true;
+    // Open modal for editing round
+    function openEditModal(id) {
+        const round = rounds.find(r => r.id === id);
+        if (!round) return;
 
-        secondRoundStart.disabled = false;
-        secondRoundEnd.disabled = false;
-        enableSecondRoundButton.disabled = false;
+        // Set values for the edit modal form fields
+        document.getElementById('editRoundId').value = round.id;
+        document.getElementById('editRoundName').value = round.round_name;
+        document.getElementById('editStartDate').value = round.start_date;
+        document.getElementById('editEndDate').value = round.end_date;
+
+        // Open edit modal
+        document.getElementById('EditroundModal').classList.add('active');
     }
 
-    // Enable second round
-    enableSecondRoundButton.addEventListener('click', () => {
-        secondRoundStart.disabled = false;
-        secondRoundEnd.disabled = false;
-        enableSecondRoundButton.disabled = true;
+    // Close edit modal
+    function closeEditModal() {
+        document.getElementById('EditroundModal').classList.remove('active');
+        document.getElementById('editRoundForm').reset();
+    }
+
+    // Delete round from the list
+    async function deleteRound(id) {
+        if (!confirm("Are you sure you want to delete this round?")) {
+            return;
+        }
+
+        try {
+            let response = await fetch('/PDC/deleteround', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({ id: id })
+            });
+
+            if (response.ok) {
+                // Fetch updated rounds from server instead of manually filtering
+                await fetchRounds();
+                location.reload();
+            } else {
+                alert('Failed to delete round. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting round:', error);
+            alert('Failed to delete round. Please try again.');
+        }
+    }
+
+    // Fetch rounds from the server
+    async function fetchRounds() {
+        try {
+            const response = await fetch('/PDC/getrounds');
+            if (response.ok) {
+                rounds = await response.json();
+                renderRounds();
+            } else {
+                console.error('Failed to fetch rounds');
+            }
+        } catch (error) {
+            console.error('Error fetching rounds:', error);
+        }
+    }
+
+    // Setup form submission for adding round
+    document.addEventListener("DOMContentLoaded", () => {
+        renderRounds();
+        
+        // Add Round Form Setup
+        document.getElementById('addRoundForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Form validation
+            const name = document.getElementById('addRoundName').value.trim();
+            const startDateValue = document.getElementById('addStartDate').value;
+            const endDateValue = document.getElementById('addEndDate').value;
+            
+            // Validate dates
+            const startDate = new Date(startDateValue);
+            const endDate = new Date(endDateValue);
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+
+            if (startDate < currentDate) {
+                alert("Start date must be today or a future date.");
+                return;
+            }
+            if (endDate <= startDate) {
+                alert("End date must be greater than start date.");
+                return;
+            }
+            
+            // Create form data for submission
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/PDC/setround', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    closeModal();
+                    await fetchRounds();
+                    location.reload() // Refresh rounds from server
+                } else {
+                    alert('Failed to add round. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error adding round:', error);
+                alert('Failed to add round. Please try again.');
+            }
+        });
+        
+        // Edit Round Form Setup
+        document.getElementById('editRoundForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Form validation
+            const name = document.getElementById('editRoundName').value.trim();
+            const startDateValue = document.getElementById('editStartDate').value;
+            const endDateValue = document.getElementById('editEndDate').value;
+            
+            // Validate dates
+            const startDate = new Date(startDateValue);
+            const endDate = new Date(endDateValue);
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(0, 0, 0, 0);
+
+            if (startDate < currentDate) {
+                alert("Start date must be today or a future date.");
+                return;
+            }
+            if (endDate <= startDate) {
+                alert("End date must be greater than start date.");
+                return;
+            }
+            
+            // Create form data for submission
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/PDC/updateround', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    closeEditModal();
+                    await fetchRounds();
+                    location.reload(); // Refresh rounds from server
+                } else {
+                    alert('Failed to update round. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error updating round:', error);
+                alert('Failed to update round. Please try again.');
+            }
+        });
     });
 
-    // Check the first round status on page load
-    window.addEventListener('load', () => {
-        checkFirstRoundStatus();
-    });
+    // Open modal for new round
+    function openAddModal() {
+        document.getElementById('roundModal').classList.add('active');
+        document.getElementById('addRoundForm').reset();
+        
+        // Set min date for start date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('addStartDate').min = today;
+    }
+
+    // Close add modal
+    function closeModal() {
+        document.getElementById('roundModal').classList.remove('active');
+        document.getElementById('addRoundForm').reset();
+    }
 
     // Sample data for demonstration
-    const advertisements = [{
+    const advertisements = [
+        {
             title: "Software Engineer Intern (WSO2)",
             status: "Hiring",
             role: "Intern",
@@ -223,5 +431,10 @@
         });
     }
 
-    renderAdvertisements(advertisements);
+    // Initial load of advertisements
+    document.addEventListener('DOMContentLoaded', function() {
+        renderAdvertisements(advertisements);
+        // Initial fetch of rounds data
+        fetchRounds();
+    });
 </script>
