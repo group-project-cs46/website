@@ -2,7 +2,7 @@
 
 
 
-<link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
+<link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class=" mmm">
     <main class="main-content">  
         <header class="header">

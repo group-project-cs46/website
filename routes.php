@@ -140,6 +140,9 @@ $router->get('/eventStudentsManage', 'admin/eventStudentsManage.php');
 $router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
 $router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
 
+$router->get('/track', 'admin/track.php');
+
+
 
 
 

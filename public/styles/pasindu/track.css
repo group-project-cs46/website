@@ -91,13 +91,51 @@ body {
     cursor: pointer;
 }
 
- .add-button a {
+.track-button {
+        background-color: green; 
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+}
+
+.add-button a {
     color: white;
     text-decoration: none;
     display: inline-block;
     width: 100%;
     height: 100%;
 } 
+
+.row-search {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+    width: 120px;
+}
+
+.check-button {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.check-button:hover {
+    background-color: #138496;
+}
+
+.checked {
+    background-color: #28a745 !important; /* green */
+    color: white;
+    border: none;
+}
 
 
 table {
@@ -146,6 +184,7 @@ table {
 .view-button {
     background-color: #007bff;
 }
+
 
 /* Improved Popup Modal Form Design */
 .popup-form {
