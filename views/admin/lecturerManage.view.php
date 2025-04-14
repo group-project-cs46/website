@@ -1,6 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php'); ?>
 
-<link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
+<link rel="stylesheet" href="/styles/pasindu/lecturerManage.css" />
 <div class=" mmm">
     <main class="main-content">  
         <header class="header">

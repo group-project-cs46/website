@@ -1,6 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php'); ?>
 
-<link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
+<link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class=" mmm">
     <main class="main-content">  
         <header class="header">
@@ -18,6 +18,7 @@
                     <h3><b>Manage Students</b></h3>
                     <p>Manage Students Accounts</p>
                 </div>
+                <button class="track-button" id="openFormButton"><a href="/track"> Attendance Track</a></button>
                 <button class="add-button" id="openFormButton"><a href="/eventStudentsAdd">+ New</a></button>
             </div>
 
