@@ -15,7 +15,4 @@ $maxCVs = $_POST['maxCVs'] ?? null;
 Ad::create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs);
 
 
-
-// header mean redirect
-header('location: /company/advertisment');
-die();
+redirect('/company/advertisment');

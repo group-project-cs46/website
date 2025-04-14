@@ -5,9 +5,12 @@ use Http\Forms;
 use Models\Cv;
 use Models\User;
 
+
 $form = Forms\CvUpload::validate($attributes = [
     'cv' => $_FILES['cv'],
+    'type' => $_POST['type']
 ]);
+
 
 // Define the target directory
 $targetDir = base_path('storage/cvs/');
@@ -21,7 +24,7 @@ $fileExtension = strtolower(end($fileNameCmps));
 // Sanitize and hash file name
 $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
 
-$user = User::findByEmail($_SESSION['user']['email']);
+$user = auth_user();
 //$existingCv = Cv::findByUserId($user['id']);
 //dd($existingCv);
 //if ($existingCv) {
@@ -31,7 +34,6 @@ $user = User::findByEmail($_SESSION['user']['email']);
 //    }
 //    Cv::update($existingCv['id'], $newFileName);
 //} else {
-Cv::create($user['id'], $newFileName, $attributes['cv']['name']);
 //}
 
 // Define the target file path
@@ -40,6 +42,8 @@ $targetFile = $targetDir . $newFileName;
 // Move the uploaded file to the target directory
 if (move_uploaded_file($fileTmpPath, $targetFile)) {
 //    echo "The file has been uploaded successfully.";
+    Cv::create($user['id'], $newFileName, $attributes['cv']['name'], $attributes['type']);
+
 } else {
     $form->error('cv', 'The file has not been uploaded.')->throw();
 }

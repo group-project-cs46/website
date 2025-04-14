@@ -1,8 +1,6 @@
 /* General Styles */
 .container {
     margin-top: 1rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
 }
 
 .header {
@@ -59,7 +57,7 @@
 .job-card {
     background-color: #ffffff;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);              
     border-radius: 0.75rem;
     padding: 1.25rem;
     display: flex;
