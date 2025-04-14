@@ -14,6 +14,13 @@ foreach ($techtalks as $techtalk) {
 
 <?php require base_path('views/partials/auth/auth.php') ?>
 
+    <script>
+        function openModal(id) {
+            const modal = document.getElementById(id)
+            modal.showModal();
+        }
+    </script>
+
     <main>
         <div class="container">
 
@@ -59,9 +66,39 @@ foreach ($techtalks as $techtalk) {
                             <?php if (isset($techtalksByDay[$i])): ?>
                                 <?php foreach ($techtalksByDay[$i] as $techtalk): ?>
                                     <div style="display: flex; flex-direction: column; font-size: 0.7rem; gap: 0.5rem">
-                                        <span><?= htmlspecialchars($techtalk['description']) ?></span>
-                                        <span><?= htmlspecialchars(date('H:i', strtotime($techtalk['datetime']))) ?></span>
-                                        <span><?= htmlspecialchars($techtalk['name'] ?? '') ?></span>
+                                        <button class="open-button" onclick="openModal('modal<?= $techtalk['id'] ?>')">
+                                            <?= htmlspecialchars($techtalk['name'] ?? '') ?>
+                                        </button>
+
+                                        <dialog class="modal" id="modal<?= $techtalk['id'] ?>">
+                                            <div class="modal-content">
+                                                <h2 class="modal-title"><?= htmlspecialchars($techtalk['title'] ?? 'Event Details') ?></h2>
+                                                <p class="modal-description"><?= htmlspecialchars($techtalk['description']) ?></p>
+                                                <div class="modal-meta">
+                                                <span class="modal-time">
+                                                    <i class="fa-solid fa-clock fa-lg"></i>
+                                                    <?= htmlspecialchars(date('H:i', strtotime($techtalk['datetime']))) ?>
+                                                </span>
+                                                                                        <span class="modal-conductor">
+                                                    <i class="fa-solid fa-user fa-lg"></i>
+                                                    <?= htmlspecialchars($techtalk['conductor_name'] ?? 'Conductor Name') ?>
+                                                </span>
+                                                                                        <span class="modal-email">
+                                                    <i class="fa-solid fa-envelope fa-lg"></i>
+                                                    <a href="mailto:<?= htmlspecialchars($techtalk['email'] ?? 'email@example.com') ?>">
+                                                        <?= htmlspecialchars($techtalk['email'] ?? 'email@example.com') ?>
+                                                    </a>
+                                                </span>
+                                                                                        <span class="modal-company">
+                                                    <i class="fa-solid fa-building fa-lg"></i>
+                                                    <?= htmlspecialchars($techtalk['name'] ?? 'Company Name') ?>
+                                                </span>
+                                                </div>
+                                                <form method="dialog" class="modal-actions">
+                                                    <button type="submit" class="confirm-button">Close</button>
+                                                </form>
+                                            </div>
+                                        </dialog>
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
