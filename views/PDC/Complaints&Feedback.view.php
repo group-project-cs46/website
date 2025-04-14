@@ -8,6 +8,7 @@
             <i class="fas fa-comments" style="font-size: 40px;"></i>
             <h2><b>Complaints & Feedback</b></h2>
         </div>
+        <input type="text" id="searchComplaints" placeholder="Search..." class="search-bar" onkeyup="searchComplaints(this.value)">
     </header>
 
     <section class="content">
@@ -16,10 +17,13 @@
             <p>View Complaints & Feedback</p>
         </div>
 
+        
+
         <table class="complaints-table">
             <thead>
                 <tr>
                     <th>Complaint ID</th>
+                    <th>Type</th>
                     <th>Title</th>
                     <th>Submitted By</th>
                     <th>Date</th>
@@ -30,6 +34,7 @@
                 <!-- Example complaint entries (to be replaced with dynamic data) -->
                 <tr>
                     <td>1</td>
+                    <td>System Complaint</td>
                     <td>Complaint about Service</td>
                     <td>John Doe</td>
                     <td>2024-12-22</td>
@@ -40,6 +45,7 @@
                 </tr>
                 <tr>
                     <td>2</td>
+                    <td>Student Complaint</td>
                     <td>Feedback on Website</td>
                     <td>Jane Smith</td>
                     <td>2024-12-21</td>
@@ -57,8 +63,8 @@
 <div id="complaintPopup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closePopup()">&times;</span>
-        <h3>Complaint Details</h3>
-        <div id="complaintDetails"></div>
+        <h2>Complaint Details</h2>
+        <div class="complaintdetails" id="complaintDetails"></div>
         <div id="additionalInfo" style="margin-top: 20px;"></div>
     </div>
 </div>
@@ -70,23 +76,25 @@
     const complaints = [
         { 
             id: 1, 
+            type: 'System Complaint',
             title: 'Complaint about Service', 
             details: 'Complaint details for service.',
             submittedBy: 'John Doe',
             date: '2024-12-22',
-            type: 'Student', // Example: could be 'Student', 'Lecturer', etc.
+            //type: 'Student Complain', // Example: could be 'Student', 'Lecturer', etc.
             contact: 'john.doe@example.com',
-            status: 'Open' // Example: could be 'Open', 'Closed', 'In Progress', etc.
+           // status: 'Solved' // Example: could be 'Open', 'Closed', 'In Progress', etc.
         },
         { 
             id: 2, 
             title: 'Feedback on Website', 
+            type: 'Student Complaint',
             details: 'Feedback details for website.',
             submittedBy: 'Jane Smith',
             date: '2024-12-21',
-            type: 'Lecturer', // Example: could be 'Student', 'Lecturer', etc.
+            //type: 'Lecturer Complain', // Example: could be 'Student', 'Lecturer', etc.
             contact: 'jane.smith@example.com',
-            status: 'Closed' // Example: could be 'Open', 'Closed', 'In Progress', etc.
+            //status: '-' // Example: could be 'Open', 'Closed', 'In Progress', etc.
         }
     ];
 
@@ -106,7 +114,7 @@
         
         additionalInfoDiv.innerHTML = `
             <p><strong>Type:</strong> ${complaint.type}</p>
-            <p><strong>Status:</strong> ${complaint.status}</p>
+            
         `;
         
         document.getElementById('complaintPopup').style.display = 'block';
@@ -135,15 +143,14 @@
 }
 
 // Function to dynamically render the complaints table
-function renderTable() {
+function renderTable(complaintsArray = complaints) {
     const tableBody = document.getElementById('complaintsTableBody');
-    tableBody.innerHTML = ''; // Clear the current table body
-    
-    // Rebuild the table rows from the updated complaints array
-    complaints.forEach(complaint => {
+    tableBody.innerHTML = '';
+    complaintsArray.forEach(complaint => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${complaint.id}</td>
+            <td>${complaint.type}</td>
             <td>${complaint.title}</td>
             <td>${complaint.submittedBy}</td>
             <td>${complaint.date}</td>
@@ -154,6 +161,16 @@ function renderTable() {
         `;
         tableBody.appendChild(row);
     });
+}
+
+function searchComplaints(searchTerm) {
+    const filtered = complaints.filter(complaint => 
+        complaint.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        complaint.date.includes(searchTerm)
+    );
+    renderTable(filtered);
 }
 
 </script>
