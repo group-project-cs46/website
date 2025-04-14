@@ -97,3 +97,7 @@ function getFirstDayOfMonth($year, $month) {
     $date = new DateTime("$year-$month-01");
     return $date->format('N'); // 'N' format character returns the ISO-8601 numeric representation of the day of the week
 }
+
+function roleNumber() {
+    return $_SESSION['user']['role'] ?? null;
+}

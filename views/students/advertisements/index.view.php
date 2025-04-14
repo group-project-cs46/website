@@ -56,7 +56,7 @@
                                 </span>
                             </div>
                             <a href="/students/advertisements/show?id=<?= $item['id'] ?>">
-                                <button type="button" class="button">Apply</button>
+                                <button type="button" class="button">More</button>
                             </a>
                         </div>
 
