@@ -22,6 +22,12 @@ class Database
         }
     }
 
+    public function lastInsertId()
+{
+    return $this->connection->lastInsertId();
+}
+
+
     public function query($query, $params)
     {
         $this->statement = $this->connection->prepare($query);
@@ -30,6 +36,8 @@ class Database
 
         return $this;
     }
+
+    
 
     public function get()
     {
