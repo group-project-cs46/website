@@ -67,6 +67,7 @@ $router->post('/ads/edit', 'ads/edit.php');
 
 $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
+$router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
@@ -76,6 +77,16 @@ $router->get('/PDC/studentreport', '/PDC/StudentReport.php');
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');
 $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
+$router->get('/PDC/StudentReport', '/PDC/student_report.php');
+$router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
+$router->post('/PDC/setround', '/PDC/setround.php');
+$router->post('/PDC/updateround', '/PDC/updateround.php');
+$router->post('/PDC/deleteround', '/PDC/deleteround.php');
+$router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
+$router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
+$router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
+
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');

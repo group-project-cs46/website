@@ -124,11 +124,16 @@ table {
     align-items: center;
 }
 
+textarea {
+  overflow: auto;
+  width: -webkit-fill-available;
+}
+
 .popup-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 

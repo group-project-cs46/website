@@ -38,8 +38,8 @@
         <div class="container" id="addSection">
             <div class="table-title">
                 <div class="table-title-txt">
-                    <h3><b>Add Student</b></h3>
-                    <p>add student accounts</p>
+                    <h3><b>Registered Students</b></h3>
+                    <p>registered student accounts</p>
                 </div>
                 <button class="add-button" id="openFormButton">+</button>
             </div>
@@ -47,6 +47,7 @@
             <table class="student-table">
                 <thead>
                     <tr>
+                        <th><input type="checkbox" id="selectAllCheckbox" /></th>
                         <th>Student Name</th>
                         <th>Registration No.</th>
                         <th>Course</th>
@@ -58,11 +59,12 @@
                 <tbody id="studentTableBody">
                     <?php foreach ($students as $student): ?>
                         <tr id="row-<?= $student['id'] ?>">
+                            <td><input type="checkbox" class="rowCheckbox" data-id="<?= $student['id'] ?>" /></td>
                             <td><?= htmlspecialchars($student['name']) ?></td>
-                            <td><?= htmlspecialchars($student['regNo']) ?></td>
+                            <td><?= htmlspecialchars($student['registration_number']) ?></td>
                             <td><?= htmlspecialchars($student['course']) ?></td>
                             <td><?= htmlspecialchars($student['email']) ?></td>
-                            <td><?= htmlspecialchars($student['indexno']) ?></td>
+                            <td><?= htmlspecialchars($student['index_number']) ?></td>
                             <td>
                                 <button class="Edit-button">Edit</button>
                                 <button class="disable-button">Delete</button>
@@ -179,12 +181,12 @@
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
-            <label for="indexno">Index No.:</label>
-            <input type="text" id="indexno" name="indexno" required>
+            <label for="index_number">Index No.:</label>
+            <input type="text" id="index_number" name="index_number" required>
 
 
-            <label for="regNo">Register Number:</label>
-            <input type="text" id="regNo" name="regNo" required>
+            <label for="registration_number">Register Number:</label>
+            <input type="text" id="registration_number" name="registration_number" required>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -213,9 +215,10 @@
     <div class="form-container">
         <h2>Update Students</h2>
         <h3>Upload CSV File</h3>
-        <form id="uploadCsvForm">
-            <input type="file" id="csvFileInput" accept=".csv">
-            <button type="button" id="uploadCsvButton">Upload CSV</button>
+       
+        <form id="uploadCsvForm" method="post" action="/PDC/uploadCsv" enctype="multipart/form-data">
+            <input type="file" id="csvFileInput" name="csvFile" accept=".csv" required>
+            <button type="submit" id="uploadCsvButton">Upload CSV</button>
         </form>
 
         <hr>
@@ -227,11 +230,11 @@
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
 
-            <label for="indexno">Index No.:</label>
-            <input type="text" id="indexno" name="indexno" required>
+            <label for="index_number">Index No.:</label>
+            <input type="text" id="index_number" name="index_number" required>
 
-            <label for="regNo">Register Number:</label>
-            <input type="text" id="regNo" name="regNo" required>
+            <label for="registration_number">Register Number:</label>
+            <input type="text" id="registration_number" name="registration_number" required>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -311,14 +314,14 @@
     openFormButton.addEventListener('click', () => popupForm.style.display = 'flex');
     closeFormButton.addEventListener('click', () => popupForm.style.display = 'none');
 
-    function viewstudentRow(name, regNo, course, email, indexno) {
+    function viewstudentRow(name, registration_number, course, email, index_number) {
         // Create a new object for the student
         const student = {
             name,
-            regNo,
+            registration_number,
             course,
             email,
-            indexno
+            index_number
         };
 
         // Add the student object to the array
@@ -334,11 +337,11 @@
         console.log(student);
         editform.style.display = 'flex';
         studenteditform.elements.student_id.value = student.id;
-        studenteditform.elements.name.value = student.stuname;
-        studenteditform.elements.regNo.value = student.regno;
+        studenteditform.elements.name.value = student.name;
+        studenteditform.elements.registration_number.value = student.registration_number;
         studenteditform.elements.course.value = "CS";
         studenteditform.elements.email.value = student.email;
-        studenteditform.elements.indexno.value = student.indexno;
+        studenteditform.elements.index_number.value = student.index_number;
     }
 
     function closeeditform() {
@@ -355,16 +358,18 @@
         data.forEach((student) => {
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-            <td>${student.stuname}</td>
-            <td>${student.regno}</td>
+            <td><input type="checkbox" class="rowCheckbox" data-id="${student.id}" /></td>
+            <td>${student.name}</td>
+            <td>${student.registration_number}</td>
             <td>${student.course}</td>
             <td>${student.email}</td>
-            <td>${student.indexno}</td>
+            <td>${student.index_number}</td>
             <td>
                 
+                <button class="Edit-button" id ="editformbutton" onclick="openeditform('${student.id}')">Edit</button>
                 <form id="deleteform" action="/PDC/deletestudent" method="post">
                     <input type="hidden" name="student_id" value="${student.id}">
-                    <button class="Edit-button" id ="editformbutton" onclick="openeditform('${student.id}')">Edit</button>
+                    
                 <button type = 'submit' class="disable-button id ="deleteformbutton"">Delete</button>
                 </form>
             </td>
@@ -381,11 +386,11 @@
         // Filter the students array based on multiple fields
         const filteredStudents = students.filter((student) => {
             return (
-                student.stuname.toLowerCase().includes(searchTerm) ||
-                student.regno.toLowerCase().includes(searchTerm) ||
+                student.name.toLowerCase().includes(searchTerm) ||
+                student.registration_number.toLowerCase().includes(searchTerm) ||
                 student.course.toLowerCase().includes(searchTerm) ||
                 student.email.toLowerCase().includes(searchTerm) ||
-                student.indexno.toLowerCase().includes(searchTerm)
+                student.index_number.toLowerCase().includes(searchTerm)
             );
         });
 
@@ -420,13 +425,13 @@
             const columns = row.split(',');
             if (columns.length >= 4) {
                 const name = columns[0].trim();
-                const regNo = columns[1].trim();
+                const registration_number = columns[1].trim();
                 const course = columns[2].trim();
                 const email = columns[3].trim();
-                const indexno = columns[4].trim();
+                const index_number = columns[4].trim();
 
-                if (name && regNo && course && email && indexno) {
-                    viewstudentRow(name, regNo, course, email, indexno);
+                if (name && registration_number && course && email && index_number) {
+                    viewstudentRow(name, registration_number, course, email, index_number);
                 }
             }
         });
@@ -447,10 +452,10 @@
 
             document.getElementById('editIndex').value = rowIndex;
             document.getElementById('editName').value = row.children[0].textContent;
-            document.getElementById('editRegNo').value = row.children[1].textContent;
+            document.getElementById('editregistration_number').value = row.children[1].textContent;
             document.getElementById('editCourse').value = row.children[2].textContent;
             document.getElementById('editEmail').value = row.children[3].textContent;
-            document.getElementById('editindexno').value = row.children[4].textContent;
+            document.getElementById('editindex_number').value = row.children[4].textContent;
 
             document.getElementById('editPopupForm').style.display = 'flex';
         }
@@ -461,10 +466,10 @@
         const row = studentTableBody.children[index];
 
         row.children[0].textContent = document.getElementById('editName').value;
-        row.children[1].textContent = document.getElementById('editRegNo').value;
+        row.children[1].textContent = document.getElementById('editregistration_number').value;
         row.children[2].textContent = document.getElementById('editCourse').value;
         row.children[3].textContent = document.getElementById('editEmail').value;
-        row.children[4].textContent = document.getElementById('editindexno').value;
+        row.children[4].textContent = document.getElementById('editindex_number').value;
 
         document.getElementById('editPopupForm').style.display = 'none';
     });
@@ -472,7 +477,29 @@
     document.getElementById('closeFormButton').addEventListener('click', () => {
         document.getElementById('editPopupForm').style.display = 'none';
     });
+
+    // JavaScript for "Select All" functionality
+    const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+    const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+
+    selectAllCheckbox.addEventListener('change', () => {
+        rowCheckboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    });
+
+    rowCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (!checkbox.checked) {
+                selectAllCheckbox.checked = false;
+            } else if (Array.from(rowCheckboxes).every(cb => cb.checked)) {
+                selectAllCheckbox.checked = true;
+            }
+        });
+    });
     
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
+
+
