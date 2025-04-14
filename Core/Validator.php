@@ -10,6 +10,11 @@ class Validator
         return $min <= strlen($value) && strlen($value) <= $max;
     }
 
+    public static function optionalString($value, $min = 1, $max = INF)
+    {
+        return $value === '' || self::string($value, $min, $max);
+    }
+
     public static function email(string $value)
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL);

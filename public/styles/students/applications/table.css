@@ -1,0 +1,27 @@
+.grid {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto auto;
+    gap: 0px;
+    margin-top: 1rem;
+    font-family: Arial, sans-serif;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid var(--gray-200);
+}
+
+.grid-header {
+    font-weight: bold;
+    background-color: var(--gray-100);
+    padding: 8px;
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-top: 1px solid var(--gray-200);
+}
+
+.delete-button {
+    background-color: var(--red-700);
+}

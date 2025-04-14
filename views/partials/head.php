@@ -24,8 +24,7 @@
     margin: 10px;
     border-radius: 5px;
 ">
-            <?= \Core\Session::getFlash('toast') ?>
-
+        <?= \Core\Session::getFlash('toast') ?>
     </div>
 </div>
 <?php endif; ?>

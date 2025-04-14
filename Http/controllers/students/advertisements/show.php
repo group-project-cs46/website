@@ -13,7 +13,7 @@ $userCvs = \Models\Cv::findByUserId($user['id']);
 // dd($ad);
 
 
-view('advertisements/show.view.php', [
+view('students/advertisements/show.view.php', [
     'heading' => 'Apply',
     'ad' => $ad,
     'userCvs' => $userCvs
