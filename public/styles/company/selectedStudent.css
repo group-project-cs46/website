@@ -126,7 +126,7 @@ body {
   justify-content: space-between;
 }
 
-.select-view-btn {
+.selected-view-btn {
   background-color: #0ea5e9;
   color: white;
   border: none;
@@ -137,7 +137,7 @@ body {
   text-align: center;
 }
 
-.select-view-btn:hover {
+.selected-view-btn:hover {
   background-color: #01080a;
   color: white;
 }

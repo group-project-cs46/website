@@ -63,6 +63,8 @@ $router->post('/ads/store', 'ads/store.php');
 $router->post('/company_complaint/store', 'company_complaint/store.php');
 $router->post('/company_scedule/store', 'company_scedule/store_techtalk.php');
 $router->post('/company_report/store', 'company_report/store.php');
+$router->post('/company_student/shortlisted', 'company_student/store_shortlisted.php');
+$router->post('/company_student/nonShortlisted', 'company_student/store_nonShortlisted.php');
 $router->delete('/ads/delete', 'ads/delete.php');
 $router->post('/ads/edit', 'ads/edit.php');
 
