@@ -54,8 +54,11 @@
                         <label for="event-time">Time:</label>
                         <input type="time" id="event-time" name="time" required>
                         <br>
+<<<<<<< HEAD
                         <label for="event-venue">Venue:</label>
                         <input type="text" id="event-venue" name="venue" required>
+=======
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
                         <button type="submit">Add Event</button>
                     </form>
                 </div>
@@ -74,8 +77,11 @@
                         <input type="date" id="edit-event-date" name="event-date" required>
                         <label for="edit-event-time">Time:</label>
                         <input type="time" id="edit-event-time" name="event-time" required>
+<<<<<<< HEAD
                         <label for="edit-event-venue">Venue:</label>
                         <input type="text" id="edit-event-venue" name="event-venue" required>
+=======
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
                         <button type="submit" style="margin-top: 10px;">Save Changes</button>
                         <button type="button" id="delete-event-btn" style="background-color: #ff4444; color: white; margin-top: 10px;">Delete slot</button>
                     </form>
@@ -156,7 +162,10 @@
         id: slot.id,
         date: slot.date,
         time: slot.time,
+<<<<<<< HEAD
         venue: slot.venue,
+=======
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
         title: slot.title || 'Tech Talk',
         description: slot.description || 'Scheduled Tech Talk'
     })) : [];
@@ -255,7 +264,10 @@
             time = date.toTimeString().slice(0, 5);
         }
         document.getElementById('edit-event-time').value = time || '';
+<<<<<<< HEAD
         document.getElementById('edit-event-venue').value = event.venue || '';
+=======
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
         
         document.getElementById('editEventModal').style.display = 'block';
 
@@ -312,11 +324,17 @@
         e.preventDefault();
         const eventDate = document.getElementById('event-date').value;
         const eventTime = document.getElementById('event-time').value;
+<<<<<<< HEAD
         const eventVenue = document.getElementById('event-venue').value;
         const newEvent = {
             date: eventDate,
             time: eventTime,
             venue: eventVenue
+=======
+        const newEvent = {
+            date: eventDate,
+            time: eventTime
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
         };
         console.log('Creating tech talk:', newEvent); // Debug
         sendAjaxRequest('/PDC/createtechtalk', newEvent, function(response) {
@@ -326,7 +344,10 @@
                     id: response.id,
                     date: response.date,
                     time: response.time,
+<<<<<<< HEAD
                     venue: response.venue,
+=======
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
                     title: 'Tech Talk',
                     description: 'Scheduled Tech Talk'
                 });
@@ -346,12 +367,19 @@
         const id = document.getElementById('edit-event-id').value;
         const eventDate = document.getElementById('edit-event-date').value;
         const eventTime = document.getElementById('edit-event-time').value;
+<<<<<<< HEAD
         const eventVenue = document.getElementById('edit-event-venue').value;
         const updatedEvent = {
             id: id,
             date: eventDate,
             time: eventTime,
             venue: eventVenue
+=======
+        const updatedEvent = {
+            id: id,
+            date: eventDate,
+            time: eventTime
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
         };
         sendAjaxRequest('/PDC/edittechtalk', updatedEvent, function(response) {
             if (response.success) {
@@ -360,8 +388,12 @@
                     events[eventIndex] = {
                         ...events[eventIndex],
                         date: eventDate,
+<<<<<<< HEAD
                         time: eventTime,
                         venue: eventVenue
+=======
+                        time: eventTime
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
                     };
                     renderCalendar();
                     closeEditModal();

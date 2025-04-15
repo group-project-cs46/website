@@ -52,7 +52,11 @@ class Ad
          companies.street_name,
             companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
                            LEFT JOIN users ON companies.id = users.id
+<<<<<<< HEAD
                            WHERE advertisements.round_id = ?', [$roundId])->get();
+=======
+                           WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId])->get();
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     }
 
     public static function byRoundIdAndComapnyId($roundId, $companyId) {
@@ -65,10 +69,21 @@ class Ad
          companies.street_name,
             companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
                            LEFT JOIN users ON companies.id = users.id
+<<<<<<< HEAD
                            WHERE advertisements.round_id = ? AND companies.id = ?', [$roundId, $companyId])->get();
+=======
+                           WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId, $companyId])->get();
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     }
 
     public static function find($id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+    }
+
+    public static function getById($id)
     {
         $db = App::resolve(Database::class);
 

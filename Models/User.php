@@ -32,6 +32,7 @@ class User
         $db = App::resolve(Database::class);
 
         $user = $db->query('SELECT
+<<<<<<< HEAD
                 u.name,
                 u.email,
                 u.mobile,
@@ -48,6 +49,11 @@ class User
                 c.city,
                 c.postal_code,
                 c.address_line_2
+=======
+                u.*,
+                s.*,
+                c.*
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
             FROM 
                 users u
             LEFT JOIN students s 
@@ -66,6 +72,19 @@ class User
         return $user;
     }
 
+<<<<<<< HEAD
+=======
+    public static function update($attributes, $id)
+    {
+        $db = App::resolve(Database::class);
+
+        $user = $db->query('UPDATE users SET mobile = ?, bio = ?, linkedin = ?, name = ? WHERE id = ?',
+            [ $attributes['mobile'], $attributes['bio'], $attributes['linkedin'], $attributes['name'] , $id]);
+
+        return $user;
+    }
+
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     public static function create($attributes)
     {
         $db = App::resolve(Database::class);

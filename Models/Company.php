@@ -35,11 +35,27 @@ class Company
         $db->query('UPDATE users SET approved = ? WHERE id = ?', [1, $id]);
     }
 
+<<<<<<< HEAD
     public static function reject($id)
     {
         $db = App::resolve(Database::class);
 
         $db->query('UPDATE users SET rejected = ? WHERE id = ?', [1, $id]);
+=======
+    public static function update($id, $attributes)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE companies SET website = ?, building = ?, street_name = ?, address_line_2 = ?, city = ?, postal_code = ? WHERE id = ?', [
+            $attributes['website'],
+            $attributes['building'],
+            $attributes['street_name'],
+            $attributes['address_line_2'],
+            $attributes['city'],
+            $attributes['postal_code'],
+            $id
+        ]);
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     }
 
 }

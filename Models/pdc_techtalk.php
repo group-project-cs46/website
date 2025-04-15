@@ -19,30 +19,48 @@ class pdc_techtalk
         ', [])->get();
     }
 
+<<<<<<< HEAD
     public static function create_techtalk($date, $time, $venue)
+=======
+    public static function create_techtalk($date, $time)
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     {
         $db = App::resolve(Database::class);
         $datetime = $date . ' ' . $time;
 
+<<<<<<< HEAD
         $pdcID = auth_user()['id'];
 
         $result = $db->query('INSERT INTO techtalk_slots (datetime, pdc_id, venue) VALUES (?, ? , ?)', [
             $datetime,
             $pdcID,
             $venue
+=======
+        $result = $db->query('INSERT INTO techtalk_slots (datetime) VALUES (?)', [
+            $datetime
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
         ]);
 
         return $result !== false;
     }
 
+<<<<<<< HEAD
     public static function edit_techtalks($id, $date, $time, $venue)
+=======
+    public static function edit_techtalks($id, $date, $time)
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     {
         $db = App::resolve(Database::class);
         $datetime = $date . ' ' . $time;
 
+<<<<<<< HEAD
         return $db->query('UPDATE techtalk_slots SET datetime = ?, venue = ? WHERE id = ?', [
             $datetime,
             $venue,
+=======
+        return $db->query('UPDATE techtalk_slots SET datetime = ? WHERE id = ?', [
+            $datetime,
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
             $id
         ]);
     }

@@ -20,6 +20,7 @@ class PdcRounds
     }
 
     public static function createRound($roundName, $startdate, $enddate)
+<<<<<<< HEAD
 {
     $db = App::resolve(Database::class);
 
@@ -38,6 +39,23 @@ class PdcRounds
 
     return $result ? true : false;
 }
+=======
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('INSERT INTO rounds (round_name, start_date, end_date) VALUES (?, ?, ?)', [
+            $roundName,
+            $startdate,
+            $enddate,
+        ]);
+
+        if ($result) {
+            return true;
+        }
+
+        return false;
+    
+    }
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
 
     public static function updateRound($id, $roundName, $startdate, $enddate)
     {

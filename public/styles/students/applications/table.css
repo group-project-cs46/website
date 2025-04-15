@@ -1,6 +1,10 @@
 .grid {
     display: grid;
+<<<<<<< HEAD
     grid-template-columns: auto 1fr 1fr 1fr auto auto;
+=======
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto auto;
+>>>>>>> 8b4d7493ee0f8e085c8141bffdabd5fb387be66c
     gap: 0px;
     margin-top: 1rem;
     font-family: Arial, sans-serif;
