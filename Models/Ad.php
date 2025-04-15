@@ -52,7 +52,7 @@ class Ad
          companies.street_name,
             companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
                            LEFT JOIN users ON companies.id = users.id
-                           WHERE advertisements.round_id = ?', [$roundId])->get();
+                           WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId])->get();
     }
 
     public static function byRoundIdAndComapnyId($roundId, $companyId) {
@@ -65,7 +65,7 @@ class Ad
          companies.street_name,
             companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
                            LEFT JOIN users ON companies.id = users.id
-                           WHERE advertisements.round_id = ? AND companies.id = ?', [$roundId, $companyId])->get();
+                           WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId, $companyId])->get();
     }
 
     public static function find($id)

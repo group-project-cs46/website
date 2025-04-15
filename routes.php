@@ -23,6 +23,8 @@ $router->post('/reset_password', 'users/update_password.php')->only('guest');
 
 $router->post('/users/change_password', 'users/change_password.php')->only('auth');
 $router->patch('/users/profile/photo', 'users/profile/photo/update.php')->only('auth');
+$router->patch('/users/profile/details', 'users/profile/update.php')->only('auth');
+
 
 $router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
 $router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
@@ -35,6 +37,9 @@ $router->get('/students/events', 'students/events/index.php')->only('student');
 
 
 $router->get('/account', 'account.php')->only('auth');
+$router->get('/accounts/company', 'accounts/company/index.php')->only('company');
+$router->patch('/accounts/company', 'accounts/company/update.php')->only('auth');
+
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
 $router->delete('/cv/delete', 'cv/destroy.php')->only('student');
@@ -52,6 +57,7 @@ $router->get('/students/internship_reports/show', 'students/internship_reports/s
 $router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
 
 $router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+
 
 // Admin by thathsara
 

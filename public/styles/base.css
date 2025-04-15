@@ -296,6 +296,17 @@ a {
     text-decoration: none;
 }
 
+button {
+    width: fit-content;
+    background: none;
+    border: none;
+    color: inherit;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline; /* Optional: for a link-like appearance */
+}
+
 .astext {
     background: none;
     border: none;
