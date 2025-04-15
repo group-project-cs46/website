@@ -121,8 +121,8 @@ $navItems = [
         'only' => [Role::Pdc]
     ],
     [
-        'text' => "Managec PDC",
-        'href' => '/pdcManage',
+        'text' => "PDCs",
+        'href' => '/admins/pdcs',
         'icon' => 'fa-solid fa-user-shield',
         'only' => [Role::Admin],
     ],
@@ -200,10 +200,8 @@ function filterNavItemsByRole($navItems, $userRole)
 
 
 <div style="display: grid; grid-template-columns: 50px 1fr; grid-template-rows: 50px 1fr">
-
-
     <div
-        style="grid-row: span 2; position: sticky; top:0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
+        style="z-index: 20; grid-row: span 2; position: sticky; top:0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filterNavItemsByRole($navItems, $_SESSION['user']['role']) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
@@ -242,6 +240,5 @@ function filterNavItemsByRole($navItems, $userRole)
             </a>
         </div>
     </div>
-    <!-- <div></div> -->
 
     <div style="padding-inline: 0.5rem">
