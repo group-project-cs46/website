@@ -15,4 +15,4 @@ try {
     die($e->getMessage());
 }
 
-redirect('/eventmanage');
+redirect('/events');

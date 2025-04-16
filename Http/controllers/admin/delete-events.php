@@ -10,4 +10,4 @@ try {
     die("Error deleting event: " . $e->getMessage());
 }
 
-redirect('/eventmanage');
+redirect('/events');
