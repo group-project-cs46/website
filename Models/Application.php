@@ -61,8 +61,9 @@ class Application
                 applications.id, 
                 advertisements.job_role,
                 users.name,
-                interviews.datetime AS interview_date,
-                interviews.complete AS interview_complete,
+                interviews.date AS interview_date,
+                interviews.start_time AS interview_start_time,
+                interviews.end_time AS interview_end_time,
                 selected,
                 failed,
                 cvs.original_name AS cv_name

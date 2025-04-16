@@ -6,6 +6,7 @@ use Core\Session;
 use Core\Validator;
 use Models\Ad;
 use Models\Application;
+use Models\Round;
 use Models\Settings;
 
 
@@ -24,6 +25,16 @@ if (count($other_applied) >= $max_cvs) {
     redirect('/students/advertisements');
 }
 
+if (strtotime($ad['deadline']) < time()) {
+    Session::flash('toast', 'Deadline has passed for this job');
+    redirect('/students/advertisements');
+}
+
+$currentRound = Round::currentRound();
+if ($currentRound['id'] !== $ad['round_id']) {
+    Session::flash('toast', 'This job is not available in this round');
+    redirect('/students/advertisements');
+}
 
 
 $user = auth_user();
