@@ -131,14 +131,23 @@ $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 $router->get('/eventmanage', 'admin/eventmanage.php');
 $router->get('/eventsView', 'admin/eventView.php');
 $router->get('/eventsAdd', 'admin/eventAdd.php');
+$router->get('/eventsEdit', 'admin/eventEdit.php');
 
 $router->post('/eventsAddition', controller: 'admin/add-events.php');
+$router->post('/eventsEdition', controller: 'admin/edit-events.php');
+$router->post('/eventsDeletion', controller: 'admin/delete-events.php');
+
+
 $router->post('/lecturerEdition', controller: 'admin/edit-lecturer.php');
 $router->post('/lecturerDeletion', controller: 'admin/delete-lecturer.php');
 
 $router->get('/eventStudentsManage', 'admin/eventStudentsManage.php');
 $router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
 $router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
+
+$router->post('/eventsStudentsAddition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsEdition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.php');
 
 $router->get('/track', 'admin/track.php');
 

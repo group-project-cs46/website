@@ -6,7 +6,7 @@
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
-                <h2><b>Manage PDC</b></h2>
+                <h2><b>Manage Attendance</b></h2>
             </div>
             <input type="text" placeholder="Search PDC Accounts..." class="search-bar" id="searchInput" onkeyup="searchTable()">
         </header>
@@ -14,10 +14,10 @@
         <section class="content">
             <div class="table-title">
                 <div class="table-title-txt">
-                    <h3><b>Manage PDC</b></h3>
-                    <p>Manage PDC Accounts</p>
+                    <h3><b>Manage Attendance</b></h3>
+                    <p>Manage Students Accounts</p>
                 </div>
-                <button class="trackR-button" id="openFormButton"><a href="/eventStudentsManage"> Attendance Track</a></button>
+                <button class="trackR-button" id="openFormButton"><a href="/eventStudentsManage">Students List</a></button>
             </div>
 
             <table class="student-table">
@@ -26,6 +26,7 @@
                         <th>Employee No</th>
                         <th>Title</th>
                         <th>Name</th>
+                        <th>Course</th>
                         <th>Contact No.</th>
                         <th>Email</th>
                         <th>Search & Check</th>
@@ -33,7 +34,7 @@
                 </thead>
                 <tbody id="studentTableBody">
                     <!-- Example Table Rows -->
-                    <tr>
+                    <!-- <tr>
                         <td>EMP001</td>
                         <td>Dr.</td>
                         <td>John Doe</td>
@@ -54,21 +55,27 @@
                             <input type="text" placeholder="Search..." class="row-search" />
                             <button class="check-button">Check</button>
                         </td>
-                    </tr>
+                    </tr> -->
 
-                    <?php foreach ($PDC_data as $pdcs): ?>
+                    <?php foreach ($STUDENT_data as $students): ?>
                         <tr>
-                            <td><?= $pdcs['employee_id'] ?></td>
-                            <td><?= $pdcs['title'] ?></td>
-                            <td><?= $pdcs['name'] ?></td>
-                            <td><?= $pdcs['mobile'] ?></td>
-                            <td><?= $pdcs['email'] ?></td>
-                            <td class="actions">
+                            <td><?= $students['student_id'] ?></td>
+                            <td><?= $students['title'] ?></td>
+                            <td><?= $students['name'] ?></td>
+                            <td><?= $students['course'] ?></td>
+                            <td><?= $students['mobile'] ?></td>
+                            <td><?= $students['email'] ?></td>
+                            <!-- <td class="actions">
                                 <input type="text" placeholder="Search..." class="row-search" />
                                 <button class="check-button">Check</button>
+                            </td> -->
+                            <td class="actions">
+                                <input type="text" placeholder="Enter Password..." class="row-search" />
+                                <button class="check-button" data-password="<?= $students['password'] ?>">Check</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
+
                 </tbody>
             </table>
         </section>
@@ -100,22 +107,48 @@
     }
 
     // Add event listeners for all row check buttons
-    document.addEventListener("DOMContentLoaded", () => {
-        const checkButtons = document.querySelectorAll(".check-button");
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     const checkButtons = document.querySelectorAll(".check-button");
 
-        checkButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                const input = button.previousElementSibling;
-                if (input.value.trim() !== "") {
-                    button.textContent = "✔ Checked";
-                    button.classList.add("checked");
-                    button.disabled = true; // Optional: disable after checking
-                } else {
-                    alert("Please enter a value to check.");
-                }
-            });
+    //     checkButtons.forEach(button => {
+    //         button.addEventListener("click", () => {
+    //             const input = button.previousElementSibling;
+    //             if (input.value.trim() !== "") {
+    //                 button.textContent = "✔ Checked";
+    //                 button.classList.add("checked");
+    //                 button.disabled = true; // Optional: disable after checking
+    //             } else {
+    //                 alert("Please enter a value to check.");
+    //             }
+    //         });
+    //     });
+    // });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const checkButtons = document.querySelectorAll(".check-button");
+
+    checkButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const input = button.previousElementSibling;
+            const correctPassword = button.getAttribute("data-password");
+            const enteredPassword = input.value.trim();
+
+            if (enteredPassword === "") {
+                alert("Please enter a password to check.");
+                return;
+            }
+
+            if (enteredPassword === correctPassword) {
+                button.textContent = "✔ Checked";
+                button.classList.add("checked");
+                button.disabled = true;
+                input.disabled = true;
+            } else {
+                alert("Incorrect password.");
+            }
         });
     });
+});
 
     
     </script>

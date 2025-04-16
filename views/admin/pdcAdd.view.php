@@ -196,7 +196,7 @@
 
                 <div class="form-group">
                     <label for="employee-no">Employee No:</label>
-                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no">
+                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no" pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate">
                 </div>
 
                 <div class="form-group">
@@ -218,7 +218,7 @@
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact">
+                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact"  pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
                 </div>
             </div>
 

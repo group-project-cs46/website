@@ -4,7 +4,7 @@ use Models\AddEventStudent;
 
 $name = $_POST['name'];
 $email = $_POST['email'];
-$employee_id = $_POST['employee_no'];
+$student_id = $_POST['student_no'];
 $title = $_POST['title'];
 $course = $_POST['course'];
 $contact = $_POST['contact'];
@@ -21,7 +21,7 @@ try {
     //         'approved' => 1,
     //     ]
     // );
-    AddEventStudent::create($employee_id, $title, $email, $name, $contact, $password, $course);
+    AddEventStudent::create($student_id, $title, $email, $name, $contact, $password, $course);
 } catch (\Exception $e) {
     die($e->getMessage());
 }

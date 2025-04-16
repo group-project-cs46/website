@@ -7,7 +7,7 @@ use Core\Database;
 
 class AddEventStudent
 {
-    public static function create($employee_id, $title, $email, $name, $contact_no, $password)
+    public static function create($student_id, $title, $email, $name, $contact_no, $password, $course)
     {
         $db = App::resolve(Database::class);
 
@@ -22,24 +22,25 @@ class AddEventStudent
 
         $id = $db->getLastInsertedId();
 
-        $db->query('INSERT INTO pdcs(employee_id, title, id) VALUES (?, ?, ?)', [
-            $employee_id,
+        $db->query('INSERT INTO event_students(student_id, title, id, course) VALUES (?, ?, ?, ?)', [
+            $student_id,
             $title,
-            $id
+            $id,
+            $course
         ]);
     }
 
     public static function get_all()
     {
         $db = App::resolve(Database::class);
-        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdcs as p ON u.id=p.id', []);
+        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN event_students as p ON u.id=p.id', []);
         return $result->get();
     }
 
     public static function get_by_id(string $id)
     {
         $db = App::resolve(Database::class);
-        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN pdcs as p ON u.id=p.id WHERE u.id=?', [$id]);
+        $result =  $db->query('SELECT u.*, p.* FROM users as u INNER JOIN event_students as p ON u.id=p.id WHERE u.id=?', [$id]);
         $data = $result->get();
         if (empty($data)) {
             return null;
@@ -47,8 +48,7 @@ class AddEventStudent
         return $data[0];
     }
 
-
-    public static function update($id, $name, $email, $employee_id, $contact, $title, $password)
+    public static function update($id, $name, $email, $student_id, $contact, $title, $password, $course)
     {
         $data = [
             $name,
@@ -70,12 +70,13 @@ class AddEventStudent
         $db->query($sql, $data);
 
         $data = [
-            $employee_id,
+            $student_id,
             $title,
-            $id
+            $id,
+            $course
         ];
 
-        $db->query('UPDATE pdcs SET employee_id=?,title=? WHERE id=?', $data);
+        $db->query('UPDATE pdcs SET student_id=?,title=? WHERE id=?', $data);
     }
 
     public static function delete($id)

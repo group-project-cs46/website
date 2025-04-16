@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New PDC</title>
+    <title>Add New Students</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -178,11 +178,21 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
+        .type-container {
+        display: flex;
+        gap: 20px; /* space between the two boxes */
+        margin-bottom: 15px;
+        }
+
+        .type-container .form-group {
+            flex: 1; /* makes both form-group elements take equal width */
+        }
+
     </style>
 </head>
 
 <body>
-    <form class="container" method="post" action="/pdcAddition">
+    <form class="container" method="post" action="/eventsStudentsAddition">
         <div class="header">
             <h2>Add New Students</h2>
         </div>
@@ -195,20 +205,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="employee-no">Employee No:</label>
-                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no">
+                    <label for="student-no">Student No:</label>
+                    <input type="text" required id="student-no" placeholder="Enter Lecturer ID No. Here" name="student_no">
                 </div>
-
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <select id="title" name="title" required>
-                        <option value="">Select Title</option>
-                        <option value="mr">Mr.</option>
-                        <option value="mrs">Mrs.</option>
-                        <option value="ms">Ms.</option>
-                        <option value="dr">Dr.</option>
-                        <option value="prof">Prof.</option>
-                    </select>
+                <div class="type-container">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                            <select id="title" name="title" required>
+                                <option value="">Select Title</option>
+                                <option value="mr">Mr.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="ms">Ms.</option>
+                                <option value="dr">Dr.</option>
+                                <option value="prof">Prof.</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Course:</label>
+                        <input type="text" required id="course" placeholder="Enter Course. Here" name="course">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -243,7 +258,7 @@
 
                 <div class="form-group" style="width: 100%;">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required minlength="6" name="password">
+                    <input type="text" id="password" required minlength="6" name="password">
                 </div>
             </div>
         </div>
