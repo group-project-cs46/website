@@ -24,7 +24,10 @@ class Company
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT companies.*, users.name FROM companies JOIN advertisements ON companies.id = advertisements.company_id LEFT JOIN users ON users.id = companies.id WHERE advertisements.round_id = ?', [$roundId])->get();
+        return $db->query('SELECT DISTINCT companies.*, users.name FROM companies
+            LEFT JOIN advertisements ON companies.id = advertisements.company_id
+            LEFT JOIN users ON users.id = companies.id WHERE advertisements.round_id = ?',
+            [$roundId])->get();
     }
 
     public static function allWithUser()

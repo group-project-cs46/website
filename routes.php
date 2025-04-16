@@ -27,6 +27,8 @@ $router->patch('/users/profile/details', 'users/profile/update.php')->only('auth
 
 
 $router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
+$router->get('/students/second_round', 'students/second_round/index.php')->only('student');
+$router->post('/students/second_round', 'students/second_round/store.php')->only('student');
 $router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
 
 $router->post('/students/applications', 'students/applications/store.php')->only('student');

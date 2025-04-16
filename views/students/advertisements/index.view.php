@@ -25,7 +25,7 @@
 
                         <button type="submit" class="button">Filter</button>
                         <a href="/students/advertisements" style="display: flex">
-                            <button type="button" class="button">Clear</button>
+                            <button class="button">Clear</button>
                         </a>
                     </form>
                 <?php endif; ?>

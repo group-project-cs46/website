@@ -292,8 +292,10 @@
 
 }
 
-a {
-    text-decoration: none;
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 button {
@@ -304,7 +306,6 @@ button {
     padding: 0;
     font: inherit;
     cursor: pointer;
-    text-decoration: underline; /* Optional: for a link-like appearance */
 }
 
 .astext {
@@ -338,6 +339,15 @@ button {
     touch-action: manipulation;
 }
 
+a {
+    text-decoration: none;
+    color: var(--color-primary);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .custom-select {
     position: relative;
     font-family: Arial;
@@ -360,20 +370,6 @@ button {
 .small {
     font-size: 12px;
     padding: 5px 8px;
-}
-
-* {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-}
-
-a {
-    color: var(--color-primary);
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 .bell-container {

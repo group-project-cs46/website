@@ -27,10 +27,10 @@
                     </a>
                 </div>
                 <div class="grid-item">
-                    <?php if ($application['interview_complete']): ?>
-                        <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Completed</span>
-                    <?php elseif (!empty($application['interview_date'])): ?>
-                        <?php echo htmlspecialchars($application['interview_date']) ?>
+                    <?php if (!empty($application['interview_date'])): ?>
+                        <?= htmlspecialchars(date('d M Y', strtotime($application['interview_date']))) ?> @
+                        <?= htmlspecialchars(date('H:i', strtotime($application['interview_start_time']))) ?> to
+                        <?= htmlspecialchars(date('H:i', strtotime($application['interview_end_time']))) ?>
                     <?php else: ?>
                         <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
                     <?php endif; ?>

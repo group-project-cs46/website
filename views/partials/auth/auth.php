@@ -170,6 +170,10 @@ $navItems = [
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
+        'filter' => function () {
+            $currentRound = \Models\Round::currentRound();
+            return $currentRound && !$currentRound['restricted'];
+        }
     ],
     [
 
@@ -177,6 +181,16 @@ $navItems = [
         'href' => '/students/applications',
         'icon' => 'fa-file-invoice',
         'only' => [Role::Student],
+    ],
+    [
+        'text' => "Second Round",
+        'href' => '/students/second_round',
+        'icon' => 'fa-solid fa-2',
+        'only' => [Role::Student],
+        'filter' => function () {
+            $currentRound = \Models\Round::currentRound();
+            return $currentRound && $currentRound['restricted'];
+        }
     ],
     [
         'text' => "Cvs",
