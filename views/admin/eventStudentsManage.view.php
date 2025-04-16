@@ -18,9 +18,17 @@
                     <h3><b>Manage Students</b></h3>
                     <p>Manage Students Accounts</p>
                 </div>
-                <button class="track-button" id="openFormButton"><a href="/track"> Attendance Track</a></button>
+                <div class="track-container">
+                <!-- <input type="text" placeholder="Enter code..." class="track-input" /> -->
+                <input type="text" placeholder="Enter code..." class="track-input" value="<?= $EVENT_NO ?>" readonly />
+
+                <button class="track-button" id="openFormButton"><a href="/track">Attendance Track</a></button>
                 <button class="add-button" id="openFormButton"><a href="/eventStudentsAdd">+ New</a></button>
             </div>
+            </div>
+
+           
+
 
             <table class="student-table">
                 <thead>
@@ -38,7 +46,7 @@
                     <!-- Example Table Rows -->
 
                     
-    <tr>
+    <!-- <tr>
         <td>ST001</td>
         <td>Mr.</td>
         <td>Pasindu Perera</td>
@@ -67,21 +75,22 @@
                 <button type="submit" class="disable-button">Disable</button>
             </form>
         </td>
-    </tr>
+    </tr> -->
 
 
-                    <?php foreach ($PDC_data as $pdc): ?>
+                    <?php foreach ($STUDENT_data as $students): ?>
                         <tr>
-                            <td><?= $pdc['employee_id'] ?></td>
-                            <td><?= $pdc['title'] ?></td>
-                            <td><?= $pdc['name'] ?></td>
-                            <td><?= $pdc['mobile'] ?></td>
-                            <td><?= $pdc['email'] ?></td>
+                            <td><?= $students['student_id'] ?></td>
+                            <td><?= $students['title'] ?></td>
+                            <td><?= $students['name'] ?></td>
+                            <td><?= $students['course'] ?></td>
+                            <td><?= $students['mobile'] ?></td>
+                            <td><?= $students['email'] ?></td>
                             <td class="actions">
-                                <a href="/pdcEdit?id=<?= $pdc['id'] ?>" class="view-button">Edit</a>
-                                <form action="/pdcDeletion" method="post">
-                                    <input type="hidden" name="id" value="<?= $pdc['id'] ?>">
-                                    <button type="submit" class="disable-button">Disable</button>
+                                <a href="/pdcEdit?id=<?= $students['id'] ?>" class="view-button">Edit</a>
+                                <form action="//eventsStudentsDeletion" method="post">
+                                    <input type="hidden" name="id" value="<?= $students['id'] ?>">
+                                    <button type="submit" class="disable-button">Delete</button>
                                 </form>
                             </td>
                         </tr>

@@ -46,6 +46,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 98.7%;
 }
 
 .table-title {
@@ -53,6 +54,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    width: 99.5%;
 }
 
 .table-title-txt h3 {
@@ -101,6 +103,26 @@ body {
         cursor: pointer;
 }
 
+.track-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.track-input {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    background-color: #f9f9f9;
+    transition: border 0.2s;
+}
+
+.track-input:focus {
+    border-color: #3498db;
+}
+
  .add-button a {
     color: white;
     text-decoration: none;
@@ -125,7 +147,7 @@ table {
   }
 
 .student-table {
-    width: 100%;
+    width: 98.6%;
     border-collapse: collapse;
 }
 

@@ -1,15 +1,13 @@
 <?php
 
-view('admin/eventsmanage.view.php', []);
+use Models\AddEvents;
 
-// <?php
+try {
+    $data = AddEvents:: get_all();
+} catch (Exception $e) {
+    die("Error loading events: " . $e->getMessage());
+}
 
-// use Models\AddEvents;
-
-// try {
-//     $data = AddEvents::get_all();
-// } catch (Exception $e) {
-//     die($e->getMessage());
-// }
-
-// view('admin/eventsmanage.view.php', ['EVENTS_data'=>$data]);
+view('admin/eventsmanage.view.php', [
+    'EVENTS_data' => $data
+]);
