@@ -2,15 +2,32 @@
 
 use Models\Ad;
 use Models\Company;
+use Models\Round;
 
-$companies = Company::all();
+$currentRound = Round::currentRound();
 
-$company_id = $_GET['company_id'] ?? null;
+//dd($currentRound);
 
-if ($company_id) {
-    $ads = Ad::allWithCompanyByCompanyId($company_id);
+if ($currentRound && !$currentRound['restricted']) {
+    $companies = Company::byRoundId($currentRound['id']);
+
+
+    $company_id = $_GET['company_id'] ?? null;
+
+
+    if ($company_id) {
+        $ads = Ad::byRoundIdAndComapnyId($currentRound['id'], $company_id);
+    } else {
+        $ads = Ad::byRoundId($currentRound['id']);
+    }
+
+} else if ($currentRound && $currentRound['restricted']) {
+    $companies = null;
+    $ads = null;
+
 } else {
-    $ads = Ad::allWIthCompany();
+    $companies = null;
+    $ads = null;
 }
 
 
@@ -18,4 +35,5 @@ view('students/advertisements/index.view.php', [
     'heading' => 'Jobs',
     'ads' => $ads,
     'companies' => $companies,
+    'currentRound' => $currentRound
 ]);
