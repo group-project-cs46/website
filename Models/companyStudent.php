@@ -98,7 +98,7 @@ class companyStudent
     {
         $db = App::resolve(Database::class);
         $students = $db->query('
-            SELECT 
+            SELECT
                 u.name AS student_name,
                 s.index_number AS index_no,
                 u.email,
@@ -125,4 +125,32 @@ class companyStudent
 
         return $students;
     }
+
+    public static function scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime)
+{
+    $db = App::resolve(Database::class);
+
+    // Combine date and time for start_time and end_time
+    $startTime = "$date $fromTime";
+    $endTime = "$date $toTime";
+
+    // Insert into interviews table and return the inserted ID
+    $result = $db->query('
+        INSERT INTO interviews (venue, start_time, end_time)
+        VALUES (?, ?, ?)
+        RETURNING id
+    ', [$venue, $startTime, $endTime])->get();
+
+    // Extract the interview_id from the result
+    $interviewId = $result[0]['id'];
+
+    // Update the applications table with the interview_id
+    $db->query('
+        UPDATE applications
+        SET interview_id = ?
+        WHERE id = ?
+    ', [$interviewId, $applicationId]);
+
+    return true;
+}
 }

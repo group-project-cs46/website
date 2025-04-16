@@ -141,7 +141,8 @@
             <div class="modal-content">
                 <span class="close" onclick="closeAddInterviewModal()">×</span>
                 <h1 class="interview-heading">Create Interview Schedule</h1>
-                <form onsubmit="handleAddInterviewSubmit(event)">
+                <form id="addInterviewForm" class="addInterviewForm" method="POST" action="/company_student/store_schedule" onsubmit="return handleAddInterviewSubmit();">
+                    <input type="text" name="application_id" id="application_id" hidden/>
                     <div class="form-row">
                         <label for="venue">Venue:</label>
                         <div class="input-with-icon">
@@ -159,14 +160,14 @@
                     <div class="form-row">
                         <label for="from-time">From:</label>
                         <div class="input-with-icon">
-                            <input type="time" name="from-time" id="from-time" required />
+                            <input type="time" name="from_time" id="from-time" required />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <label for="to-time">To:</label>
                         <div class="input-with-icon">
-                            <input type="time" name="to-time" id="to-time" required />
+                            <input type="time" name="to_time" id="to-time" required />
                         </div>
                     </div>
 
@@ -309,7 +310,7 @@ function renderShortlistedTable(students) {
                 }
             </td>
             <td>
-                <button class="short-schedule-btn" data-student-index="${index}" onclick="openAddInterviewModal(this)" ${scheduledStudents[index] ? 'disabled' : ''}>
+                <button class="short-schedule-btn" data-student-index="${index}" data-application-id="${student.application_id}" onclick="openAddInterviewModal(this)" ${scheduledStudents[index] ? 'disabled' : ''}>
                     ${scheduledStudents[index] ? 'Scheduled' : 'Schedule Interview'}
                 </button>
             </td>
@@ -343,7 +344,6 @@ function renderSelectedTable(students) {
                     `<button class="selected-view-btn" disabled>No CV</button>`
                 }
             </td>
-         
         `;
         tableBody.appendChild(row);
     });
@@ -523,8 +523,10 @@ function toggleStatus(button, index, section) {
 // Function to open the modal to schedule an interview
 function openAddInterviewModal(button) {
     const studentIndex = button.getAttribute("data-student-index");
+    const applicationId = button.getAttribute("data-application-id");
     document.getElementById("addInterviewModal").style.display = "flex";
     document.getElementById("addInterviewModal").setAttribute("data-student-index", studentIndex);
+    document.getElementById("application_id").value = applicationId;
 }
 
 // Function to close the modal
@@ -545,23 +547,32 @@ function closeSuccessModal() {
 }
 
 // Function to handle form submission
-function handleAddInterviewSubmit(event) {
-    event.preventDefault();
+function handleAddInterviewSubmit() {
     const date = document.getElementById("from-date").value;
     const fromTime = document.getElementById("from-time").value;
     const toTime = document.getElementById("to-time").value;
 
-    if (!date || !fromTime || !toTime || fromTime >= toTime) {
-        alert("Please enter a valid date and time range.");
-        return;
+    if (!date || !fromTime || !toTime) {
+        alert("Please fill in all required fields.");
+        return false;
+    }
+
+    // Combine date and times for comparison
+    const fromDateTime = new Date(`${date}T${fromTime}:00`);
+    const toDateTime = new Date(`${date}T${toTime}:00`);
+
+    if (fromDateTime >= toDateTime) {
+        alert("End time must be after start time.");
+        return false;
     }
 
     const studentIndex = document.getElementById("addInterviewModal").getAttribute("data-student-index");
     scheduledStudents[studentIndex] = true;
     renderShortlistedTable(shortlistedStudents);
-
     closeAddInterviewModal();
     openSuccessModal();
+
+    return true; // Allow the form to submit
 }
 
 // Function to toggle sections
