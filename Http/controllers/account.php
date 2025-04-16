@@ -7,10 +7,15 @@ use Core\Session;
 
 
 
+
+
+
 $user_id = auth_user()['id'];
 $user = User::findByIdWithRoleData($user_id);
 
-//dd($user);
+if ($user['role'] === 4) {
+    redirect('/accounts/company');
+}
 
 
 view('/account.view.php', [

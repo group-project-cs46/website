@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use Models\Notification;
 use Models\User;
 
 class Authenticator
@@ -21,6 +22,11 @@ class Authenticator
             }
         }
         return false;
+    }
+
+    public function checkExists($email)
+    {
+        return User::findByEmail($email) ? true : false;
     }
 
     public function checkDisabled($email)
@@ -48,12 +54,15 @@ class Authenticator
         $id = User::findByEmail($email)['id'];
         $user = User::findByIdWithRoleData($id);
 
+        $notifications = Notification::getAllByUserId($id);
+
 
         $_SESSION['user'] = [
             'email' => $user['email'],
             'role' => $user['role'],
             'name' => $user['name'],
-            'photo' => getUserProfilePhotoUrl($user)
+            'photo' => getUserProfilePhotoUrl($user),
+            'notifications' => $notifications,
         ];
         session_regenerate_id(true);
     }

@@ -13,11 +13,13 @@ $today = date('j');
 
 $techtalks = TechTalk::findForCurrentMonth();
 
+//dd($techtalks[0]);
+
 //dd($techtalks);
 
 $days_in_month = cal_days_in_month(CAL_GREGORIAN, $month_num, $year);
 //dd($first_day);
-view('students/techtalks/index.view.php', [
+view('students/events/index.view.php', [
     'heading' => 'Techtalks',
     'month_text' => $month_text,
     'year' => $year,

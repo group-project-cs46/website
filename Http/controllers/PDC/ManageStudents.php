@@ -1,13 +1,9 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
+use Models\AddStudent;
 
-$db = App::resolve(Database::class);
 
-$query = "SELECT * FROM students";
-$students = $db->query($query, [])->get();
+$students = AddStudent::fetch_student();
 
-//dd($user);
 
 view('PDC/ManageStudents.view.php',['students' => $students]);

@@ -42,7 +42,40 @@ class Ad
                            WHERE companies.id = ?', [$company_id])->get();
     }
 
+    public static function byRoundId($roundId) {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT advertisements.*,
+       users.name,
+          users.id AS user_id,
+       companies.building,
+         companies.street_name,
+            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
+                           LEFT JOIN users ON companies.id = users.id
+                           WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId])->get();
+    }
+
+    public static function byRoundIdAndComapnyId($roundId, $companyId) {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT advertisements.*,
+       users.name,
+          users.id AS user_id,
+       companies.building,
+         companies.street_name,
+            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
+                           LEFT JOIN users ON companies.id = users.id
+                           WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId, $companyId])->get();
+    }
+
     public static function find($id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+    }
+
+    public static function getById($id)
     {
         $db = App::resolve(Database::class);
 

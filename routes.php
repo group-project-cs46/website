@@ -23,18 +23,23 @@ $router->post('/reset_password', 'users/update_password.php')->only('guest');
 
 $router->post('/users/change_password', 'users/change_password.php')->only('auth');
 $router->patch('/users/profile/photo', 'users/profile/photo/update.php')->only('auth');
+$router->patch('/users/profile/details', 'users/profile/update.php')->only('auth');
+
 
 $router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
 $router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
 
 $router->post('/students/applications', 'students/applications/store.php')->only('student');
+$router->get('/students/applications/show', 'students/applications/show.php')->only('student');
 
 $router->get('/students/companies/show', 'students/companies/show.php')->only('student');
-$router->get('/students/techtalks', 'students/techtalks/index.php')->only('student');
+$router->get('/students/events', 'students/events/index.php')->only('student');
 
-$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
 
 $router->get('/account', 'account.php')->only('auth');
+$router->get('/accounts/company', 'accounts/company/index.php')->only('company');
+$router->patch('/accounts/company', 'accounts/company/update.php')->only('auth');
+
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
 $router->delete('/cv/delete', 'cv/destroy.php')->only('student');
@@ -45,6 +50,21 @@ $router->get('/students/applications/edit', 'students/applications/edit.php')->o
 $router->patch('/students/applications/update', 'students/applications/update.php')->only('student');
 
 $router->get('/students/cvs', 'students/cvs/index.php')->only('student');
+
+$router->get('/students/internship_reports', 'students/internship_reports/index.php')->only('student');
+$router->post('/students/internship_reports/store', 'students/internship_reports/store.php')->only('student');
+$router->get('/students/internship_reports/show', 'students/internship_reports/show.php')->only('student');
+$router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
+
+$router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+
+
+// Admin by thathsara
+
+//$router->get('/admin/pdcs', 'admin/pdcs/index.php');
+//$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
+//$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
+//$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
 
 //company
 
@@ -72,6 +92,7 @@ $router->post('/ads/edit', 'ads/edit.php');
 
 $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
+$router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
@@ -82,6 +103,16 @@ $router->get('/PDC/studentreport', '/PDC/StudentReport.php');
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');
 $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
+$router->get('/PDC/StudentReport', '/PDC/student_report.php');
+$router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
+$router->post('/PDC/setround', '/PDC/setround.php');
+$router->post('/PDC/updateround', '/PDC/updateround.php');
+$router->post('/PDC/deleteround', '/PDC/deleteround.php');
+$router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
+$router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
+$router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
+
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
@@ -106,6 +137,7 @@ $router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
 $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');
 $router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
+
 
 $router->get('/lecturerManage', 'admin/lecturerManage.php');
 $router->get('/lecturerAdd', 'admin/lecturerAdd.php');
