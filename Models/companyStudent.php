@@ -136,10 +136,10 @@ class companyStudent
 
     // Insert into interviews table and return the inserted ID
     $result = $db->query('
-        INSERT INTO interviews (venue, start_time, end_time)
-        VALUES (?, ?, ?)
+        INSERT INTO interviews (venue, start_time, end_time, date)
+        VALUES (?, ?, ? ,?)
         RETURNING id
-    ', [$venue, $startTime, $endTime])->get();
+    ', [$venue, $startTime, $endTime, $date])->get();
 
     // Extract the interview_id from the result
     $interviewId = $result[0]['id'];
