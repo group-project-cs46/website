@@ -102,10 +102,22 @@ class Application
         ]);
     }
 
+    public static function createWithIsSecondRound($student_id, $cv_id, $ad_id, $is_second_round)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('INSERT INTO applications (student_id, cv_id, ad_id, is_second_round) VALUES (?, ?, ?, ?)', [
+            $student_id,
+            $cv_id,
+            $ad_id,
+            $is_second_round
+        ]);
+    }
+
     public static function delete($id)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('DELETE FROM applications WHERE id = ?', [$id]);
+        return $db->query('DELETE FROM applications WHERE id = ?', [$id])->get();
     }
 }

@@ -2,6 +2,8 @@
 
 use Core\Session;
 use Http\Forms\SecondRoundRolesCreate;
+use Models\Ad;
+use Models\Application;
 use Models\SecondRoundRole;
 
 
@@ -19,5 +21,14 @@ if (count($chosen_roles) >= 3) {
 
 
 SecondRoundRole::create($attributes['role'], auth_user()['id'], $attributes['cv']);
+
+
+$related_ads = Ad::getByInternshipRoleId($attributes['role']);
+
+foreach ($related_ads as $ad) {
+    Application::createWithIsSecondRound(auth_user()['id'], $attributes['cv'], $ad['id'], true);
+}
+
+//dd($related_ads);
 
 redirect('/students/second_round');
