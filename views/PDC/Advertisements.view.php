@@ -84,6 +84,7 @@
             <p><b>Vacancy_Count : </b> <span id="popup-applied"></span></p>
             <p><b>Maximum_CV_count : </b><span id="popup-CVcount"></span></p>
             <p><b>Contact_Email : </b> <a href="#" id="popup-email"></a></p>
+            <p><b>Deadline : </b> <span id="popup-deadline"></span></p>
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message">Approved successfully!</p>
@@ -137,7 +138,8 @@
             status: "Hiring",
             Vacancy_Count: 10,
             Maximum_CV_count: 50,
-            email: "hiring@gmail.com"
+            email: "hiring@gmail.com",
+            Deadline: "2023-12-31"
         },
         {
             title: "Data Analyst Intern (Virtusa)",
@@ -147,7 +149,8 @@
             status: "Closed",
             Vacancy_Count: 10,
             Maximum_CV_count: 25,
-            email: "apply@virtusa.com"
+            email: "apply@virtusa.com",
+            Deadline: "2023-11-30"
         },
         {
             title: "Frontend Developer Intern (99x)",
@@ -157,7 +160,8 @@
             status: "Hiring",
             Vacancy_Count: 15,
             Maximum_CV_count: 30,
-            email: "jobs@99x.com"
+            email: "jobs@99x.com",
+            Deadline: "2023-12-15"
         },
         {
             title: "Backend Developer Intern (Sysco LABS)",
@@ -167,7 +171,8 @@
             status: "Hiring",
             Vacancy_Count: 12,
             Maximum_CV_count: 20,
-            email: "interns@syscolabs.com"
+            email: "interns@syscolabs.com",
+            Deadline: "2023-12-20"
         },
         {
             title: "UI/UX Designer Intern (CreativeHub)",
@@ -177,7 +182,8 @@
             status: "Closed",
             Vacancy_Count: 20,
             Maximum_CV_count: 40,
-            email: "careers@creativehub.com"
+            email: "careers@creativehub.com",
+            Deadline: "2023-11-15"
         }
     ];
 
@@ -242,6 +248,7 @@
         document.getElementById('popup-status').textContent = ad.status;
         document.getElementById('popup-applied').textContent = ad.Vacancy_Count;
         document.getElementById('popup-CVcount').textContent = ad.Maximum_CV_count;
+        document.getElementById('popup-deadline').textContent = ad.Deadline;
         
         const emailLink = document.getElementById('popup-email');
         emailLink.textContent = ad.email;

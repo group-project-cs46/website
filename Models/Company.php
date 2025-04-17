@@ -42,4 +42,6 @@ class Company
         $db->query('UPDATE users SET rejected = ? WHERE id = ?', [1, $id]);
     }
 
+    
+
 }
