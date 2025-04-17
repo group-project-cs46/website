@@ -76,7 +76,8 @@ class companyStudent
                 app.selected,
                 app.shortlisted,
                 app.failed,
-                app.id AS application_id
+                app.id AS application_id,
+                app.interview_id
             FROM users u
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
@@ -127,30 +128,79 @@ class companyStudent
     }
 
     public static function scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime)
-{
-    $db = App::resolve(Database::class);
+    {
+        $db = App::resolve(Database::class);
 
-    // Combine date and time for start_time and end_time
-    $startTime = "$date $fromTime";
-    $endTime = "$date $toTime";
+        // Combine date and time for start_time and end_time
+        $startTime = "$date $fromTime";
+        $endTime = "$date $toTime";
 
-    // Insert into interviews table and return the inserted ID
-    $result = $db->query('
-        INSERT INTO interviews (venue, start_time, end_time, date)
-        VALUES (?, ?, ? ,?)
-        RETURNING id
-    ', [$venue, $startTime, $endTime, $date])->get();
+        // Insert into interviews table and return the inserted ID
+        $result = $db->query('
+            INSERT INTO interviews (venue, start_time, end_time, date)
+            VALUES (?, ?, ?, ?)
+            RETURNING id
+        ', [$venue, $startTime, $endTime, $date])->get();
 
-    // Extract the interview_id from the result
-    $interviewId = $result[0]['id'];
+        // Extract the interview_id from the result
+        $interviewId = $result[0]['id'];
 
-    // Update the applications table with the interview_id
-    $db->query('
-        UPDATE applications
-        SET interview_id = ?
-        WHERE id = ?
-    ', [$interviewId, $applicationId]);
+        // Update the applications table with the interview_id
+        $db->query('
+            UPDATE applications
+            SET interview_id = ?
+            WHERE id = ?
+        ', [$interviewId, $applicationId]);
 
-    return true;
-}
+        return $interviewId; // Return the interview_id
+    }
+
+    public static function getInterviewDetails($interviewId)
+    {
+        $db = App::resolve(Database::class);
+        $interview = $db->query('
+            SELECT venue, start_time, end_time, date
+            FROM interviews
+            WHERE id = ?
+        ', [$interviewId])->find();
+
+        return $interview;
+    }
+
+    public static function updateInterview($interviewId, $venue, $date, $fromTime, $toTime)
+    {
+        $db = App::resolve(Database::class);
+
+        // Combine date and time for start_time and end_time
+        $startTime = "$date $fromTime";
+        $endTime = "$date $toTime";
+
+        $db->query('
+            UPDATE interviews
+            SET venue = ?, start_time = ?, end_time = ?, date = ?
+            WHERE id = ?
+        ', [$venue, $startTime, $endTime, $date, $interviewId]);
+
+        return true;
+    }
+
+    public static function deleteInterview($applicationId, $interviewId)
+    {
+        $db = App::resolve(Database::class);
+
+        // First, remove the interview_id from the applications table
+        $db->query('
+            UPDATE applications
+            SET interview_id = NULL
+            WHERE id = ?
+        ', [$applicationId]);
+
+        // Then, delete the interview from the interviews table
+        $db->query('
+            DELETE FROM interviews
+            WHERE id = ?
+        ', [$interviewId]);
+
+        return true;
+    }
 }

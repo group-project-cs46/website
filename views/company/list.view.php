@@ -141,7 +141,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeAddInterviewModal()">×</span>
                 <h1 class="interview-heading">Create Interview Schedule</h1>
-                <form id="addInterviewForm" class="addInterviewForm" method="POST" action="/company_student/store_schedule" onsubmit="return handleAddInterviewSubmit();">
+                <form id="addInterviewForm" class="addInterviewForm" method="POST" action="/company_student/store_schedule" onsubmit="return handleAddInterviewSubmit(event);">
                     <input type="text" name="application_id" id="application_id" hidden/>
                     <div class="form-row">
                         <label for="venue">Venue:</label>
@@ -173,6 +173,50 @@
 
                     <div class="button-container">
                         <button type="submit" class="save-button">SAVE</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Overlay for View/Edit Interview Details -->
+        <div id="viewInterviewModal" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close" onclick="closeViewInterviewModal()">×</span>
+                <h1 class="interview-heading">Interview Details</h1>
+                <form id="editInterviewForm" class="addInterviewForm" method="POST" action="/company_student/update_interview" onsubmit="return handleEditInterviewSubmit();">
+                    <input type="text" name="application_id" id="edit_application_id" hidden/>
+                    <input type="text" name="interview_id" id="edit_interview_id" hidden/>
+                    <div class="form-row">
+                        <label for="edit-venue">Venue:</label>
+                        <div class="input-with-icon">
+                            <input type="text" name="venue" id="edit-venue" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="edit-from-date">Date:</label>
+                        <div class="input-with-icon">
+                            <input type="date" name="date" id="edit-from-date" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="edit-from-time">From:</label>
+                        <div class="input-with-icon">
+                            <input type="time" name="from_time" id="edit-from-time" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="edit-to-time">To:</label>
+                        <div class="input-with-icon">
+                            <input type="time" name="to_time" id="edit-to-time" required />
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit" class="save-button">UPDATE</button>
+                        <button type="button" class="delete-button" onclick="deleteInterview()">DELETE</button>
                     </div>
                 </form>
             </div>
@@ -291,10 +335,12 @@ function renderShortlistedTable(students) {
 
     students.forEach((student, index) => {
         const row = document.createElement("tr");
+        const isScheduled = scheduledStudents[index] || student.interview_id; // Check if interview is scheduled
         row.setAttribute("data-index", index);
         row.setAttribute("data-email", student.email);
         row.setAttribute("data-jobrole", student.job_role);
         row.setAttribute("data-application-id", student.application_id);
+        row.setAttribute("data-interview-id", student.interview_id || '');
 
         row.innerHTML = `
             <td>${student.student_name}</td>
@@ -310,8 +356,8 @@ function renderShortlistedTable(students) {
                 }
             </td>
             <td>
-                <button class="short-schedule-btn" data-student-index="${index}" data-application-id="${student.application_id}" onclick="openAddInterviewModal(this)" ${scheduledStudents[index] ? 'disabled' : ''}>
-                    ${scheduledStudents[index] ? 'Scheduled' : 'Schedule Interview'}
+                <button class="short-schedule-btn" data-student-index="${index}" data-application-id="${student.application_id}" data-interview-id="${student.interview_id || ''}" onclick="${isScheduled ? 'viewInterviewDetails(this)' : 'openAddInterviewModal(this)'}">
+                    ${isScheduled ? 'Interview Scheduled' : 'Schedule Interview'}
                 </button>
             </td>
         `;
@@ -529,9 +575,46 @@ function openAddInterviewModal(button) {
     document.getElementById("application_id").value = applicationId;
 }
 
-// Function to close the modal
+// Function to view interview details
+function viewInterviewDetails(button) {
+    const interviewId = button.getAttribute("data-interview-id");
+    const applicationId = button.getAttribute("data-application-id");
+    const studentIndex = button.getAttribute("data-student-index");
+
+    fetch(`/company_student/interview_details?interview_id=${interviewId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const interview = data.interview;
+                document.getElementById("edit_application_id").value = applicationId;
+                document.getElementById("edit_interview_id").value = interviewId;
+                document.getElementById("edit-venue").value = interview.venue;
+                document.getElementById("edit-from-date").value = interview.date;
+
+                // Extract time directly from start_time and end_time (format: HH:mm:ss)
+                document.getElementById("edit-from-time").value = interview.start_time.slice(0, 5); // "08:30:00" -> "08:30"
+                document.getElementById("edit-to-time").value = interview.end_time.slice(0, 5); // "09:30:00" -> "09:30"
+
+                document.getElementById("viewInterviewModal").style.display = "flex";
+                document.getElementById("viewInterviewModal").setAttribute("data-student-index", studentIndex);
+            } else {
+                alert('Failed to fetch interview details.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while fetching interview details.');
+        });
+}
+
+// Function to close the add interview modal
 function closeAddInterviewModal() {
     document.getElementById("addInterviewModal").style.display = "none";
+}
+
+// Function to close the view/edit interview modal
+function closeViewInterviewModal() {
+    document.getElementById("viewInterviewModal").style.display = "none";
 }
 
 // Function to show success modal
@@ -546,8 +629,10 @@ function closeSuccessModal() {
     document.getElementById("successModal").style.display = "none";
 }
 
-// Function to handle form submission
-function handleAddInterviewSubmit() {
+// Function to handle add interview form submission
+function handleAddInterviewSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
+
     const date = document.getElementById("from-date").value;
     const fromTime = document.getElementById("from-time").value;
     const toTime = document.getElementById("to-time").value;
@@ -567,12 +652,126 @@ function handleAddInterviewSubmit() {
     }
 
     const studentIndex = document.getElementById("addInterviewModal").getAttribute("data-student-index");
-    scheduledStudents[studentIndex] = true;
-    renderShortlistedTable(shortlistedStudents);
-    closeAddInterviewModal();
-    openSuccessModal();
+    const form = document.getElementById("addInterviewForm");
+    const formData = new FormData(form);
 
-    return true; // Allow the form to submit
+    fetch('/company_student/store_schedule', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            scheduledStudents[studentIndex] = true;
+            shortlistedStudents[studentIndex].interview_id = data.interview_id;
+            renderShortlistedTable(shortlistedStudents);
+            closeAddInterviewModal();
+            openSuccessModal();
+        } else {
+            alert('Failed to schedule interview: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while scheduling the interview.');
+    });
+
+    return false; // Prevent form submission
+}
+
+// Function to handle edit interview form submission
+function handleEditInterviewSubmit() {
+    const date = document.getElementById("edit-from-date").value;
+    const fromTime = document.getElementById("edit-from-time").value;
+    const toTime = document.getElementById("edit-to-time").value;
+
+    if (!date || !fromTime || !toTime) {
+        alert("Please fill in all required fields.");
+        return false;
+    }
+
+    // Combine date and times for comparison
+    const fromDateTime = new Date(`${date}T${fromTime}:00`);
+    const toDateTime = new Date(`${date}T${toTime}:00`);
+
+    if (fromDateTime >= toDateTime) {
+        alert("End time must be after start time.");
+        return false;
+    }
+
+    // Collect form data
+    const interviewId = document.getElementById("edit_interview_id").value;
+    const applicationId = document.getElementById("edit_application_id").value;
+    const venue = document.getElementById("edit-venue").value;
+
+    // Create JSON payload
+    const formData = {
+        interview_id: interviewId,
+        application_id: applicationId,
+        venue: venue,
+        date: date,
+        from_time: fromTime,
+        to_time: toTime
+    };
+
+    // Send the data as JSON via fetch
+    fetch('/company_student/update_interview', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            closeViewInterviewModal();
+            openSuccessModal();
+            // Update the shortlisted students table to reflect the changes
+            renderShortlistedTable(shortlistedStudents);
+        } else {
+            alert('Failed to update interview: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the interview.');
+    });
+
+    return false; // Prevent the default form submission
+}
+
+// Function to delete an interview
+function deleteInterview() {
+    const applicationId = document.getElementById("edit_application_id").value;
+    const interviewId = document.getElementById("edit_interview_id").value;
+    const studentIndex = document.getElementById("viewInterviewModal").getAttribute("data-student-index");
+
+    if (confirm('Are you sure you want to delete this interview?')) {
+        fetch('/company_student/delete_interview', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ application_id: applicationId, interview_id: interviewId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                scheduledStudents[studentIndex] = false;
+                shortlistedStudents[studentIndex].interview_id = null;
+                renderShortlistedTable(shortlistedStudents);
+                closeViewInterviewModal();
+                alert('Interview deleted successfully.');
+            } else {
+                alert('Failed to delete interview.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the interview.');
+        });
+    }
 }
 
 // Function to toggle sections
@@ -632,7 +831,7 @@ function removeSelectedStudent(index) {
 
 // Initialize default render
 document.addEventListener("DOMContentLoaded", () => {
-    toggleSection("applied"); // Show the applied students tab by default
+    toggleSection("shorted"); // Show the shortlisted students tab by default
 });
 </script>
 

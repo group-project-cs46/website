@@ -1,21 +1,29 @@
 <?php
 
+use Core\Response;
 use Models\companyStudent;
 
-$applicationId = $_POST['application_id'] ?? null;
-$venue = $_POST['venue'] ?? null;
-$date = $_POST['date'] ?? null;
-$fromTime = $_POST['from_time'] ?? null;
-$toTime = $_POST['to_time'] ?? null;
+// Get the POST data
+$applicationId = isset($_POST['application_id']) ? (int)$_POST['application_id'] : null;
+$venue = isset($_POST['venue']) ? trim($_POST['venue']) : null;
+$date = isset($_POST['date']) ? trim($_POST['date']) : null;
+$fromTime = isset($_POST['from_time']) ? trim($_POST['from_time']) : null;
+$toTime = isset($_POST['to_time']) ? trim($_POST['to_time']) : null;
 
-// Basic validation
 if (!$applicationId || !$venue || !$date || !$fromTime || !$toTime) {
-    die("Invalid input data.");
+    echo json_encode(['success' => false, 'error' => 'Missing required fields']);
+    exit;
 }
 
-// Call the model method to store the interview schedule
-companyStudent::scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime);
+try {
+    // Schedule the interview using the companyStudent model
+    $interviewId = companyStudent::scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime);
 
-// Redirect back to the list page
-header('location: /company/list');
-die();
+    if ($interviewId) {
+        echo json_encode(['success' => true, 'interview_id' => $interviewId]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Failed to schedule interview']);
+    }
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'error' => 'An error occurred: ' . $e->getMessage()]);
+}

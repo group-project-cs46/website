@@ -66,6 +66,9 @@ $router->post('/company_report/store', 'company_report/store.php');
 $router->post('/company_student/shortlisted', 'company_student/store_shortlisted.php');
 $router->post('/company_student/nonShortlisted', 'company_student/store_nonShortlisted.php');
 $router->post('/company_student/store_schedule', 'company_student/store_schedule.php');
+$router->get('/company_student/interview_details', 'company_student/get_interview.php');
+$router->post('/company_student/update_interview', 'company_student/update_interview.php');
+$router->delete('/company_student/delete_interview', 'company_student/delete_interview.php');
 $router->delete('/ads/delete', 'ads/delete.php');
 $router->post('/ads/edit', 'ads/edit.php');
 
