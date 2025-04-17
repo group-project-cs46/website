@@ -132,7 +132,7 @@ $router->get('/profile', 'admin/account.php');
 
 $router->get('/report', 'lecturer/report.php');
 $router->get('/reportMain', 'lecturer/reportMain.php');
-$router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
+$router->get('/reportView', 'lecturer/reportView.php');
 
 $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');

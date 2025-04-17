@@ -188,6 +188,13 @@
             flex: 1; /* makes both form-group elements take equal width */
         }
 
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
+
     </style>
 </head>
 
@@ -206,7 +213,7 @@
 
                 <div class="form-group">
                     <label for="student-no">Student No:</label>
-                    <input type="text" required id="student-no" placeholder="Enter Lecturer ID No. Here" name="student_no">
+                    <input type="text" required id="student-no" placeholder="Enter Lecturer ID No. Here" name="student_no" pattern="^UCSC\/(CS|IS)\/\d{3}$" title="Format: UCSC/CS/123 or UCSC/IS/123" class="input-validate">
                 </div>
                 <div class="type-container">
                     <div class="form-group">
@@ -233,7 +240,7 @@
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact">
+                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact" pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
                 </div>
             </div>
 

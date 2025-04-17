@@ -15,7 +15,7 @@ class AddEventStudent
             $name,
             $email,
             $contact_no,
-            password_hash($password, PASSWORD_DEFAULT),
+            $password, // password stored as plain text
             3,
             1
         ]);
@@ -58,7 +58,7 @@ class AddEventStudent
         $sql = "";
 
         if (!empty(trim($password))) {
-            array_push($data, password_hash($password, PASSWORD_DEFAULT));
+            array_push($data, $password); // no hash
             $sql = "UPDATE users SET name=?, email=?, mobile=?, password=? WHERE id=?";
         } else {
             $sql = "UPDATE users SET name=?, email=?, mobile=? WHERE id=?";
@@ -76,32 +76,25 @@ class AddEventStudent
             $course
         ];
 
-        $db->query('UPDATE pdcs SET student_id=?,title=? WHERE id=?', $data);
+        $db->query('UPDATE event_students SET student_id=?, title=?, course=? WHERE id=?', $data);
     }
 
     public static function delete($id)
     {
         $db = App::resolve(Database::class);
-
-        // dont have to delete from pdc table as the foriegn key constraint stands for CASCADE mode.
-        $db->query('DELETE FROM users WHERE id=?', [
-            $id,
-        ]);
+        $db->query('DELETE FROM users WHERE id=?', [$id]);
     }
 
     public static function toggle_status($id)
-{
-    $db = App::resolve(Database::class);
+    {
+        $db = App::resolve(Database::class);
 
-    // Get current status
-    $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
+        $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
+        if (empty($result)) return;
 
-    if (empty($result)) return;
+        $current = $result[0]['approved'];
+        $new = $current ? 0 : 1;
 
-    $current = $result[0]['approved'];
-    $new = $current ? 0 : 1;
-
-    $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
-}
-
+        $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
+    }
 }

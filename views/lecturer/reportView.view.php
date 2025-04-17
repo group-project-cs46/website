@@ -23,22 +23,22 @@
             <form class="report-form" method="post" action="/reportStore" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="companyName">Company Name</label>
-                    <input type="text" id="companyName" name="companyName" placeholder="Enter company name" required>
+                    <input type="text" id="companyName" name="companyName" placeholder="IFS" required>
                 </div>
 
                 <div class="form-group">
                     <label for="companyID">Company ID No</label>
-                    <input type="text" id="companyID" name="companyID" placeholder="Enter company ID" required>
+                    <input type="text" id="companyID" name="companyID" placeholder="129" required>
                 </div>
 
                 <div class="form-group">
                     <label for="internStudents">Intern Students</label>
-                    <input type="number" id="internStudents" name="internStudents" placeholder="Enter number of intern students" required>
+                    <input type="number" id="internStudents" name="internStudents" placeholder="15" required>
                 </div>
 
                 <div class="form-group">
                     <label for="note">Note</label>
-                    <textarea id="note" name="note" placeholder="Enter any additional notes" required></textarea>
+                    <textarea id="note" name="note" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -48,7 +48,6 @@
 
                 <div class="form-buttons">
                     <button type="button" class="disable-button" onclick="window.location='/reportMain'">Close</button>
-                    <button type="submit" class="enable-button">Submit</button>
                 </div>
             </form>
         </section>

@@ -102,6 +102,13 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -116,7 +123,7 @@
 
             <div class="form-group">
                     <label for="events-no">Event No</label>
-                    <input type="text" id="events-no"  name="events-no" required>
+                    <input type="text" id="events-no"  name="events-no" required pattern="^UCSC\/Ev\/2025\/\d{3}$" title="Format: UCSC/Ev/2025/123" class="input-validate">
                 </div>
             
             <div class="deadline-container">
