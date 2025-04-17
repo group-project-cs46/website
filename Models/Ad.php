@@ -108,4 +108,11 @@ class Ad
         ]);
     }
 
+    public static function getByInternshipRoleId($internshipRoleId)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
+    }
+
 }
