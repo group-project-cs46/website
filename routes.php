@@ -103,6 +103,8 @@ $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
+$router->post('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
+$router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
