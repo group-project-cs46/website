@@ -115,15 +115,18 @@ class companyStudent
             INNER JOIN applications app ON s.id = app.student_id
             INNER JOIN advertisements a ON app.ad_id = a.id
             LEFT JOIN cvs c ON app.cv_id = c.id
-            WHERE u.role = 2 AND app.selected = TRUE AND (app.failed IS NULL);
+            WHERE u.role = 2 
+                AND app.selected = TRUE 
+                AND app.shortlisted = TRUE 
+                AND (app.failed IS NULL);
         ', [])->get();
-
+    
         foreach ($students as &$student) {
             $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
             $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
         }
         unset($student);
-
+    
         return $students;
     }
 
