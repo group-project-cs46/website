@@ -230,53 +230,51 @@
             </div>
         </div>
 
-        <!-- Selected Student Section -->
-        <div class="table-box" id="selectedSection" style="display: none;">
-            <!-- Display error message if no data -->
-            <?php if ($errorSelected): ?>
-                <p class="error"><?php echo $errorSelected; ?></p>
-            <?php else: ?>
-                <!-- Filter Dropdowns -->
-                <div class="filter-container">
-                    <div class="filter-left">
-                        <label for="selected-course-filter">Filter by Course:</label>
-                        <select id="selected-course-filter" onchange="filterSelectedStudents()">
-                            <option value="all">All</option>
-                            <option value="CS">CS</option>
-                            <option value="IS">IS</option>
-                        </select>
-                    </div>
-                    <div class="filter-right">
-                        <label for="selected-jobrole-filter">Filter by Job Role:</label>
-                        <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
-                        <datalist id="selected-jobrole-options">
-                            <option value="Software Engineer">
-                            <option value="Cybersecurity Analyst">
-                            <option value="DevOps Engineer">
-                            <option value="IT Support Specialist">
-                            <option value="AI/ML Engineer">
-                            <option value="Data Analyst">
-                        </datalist>
-                    </div>
-                </div>
-                <table class="student-table">
-                    <thead>
-                        <tr>
-                            <th>Student Name</th>
-                            <th>Index No</th>
-                            <th>Email</th>
-                            <th>Job Role</th>
-                            <th>Course</th>
-                            <th>View CV</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="select-table-body">
-                        <!-- Dynamic rows for selected students -->
-                    </tbody>
-                </table>
-            <?php endif; ?>
+<!-- Selected Student Section -->
+<div class="table-box" id="selectedSection" style="display: none;">
+    <!-- Filter Dropdowns -->
+    <div class="filter-container">
+        <div class="filter-left">
+            <label for="selected-course-filter">Filter by Course:</label>
+            <select id="selected-course-filter" onchange="filterSelectedStudents()">
+                <option value="all">All</option>
+                <option value="CS">CS</option>
+                <option value="IS">IS</option>
+            </select>
         </div>
+        <div class="filter-right">
+            <label for="selected-jobrole-filter">Filter by Job Role:</label>
+            <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
+            <datalist id="selected-jobrole-options">
+                <option value="Software Engineer">
+                <option value="Cybersecurity Analyst">
+                <option value="DevOps Engineer">
+                <option value="IT Support Specialist">
+                <option value="AI/ML Engineer">
+                <option value="Data Analyst">
+            </datalist>
+        </div>
+    </div>
+    <div id="selected-error" class="error" style="display: <?php echo $errorSelected ? 'block' : 'none'; ?>;">
+        <?php echo $errorSelected ?: 'No selected students found.'; ?>
+    </div>
+    <table class="student-table" id="selected-table" style="display: <?php echo $errorSelected ? 'none' : 'table'; ?>;">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Index No</th>
+                <th>Email</th>
+                <th>Job Role</th>
+                <th>Course</th>
+                <th>View CV</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="select-table-body">
+            <!-- Dynamic rows for selected students -->
+        </tbody>
+    </table>
+</div>
     </section>
 </main>
 
@@ -365,10 +363,23 @@ function renderShortlistedTable(students) {
     });
 }
 
-// Function to render selected students table
+// Function to render selected student table
 function renderSelectedTable(students) {
     const tableBody = document.getElementById("select-table-body");
+    const errorDiv = document.getElementById("selected-error");
+    const table = document.getElementById("selected-table");
+    
     tableBody.innerHTML = ""; // Clear existing rows
+
+    if (students.length === 0) {
+        errorDiv.style.display = "block";
+        errorDiv.textContent = "No selected students found.";
+        table.style.display = "none";
+        return;
+    }
+
+    errorDiv.style.display = "none";
+    table.style.display = "table";
 
     students.forEach((student, index) => {
         const row = document.createElement("tr");
@@ -516,7 +527,6 @@ function rejectStudent(index) {
     }
 }
 
-// Unified toggleStatus function for all sections
 function toggleStatus(button, index, section) {
     let student;
     let studentList;
@@ -535,7 +545,7 @@ function toggleStatus(button, index, section) {
     }
 
     // Update the backend to mark as selected (sets selected = TRUE)
-    fetch('/company/select-student', {
+    fetch('/company_student/select', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -545,19 +555,36 @@ function toggleStatus(button, index, section) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            student.status = "Hired"; // Reflect selected = TRUE
-            if (section === "applied") {
-                renderAppliedTable(appliedStudents);
-            } else if (section === "shorted") {
-                // Move to selected students
-                selectedStudents.push(student);
+            // Remove the student from shortlistedStudents
+            if (section === "shorted") {
                 shortlistedStudents.splice(index, 1);
-                scheduledStudents.splice(index, 1); // Remove from scheduledStudents
+                scheduledStudents.splice(index, 1);
                 renderShortlistedTable(shortlistedStudents);
-                renderSelectedTable(selectedStudents);
+
+                // Fetch the updated list of selected students from the server
+                fetch('/company_student/selected')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the selectedStudents array with the server data
+                            selectedStudents.length = 0; // Clear the existing array
+                            data.students.forEach(student => selectedStudents.push(student));
+                            renderSelectedTable(selectedStudents);
+                            toggleSection('selected');
+                        } else {
+                            alert('Failed to fetch updated selected students: ' + (data.error || 'Unknown error'));
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching selected students:', error);
+                        alert('An error occurred while fetching the updated selected students.');
+                    });
+            } else if (section === "applied") {
+                student.status = "Hired";
+                renderAppliedTable(appliedStudents);
             }
         } else {
-            alert('Failed to update status.');
+            alert('Failed to update status: ' + (data.error || 'Unknown error'));
         }
     })
     .catch(error => {
