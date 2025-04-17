@@ -178,6 +178,14 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
+
     </style>
 </head>
 
