@@ -1,26 +1,26 @@
 <?php
 use Core\Validator;
-use Models\storeComplaint;
+use Models\companyComplaint;
 
 $complaintType = $_POST['complaint_type'] ?? null;
+$subject = $_POST['subject'] ?? null;
 $complaintDescription = $_POST['complaint_description'] ?? null;
-$user_id = auth_user()['id'];
-print_r($complaintType); 
+$indexNo = $_POST['index_no'] ?? null; // Only for student complaints
+$userId = auth_user()['id'];
 
-if ($complaintType && $complaintDescription) {
+try {
+    if (!$complaintType || !$subject || !$complaintDescription) {
+        throw new Exception("Missing required fields.");
+    }
+
     // Call the model to store the complaint
-
-    if (storeComplaint::create($complaintType, $complaintDescription,$user_id)) {
-        // Redirect to the complaint form or a success page
-        header('Location: /company/complaint');
-        exit();
-    } else {
-        // Redirect back to the form with an error
-        header('Location: /company/complaint');
+    if (companyComplaint::create($complaintType, $subject, $complaintDescription, $userId, $indexNo)) {
+        // Redirect to the complaint form with a success message
+        header('Location: /company/complaint?success=Complaint submitted successfully');
         exit();
     }
-} else {
-    // Redirect back to the form with an error if data is missing
-    header('Location: /complaint/form');
+} catch (Exception $e) {
+    // Redirect back to the form with the specific error message
+    header('Location: /company/complaint?error=' . urlencode($e->getMessage()));
     exit();
 }
