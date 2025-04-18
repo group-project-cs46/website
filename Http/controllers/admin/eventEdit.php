@@ -14,4 +14,4 @@ if (!$event) {
     die('Event not found');
 }
 
-view('admin/eventView.view.php', ['event' => $event]);
+view('admin/eventEdit.view.php', ['event' => $event]);

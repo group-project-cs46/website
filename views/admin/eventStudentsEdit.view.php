@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Lecturer</title>
+    <title>Update PDC Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -177,60 +177,51 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
-
-        .input-validate:invalid {
-            border: 1px solid red;
-        }
-        .input-validate:valid {
-            border: 1px solid #ddd;
-        }
     </style>
 </head>
 
 <body>
-    <form class="container" method="post" action="/lecturerAddition">
+    <form class="container" action="/pdcEdition" method="post">
         <div class="header">
-            <h2>Add New Lecturer</h2>
+            <h2>Edit Students</h2>
         </div>
         <!--add post -->
         <div class="form-container">
             <div class="left-column">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" placeholder="Enter Name Here" name="name" required>
+                    <input type="text" value="<?= $PDC['name'] ?>" id="name" name="name" placeholder="Enter Name Here" required>
                 </div>
 
                 <div class="form-group">
                     <label for="employee-no">Employee No:</label>
-                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no" pattern="^UCSC\/LEC\/\d{3}$" title="Format: UCSC/LEC/123" class="input-validate">
-                </div>                                                   
+                    <input required type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Lecturer ID No. Here">
+                </div>
 
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <select id="title" name="title" required>
                         <option value="">Select Title</option>
-                        <option value="mr">Mr.</option>
-                        <option value="mrs">Mrs.</option>
-                        <option value="ms">Ms.</option>
-                        <option value="dr">Dr.</option>
-                        <option value="prof">Prof.</option>
+                        <option value="mr" <?= $PDC['title'] === "mr" ? "selected" : "" ?>>Mr</option>
+                        <option value="mrs" <?= $PDC['title'] === "mrs" ? "selected" : "" ?>>Mrs</option>
+                        <option value="ms" <?= $PDC['title'] === "ms" ? "selected" : "" ?>>Ms</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" required placeholder="Enter Email Address Here" name="email">
+                    <input value="<?= $PDC['email'] ?>" type="email" id="email" name="email" placeholder="Enter Email Address Here" required>
                 </div>
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact" pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
+                    <input value="<?= $PDC['mobile'] ?>" type="text" id="contact-no" name="contact" placeholder="Enter Contact No Here" required>
                 </div>
             </div>
 
             <div class="right-column">
                 <div class="profile-image-container">
-                    <img id="profile-preview" src="https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile" alt="">
+                    <img id="profile-preview" src="https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile" alt="Profile Preview">
                 </div>
 
                 <div class="file-upload">
@@ -242,17 +233,13 @@
                     <div class="file-upload-status" id="file-status">No file chosen</div>
                 </div>
 
-                <!-- <div class="form-group" style="width: 100%; margin-top: 15px;">
-                    <label for="username">Username</label>
-                    <input type="text" id="username">
-                </div> -->
-
                 <div class="form-group" style="width: 100%;">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" required minlength="6" name="password">
+                    <label for="password">Set New Password(Keep empty if you don't want to change)</label>
+                    <input type="password" id="password" name="password" minlength="6">
                 </div>
             </div>
         </div>
+        <input type="hidden" name="id" value="<?= $PDC['id'] ?>" />
 
         <div style="padding: 0 20px 20px 20px;">
             <button class="btn btn-primary" id="add-and-send-btn">Add and send</button>
@@ -296,24 +283,24 @@
             }
         });
 
-        // addAndSendBtn.addEventListener('click', function() {
-        //     // Validate form fields
-        //     const name = document.getElementById('name').value;
-        //     const employeeNo = document.getElementById('employee-no').value;
-        //     const title = document.getElementById('title').value;
-        //     const email = document.getElementById('email').value;
-        //     const contactNo = document.getElementById('contact-no').value;
-        //     const username = document.getElementById('username').value;
-        //     const password = document.getElementById('password').value;
+        addAndSendBtn.addEventListener('click', function() {
+            // Validate form fields
+            const name = document.getElementById('name').value;
+            const employeeNo = document.getElementById('employee-no').value;
+            const title = document.getElementById('title').value;
+            const email = document.getElementById('email').value;
+            const contactNo = document.getElementById('contact-no').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-        //     if (!name || !employeeNo || !title || !email || !contactNo || !username || !password) {
-        //         alert('Please fill in all fields');
-        //         return;
-        //     }
+            if (!name || !employeeNo || !title || !email || !contactNo || !username || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
 
-        //     // In a real application, this would submit the form
-        //     // alert('Form submitted successfully!');
-        // });
+            // In a real application, this would submit the form
+            alert('Form submitted successfully!');
+        });
     </script>
 </body>
 

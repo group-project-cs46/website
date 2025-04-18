@@ -2,13 +2,13 @@
 
 
 
-<link rel="stylesheet" href="/styles/pasindu/reportMain.css" />
+<link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
 <div class=" mmm">
     <main class="main-content">  
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
-                <h2><b>Manage Reports</b></h2>
+                <h2><b>Manage Complaints</b></h2>
             </div>
             <input type="text" placeholder="Search Complaints..." class="search-bar" id="searchInput" onkeyup="searchTable()">
             
@@ -17,45 +17,46 @@
         <section class="content">
             <div class="table-title">
                 <div class="table-title-txt">
-                    <h3><b>Manage Reports</b></h3>
-                    <p>Manage Company Reports</p>
+                    <h3><b>Manage Complaints</b></h3>
+                    <p>Manage Complaints Students Accounts</p>
                 </div>
-                <button class="add-button" id="openFormButton"><a href="/report">Create New</a></button>
             </div>
-            
+
             <table class="student-table">
                 <thead>
                     <tr>
-                        <th>Company Name</th>
+                        <th>Complaint</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
                     <tr>
                         <td>
-                            <strong>WSO2</strong><br>
+                            <strong>Pasindu</strong><br>
                             <small>2025-04-10</small><br>
                         </td>
                         <td class="actions">
                             <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
-                            <a href="/reportView?id=example" class="view-button" >View</a>
+                            <a href="/complaintsReply?id=example" class="view-button" >View</a>
 
                             <form action="/complaintDisable" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="1">
+                                <button type="submit" class="disable-button">Disable</button>
                             </form>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <strong>IFS</strong><br>
+                            <strong>Madushan</strong><br>
                             <small>2025-04-15</small><br>
                         </td>
                         <td class="actions">
                             <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
-                            <a href="/reportView?id=example" class="view-button" >View</a>
+                            <a href="/complaintsReply?id=example" class="view-button" >View</a>
 
                             <form action="/complaintDisable" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="1">
+                                <button type="submit" class="disable-button">Disable</button>
                             </form>
                         </td>
                     </tr>
