@@ -230,51 +230,53 @@
             </div>
         </div>
 
-<!-- Selected Student Section -->
-<div class="table-box" id="selectedSection" style="display: none;">
-    <!-- Filter Dropdowns -->
-    <div class="filter-container">
-        <div class="filter-left">
-            <label for="selected-course-filter">Filter by Course:</label>
-            <select id="selected-course-filter" onchange="filterSelectedStudents()">
-                <option value="all">All</option>
-                <option value="CS">CS</option>
-                <option value="IS">IS</option>
-            </select>
+        <!-- Selected Student Section -->
+        <div class="table-box" id="selectedSection" style="display: none;">
+            <!-- Display error message if no data -->
+            <?php if ($errorSelected): ?>
+                <p class="error"><?php echo $errorSelected; ?></p>
+            <?php else: ?>
+                <!-- Filter Dropdowns -->
+                <div class="filter-container">
+                    <div class="filter-left">
+                        <label for="selected-course-filter">Filter by Course:</label>
+                        <select id="selected-course-filter" onchange="filterSelectedStudents()">
+                            <option value="all">All</option>
+                            <option value="CS">CS</option>
+                            <option value="IS">IS</option>
+                        </select>
+                    </div>
+                    <div class="filter-right">
+                        <label for="selected-jobrole-filter">Filter by Job Role:</label>
+                        <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
+                        <datalist id="selected-jobrole-options">
+                            <option value="Software Engineer">
+                            <option value="Cybersecurity Analyst">
+                            <option value="DevOps Engineer">
+                            <option value="IT Support Specialist">
+                            <option value="AI/ML Engineer">
+                            <option value="Data Analyst">
+                        </datalist>
+                    </div>
+                </div>
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Index No</th>
+                            <th>Email</th>
+                            <th>Job Role</th>
+                            <th>Course</th>
+                            <th>View CV</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="select-table-body">
+                        <!-- Dynamic rows for selected students -->
+                    </tbody>
+                </table>
+            <?php endif; ?>
         </div>
-        <div class="filter-right">
-            <label for="selected-jobrole-filter">Filter by Job Role:</label>
-            <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
-            <datalist id="selected-jobrole-options">
-                <option value="Software Engineer">
-                <option value="Cybersecurity Analyst">
-                <option value="DevOps Engineer">
-                <option value="IT Support Specialist">
-                <option value="AI/ML Engineer">
-                <option value="Data Analyst">
-            </datalist>
-        </div>
-    </div>
-    <div id="selected-error" class="error" style="display: <?php echo $errorSelected ? 'block' : 'none'; ?>;">
-        <?php echo $errorSelected ?: 'No selected students found.'; ?>
-    </div>
-    <table class="student-table" id="selected-table" style="display: <?php echo $errorSelected ? 'none' : 'table'; ?>;">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Index No</th>
-                <th>Email</th>
-                <th>Job Role</th>
-                <th>Course</th>
-                <th>View CV</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="select-table-body">
-            <!-- Dynamic rows for selected students -->
-        </tbody>
-    </table>
-</div>
     </section>
 </main>
 
@@ -363,23 +365,10 @@ function renderShortlistedTable(students) {
     });
 }
 
-// Function to render selected student table
+// Function to render selected students table
 function renderSelectedTable(students) {
     const tableBody = document.getElementById("select-table-body");
-    const errorDiv = document.getElementById("selected-error");
-    const table = document.getElementById("selected-table");
-    
     tableBody.innerHTML = ""; // Clear existing rows
-
-    if (students.length === 0) {
-        errorDiv.style.display = "block";
-        errorDiv.textContent = "No selected students found.";
-        table.style.display = "none";
-        return;
-    }
-
-    errorDiv.style.display = "none";
-    table.style.display = "table";
 
     students.forEach((student, index) => {
         const row = document.createElement("tr");
@@ -527,6 +516,7 @@ function rejectStudent(index) {
     }
 }
 
+// Unified toggleStatus function for all sections
 function toggleStatus(button, index, section) {
     let student;
     let studentList;
@@ -545,7 +535,7 @@ function toggleStatus(button, index, section) {
     }
 
     // Update the backend to mark as selected (sets selected = TRUE)
-    fetch('/company_student/select', {
+    fetch('/company/select-student', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -555,36 +545,19 @@ function toggleStatus(button, index, section) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Remove the student from shortlistedStudents
-            if (section === "shorted") {
-                shortlistedStudents.splice(index, 1);
-                scheduledStudents.splice(index, 1);
-                renderShortlistedTable(shortlistedStudents);
-
-                // Fetch the updated list of selected students from the server
-                fetch('/company_student/selected')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Update the selectedStudents array with the server data
-                            selectedStudents.length = 0; // Clear the existing array
-                            data.students.forEach(student => selectedStudents.push(student));
-                            renderSelectedTable(selectedStudents);
-                            toggleSection('selected');
-                        } else {
-                            alert('Failed to fetch updated selected students: ' + (data.error || 'Unknown error'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching selected students:', error);
-                        alert('An error occurred while fetching the updated selected students.');
-                    });
-            } else if (section === "applied") {
-                student.status = "Hired";
+            student.status = "Hired"; // Reflect selected = TRUE
+            if (section === "applied") {
                 renderAppliedTable(appliedStudents);
+            } else if (section === "shorted") {
+                // Move to selected students
+                selectedStudents.push(student);
+                shortlistedStudents.splice(index, 1);
+                scheduledStudents.splice(index, 1); // Remove from scheduledStudents
+                renderShortlistedTable(shortlistedStudents);
+                renderSelectedTable(selectedStudents);
             }
         } else {
-            alert('Failed to update status: ' + (data.error || 'Unknown error'));
+            alert('Failed to update status.');
         }
     })
     .catch(error => {
@@ -863,3 +836,210 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
+
+<?php
+namespace Models;
+use Core\App;
+use Core\Database;
+
+class companyStudent
+{
+    public static function fetchAllStudents()
+    {
+        $db = App::resolve(Database::class);
+        $students = $db->query('
+            SELECT 
+                u.name AS student_name,
+                s.index_number AS index_no,
+                u.email,
+                s.course,
+                a.job_role,
+                c.filename AS cv_filename,
+                c.original_name AS cv_original_name,
+                app.selected,
+                app.shortlisted,
+                app.id AS application_id
+            FROM users u
+            INNER JOIN students s ON u.id = s.id
+            INNER JOIN applications app ON s.id = app.student_id
+            INNER JOIN advertisements a ON app.ad_id = a.id
+            LEFT JOIN cvs c ON app.cv_id = c.id
+            WHERE u.role = 2 AND (app.failed IS NULL) AND (app.shortlisted IS NULL);
+        ', [])->get();
+
+        foreach ($students as &$student) {
+            $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
+            $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
+        }
+        unset($student);
+
+        return $students;
+    }
+
+    public static function shortedlistStudent($applicationId)
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('
+            UPDATE applications
+            SET shortlisted = TRUE
+            WHERE id = ?
+        ', [$applicationId]);
+
+        return true;
+    }
+
+    public static function nonShortedlistStudent($applicationId)
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('
+            UPDATE applications
+            SET failed = TRUE
+            WHERE id = ?
+        ', [$applicationId]);
+
+        return true;
+    }
+
+    public static function fetchShortlitedStudents()
+    {
+        $db = App::resolve(Database::class);
+        $students = $db->query('
+            SELECT 
+                u.name AS student_name,
+                s.index_number AS index_no,
+                u.email,
+                s.course,
+                a.job_role,
+                c.filename AS cv_filename,
+                c.original_name AS cv_original_name,
+                app.selected,
+                app.shortlisted,
+                app.failed,
+                app.id AS application_id,
+                app.interview_id
+            FROM users u
+            INNER JOIN students s ON u.id = s.id
+            INNER JOIN applications app ON s.id = app.student_id
+            INNER JOIN advertisements a ON app.ad_id = a.id
+            LEFT JOIN cvs c ON app.cv_id = c.id
+            WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL);
+        ', [])->get();
+
+        foreach ($students as &$student) {
+            $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
+            $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
+        }
+        unset($student);
+
+        return $students;
+    }
+
+    public static function fetchSelectedStudents()
+    {
+        $db = App::resolve(Database::class);
+        $students = $db->query('
+            SELECT
+                u.name AS student_name,
+                s.index_number AS index_no,
+                u.email,
+                s.course,
+                a.job_role,
+                c.filename AS cv_filename,
+                c.original_name AS cv_original_name,
+                app.selected,
+                app.shortlisted,
+                app.id AS application_id
+            FROM users u
+            INNER JOIN students s ON u.id = s.id
+            INNER JOIN applications app ON s.id = app.student_id
+            INNER JOIN advertisements a ON app.ad_id = a.id
+            LEFT JOIN cvs c ON app.cv_id = c.id
+            WHERE u.role = 2 AND app.selected = TRUE AND (app.failed IS NULL);
+        ', [])->get();
+
+        foreach ($students as &$student) {
+            $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
+            $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
+        }
+        unset($student);
+
+        return $students;
+    }
+
+    public static function scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime)
+    {
+        $db = App::resolve(Database::class);
+
+        // Combine date and time for start_time and end_time
+        $startTime = "$date $fromTime";
+        $endTime = "$date $toTime";
+
+        // Insert into interviews table and return the inserted ID
+        $result = $db->query('
+            INSERT INTO interviews (venue, start_time, end_time, date)
+            VALUES (?, ?, ?, ?)
+            RETURNING id
+        ', [$venue, $startTime, $endTime, $date])->get();
+
+        // Extract the interview_id from the result
+        $interviewId = $result[0]['id'];
+
+        // Update the applications table with the interview_id
+        $db->query('
+            UPDATE applications
+            SET interview_id = ?
+            WHERE id = ?
+        ', [$interviewId, $applicationId]);
+
+        return $interviewId; // Return the interview_id
+    }
+
+    public static function getInterviewDetails($interviewId)
+    {
+        $db = App::resolve(Database::class);
+        $interview = $db->query('
+            SELECT venue, start_time, end_time, date
+            FROM interviews
+            WHERE id = ?
+        ', [$interviewId])->find();
+
+        return $interview;
+    }
+
+    public static function updateInterview($interviewId, $venue, $date, $fromTime, $toTime)
+    {
+        $db = App::resolve(Database::class);
+
+        // Combine date and time for start_time and end_time
+        $startTime = "$date $fromTime";
+        $endTime = "$date $toTime";
+
+        $db->query('
+            UPDATE interviews
+            SET venue = ?, start_time = ?, end_time = ?, date = ?
+            WHERE id = ?
+        ', [$venue, $startTime, $endTime, $date, $interviewId]);
+
+        return true;
+    }
+
+    public static function deleteInterview($applicationId, $interviewId)
+    {
+        $db = App::resolve(Database::class);
+
+        // First, remove the interview_id from the applications table
+        $db->query('
+            UPDATE applications
+            SET interview_id = NULL
+            WHERE id = ?
+        ', [$applicationId]);
+
+        // Then, delete the interview from the interviews table
+        $db->query('
+            DELETE FROM interviews
+            WHERE id = ?
+        ', [$interviewId]);
+
+        return true;
+    }
+}

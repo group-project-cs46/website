@@ -87,10 +87,34 @@ $router->get('/company/dashcv', '/company/dashcv.php');
 $router->get('/company/onlycv', '/company/onlycv.php');
 
 
+
+
 //company action
 $router->post('/ads/store', 'ads/store.php');
 $router->delete('/ads/delete', 'ads/delete.php');
 $router->post('/ads/edit', 'ads/edit.php');
+
+$router->post('/company_complaint/store', 'company_complaint/store.php');
+$router->get('/company/complaint/list', 'company_complaint/list.php')->only('auth');
+$router->post('/company_complaint/edit', 'company_complaint/edit.php')->only('auth');
+$router->post('/company_complaint/delete', 'company_complaint/delete.php')->only('auth');
+
+
+$router->post('/company_scedule/store', 'company_scedule/store_techtalk.php');
+$router->post('/company_report/store', 'company_report/store.php');
+
+$router->post('/company_student/shortlisted', 'company_student/store_shortlisted.php');
+$router->post('/company_student/nonShortlisted', 'company_student/store_nonShortlisted.php');
+$router->post('/company_student/select', 'company_student/store_selected.php');
+$router->get('/company_student/selected', 'company_student/get_selected.php');
+
+
+$router->post('/company_student/store_schedule', 'company_student/store_schedule.php');
+$router->get('/company_student/interview_details', 'company_student/get_interview.php');
+$router->post('/company_student/update_interview', 'company_student/update_interview.php');
+$router->delete('/company_student/delete_interview', 'company_student/delete_interview.php');
+
+
 
 //PDC
 
@@ -162,6 +186,7 @@ $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
 
+
 // $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
 
 $router->get('/events', 'admin/eventmanage.php');
@@ -186,6 +211,7 @@ $router->post('/eventsStudentsEdition', controller: 'admin/add-eventStudents.php
 $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.php');
 
 $router->get('/track', 'admin/track.php');
+
 
 
 
