@@ -1,11 +1,12 @@
 <?php
 
-use Models\AddLecturer;
+use Models\AddEventStudent;
 
 $name = $_POST['name'];
 $email = $_POST['email'];
 $employee_id = $_POST['employee_no'];
 $title = $_POST['title'];
+$course = $_POST['course'];
 $contact = $_POST['contact'];
 $password = $_POST['password'];
 
@@ -20,9 +21,9 @@ try {
     //         'approved' => 1,
     //     ]
     // );
-    AddLecturer::create($employee_id, $title, $email, $name, $contact, $password);
+    AddEventStudent::create($employee_id, $title, $email, $name, $contact, $password, $course);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
 
-redirect('/lecturerManage');
+redirect('/eventStudentsManage');

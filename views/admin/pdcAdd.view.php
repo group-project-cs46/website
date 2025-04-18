@@ -12,7 +12,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: white
         }
 
         .container {
@@ -20,7 +20,7 @@
             margin: 20px auto;
             background-color: #fff;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -34,6 +34,7 @@
             font-size: 18px;
             font-weight: 600;
             color: #333;
+            text-align: center;
         }
 
         .form-container {
@@ -177,6 +178,14 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
+
     </style>
 </head>
 
@@ -195,7 +204,7 @@
 
                 <div class="form-group">
                     <label for="employee-no">Employee No:</label>
-                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no">
+                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no" pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate">
                 </div>
 
                 <div class="form-group">
@@ -217,7 +226,7 @@
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact">
+                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact"  pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
                 </div>
             </div>
 

@@ -183,7 +183,7 @@
 <body>
     <form class="container" action="/pdcEdition" method="post">
         <div class="header">
-            <h2>Add New PDC</h2>
+            <h2>Edit PDC</h2>
         </div>
         <!--add post -->
         <div class="form-container">

@@ -138,7 +138,7 @@ $navItems = [
     ],
     [
         'text' => 'Events',
-        'href' => '/eventmanage',
+        'href' => '/events',
         'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Admin],
     ],
@@ -149,13 +149,13 @@ $navItems = [
         'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Lecturer],
     ],
-    [
+    [ 
         'text' => 'Report',
         'href' => '/reportMain',
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
     ],
-    [
+    [ 
         'text' => 'Advertisements',
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
