@@ -1,12 +1,9 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
+use Models\pdc_techtalk;
 
-$db = App::resolve(Database::class);
+// Fetch data from the database
+$techtalk = pdc_techtalk::fetchAll();
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
-
-//dd($user);
-
-view('PDC/Schedule.view.php');
+// Pass the data to the view
+view('PDC/Schedule.view.php', ['techtalk' => $techtalk]);

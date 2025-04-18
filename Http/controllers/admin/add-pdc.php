@@ -1,15 +1,16 @@
 <?php
 
-use Models\Pdc;
+use Models\AddPdc;
 
 $name = $_POST['name'];
 $email = $_POST['email'];
-$employee_id = $_POST['lecturerId'];
-$title = $_POST['position'];
+$employee_id = $_POST['employee_no'];
+$title = $_POST['title'];
 $contact = $_POST['contact'];
+$password = $_POST['password'];
 
 try {
-    Pdc::create($employee_id,$title,$name,$contact,$email);
+    AddPdc::create($employee_id, $title, $email, $name, $contact, $password);
 } catch (\Exception $e) {
     die($e->getMessage());
 }

@@ -21,15 +21,29 @@ $router->post('/forgot_password', 'users/send_reset_link.php')->only('guest');
 $router->get('/reset_password', 'users/reset_password.php')->only('guest');
 $router->post('/reset_password', 'users/update_password.php')->only('guest');
 
+$router->post('/users/change_password', 'users/change_password.php')->only('auth');
+$router->patch('/users/profile/photo', 'users/profile/photo/update.php')->only('auth');
+$router->patch('/users/profile/details', 'users/profile/update.php')->only('auth');
 
-$router->get('/advertisements', 'advertisements/index.php')->only('student');
-$router->get('/advertisements/show', 'advertisements/show.php')->only('student');
 
-$router->post('/applications', 'applications/store.php')->only('student');
+$router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
+$router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
+$router->get('/students/second_round', 'students/second_round/index.php')->only('student');
+$router->post('/students/second_round', 'students/second_round/store.php')->only('student');
+$router->delete('/students/second_round', 'students/second_round/destroy.php')->only('student');
+$router->get('/students/second_round/shortlisted', 'students/second_round/shortlisted/show.php')->only('student');
 
-$router->get('/pdc-users', 'pdc-users/index.php')->only('admin');
+$router->post('/students/applications', 'students/applications/store.php')->only('student');
+$router->get('/students/applications/show', 'students/applications/show.php')->only('student');
+
+$router->get('/students/companies/show', 'students/companies/show.php')->only('student');
+$router->get('/students/events', 'students/events/index.php')->only('student');
+
 
 $router->get('/account', 'account.php')->only('auth');
+$router->get('/accounts/company', 'accounts/company/index.php')->only('company');
+$router->patch('/accounts/company', 'accounts/company/update.php')->only('auth');
+
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
 $router->delete('/cv/delete', 'cv/destroy.php')->only('student');
@@ -40,6 +54,21 @@ $router->get('/students/applications/edit', 'students/applications/edit.php')->o
 $router->patch('/students/applications/update', 'students/applications/update.php')->only('student');
 
 $router->get('/students/cvs', 'students/cvs/index.php')->only('student');
+
+$router->get('/students/internship_reports', 'students/internship_reports/index.php')->only('student');
+$router->post('/students/internship_reports/store', 'students/internship_reports/store.php')->only('student');
+$router->get('/students/internship_reports/show', 'students/internship_reports/show.php')->only('student');
+$router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
+
+$router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+
+
+// Admin by thathsara
+
+//$router->get('/admin/pdcs', 'admin/pdcs/index.php');
+//$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
+//$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
+//$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
 
 //company
 
@@ -91,7 +120,9 @@ $router->delete('/company_student/delete_interview', 'company_student/delete_int
 
 $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
+$router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
+// remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
@@ -100,6 +131,16 @@ $router->get('/PDC/studentreport', '/PDC/StudentReport.php');
 $router->post('/PDC/addstudent', '/PDC/addstudent.php');
 $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
+$router->get('/PDC/StudentReport', '/PDC/student_report.php');
+$router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
+$router->post('/PDC/setround', '/PDC/setround.php');
+$router->post('/PDC/updateround', '/PDC/updateround.php');
+$router->post('/PDC/deleteround', '/PDC/deleteround.php');
+$router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
+$router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
+$router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
+
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
@@ -119,7 +160,7 @@ $router->get('/profile', 'admin/account.php');
 
 $router->get('/report', 'lecturer/report.php');
 $router->get('/reportMain', 'lecturer/reportMain.php');
-$router->get('/reportSubmitted', 'lecturer/reportSubmitted.php');
+$router->get('/reportView', 'lecturer/reportView.php');
 
 $router->get('/pdcManage', 'admin/pdcManage.php');
 $router->get('/pdcAdd', 'admin/pdcAdd.php');
@@ -133,7 +174,50 @@ $router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
 $router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
 $router->post('/pdcDeletion', controller: 'admin/delete-pdc.php');
+$router->post('/pdcToggleStatus', controller: 'admin/toggle-pdc-status.php');
+
+$router->post('/lecturerAddition', controller: 'admin/add-lecturer.php');
+$router->post('/lecturerEdition', controller: 'admin/edit-lecturer.php');
+$router->post('/lecturerDeletion', controller: 'admin/delete-lecturer.php');
+$router->post('/lecturerToggleStatus', controller: 'admin/toggle-lecturer-status.php');
+
 
 $router->get('/PDC/sample', '/PDC/sample.php');
 $router->get('/PDC/Complaints&Feedback', '/PDC/Complaints&Feedback.php');
 $router->get('/PDC/BlacklistedCompanies', '/PDC/BlacklistedCompanies.php');
+
+
+// $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
+
+$router->get('/events', 'admin/eventmanage.php');
+$router->get('/eventsView', 'admin/eventView.php');
+$router->get('/eventsAdd', 'admin/eventAdd.php');
+$router->get('/eventsEdit', 'admin/eventEdit.php');
+
+$router->post('/eventsAddition', controller: 'admin/add-events.php');
+$router->post('/eventsEdition', controller: 'admin/edit-events.php');
+$router->post('/eventsDeletion', controller: 'admin/delete-events.php');
+
+
+$router->post('/lecturerEdition', controller: 'admin/edit-lecturer.php');
+$router->post('/lecturerDeletion', controller: 'admin/delete-lecturer.php');
+
+$router->get('/eventStudentsManage', 'admin/eventStudentsManage.php');
+$router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
+$router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
+
+$router->post('/eventsStudentsAddition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsEdition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.php');
+
+$router->get('/track', 'admin/track.php');
+
+
+
+
+
+
+
+
+
+
