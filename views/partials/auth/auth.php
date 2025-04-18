@@ -189,7 +189,9 @@ $navItems = [
         'only' => [Role::Student],
         'filter' => function () {
             $currentRound = \Models\Round::currentRound();
-            return $currentRound && $currentRound['restricted'];
+            $isSecondRound = $currentRound && $currentRound['restricted'];
+            $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            return $isSecondRound && !$isSelected;
         }
     ],
     [
@@ -212,7 +214,13 @@ $navItems = [
         'filter' => function () {
             return !empty(Application::isSelectedByStudentId(auth_user()['id']));
         }
-    ]
+    ],
+    [
+        'text' => "Complaints",
+        'href' => '/students/complaints',
+        'icon' => 'fa-face-frown',
+        'only' => [Role::Student],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)

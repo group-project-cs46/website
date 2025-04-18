@@ -113,3 +113,8 @@ function getFirstDayOfMonth($year, $month) {
 function roleNumber() {
     return $_SESSION['user']['role'] ?? null;
 }
+
+function urlBack()
+{
+    return $_SERVER['HTTP_REFERER'] ?? '/';
+}
