@@ -25,98 +25,37 @@
     <div class="table-title">
       <div class="table-title-txt">
         <h3>Report</h3>
-        <p>Report to PDC about students</p>
+        <p>Upload reports to PDC</p>
       </div>
     </div>
 
     <div class="form-container">
       <div>
-        <h2>Details about Report</h2>
+        <h2>Report Details</h2>
       </div>
-      
-      <form class="form-content" onsubmit="handleSubmit(event)">
+
+      <form class="form-content" id="reportForm" method="POST" action="/company_report/store" enctype="multipart/form-data">
         <div class="form-field">
-          <label for="name">Student Name :</label>
-          <input type="text" id="name" placeholder="Enter Name Here" />
+          <label for="studentName">Student Name :</label>
+          <input type="text" id="studentName" name="student_name" placeholder="Enter Name Here" required />
         </div>
 
         <div class="form-field">
-          <label for="indexNo">Student Index No. :</label>
-          <input type="text" id="indexNo" placeholder="Enter Index No. Here" />
+          <label for="indexNumber">Student Index No. :</label>
+          <input type="text" id="indexNumber" name="index_number" placeholder="Enter Index No. Here" required />
         </div>
 
         <div class="form-field">
-          <label for="email">Student E-Mail :</label>
-          <input type="email" id="email" placeholder="Enter E-Mail Here" />
+          <label for="studentEmail">Student E-Mail :</label>
+          <input type="email" id="studentEmail" name="student_email" placeholder="Enter E-Mail Here" required />
         </div>
-
-        <!-- Unique upload fields -->
-        <div class="form-field">
-          <label for="upload-report-1">Upload Report 1:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-1">
-              <span id="file-name-1">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-1" style="display: none;" />
+        <!-- File Upload Fields for PDF Reports -->
+        <?php for ($i = 1; $i <= 6; $i++): ?>
+          <div class="form-field">
+            <label for="upload-report-<?php echo $i; ?>">Upload Report <?php echo $i; ?> (PDF Only):</label>
+            <input type="file" id="upload-report-<?php echo $i; ?>" name="report<?php echo $i; ?>" accept=".pdf" />
           </div>
-        </div>
-
-        <div class="form-field">
-          <label for="upload-report-2">Upload Report 2:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-2">
-              <span id="file-name-2">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-2" style="display: none;" />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label for="upload-report-3">Upload Report 3:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-3">
-              <span id="file-name-3">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-3" style="display: none;" />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label for="upload-report-4">Upload Report 4:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-4">
-              <span id="file-name-4">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-4" style="display: none;" />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label for="upload-report-5">Upload Report 5:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-5">
-              <span id="file-name-5">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-5" style="display: none;" />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label for="upload-report-6">Upload Report 6:</label>
-          <div class="custom-file-upload">
-            <label for="upload-report-6">
-              <span id="file-name-6">No file chosen</span>
-              <i class="fa-solid fa-file-import upload-icon"></i>
-            </label>
-            <input type="file" id="upload-report-6" style="display: none;" />
-          </div>
-        </div>
-
+        <?php endfor; ?>
         <button class="submit-btn" type="submit">Submit</button>
       </form>
     </div>
@@ -124,49 +63,26 @@
 </main>
 
 <script>
-  // Function to handle file name display for all upload fields
-  function setupFileUploadHandlers() {
+  document.getElementById('reportForm').addEventListener('submit', function(event) {
+    let isValid = true;
+
+    // Validate file format
     for (let i = 1; i <= 6; i++) {
-      document.getElementById(`upload-report-${i}`).addEventListener("change", function() {
-        const fileInput = this;
-        const fileNameDisplay = document.getElementById(`file-name-${i}`);
-        if (fileInput.files.length > 0) {
-          fileNameDisplay.textContent = fileInput.files[0].name;
-        } else {
-          fileNameDisplay.textContent = "No file chosen";
+      const fileInput = document.getElementById(`upload-report-${i}`);
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        if (file.type !== "application/pdf") {
+          alert(`Report ${i} must be a PDF file.`);
+          isValid = false;
+          break;
         }
-      });
-    }
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    // Get form values
-    const name = document.getElementById("name").value.trim();
-    const indexNo = document.getElementById("indexNo").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const files = [];
-
-    for (let i = 1; i <= 6; i++) {
-      const fileInput = document.getElementById(`upload-report-${i}`).files[0];
-      if (fileInput) {
-        files.push(fileInput.name);
       }
     }
 
-    if (!name || !indexNo || !email || files.length === 0) {
-      alert("Please fill out all fields and upload at least one report.");
-      return;
+    if (!isValid) {
+      event.preventDefault(); // Stop form submission
     }
-    setTimeout(() => {
-      window.location.reload();
-    }, 500);
-    alert(`Report submitted successfully`);
-  }
-
-  // Initialize file upload handlers
-  setupFileUploadHandlers();
+  });
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

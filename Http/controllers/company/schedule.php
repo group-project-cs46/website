@@ -1,14 +1,9 @@
 <?php
 
-use Core\Database;
-use Core\App;
+use Models\companyTechtalk;
+
+// Fetch data from the database
+$techtalk = companyTechtalk::fetchAll();
 
 
-$db = App::resolve(Database::class);
-
-
-
-// $user= $db->query("SELECT * FROM users WHERE id = ?", [1])->get();
-
-
-view('company/schedule.view.php');
+view('company/schedule.view.php', ['techtalk' => $techtalk]);
