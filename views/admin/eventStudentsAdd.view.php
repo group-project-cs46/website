@@ -6,13 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Lecturer</title>
+    <title>Add New Students</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: white
         }
 
         .container {
@@ -20,7 +20,7 @@
             margin: 20px auto;
             background-color: #fff;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -34,6 +34,7 @@
             font-size: 18px;
             font-weight: 600;
             color: #333;
+            text-align: center;
         }
 
         .form-container {
@@ -177,6 +178,15 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
+        .type-container {
+        display: flex;
+        gap: 20px; /* space between the two boxes */
+        margin-bottom: 15px;
+        }
+
+        .type-container .form-group {
+            flex: 1; /* makes both form-group elements take equal width */
+        }
 
         .input-validate:invalid {
             border: 1px solid red;
@@ -184,13 +194,14 @@
         .input-validate:valid {
             border: 1px solid #ddd;
         }
+
     </style>
 </head>
 
 <body>
-    <form class="container" method="post" action="/lecturerAddition">
+    <form class="container" method="post" action="/eventsStudentsAddition">
         <div class="header">
-            <h2>Add New Lecturer</h2>
+            <h2>Add New Students</h2>
         </div>
         <!--add post -->
         <div class="form-container">
@@ -201,20 +212,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="employee-no">Employee No:</label>
-                    <input type="text" required id="employee-no" placeholder="Enter Lecturer ID No. Here" name="employee_no" pattern="^UCSC\/LEC\/\d{3}$" title="Format: UCSC/LEC/123" class="input-validate">
-                </div>                                                   
-
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <select id="title" name="title" required>
-                        <option value="">Select Title</option>
-                        <option value="mr">Mr.</option>
-                        <option value="mrs">Mrs.</option>
-                        <option value="ms">Ms.</option>
-                        <option value="dr">Dr.</option>
-                        <option value="prof">Prof.</option>
-                    </select>
+                    <label for="student-no">Student No:</label>
+                    <input type="text" required id="student-no" placeholder="Enter Lecturer ID No. Here" name="student_no" pattern="^UCSC\/(CS|IS)\/\d{3}$" title="Format: UCSC/CS/123 or UCSC/IS/123" class="input-validate">
+                </div>
+                <div class="type-container">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                            <select id="title" name="title" required>
+                                <option value="">Select Title</option>
+                                <option value="mr">Mr.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="ms">Ms.</option>
+                                <option value="dr">Dr.</option>
+                                <option value="prof">Prof.</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Course:</label>
+                        <input type="text" required id="course" placeholder="Enter Course. Here" name="course">
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -249,7 +265,7 @@
 
                 <div class="form-group" style="width: 100%;">
                     <label for="password">Password</label>
-                    <input type="password" id="password" required minlength="6" name="password">
+                    <input type="text" id="password" required minlength="6" name="password">
                 </div>
             </div>
         </div>

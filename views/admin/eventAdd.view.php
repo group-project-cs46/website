@@ -6,25 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Competition</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-            padding: 20px;
+        /* *body {
+            background-color: white;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
         }
 
+        .center-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+        } */
+
+        *body {
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top instead of center (NEW) */
+}
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items towards the top (NEW) */
+    margin-top: 50px; /* Add some space from the top (NEW) */
+    width: 100%;
+}
         .form-container {
             background: white;
-            border-radius: 15px;
+            border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             padding: 30px;
             width: 100%;
@@ -32,9 +47,10 @@
             text-align: center;
         }
 
-        .form-container h1 {
-            font-size: 30px;
-            margin-bottom: 25px;
+        .form-container h2 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            margin-top: 5px;
             color: #3498db;
         }
 
@@ -46,12 +62,12 @@
         .form-group label {
             display: block;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
+            padding: 9px;
             border: 1px solid #ddd;
             border-radius: 5px;
             outline: none;
@@ -71,11 +87,11 @@
         .submit-btn {
             background-color: #3498db;
             color: white;
-            padding: 14px;
+            padding: 10px;
             border: none;
             border-radius: 8px;
             width: 100%;
-            font-size: 18px;
+            font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
             font-weight: bold;
@@ -86,40 +102,55 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
+<div class="center-wrapper">
     <div class="form-container">
-        <h1>Add Competition</h1>
-        <form>
+        <h2>Add Competition</h2>
+        <form method="post" action="/eventsAddition">
             <div class="form-group">
                 <label for="competition-name">Competition Name</label>
                 <input type="text" id="competition-name" name="competition-name" required>
             </div>
-            
+
             <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" required>
-            </div>
+                    <label for="events-no">Event No</label>
+                    <input type="text" id="events-no"  name="events-no" required pattern="^UCSC\/Ev\/2025\/\d{3}$" title="Format: UCSC/Ev/2025/123" class="input-validate">
+                </div>
             
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="time" id="time" name="time" required>
+            <div class="deadline-container">
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
             </div>
-            
+
             <div class="deadline-container">
                 <div class="form-group">
                     <label for="deadline-date">Deadline Date</label>
                     <input type="date" id="deadline-date" name="deadline-date" required>
                 </div>
                 <div class="form-group">
-                    <label for="deadline-time">Time</label>
+                    <label for="deadline-time">Deadline Time</label>
                     <input type="time" id="deadline-time" name="deadline-time" required>
                 </div>
             </div>
 
             <button type="submit" class="submit-btn">Add Competition</button>
         </form>
+    </div>
     </div>
 </body>
 </html>

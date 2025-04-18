@@ -19,7 +19,7 @@
             background-color: #fff;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -89,7 +89,7 @@
         <div class="form-section">
             <div class="box">
                 <h2>Complaint Details</h2>
-                <textarea id="complaint-details" placeholder="Enter Complaint Here"></textarea>
+                <textarea id="complaint-details" placeholder="Complaint "></textarea>
             </div>
             <div class="box">
                 <h2>Reply</h2>
