@@ -16,6 +16,8 @@ class User
         return $user;
     }
 
+    
+
     public static function findByEmail($email)
     {
         $db = App::resolve(Database::class);
@@ -29,19 +31,15 @@ class User
     {
         $db = App::resolve(Database::class);
 
-        $student = $db->query('SELECT
-                u.name,
-                u.email,
-                u.mobile,
-                u.role,
-                u.id,
-                u.disabled,
-                u.approved
+        $user = $db->query('SELECT
+                u.*,
+                s.*,
+                c.*
             FROM 
                 users u
             LEFT JOIN students s 
                 ON u.id = s.id AND u.role = 2  -- Role::Student
-            LEFT JOIN lecturers l 
+            LEFT JOIN lecturers l
                 ON u.id = l.id AND u.role = 5  -- Role::Lecturer
             LEFT JOIN companies c 
                 ON u.id = c.id AND u.role = 4  -- Role::Company
@@ -52,6 +50,27 @@ class User
             WHERE u.id = ?', [$id])
             ->find();
 
-        return $student;
+        return $user;
+    }
+
+    public static function update($attributes, $id)
+    {
+        $db = App::resolve(Database::class);
+
+        $user = $db->query('UPDATE users SET mobile = ?, bio = ?, linkedin = ?, name = ? WHERE id = ?',
+            [ $attributes['mobile'], $attributes['bio'], $attributes['linkedin'], $attributes['name'] , $id]);
+
+        return $user;
+    }
+
+    public static function create($attributes)
+    {
+        $db = App::resolve(Database::class);
+
+        $user = $db->query('INSERT INTO users (email, password, role, approved, name) VALUES (?, ?, ?, ?, ?)',
+            [$attributes['email'], password_hash($attributes['password'], PASSWORD_DEFAULT), 2, 1, $attributes['name']]);
+
+        $lastInsertedId = $db->connection->lastInsertId();
+        return $lastInsertedId;
     }
 }

@@ -45,7 +45,6 @@ body {
     flex: 1;
     padding: 30px;
     padding-left: 70px;
-    width: 230%;
 }
 
 .header {
@@ -68,7 +67,7 @@ h1 {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    width: 100%;
+    width: 260%;
     margin: 10px;
     padding: 10px;
     border-radius: 10px;
@@ -133,7 +132,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    width: 100%;
+    width: 260%;
 }
 
 .page-numbers {

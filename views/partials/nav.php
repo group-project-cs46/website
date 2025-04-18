@@ -70,7 +70,6 @@ $navItems = [
         'icon' => 'fa-user',
         'only' => [Role::Company],
     ],
-
     [
         'text' => 'Dashboard',
         'href' => '/dashboard/lecturer',
@@ -120,12 +119,6 @@ $navItems = [
         'only' => [Role::Pdc]
     ],
     [
-        'text' => 'Advertisements',
-        'href' => '/advertisements',
-        'icon' => 'fa-briefcase',
-        'only' => [Role::Student],
-    ],
-    [
         'text' => "Managec PDC",
         'href' => '/pdcManage',
         'icon' => 'fa-solid fa-user-shield',
@@ -144,30 +137,30 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
+        'text' => 'Events',
+        'href' => '/events',
+        'icon' => 'fa-solid fa-calendar-days',
+        'only' => [Role::Admin],
+    ],
+    [
 
         'text' => 'Calendar',
         'href' => '/calendar',
-        'icon' => 'fa-fire-flame-curved',
+        'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Lecturer],
     ],
-    [
+    [ 
         'text' => 'Report',
         'href' => '/reportMain',
         'icon' => 'fa-sheet-plastic',
         'only' => [Role::Lecturer],
     ],
-    // [
-    //     'text' => 'Profile',
-    //     'href' => '/profilelec',
-    //     'icon' => 'fa-user',
-    //     'only' => [Role::Lecturer],
-    // ],
-    // [
-    //     'text' => 'Profile',
-    //     'href' => '/profile',
-    //     'icon' => 'fa-user',
-    //     'only' => [Role::Admin],
-    // ],
+    [ 
+        'text' => 'Advertisements',
+        'href' => '/students/advertisements',
+        'icon' => 'fa-briefcase',
+        'only' => [Role::Student],
+    ],
     [
 
         'text' => "Applications",
@@ -182,11 +175,11 @@ $navItems = [
         'only' => [Role::Student],
     ],
     [
-        'text' => 'Account',
-        'href' => '/account',
-        'icon' => 'fa-user',
-        'only' => [Role::Student, Role::Admin, Role::Pdc, Role::Lecturer],
-    ],
+        'text' => "TechTalks",
+        'href' => '/students/techtalks',
+        'icon' => 'fa-microphone',
+        'only' => [Role::Student],
+    ]
 
 ];
 

@@ -38,6 +38,7 @@ $db->query('INSERT INTO password_resets (email, token, expiry) VALUES (?, ?, ?) 
 //reset url
 
 $url = url('/reset_password', ['token' => $token, 'email' => $email]);
+// $url = https://localhost:8000/reset_password?token=sddkjnsdlkjvdsfhs87df8se7fg8sf7es8fhsefheg7fgs8&email=thathsara@gmail.com
 
 $mailer->send($email, 'Reset your password', $url);
 

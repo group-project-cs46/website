@@ -1,6 +1,6 @@
 .grid {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 2fr 1fr auto auto;
     gap: 0px;
     margin-top: 1rem;
     font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
 
 .grid-header {
     font-weight: bold;
-    background-color: var(--gray-100);
+    background-color: #F9FAFB;
     padding: 8px;
 }
 

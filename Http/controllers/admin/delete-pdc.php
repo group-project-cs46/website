@@ -1,13 +1,15 @@
 <?php
 
-use Models\Pdc;
+use Models\AddPdc;
 
 $id = $_POST['id'];
 
 try {
-    Pdc::delete($id);
+    AddPdc::delete($id);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
 
 redirect('/pdcManage');
+
+
