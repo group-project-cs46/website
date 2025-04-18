@@ -58,12 +58,19 @@ $router->get('/company/dashcv', '/company/dashcv.php');
 $router->get('/company/onlycv', '/company/onlycv.php');
 
 
+
+
 //company action
 $router->post('/ads/store', 'ads/store.php');
 $router->delete('/ads/delete', 'ads/delete.php');
 $router->post('/ads/edit', 'ads/edit.php');
 
 $router->post('/company_complaint/store', 'company_complaint/store.php');
+$router->get('/company/complaint/list', 'company_complaint/list.php')->only('auth');
+$router->post('/company_complaint/edit', 'company_complaint/edit.php')->only('auth');
+$router->post('/company_complaint/delete', 'company_complaint/delete.php')->only('auth');
+
+
 $router->post('/company_scedule/store', 'company_scedule/store_techtalk.php');
 $router->post('/company_report/store', 'company_report/store.php');
 
