@@ -18,7 +18,7 @@ select {
     position: relative;
     display: flex;
     width: 20em;
-    height: 2.5em;
+    height: 2.25em;
     border-radius: .25em;
     overflow: hidden;
 }
@@ -29,7 +29,7 @@ select {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.8em;
+    padding: 0.75em;
     background-color: #34495e;
     transition: .25s all ease;
     pointer-events: none;

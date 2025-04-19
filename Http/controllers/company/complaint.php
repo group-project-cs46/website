@@ -2,13 +2,16 @@
 
 use Core\Database;
 use Core\App;
-
+use Models\companyComplaint;
 
 $db = App::resolve(Database::class);
 
+// Get the authenticated user's ID
+$userId = auth_user()['id'];
 
+// Fetch complaints for the current user
+$complaints = companyComplaint::getUserComplaints($userId);
 
-// $user= $db->query("SELECT * FROM users WHERE id = ?", [1])->get();
-
-
-view('company/complaint.view.php');
+view('company/complaint.view.php', [
+    'complaints' => $complaints
+]);

@@ -32,22 +32,9 @@ class User
         $db = App::resolve(Database::class);
 
         $user = $db->query('SELECT
-                u.name,
-                u.email,
-                u.mobile,
-                u.role,
-                u.id,
-                u.disabled,
-                u.approved,
-                u.photo,
-                s.index_number,
-                s.registration_number,
-                c.website,
-                c.building,
-                c.street_name,
-                c.city,
-                c.postal_code,
-                c.address_line_2
+                u.*,
+                s.*,
+                c.*
             FROM 
                 users u
             LEFT JOIN students s 
@@ -62,6 +49,16 @@ class User
                 ON u.id = p.id AND u.role = 3 -- Role::Pdc
             WHERE u.id = ?', [$id])
             ->find();
+
+        return $user;
+    }
+
+    public static function update($attributes, $id)
+    {
+        $db = App::resolve(Database::class);
+
+        $user = $db->query('UPDATE users SET mobile = ?, bio = ?, linkedin = ?, name = ? WHERE id = ?',
+            [ $attributes['mobile'], $attributes['bio'], $attributes['linkedin'], $attributes['name'] , $id]);
 
         return $user;
     }

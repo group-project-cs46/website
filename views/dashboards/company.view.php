@@ -122,9 +122,6 @@
             <td>${student.index}</td>
             <td>${student.email}</td>
             <td>${student.course}</td>
-            <td>
-                <button class="view-btn" onclick="viewAppliedStudent('${student.index}')">View</button>
-            </td>
         `;
             tableBody.appendChild(row);
         });
@@ -138,11 +135,10 @@
     }
 
     // View applied student details
-    function viewAppliedStudent(index) {
-        const student = appliedStudents.find(student => student.index === index);
-        window.location.href = "/company/dashcv";
-        //alert(`Student Details:\n\nStudent Name: ${student.name}\nIndex No: ${student.index}\nEmail: ${student.email}\nCourse: ${student.course}`);
-    }
+    // function viewAppliedStudent(index) {
+    //     const student = appliedStudents.find(student => student.index === index);
+    //     window.location.href = "/company/dashcv";
+    // }
 
     // Initialize default render
     document.addEventListener("DOMContentLoaded", () => {

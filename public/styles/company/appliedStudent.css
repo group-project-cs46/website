@@ -166,19 +166,20 @@ body {
   }
 }
 
-.view-btn {
+/* View button styling - adjusted to align vertically */
+.applied-view-btn {
   background-color: #0ea5e9;
   color: white;
   border: none;
   padding: 8px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin-left: 100px;
+  width: 120px; /* Fixed width for all buttons */
+  text-align: center;
 }
 
-.view-btn:hover {
-  background-color: #01080a;
-  color: white;
+.applied-view-btn:hover {
+  background-color: #0284c7;
 }
 /* Filter Container Styles */
 .filter-container {
@@ -214,4 +215,111 @@ body {
   outline: none;
   border-color: #007bff;
   background-color: #e9f5ff;
+}
+
+/* Button container styling */
+.applied-btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Status button styling */
+.applied-status-btn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+  width: 120px;
+  text-align: center;
+}
+
+.hired {
+  background-color: #22c55e;
+  color: white;
+}
+
+.not-hired {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Select button styling */
+.applied-select-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+}
+
+.applied-select-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Reject button styling */
+.applied-reject-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+}
+
+.applied-reject-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Flexbox layout for filter container */
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-left, .filter-right {
+  display: flex;
+  align-items: center;
+}
+
+.filter-left label, .filter-right label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.filter-left select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filter-right .applied-jobrole-input {
+  padding: 8px;
+  border: 1px solid #007bff; /* Blue border for Applied section */
+  border-radius: 4px;
+  width: 250px; /* Wider input for better usability */
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-right .applied-jobrole-input:focus {
+  outline: none;
+  border-color: #0056b3; /* Darker blue on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.filter-right .applied-jobrole-input::placeholder {
+  color: #888;
+  font-style: italic;
 }

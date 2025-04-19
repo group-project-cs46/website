@@ -5,7 +5,7 @@ namespace Models;
 use Core\App;
 use Core\Database;
 
-class Addlecturer
+class AddLecturer
 {
     public static function create($employee_id, $title, $email, $name, $contact_no, $password)
     {
@@ -16,7 +16,7 @@ class Addlecturer
             $email,
             $contact_no,
             password_hash($password, PASSWORD_DEFAULT),
-            3,
+            5,
             1
         ]);
 
@@ -98,5 +98,20 @@ class Addlecturer
         $db->query('DELETE FROM users WHERE id=?', [
             $id,
         ]);
+    }
+
+    public static function toggle_status($id)
+    {
+        $db = App::resolve(Database::class);
+    
+        // Get current status
+        $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
+    
+        if (empty($result)) return;
+    
+        $current = $result[0]['approved'];
+        $new = $current ? 0 : 1;
+    
+        $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
     }
 }
