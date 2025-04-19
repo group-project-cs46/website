@@ -86,6 +86,7 @@
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message"></p>
+
         </div>
     </div>
 
@@ -104,40 +105,6 @@
                 </thead>
                 <tbody id="student-list">
                     <!-- Hardcoded content will be injected here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Popup Modal for entering rejection reason -->
-    <div id="reject-reason-modal" class="reject-reason-modal">
-        <div class="reject-reason-content">
-            <span id="close-reject-reason" class="reject-reason-close-btn">×</span>
-            <h2>Reason for Rejection</h2>
-            <form id="reject-reason-form" class="reject-reason-form">
-                <label for="reject-reason">Please provide a reason for rejecting this advertisement:</label>
-                <textarea id="reject-reason" name="reject-reason" class="reject-reason-textarea" rows="4" required placeholder="Enter your reason here..."></textarea>
-                <button type="submit" class="reject-reason-submit-btn">Submit Rejection</button>
-                <button type="button" id="cancel-reject-btn" class="reject-reason-cancel-btn">Cancel</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Popup Modal for viewing applied student details -->
-    <div id="student-popup-modal" class="popup-modal">
-        <div class="popup-content">
-            <span id="close-student-popup" class="close-btn">×</span>
-            <h2>Student Applications</h2>
-            <table class="student-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Registration Number</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody id="student-list">
-                    <!-- Dynamic content will be injected here -->
                 </tbody>
             </table>
         </div>
