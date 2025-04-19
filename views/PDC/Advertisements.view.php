@@ -34,8 +34,8 @@
             <table class="advertistment-table">
                 <thead>
                     <tr>
-                        <th>Advertisement</th>
-                        <th>Status</th>
+                        <th>Job Role</th>
+                        <th>Company</th>
                         <th>Vacancy Count</th>
                         <th>Email</th>
                         <th>Action</th>
@@ -47,20 +47,18 @@
             </table>
         </div>
 
-        <div class="container" id="approvedadd-section">
+        <div class="container" id="approvedadd-section" style="display: none;">
             <div class="table-title">
                 <h3><b>Approved Advertisements</b></h3>
                 <p>View approved advertisements</p>
             </div>
 
-            <!-- Approved Advertisements Table -->
             <table class="advertistment-table">
                 <thead>
                     <tr>
-                        <th>Advertisement</th>
-                        <th>Status</th>
-                        <th>No. of Students Applied</th>
-                        <th>No. of required Applications</th>
+                        <th>Job Role</th>
+                        <th>Company</th>
+                        <th>Vacancy Count</th>
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
@@ -77,17 +75,17 @@
         <div class="popup-content">
             <span id="close-popup" class="close-btn">×</span>
             <h2 id="popup-title"></h2>
-            <p><b>Job_Role : </b> <span id="popup-jobrole"></span></p>
-            <p><b>Responsibilities : </b> <span id="popup-responsibilities"></span></p>
-            <p><b>Qualifications_and_Skills : </b> <span id="popup-qualifications"></span></p>
-            <p><b>Status : </b> <span id="popup-status"></span></p>
-            <p><b>Vacancy_Count : </b> <span id="popup-applied"></span></p>
-            <p><b>Maximum_CV_count : </b><span id="popup-CVcount"></span></p>
-            <p><b>Contact_Email : </b> <a href="#" id="popup-email"></a></p>
-            <p><b>Deadline : </b> <span id="popup-deadline"></span></p>
+            <p><b>Company: </b> <span id="popup-company"></span></p>
+            <p><b>Job Role: </b> <span id="popup-jobrole"></span></p>
+            <p><b>Responsibilities: </b> <span id="popup-responsibilities"></span></p>
+            <p><b>Qualifications and Skills: </b> <span id="popup-qualifications"></span></p>
+            <p><b>Vacancy Count: </b> <span id="popup-vacancy"></span></p>
+            <p><b>Maximum CV Count: </b><span id="popup-cvcount"></span></p>
+            <p><b>Contact Email: </b> <a href="#" id="popup-email"></a></p>
+            <p><b>Deadline: </b> <span id="popup-deadline"></span></p>
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
-            <p id="success-message" class="hidden success-message">Approved successfully!</p>
+            <p id="success-message" class="hidden success-message"></p>
         </div>
     </div>
 
@@ -105,7 +103,7 @@
                     </tr>
                 </thead>
                 <tbody id="student-list">
-                    <!-- Dynamic content will be injected here -->
+                    <!-- Hardcoded content will be injected here -->
                 </tbody>
             </table>
         </div>
@@ -129,79 +127,32 @@
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-    // Initialize data
-    const advertisements = [{
-            title: "Software Engineer Intern (WSO2)",
-            Job_Role: "Software Engineer Intern",
-            Responsibilities: "Developing software applications",
-            Qualifications_and_Skills: "Java, Spring Boot, React",
-            status: "Hiring",
-            Vacancy_Count: 10,
-            Maximum_CV_count: 50,
-            email: "hiring@gmail.com",
-            Deadline: "2023-12-31"
-        },
-        {
-            title: "Data Analyst Intern (Virtusa)",
-            Job_Role: "Data Analyst Intern",
-            Responsibilities: "Analyze data and generate reports",
-            Qualifications_and_Skills: "SQL, Python, Data Visualization",
-            status: "Closed",
-            Vacancy_Count: 10,
-            Maximum_CV_count: 25,
-            email: "apply@virtusa.com",
-            Deadline: "2023-11-30"
-        },
-        {
-            title: "Frontend Developer Intern (99x)",
-            Job_Role: "Frontend Developer Intern",
-            Responsibilities: "Developing user interfaces",
-            Qualifications_and_Skills: "React, JavaScript, HTML, CSS",
-            status: "Hiring",
-            Vacancy_Count: 15,
-            Maximum_CV_count: 30,
-            email: "jobs@99x.com",
-            Deadline: "2023-12-15"
-        },
-        {
-            title: "Backend Developer Intern (Sysco LABS)",
-            Job_Role: "Backend Developer Intern",
-            Responsibilities: "Developing server-side applications",
-            Qualifications_and_Skills: "Java, Spring Boot, MySQL",
-            status: "Hiring",
-            Vacancy_Count: 12,
-            Maximum_CV_count: 20,
-            email: "interns@syscolabs.com",
-            Deadline: "2023-12-20"
-        },
-        {
-            title: "UI/UX Designer Intern (CreativeHub)",
-            Job_Role: "UI/UX Designer Intern",
-            Responsibilities: "Designing user interfaces",
-            Qualifications_and_Skills: "Figma, Adobe XD, Sketch",
-            status: "Closed",
-            Vacancy_Count: 20,
-            Maximum_CV_count: 40,
-            email: "careers@creativehub.com",
-            Deadline: "2023-11-15"
-        }
-    ];
+    let advertisements = [];
+    let approvedAdvertisements = [];
 
-    const approvedAdvertisements = [{
-            title: "Frontend Developer Intern (99x)",
-            status: "Hiring",
-            applied: 3,
-            Vacancy_Count: 20,
-            email: "jobs@99x.com"
-        },
-        {
-            title: "UI/UX Designer Intern (CreativeHub)",
-            status: "Closed",
-            applied: 20,
-            Vacancy_Count: 20,
-            email: "careers@creativehub.com"
+    // Fetch advertisements from backend
+    async function fetchAdvertisements() {
+        try {
+            const response = await fetch('/PDC/manageadvertisements');
+            if (!response.ok) throw new Error('Failed to fetch advertisements');
+            advertisements = await response.json();
+            renderAdvertisements();
+        } catch (error) {
+            console.error('Error fetching advertisements:', error);
         }
-    ];
+    }
+
+    // Fetch approved advertisements from backend
+    async function fetchApprovedAdvertisements() {
+        try {
+            const response = await fetch('/PDC/manageadvertisements?action=approved');
+            if (!response.ok) throw new Error('Failed to fetch approved advertisements');
+            approvedAdvertisements = await response.json();
+            renderApprovedAdvertisements();
+        } catch (error) {
+            console.error('Error fetching approved advertisements:', error);
+        }
+    }
 
     // Render advertisements
     function renderAdvertisements(data = advertisements) {
@@ -211,16 +162,17 @@
         data.forEach((ad, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${ad.title}</td>
-                <td style="color: ${ad.status === 'Hiring' ? '#28a745' : '#dc3545'}">${ad.status}</td>
-                <td>${ad.Vacancy_Count}</td>
-                <td><a href="mailto:${ad.email}" style="color: #007bff;">${ad.email}</a></td>
-                <td><button class="view-btn" onclick="openPopup(${advertisements.indexOf(ad)})">View</button></td>
+                <td>${ad.job_role}</td>
+                <td>${ad.company_name}</td>
+                <td>${ad.vacancy_count}</td>
+                <td><a href="mailto:${ad.company_email}" style="color: #007bff;">${ad.company_email}</a></td>
+                <td><button class="view-btn" onclick="openPopup(${index})">View</button></td>
             `;
             advertisementList.appendChild(row);
         });
     }
 
+    // Render approved advertisements
     function renderApprovedAdvertisements(data = approvedAdvertisements) {
         const approvedAdvertisementList = document.getElementById('approved-advertisement-list');
         approvedAdvertisementList.innerHTML = '';
@@ -228,101 +180,131 @@
         data.forEach((ad, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${ad.title}</td>
-                <td style="color: ${ad.status === 'Hiring' ? '#28a745' : '#dc3545'}">${ad.status}</td>
-                <td>${ad.applied}</td>
-                <td>${ad.Vacancy_Count}</td>
-                <td><a href="mailto:${ad.email}" style="color: #007bff;">${ad.email}</a></td>
-                <td><button class="view-btn" onclick="viewApprovedAdvertisement(${approvedAdvertisements.indexOf(ad)})">View</button></td>
+                <td>${ad.job_role}</td>
+                <td>${ad.company_name}</td>
+                <td>${ad.vacancy_count}</td>
+                <td><a href="mailto:${ad.company_email}" style="color: #007bff;">${ad.company_email}</a></td>
+                <td><button class="view-btn" onclick="viewApprovedAdvertisement(${index})">View Students</button></td>
             `;
             approvedAdvertisementList.appendChild(row);
         });
     }
 
+    // Open popup for advertisement details
     function openPopup(index) {
         const ad = advertisements[index];
-        document.getElementById('popup-title').textContent = ad.title;
-        document.getElementById('popup-jobrole').textContent = ad.Job_Role;
-        document.getElementById('popup-responsibilities').textContent = ad.Responsibilities;
-        document.getElementById('popup-qualifications').textContent = ad.Qualifications_and_Skills;
-        document.getElementById('popup-status').textContent = ad.status;
-        document.getElementById('popup-applied').textContent = ad.Vacancy_Count;
-        document.getElementById('popup-CVcount').textContent = ad.Maximum_CV_count;
-        document.getElementById('popup-deadline').textContent = ad.Deadline;
+        document.getElementById('popup-title').textContent = ad.job_role;
+        document.getElementById('popup-company').textContent = ad.company_name;
+        document.getElementById('popup-jobrole').textContent = ad.job_role;
+        document.getElementById('popup-responsibilities').textContent = ad.responsibilities;
+        document.getElementById('popup-qualifications').textContent = ad.qualifications_skills;
+        document.getElementById('popup-vacancy').textContent = ad.vacancy_count;
+        document.getElementById('popup-cvcount').textContent = ad.max_cvs;
+        document.getElementById('popup-deadline').textContent = ad.deadline;
         
         const emailLink = document.getElementById('popup-email');
-        emailLink.textContent = ad.email;
-        emailLink.href = `mailto:${ad.email}`;
+        emailLink.textContent = ad.company_email;
+        emailLink.href = `mailto:${ad.company_email}`;
 
         document.getElementById('popup-modal').style.display = 'block';
 
         const approveBtn = document.getElementById('approve-btn');
         approveBtn.onclick = function() {
-            approveAdvertisement(index);
+            approveAdvertisement(ad.id, index);
         };
 
         const rejectBtn = document.getElementById('reject-btn');
         rejectBtn.onclick = function() {
-            openRejectReasonModal(index);
+            openRejectReasonModal(ad.id, index);
         };
     }
 
-    // Function to open rejection reason modal
-    function openRejectReasonModal(index) {
-        console.log('Opening reject reason modal for index:', index);
+    // Open rejection reason modal
+    function openRejectReasonModal(adId, index) {
         document.getElementById('reject-reason-modal').style.display = 'block';
         const form = document.getElementById('reject-reason-form');
-        form.onsubmit = function(e) {
+        form.onsubmit = async function(e) {
             e.preventDefault();
             const reason = document.getElementById('reject-reason').value.trim();
             if (reason) {
-                rejectAdvertisement(index, reason);
+                await rejectAdvertisement(adId, index, reason);
             } else {
                 alert('Please provide a reason for rejection.');
             }
         };
-        document.getElementById('cancel-reject-btn').onclick = function() {
-            closeRejectReasonModal();
-        };
+        document.getElementById('cancel-reject-btn').onclick = closeRejectReasonModal;
     }
 
-    // Updated rejectAdvertisement function with reason
-    function rejectAdvertisement(index, reason) {
-        const ad = advertisements[index];
-        const companyEmail = ad.email;
-
-        console.log(`Sending rejection email to ${companyEmail}: "Your advertisement '${ad.title}' was rejected for the following reason: ${reason}"`);
-
-        advertisements.splice(index, 1);
-        renderAdvertisements();
-
-        closeRejectReasonModal();
-        document.getElementById('popup-modal').style.display = 'none';
-    }
-
-    // Function to close rejection reason modal
+    // Close rejection reason modal
     function closeRejectReasonModal() {
         document.getElementById('reject-reason-modal').style.display = 'none';
         document.getElementById('reject-reason').value = '';
     }
 
-    // Function for viewing student popup
+    // Approve advertisement
+async function approveAdvertisement(adId, index) {
+    try {
+        const response = await fetch('/PDC/manageadvertisements', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ approve_id: adId })
+        });
+        const result = await response.json();
+        if (result.success) {
+            advertisements.splice(index, 1);
+            await fetchApprovedAdvertisements();
+            renderAdvertisements();
+            const successMessage = document.getElementById('success-message');
+            successMessage.textContent = result.message;
+            successMessage.classList.remove('hidden');
+            setTimeout(() => {
+                successMessage.classList.add('hidden');
+                document.getElementById('popup-modal').style.display = 'none';
+            }, 2000);
+        } else {
+            console.error('Approve failed:', result.message);
+            alert('Failed to approve advertisement: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error approving advertisement:', error);
+        alert('Error approving advertisement');
+    }
+}
+
+    // Reject advertisement
+async function rejectAdvertisement(adId, index, reason) {
+    try {
+        const response = await fetch('/PDC/manageadvertisements', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reject_id: adId, reason })
+        });
+        const result = await response.json();
+        if (result.success) {
+            advertisements.splice(index, 1);
+            renderAdvertisements();
+            closeRejectReasonModal();
+            document.getElementById('popup-modal').style.display = 'none';
+            const successMessage = document.getElementById('success-message');
+            successMessage.textContent = result.message;
+            successMessage.classList.remove('hidden');
+            setTimeout(() => successMessage.classList.add('hidden'), 2000);
+        } else {
+            console.error('Reject failed:', result.message);
+            alert('Failed to reject advertisement: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error rejecting advertisement:', error);
+        alert('Error rejecting advertisement');
+    }
+}
+
+    // View approved advertisement (hardcoded student data)
     function viewApprovedAdvertisement(index) {
-        const studentApplications = [{
-                name: "John Doe",
-                regNo: "2022/CS/001",
-                email: "john.doe@example.com"
-            },
-            {
-                name: "Jane Smith",
-                regNo: "2022/CS/002",
-                email: "jane.smith@example.com"
-            },
-            {
-                name: "Sam Wilson",
-                regNo: "2022/CS/003",
-                email: "sam.wilson@example.com"
-            }
+        const studentApplications = [
+            { name: "John Doe", regNo: "2022/CS/001", email: "john.doe@example.com" },
+            { name: "Jane Smith", regNo: "2022/CS/002", email: "jane.smith@example.com" },
+            { name: "Sam Wilson", regNo: "2022/CS/003", email: "sam.wilson@example.com" }
         ];
 
         const studentList = document.getElementById('student-list');
@@ -341,27 +323,7 @@
         document.getElementById('student-popup-modal').style.display = 'block';
     }
 
-    // Approve Advertisement
-    function approveAdvertisement(index) {
-        const ad = advertisements[index];
-        approvedAdvertisements.push({
-            ...ad,
-            applied: 0
-        });
-        advertisements.splice(index, 1);
-
-        renderAdvertisements();
-        renderApprovedAdvertisements();
-
-        const successMessage = document.getElementById('success-message');
-        successMessage.classList.remove('hidden');
-
-        setTimeout(() => {
-            successMessage.classList.add('hidden');
-            document.getElementById('popup-modal').style.display = 'none';
-        }, 2000);
-    }
-
+    // Toggle between sections
     function toggleadvertistment(sectionId) {
         const advertisementsSection = document.getElementById('approveadd-section');
         const approvedAdvertisementsSection = document.getElementById('approvedadd-section');
@@ -373,7 +335,7 @@
             approvedAdvertisementsSection.style.display = 'none';
             advertisementTab.classList.add('active-tab');
             approveAdTab.classList.remove('active-tab');
-        } else if (sectionId == 'approved-advertisements-section') {
+        } else if (sectionId === 'approved-advertisements-section') {
             advertisementsSection.style.display = 'none';
             approvedAdvertisementsSection.style.display = 'block';
             advertisementTab.classList.remove('active-tab');
@@ -390,9 +352,7 @@
         document.getElementById('student-popup-modal').style.display = 'none';
     };
 
-    document.getElementById('close-reject-reason').onclick = function() {
-        closeRejectReasonModal();
-    };
+    document.getElementById('close-reject-reason').onclick = closeRejectReasonModal;
 
     window.onclick = function(event) {
         const popupModal = document.getElementById('popup-modal');
@@ -412,43 +372,33 @@
     // Search functionality
     function setupSearch() {
         const searchBar = document.getElementById('search-bar');
-        
         searchBar.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             
-            const filteredAds = advertisements.filter(ad => {
-                return (
-                    ad.title.toLowerCase().includes(searchTerm) ||
-                    ad.Job_Role.toLowerCase().includes(searchTerm) ||
-                    ad.email.toLowerCase().includes(searchTerm) ||
-                    ad.status.toLowerCase().includes(searchTerm)
-                );
-            });
+            const filteredAds = advertisements.filter(ad => 
+                ad.company_name.toLowerCase().includes(searchTerm) ||
+                ad.job_role.toLowerCase().includes(searchTerm) ||
+                ad.company_email.toLowerCase().includes(searchTerm)
+            );
             
-            const filteredApprovedAds = approvedAdvertisements.filter(ad => {
-                return (
-                    ad.title.toLowerCase().includes(searchTerm) ||
-                    ad.email.toLowerCase().includes(searchTerm) ||
-                    ad.status.toLowerCase().includes(searchTerm)
-                );
-            });
+            const filteredApprovedAds = approvedAdvertisements.filter(ad => 
+                ad.company_name.toLowerCase().includes(searchTerm) ||
+                ad.job_role.toLowerCase().includes(searchTerm) ||
+                ad.company_email.toLowerCase().includes(searchTerm)
+            );
             
             renderAdvertisements(filteredAds);
             renderApprovedAdvertisements(filteredApprovedAds);
         });
     }
 
-    // Initialize rendering and ensure modals are hidden on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Hide all modals on page load
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('popup-modal').style.display = 'none';
         document.getElementById('student-popup-modal').style.display = 'none';
         document.getElementById('reject-reason-modal').style.display = 'none';
-
-        renderAdvertisements();
-        renderApprovedAdvertisements();
-        document.getElementById('approveadd-section').style.display = 'block';
-        document.getElementById('approvedadd-section').style.display = 'none';
+        await fetchAdvertisements();
+        await fetchApprovedAdvertisements();
         setupSearch();
     });
 </script>
