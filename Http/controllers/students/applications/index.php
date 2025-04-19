@@ -9,6 +9,8 @@ $user_id = $user['id'];
 
 $applications = Application::getByStudentIdWithDetails($user_id);
 
+//dd($applications);
+
 view('students/applications/index.view.php', [
     'heading' => 'Jobs',
     'applications' => $applications

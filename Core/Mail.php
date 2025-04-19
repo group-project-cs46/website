@@ -13,7 +13,7 @@ class Mail
     {
         $this->mailer = new PHPMailer();
 
-        $this->mailer->SMTPDebug = SMTP::DEBUG_CONNECTION;
+//        $this->mailer->SMTPDebug = SMTP::DEBUG_CONNECTION;
         $this->mailer->isSMTP();
         $this->mailer->Host = $config['host'];
         $this->mailer->SMTPAuth = true;
