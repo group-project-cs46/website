@@ -83,7 +83,7 @@ class companyStudent
             INNER JOIN applications app ON s.id = app.student_id
             INNER JOIN advertisements a ON app.ad_id = a.id
             LEFT JOIN cvs c ON app.cv_id = c.id
-            WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL);
+            WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL) AND (app.selected IS NULL);
         ', [])->get();
 
         foreach ($students as &$student) {
