@@ -16,6 +16,18 @@ function console_log($value)
     error_log(print_r($value, TRUE));
 }
 
+function log_to_file(string $message) {
+    $filePath = base_path("storage/logs/app.log");
+
+    // Add timestamp to the message
+    $timestamp = date('[Y-m-d H:i:s]');
+    $logMessage = "{$timestamp} {$message}\n";
+
+    // Append to the log file
+    error_log($logMessage, 3, $filePath);
+}
+
+
 function urlIs($value)
 {
     return $_SERVER['REQUEST_URI'] === $value;
@@ -96,4 +108,13 @@ function getUserProfilePhotoUrl($user)
 function getFirstDayOfMonth($year, $month) {
     $date = new DateTime("$year-$month-01");
     return $date->format('N'); // 'N' format character returns the ISO-8601 numeric representation of the day of the week
+}
+
+function roleNumber() {
+    return $_SESSION['user']['role'] ?? null;
+}
+
+function urlBack()
+{
+    return $_SERVER['HTTP_REFERER'] ?? '/';
 }

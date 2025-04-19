@@ -50,5 +50,3 @@ Session::flash('toast', 'Password updated successfully');
 
 redirect('/login');
 
-redirect('/login');
-

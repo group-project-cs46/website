@@ -25,7 +25,7 @@
 
                         <button type="submit" class="button">Filter</button>
                         <a href="/students/advertisements" style="display: flex">
-                            <button type="button" class="button">Clear</button>
+                            <button class="button">Clear</button>
                         </a>
                     </form>
                 <?php endif; ?>
@@ -56,7 +56,7 @@
                                 </span>
                             </div>
                             <a href="/students/advertisements/show?id=<?= $item['id'] ?>">
-                                <button type="button" class="button">Apply</button>
+                                <button type="button" class="button">More</button>
                             </a>
                         </div>
 

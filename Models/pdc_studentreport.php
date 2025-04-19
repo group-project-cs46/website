@@ -35,7 +35,6 @@ public static function fetchById($id)
 }
 
 
-
     public static function delete($id)
     {
         $db = App::resolve(Database::class);

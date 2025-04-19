@@ -1,54 +1,101 @@
-<?php require base_path(path: 'views/partials/auth/auth.php') ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Complaints</title>
-    <link rel="stylesheet" href="/styles/pasindu/reportMain.css">
-</head>
-<body>
-    <!-- <div class="sidebar">
-        <div class="sidebar-item">
-            <i class="icon">⊞</i>
-        </div>
-        <div class="sidebar-item">
-            <i class="icon">👤</i>
-        </div>
-        <div class="sidebar-item">
-            <i class="icon">▲</i>
-        </div>
-        <div class="sidebar-item active">
-            <i class="icon">📝</i>
-        </div>
-        <div class="sidebar-item settings">
-            <i class="icon">⚙</i>
-        </div>
-    </div> -->
+<?php require base_path('views/partials/auth/auth.php'); ?>
 
-    <div class="main-content">
-        <div class="above">
-        <i class="fa-solid fa-file-invoice" style="font-size: 40px;"></i>
-        <h2><b>Manage Reports</b></h2></br>
+
+
+<link rel="stylesheet" href="/styles/pasindu/reportMain.css" />
+<div class=" mmm">
+    <main class="main-content">  
+        <header class="header">
+            <div class="above">
+                <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
+                <h2><b>Manage Reports</b></h2>
             </div>
+            <input type="text" placeholder="Search Complaints..." class="search-bar" id="searchInput" onkeyup="searchTable()">
+            
+        </header>
 
-        <div class="complaints-list">
-            <div class="complaint-item new">
-                <span class="title">New Report</span>
-                <div class="actions">
-                    <button class="btn-view"><a href="report">Create</a></button>
+        <section class="content">
+            <div class="table-title">
+                <div class="table-title-txt">
+                    <h3><b>Manage Reports</b></h3>
+                    <p>Manage Company Reports</p>
                 </div>
+                <button class="add-button" id="openFormButton"><a href="/report">Create New</a></button>
             </div>
+            
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                    <tr>
+                        <td>
+                            <strong>WSO2</strong><br>
+                            <small>2025-04-10</small><br>
+                        </td>
+                        <td class="actions">
+                            <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
+                            <a href="/reportView?id=example" class="view-button" >View</a>
 
-            <div class="complaint-item new">
-                <span class="title">Submitted Reports</span>
-                <div class="actions">
-                    <button class="btn-view"><a href="reportSubmitted">view</a></button>
-                </div>
-            </div>
-    </div>
+                            <form action="/complaintDisable" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="1">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>IFS</strong><br>
+                            <small>2025-04-15</small><br>
+                        </td>
+                        <td class="actions">
+                            <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
+                            <a href="/reportView?id=example" class="view-button" >View</a>
 
-    <script src="/scripts/pasindu/complaints.js"></script>
-</body>
-</html>
+                            <form action="/complaintDisable" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="1">
+                            </form>
+                        </td>
+                    </tr>
+
+                    <!-- <?php foreach ($PDC_data as $pdc): ?>
+                        <tr>
+                            <td><?= $pdc['employee_id'] ?></td>
+                            <td><?= $pdc['title'] ?></td>
+                            <td><?= $pdc['name'] ?></td>
+                            <td><?= $pdc['mobile'] ?></td>
+                            <td><?= $pdc['email'] ?></td>
+                            <td class="actions">
+                                <a href="/pdcEdit?id=<?= $pdc['id'] ?>" class="view-button">Edit</a>
+                                <form action="/pdcDeletion" method="post">
+                                    <input type="hidden" name="id" value="<?= $pdc['id'] ?>">
+                                    <button type="submit" class="disable-button">Disable</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?> --> 
+
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+    function searchTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("studentTableBody");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+            let rowText = rows[i].textContent.toLowerCase();
+            rows[i].style.display = rowText.includes(filter) ? "" : "none";
+        }
+    }
+</script>
+
+</div>
+
 <?php require base_path('views/partials/auth/auth-close.php') ?>

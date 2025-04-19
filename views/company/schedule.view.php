@@ -58,25 +58,27 @@
         </div>
 
         <!-- Modal for Adding Tech Talk Details -->
-        <div id="techTalkModal" class="modal">
+        <div id="techTalkModal" class="modal" >
             <div class="modal-content">
                 <span class="close" onclick="closeModal('techTalkModal')">&times;</span>
                 <h3>Tech Talk Details</h3>
-                <form id="techTalkForm">
+                <form id="techTalkForm" method="POST" action="/company_scedule/store">
                     <label for="techDate">Date:</label>
-                    <input type="text" id="techDate" readonly />
+                    <input  type="text" id="techDate" readonly />
+
+                    <input type="text" name ="techid" id="techid"  hidden/>
 
                     <label for="techTime">Time:</label>
                     <input type="text" id="techTime" readonly />
 
-                    <label for="constructorName">Constructor Name:</label>
-                    <input type="text" id="constructorName" placeholder="Enter Constructor Name" required />
+                    <label for="conductorName">Conductor Name:</label>
+                    <input  name ="conductorName" type="text" id="conductorName" placeholder="Enter Conductor Name" required />
 
-                    <label for="constructorEmail">Constructor Email:</label>
-                    <input type="email" id="constructorEmail" placeholder="Enter Constructor Email" required />
+                    <label for="conductorEmail">Conductor Email:</label>
+                    <input name ="conductorEmail" type="email" id="conductorEmail" placeholder="Enter Conductor Email" required />
 
                     <label for="description">Description:</label>
-                    <textarea id="description" placeholder="Enter Description" required></textarea>
+                    <textarea  name ="description" id="description" placeholder="Enter Description" required></textarea>
 
                     <button type="submit">Save</button>
                 </form>
@@ -102,11 +104,9 @@
     let currentYear = new Date().getFullYear(); // Start with current year
     let currentMonth = new Date().getMonth(); // Start with current month (0-indexed)
 
+    techtalks = <?php echo json_encode($techtalk); ?>;
     const events = {
-        'tech-talks': [
-            { date: '2024-11-12', time: '3:00 PM' },
-            { date: '2024-12-07', time: '10:00 AM' }
-        ],
+        'tech-talks': techtalks,
         'company-visits': [
             { date: '2024-11-07', time: '2:00 PM', lecturer_name: 'John', email: 'John1234@gmail.com' },
             { date: '2024-11-14', time: '4:00 PM', lecturer_name: 'Nimal', email: 'Nimal1234@gmail.com' }
@@ -176,8 +176,8 @@
             const event = events.find(e => e.date === dateStr);
             if (event) {
                 dayCell.classList.add('highlight');
-                if (containerId === 'tech-talks-calendar') {
-                    dayCell.onclick = () => openTechTalkModal(event.date, event.time);
+                if (containerId === 'tech-talks-calendar'){
+                    dayCell.onclick = () => openTechTalkModal(event.date, event.time,event.id,event.conductor_email,event.conductor_email,event.description);
                 } else if (containerId === 'company-visits-calendar') {
                     dayCell.onclick = () =>
                         openCompanyVisitModal(event.date, event.time, event.lecturer_name, event.email, dayCell);
@@ -221,9 +221,14 @@
         }
     }
 
-    function openTechTalkModal(date, time) {
+    function openTechTalkModal(date, time,id,conductor_name,conductor_email,description) {
+
         document.getElementById('techDate').value = date;
         document.getElementById('techTime').value = time;
+        document.getElementById('techid').value = id;
+        document.getElementById('conductorName').value = (conductor_name !== null && conductor_name !== undefined && conductor_name !== 'NULL') ? conductor_name : '';
+        document.getElementById('conductorEmail').value = (conductor_email !== null && conductor_email !== undefined && conductor_email !== 'NULL') ? conductor_email : '';
+        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description  : '';
         document.getElementById('techTalkModal').style.display = 'flex';
     }
 
@@ -249,17 +254,7 @@
         alert('Company Visit Approved!');
     }
 
-    document.getElementById('techTalkForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const constructorName = document.getElementById('constructorName').value;
-        const constructorEmail = document.getElementById('constructorEmail').value;
-        const description = document.getElementById('description').value;
-        alert(`Tech Talk Details Saved:
-        Constructor Name: ${constructorName}
-        Constructor Email: ${constructorEmail}
-        Description: ${description}`);
-        closeModal('techTalkModal');
-    });
+    
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
