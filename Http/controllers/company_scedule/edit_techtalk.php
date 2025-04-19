@@ -6,14 +6,13 @@ use Core\Validator;
 // Check if form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
-    $techtalkSlotId = $_POST['techid'] ?? null;
+    $techtalkId = $_POST['techtalk_id'] ?? null;
     $hostName = $_POST['hostName'] ?? null;
     $hostEmail = $_POST['hostEmail'] ?? null;
     $description = $_POST['description'] ?? null;
-    $companyId = auth_user()['id'];  // Assuming the logged-in user has a company ID
 
     // Validate the required fields
-    if (empty($techtalkSlotId) || empty($hostName) || empty($hostEmail) || empty($description)) {
+    if (empty($techtalkId) || empty($hostName) || empty($hostEmail) || empty($description)) {
         $_SESSION['error'] = 'All fields are required';
         header('Location: /company/schedule');
         exit();
@@ -26,14 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Insert host details into techtalks table
+    // Update host details in the techtalks table
     try {
-        companyTechtalk::insertHostDetails($techtalkSlotId, $companyId, $hostName, $hostEmail, $description);
-        $_SESSION['success'] = 'Tech talk details saved successfully';
+        companyTechtalk::updateHostDetails($techtalkId, $hostName, $hostEmail, $description);
+        $_SESSION['success'] = 'Tech talk details updated successfully';
         header('Location: /company/schedule');
         exit();
     } catch (Exception $e) {
-        $_SESSION['error'] = 'Failed to add host details';
+        $_SESSION['error'] = 'Failed to update host details';
         header('Location: /company/schedule');
         exit();
     }
