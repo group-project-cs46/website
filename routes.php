@@ -99,7 +99,8 @@ $router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');
 $router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
 $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
-
+$router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
+$router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
