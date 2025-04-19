@@ -86,6 +86,7 @@
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message"></p>
+
         </div>
     </div>
 

@@ -75,24 +75,24 @@
         </div>
     </header>
     <div class="stats">
-    <a href="/PDC/ManageCompany">
+    <a href="/pdcManage" style="text-decoration: none; color: inherit;">
       <div class="stat">
-        <h2>15</h2>
-        <p>Companies Registered</p>
+        <h2>10</h2>
+        <p>Registered PDC Accounts</p>
       </div>
-    </a>
-    <a href="/company/appliedStudent">
-      <div class="stat">
-        <h2>320</h2>
-        <p>Applied students</p>
-      </div>
-    </a>
-    <a href="/PDC/Advertisements">
+      </a>
+      <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
       <div class="stat">
         <h2>20</h2>
-        <p>Advertisments</p>
+        <p>Registered Lecturer Accounts</p>
       </div>
-    </a>
+      </a>
+      <a href="/eventStudentsManage" style="text-decoration: none; color: inherit;">
+      <div class="stat">
+        <h2>200</h2>
+        <p>Registered Students(events)</p>
+      </div>
+      </a>
     </div>
     <div class="charts">
       <div class="chart-container">

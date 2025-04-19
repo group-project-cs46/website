@@ -1,13 +1,15 @@
 <?php
 
-use Models\AddPdc;
+use Models\AddLecturer;
 
 $id = $_POST['id'];
 
 try {
-    AddPdc::delete($id);
+    AddLecturer::delete($id);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
 
 redirect('/lecturerManage');
+
+

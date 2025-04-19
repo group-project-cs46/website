@@ -35,6 +35,23 @@ class Application
         return $db->query('SELECT * FROM applications WHERE student_id = ? AND ad_id = ?', [$student_id, $ad_id])->find();
     }
 
+    public static function isSelectedByStudentId($student_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM applications WHERE student_id = ? AND selected = TRUE', [$student_id])->get();
+    }
+
+    public static function selectedCompanyByStudentId($student_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT companies.* FROM applications
+         LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+         LEFT JOIN companies ON advertisements.company_id = companies.id
+         WHERE student_id = ? AND selected = TRUE', [$student_id])->find();
+    }
+
     public static function getByStudentIdWithDetails($student_id)
     {
         $db = App::resolve(Database::class);
@@ -43,12 +60,21 @@ class Application
             SELECT 
                 applications.id, 
                 advertisements.job_role,
-                users.name
+                users.name,
+                interviews.date AS interview_date,
+                interviews.start_time AS interview_start_time,
+                interviews.end_time AS interview_end_time,
+                selected,
+                failed,
+                cvs.original_name AS cv_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
             LEFT JOIN companies ON advertisements.company_id = companies.id
             LEFT JOIN users ON companies.id = users.id
-            WHERE student_id = ?', [$student_id])->get();
+            LEFT JOIN interviews ON applications.interview_id = interviews.id
+            LEFT JOIN cvs ON applications.cv_id = cvs.id
+            WHERE applications.student_id = ?
+        ', [$student_id])->get();
     }
 
     public static function updateCvId($id, $cv_id)
@@ -76,10 +102,22 @@ class Application
         ]);
     }
 
+    public static function createWithIsSecondRound($student_id, $cv_id, $ad_id, $is_second_round)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('INSERT INTO applications (student_id, cv_id, ad_id, is_second_round) VALUES (?, ?, ?, ?)', [
+            $student_id,
+            $cv_id,
+            $ad_id,
+            $is_second_round
+        ]);
+    }
+
     public static function delete($id)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('DELETE FROM applications WHERE id = ?', [$id]);
+        return $db->query('DELETE FROM applications WHERE id = ?', [$id])->get();
     }
 }

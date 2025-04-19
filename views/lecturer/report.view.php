@@ -1,54 +1,58 @@
-<?php require base_path(path: 'views/partials/auth/auth.php') ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Report</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
-    <link rel="stylesheet" href="/styles/pasindu/report.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<?php require base_path('views/partials/auth/auth.php'); ?>
 
-</head>
-<body>
-    <div class="container">
-        <div class="report-container">
-            <h1>Company Report</h1>
+<link rel="stylesheet" href="/styles/pasindu/report.css" />
 
-            <div class="form-group">
-                <label for="companyName">Company Name:</label>
-                <input type="text" id="companyName" placeholder="Enter company name" required>
+<div class="mmm">
+    <main class="main-content">
+        <header class="header">
+            <div class="above">
+                <i class="fa-solid fa-file-lines" style="font-size: 40px;"></i>
+                <h2><b>Create Report</b></h2>
+            </div>
+        </header>
+
+        <section class="content">
+            <div class="table-title">
+                <div class="table-title-txt">
+                    <h3><b>Create Company Report</b></h3>
+                    <p>Fill out the report details below</p>
+                </div>
+                <button class="add-button"><a href="/reportMain">Back</a></button>
             </div>
 
-            <div class="form-group">
-                <label for="companyID">Company ID No:</label>
-                <input type="text" id="companyID" placeholder="Enter company ID" required>
-            </div>
+            <form class="report-form" method="post" action="/reportStore" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="companyName">Company Name</label>
+                    <input type="text" id="companyName" name="companyName" placeholder="Enter company name" required>
+                </div>
 
-            <div class="form-group">
-                <label for="internStudents">Intern Students:</label>
-                <input type="text" id="internStudents" placeholder="Enter number of intern students" required>
-            </div>
+                <div class="form-group">
+                    <label for="companyID">Company ID No</label>
+                    <input type="text" id="companyID" name="companyID" placeholder="Enter company ID" required>
+                </div>
 
-           
+                <div class="form-group">
+                    <label for="internStudents">Intern Students</label>
+                    <input type="number" id="internStudents" name="internStudents" placeholder="Enter number of intern students" required>
+                </div>
 
-            <div class="form-group">
-                <label for="note">Note:</label>
-                <textarea id="note" placeholder="Enter any additional notes" required></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea id="note" name="note" placeholder="Enter any additional notes" required></textarea>
+                </div>
 
-            <div class="form-group">
-                <label for="imageUpload">Upload FIle </label>
-                <input type="file" id="imageUpload" accept="image/*">
-            </div>
-            <div class="pagination">
-            <button id="submitButton" class="submit-button"><a href="/reportMain">Close</button>
-            <button id="submitButton" class="submit-button">Submit</button>
-            </div>
-        </div>
-    </div>
+                <div class="form-group">
+                    <label for="imageUpload">Upload File</label>
+                    <input type="file" id="imageUpload" name="imageUpload" accept="image/*">
+                </div>
 
-    <script src="/scripts/pasindu/report.js"></script>
-</body>
-</html>
+                <div class="form-buttons">
+                    <button type="button" class="disable-button" onclick="window.location='/reportMain'">Close</button>
+                    <button type="submit" class="enable-button">Submit</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</div>
+
 <?php require base_path('views/partials/auth/auth-close.php') ?>
