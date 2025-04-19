@@ -8,16 +8,7 @@
             <div class="above-left">
             <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
                 <h2>Ads</h2>
-            </div>
-            <div class="above-right">
-                <div class="company-info">
-                    <i class="fa-regular fa-building" style="font-size: 40px;"></i>
-                    <div class="company-name">Creative<br>Software</div>
-                </div>
-                <div>
-                    <i class="fa-solid fa-bell" style="font-size: 40px;"></i>
-                </div>
-            </div>
+            </div> 
         </div>
     </header>
 
