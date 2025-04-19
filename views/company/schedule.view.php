@@ -29,78 +29,99 @@
 
         <div id="techTalksSection" class="calendar-section active">
             <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">←</button>
                 <h2 id="calendarHeader" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">→</button>
             </div>
 
             <div id="tech-talks-calendar" class="calendar-container"></div>
         </div>
 
         <div id="companyVisitsSection" class="calendar-section">
-            <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
-                <h2 id="calendarHeaderCompanyVisits" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+            <div class="visit-list-container">
+                <table class="visit-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Lecturer Name</th>
+                            <th>Lecturer's Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="company-visits-list"></tbody>
+                </table>
             </div>
-            <div id="company-visits-calendar" class="calendar-container"></div>
         </div>
 
-        <!-- Modal for Adding Tech Talk Details -->
-        <div id="techTalkModal" class="modal" >
+        <!-- Modal for Adding/Editing Tech Talk Details -->
+        <div id="techTalkModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('techTalkModal')">&times;</span>
+                <span class="close" onclick="closeModal('techTalkModal')">×</span>
                 <h3>Tech Talk Details</h3>
                 <form id="techTalkForm" method="POST" action="/company_scedule/store">
                     <label for="techDate">Date:</label>
-                    <input  type="text" id="techDate" readonly />
+                    <input type="text" id="techDate" readonly />
 
-                    <input type="text" name ="techid" id="techid"  hidden/>
+                    <input type="text" name="techid" id="techid" hidden />
+                    <input type="text" name="techtalk_id" id="techtalk_id" hidden />
 
                     <label for="techTime">Time:</label>
                     <input type="text" id="techTime" readonly />
 
-                    <label for="conductorName">Conductor Name:</label>
-                    <input  name ="conductorName" type="text" id="conductorName" placeholder="Enter Conductor Name" required />
+                    <label for="techVenue">Venue:</label>
+                    <input type="text" id="techVenue" readonly />
 
-                    <label for="conductorEmail">Conductor Email:</label>
-                    <input name ="conductorEmail" type="email" id="conductorEmail" placeholder="Enter Conductor Email" required />
+                    <label for="hostName">Resource person Name:</label>
+                    <input name="hostName" type="text" id="hostName" placeholder="Enter Resource person Name" required />
 
-                    <label for="description">Description:</label>
-                    <textarea  name ="description" id="description" placeholder="Enter Description" required></textarea>
+                    <label for="hostEmail">Resource person's Email Address:</label>
+                    <input name="hostEmail" type="email" id="hostEmail" placeholder="Enter Resource person's Email" required />
 
-                    <button type="submit">Save</button>
+                    <label for="description">Description about the topic:</label>
+                    <textarea name="description" id="description" placeholder="Enter Description" required></textarea>
+
+                    <!-- Conditionally show Save or Edit/Delete buttons -->
+                    <div id="actionButtons">
+                        <button type="submit" id="saveButton">Save</button>
+                    </div>
                 </form>
-            </div>
-        </div>
-
-        <!-- Modal for Approving Company Visit -->
-        <div id="companyVisitModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('companyVisitModal')">&times;</span>
-                <h3>Company Visit Details</h3>
-                <p><strong>Date:</strong> <span id="visitDate"></span></p>
-                <p><strong>Time:</strong> <span id="visitTime"></span></p>
-                <p><strong>Lecturer Name:</strong> <span id="lecturerName"></span></p>
-                <p><strong>Email:</strong> <span id="lecturerEmail"></span></p>
-                <button id="approveButton" onclick="approveVisit()">Approve</button>
             </div>
         </div>
     </section>
 </main>
 
 <script>
-    let currentYear = new Date().getFullYear(); // Start with current year
-    let currentMonth = new Date().getMonth(); // Start with current month (0-indexed)
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
 
     techtalks = <?php echo json_encode($techtalk); ?>;
     const events = {
         'tech-talks': techtalks,
-        'company-visits': [
-            { date: '2024-11-07', time: '2:00 PM', lecturer_name: 'John', email: 'John1234@gmail.com' },
-            { date: '2024-11-14', time: '4:00 PM', lecturer_name: 'Nimal', email: 'Nimal1234@gmail.com' }
+        'company-visits': [{
+                date: '2024-11-07',
+                time: '2:00 PM',
+                lecturer_name: 'John',
+                email: 'John1234@gmail.com'
+            },
+            {
+                date: '2024-11-14',
+                time: '4:00 PM',
+                lecturer_name: 'Nimal',
+                email: 'Nimal1234@gmail.com'
+            }
         ]
     };
+
+    // Check for success or error message and display as a browser alert
+    <?php if (isset($_SESSION['success'])): ?>
+        alert('<?php echo $_SESSION['success']; unset($_SESSION['success']); ?>');
+        sessionStorage.setItem('savedTechTalkDate', '<?php echo isset($_SESSION['savedDate']) ? $_SESSION['savedDate'] : ''; unset($_SESSION['savedDate']); ?>');
+        sessionStorage.setItem('techTalkSaved', 'true');
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        alert('<?php echo $_SESSION['error']; unset($_SESSION['error']); ?>');
+    <?php endif; ?>
 
     function changeMonth(direction) {
         currentMonth += direction;
@@ -114,20 +135,16 @@
         }
 
         updateCalendarHeader('tech-talks');
-        updateCalendarHeader('company-visits');
         initializeCalendar('tech-talks');
-        initializeCalendar('company-visits');
     }
 
     function updateCalendarHeader(section) {
-        const headerElement = section === 'tech-talks'
-            ? document.getElementById('calendarHeader')
-            : document.getElementById('calendarHeaderCompanyVisits');
+        const headerElement = document.getElementById('calendarHeader');
         headerElement.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
     }
 
     function initializeCalendar(section) {
-        const containerId = section === 'tech-talks' ? 'tech-talks-calendar' : 'company-visits-calendar';
+        const containerId = 'tech-talks-calendar';
         const eventList = events[section];
         createCalendar(containerId, eventList, currentYear, currentMonth);
     }
@@ -151,6 +168,9 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
         for (let i = 0; i < firstDay; i++) {
             const emptyCell = document.createElement('div');
             calendarGrid.appendChild(emptyCell);
@@ -162,15 +182,35 @@
             dayCell.className = 'day-box';
             dayCell.textContent = day;
 
+            const cellDate = new Date(year, month, day);
+            cellDate.setHours(0, 0, 0, 0);
+
+            const isPastDate = cellDate < today;
+
             const event = events.find(e => e.date === dateStr);
             if (event) {
-                dayCell.classList.add('highlight');
-                if (containerId === 'tech-talks-calendar'){
-                    dayCell.onclick = () => openTechTalkModal(event.date, event.time,event.id,event.conductor_email,event.conductor_email,event.description);
-                } else if (containerId === 'company-visits-calendar') {
-                    dayCell.onclick = () =>
-                        openCompanyVisitModal(event.date, event.time, event.lecturer_name, event.email, dayCell);
+                const savedDate = sessionStorage.getItem('savedTechTalkDate');
+                if (isPastDate) {
+                    dayCell.classList.add('past');
+                } else if (savedDate === dateStr || (event.host_name && event.host_email && event.description)) {
+                    dayCell.classList.add('saved');
+                } else {
+                    dayCell.classList.add('highlight');
                 }
+
+                const hasTechTalk = event.host_name && event.host_email && event.description;
+                dayCell.onclick = () => {
+                    if (isPastDate && !hasTechTalk) {
+                        alert('This date is in the past and cannot be scheduled for a new tech talk.');
+                    } else {
+                        openTechTalkModal(event.date, event.time, event.slot_id, event.host_name, event.host_email, event.description, event.venue, event.techtalk_id, isPastDate);
+                    }
+                };
+            } else if (isPastDate) {
+                dayCell.style.cursor = 'not-allowed';
+                dayCell.onclick = () => {
+                    alert('This date is in the past and cannot be scheduled for a new tech talk.');
+                };
             }
 
             calendarGrid.appendChild(dayCell);
@@ -179,12 +219,50 @@
         container.appendChild(calendarGrid);
     }
 
+    function initializeCompanyVisitsList() {
+        const visitList = document.getElementById('company-visits-list');
+        visitList.innerHTML = '';
+
+        const companyVisits = events['company-visits'];
+        companyVisits.forEach((visit, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${visit.date}</td>
+                <td>${visit.time}</td>
+                <td>${visit.lecturer_name}</td>
+                <td>${visit.email}</td>
+                <td>
+                    <button class="approve-button" onclick="openCompanyVisitModal('${visit.date}', '${visit.time}', '${visit.lecturer_name}', '${visit.email}', this.parentElement.parentElement, false)">Approve</button>
+                </td>
+            `;
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const visitDate = new Date(visit.date);
+            if (visitDate < today) {
+                row.classList.add('past');
+                const approveButton = row.querySelector('.approve-button');
+                approveButton.disabled = true;
+                approveButton.style.cursor = 'not-allowed';
+                approveButton.style.backgroundColor = '#ccc';
+            }
+
+            visitList.appendChild(row);
+        });
+    }
+
     window.onload = () => {
         updateCalendarHeader('tech-talks');
-        updateCalendarHeader('company-visits');
         initializeCalendar('tech-talks');
-        initializeCalendar('company-visits');
+        initializeCompanyVisitsList();
         toggleSchedule('tech-talks');
+
+        if (sessionStorage.getItem('techTalkSaved') === 'true') {
+            const saveButton = document.getElementById('saveButton');
+            if (saveButton) {
+                saveButton.classList.add('saved');
+            }
+        }
     };
 
     function toggleSchedule(section) {
@@ -210,23 +288,84 @@
         }
     }
 
-    function openTechTalkModal(date, time,id,conductor_name,conductor_email,description) {
-
+    function openTechTalkModal(date, time, slot_id, host_name, host_email, description, venue, techtalk_id, isPast) {
+        console.log('Opening modal with slot_id:', slot_id);
         document.getElementById('techDate').value = date;
         document.getElementById('techTime').value = time;
-        document.getElementById('techid').value = id;
-        document.getElementById('conductorName').value = (conductor_name !== null && conductor_name !== undefined && conductor_name !== 'NULL') ? conductor_name : '';
-        document.getElementById('conductorEmail').value = (conductor_email !== null && conductor_email !== undefined && conductor_email !== 'NULL') ? conductor_email : '';
-        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description  : '';
+        document.getElementById('techid').value = slot_id;
+        document.getElementById('techtalk_id').value = techtalk_id || '';
+        document.getElementById('hostName').value = (host_name !== null && host_name !== undefined && host_name !== 'NULL') ? host_name : '';
+        document.getElementById('hostEmail').value = (host_email !== null && host_email !== undefined && host_email !== 'NULL') ? host_email : '';
+        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description : '';
+        document.getElementById('techVenue').value = (venue !== null && venue !== undefined && venue !== 'NULL') ? venue : '';
+
+        const hostNameInput = document.getElementById('hostName');
+        const hostEmailInput = document.getElementById('hostEmail');
+        const descriptionInput = document.getElementById('description');
+
+        if (isPast) {
+            hostNameInput.setAttribute('readonly', 'readonly');
+            hostEmailInput.setAttribute('readonly', 'readonly');
+            descriptionInput.setAttribute('readonly', 'readonly');
+        } else {
+            hostNameInput.removeAttribute('readonly');
+            hostEmailInput.removeAttribute('readonly');
+            descriptionInput.removeAttribute('readonly');
+        }
+
+        const hasData = host_name && host_email && description;
+        const actionButtons = document.getElementById('actionButtons');
+        actionButtons.innerHTML = '';
+
+        if (isPast) {
+            actionButtons.innerHTML = '';
+        } else if (hasData) {
+            actionButtons.innerHTML = `
+            <button type="button" id="editButton" onclick="editTechTalk()">Edit</button>
+            <button type="button" id="deleteButton" onclick="deleteTechTalk()">Delete</button>
+        `;
+        } else {
+            actionButtons.innerHTML = `<button type="submit" id="saveButton">Save</button>`;
+            if (sessionStorage.getItem('techTalkSaved') === 'true') {
+                const saveButton = document.getElementById('saveButton');
+                saveButton.classList.add('saved');
+            }
+        }
+
         document.getElementById('techTalkModal').style.display = 'flex';
+        sessionStorage.setItem('currentTechTalkDate', date);
     }
 
-    function openCompanyVisitModal(date, time, lecturerName, email, dateElement) {
+    function editTechTalk() {
+        const form = document.getElementById('techTalkForm');
+        form.action = '/company_scedule/edit';
+        form.submit();
+    }
+
+    function deleteTechTalk() {
+        if (confirm('Are you sure you want to delete this tech talk?')) {
+            const form = document.getElementById('techTalkForm');
+            form.action = '/company_scedule/delete';
+            form.submit();
+        }
+    }
+
+    let lastClickedRow;
+
+    function openCompanyVisitModal(date, time, lecturerName, email, rowElement, isPast) {
         document.getElementById('visitDate').textContent = date;
         document.getElementById('visitTime').textContent = time;
         document.getElementById('lecturerName').textContent = lecturerName;
         document.getElementById('lecturerEmail').textContent = email;
-        lastClickedDateElement = dateElement;
+        lastClickedRow = rowElement;
+
+        const approveButton = document.getElementById('approveButton');
+        if (isPast) {
+            approveButton.style.display = 'none';
+        } else {
+            approveButton.style.display = 'block';
+        }
+
         document.getElementById('companyVisitModal').style.display = 'flex';
     }
 
@@ -235,15 +374,24 @@
     }
 
     function approveVisit() {
-        if (lastClickedDateElement) {
-            lastClickedDateElement.style.backgroundColor = 'green';
-            lastClickedDateElement.style.color = 'white';
-        }
-        closeModal('companyVisitModal');
-        alert('Company Visit Approved!');
-    }
+        if (lastClickedRow) {
+            const dateStr = document.getElementById('visitDate').textContent;
+            const visitDate = new Date(dateStr);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (visitDate < today) {
+                alert('Cannot approve a past company visit.');
+                return;
+            }
 
-    
+            const approveButton = lastClickedRow.querySelector('.approve-button');
+            approveButton.textContent = 'Approved';
+            approveButton.disabled = true;
+            approveButton.classList.add('approved');
+            closeModal('companyVisitModal');
+            alert('Company Visit Approved!');
+        }
+    }
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

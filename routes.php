@@ -101,6 +101,10 @@ $router->post('/company_complaint/delete', 'company_complaint/delete.php')->only
 
 
 $router->post('/company_scedule/store', 'company_scedule/store_techtalk.php');
+$router->post('/company_scedule/edit', 'company_scedule/edit_techtalk.php');
+$router->post('/company_scedule/delete', 'company_scedule/delete_techtalk.php');
+
+
 $router->post('/company_report/store', 'company_report/store.php');
 
 $router->post('/company_student/shortlisted', 'company_student/store_shortlisted.php');
