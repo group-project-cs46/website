@@ -37,7 +37,7 @@
             <div id="tech-talks-calendar" class="calendar-container"></div>
         </div>
 
-        <div id="companyVisitsSection" class="calendar-section">
+        <div id="companyVisitsSection" class="companyVisitsSection">
             <div class="visit-list-container">
                 <table class="visit-table">
                     <thead>
@@ -88,6 +88,19 @@
                 </form>
             </div>
         </div>
+
+        <!-- Modal for Approving Company Visit -->
+        <div id="companyVisitModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('companyVisitModal')">×</span>
+                <h3>Company Visit Details</h3>
+                <p><strong>Date:</strong> <span id="visitDate"></span></p>
+                <p><strong>Time:</strong> <span id="visitTime"></span></p>
+                <p><strong>Lecturer Name:</strong> <span id="lecturerName"></span></p>
+                <p><strong>Email:</strong> <span id="lecturerEmail"></span></p>
+                <button id="approveButton" onclick="approveVisit()">Approve</button>
+            </div>
+        </div>
     </section>
 </main>
 
@@ -105,7 +118,7 @@
                 email: 'John1234@gmail.com'
             },
             {
-                date: '2024-11-14',
+                date: '2025-04-24',
                 time: '4:00 PM',
                 lecturer_name: 'Nimal',
                 email: 'Nimal1234@gmail.com'
@@ -244,7 +257,6 @@
                 const approveButton = row.querySelector('.approve-button');
                 approveButton.disabled = true;
                 approveButton.style.cursor = 'not-allowed';
-                approveButton.style.backgroundColor = '#ccc';
             }
 
             visitList.appendChild(row);
