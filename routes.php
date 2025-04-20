@@ -62,6 +62,11 @@ $router->delete('/students/internship_reports/delete', 'students/internship_repo
 
 $router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
 
+$router->get('/students/complaints', 'students/complaints/index.php')->only('student');
+$router->post('/students/complaints', 'students/complaints/store.php')->only('student');
+$router->delete('/students/complaints', 'students/complaints/destroy.php')->only('student');
+$router->get('/students/complaints/show', 'students/complaints/show.php')->only('student');
+
 
 // Admin by thathsara
 

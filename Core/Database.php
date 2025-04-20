@@ -51,7 +51,6 @@ class Database
             $this->statement->execute($params);
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'server closed the connection') !== false) {
-                dd('reconnect');
                 $this->connect(); // reconnect
                 $this->statement = $this->connection->prepare($query);
                 $this->statement->execute($params);
