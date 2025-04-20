@@ -59,7 +59,7 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal('techTalkModal')">×</span>
                 <h3>Tech Talk Details</h3>
-                <form id="techTalkForm" method="POST" action="/company_scedule/store">
+                <form id="techTalkForm" method="POST" action="/company_schedule/store">
                     <label for="techDate">Date:</label>
                     <input type="text" id="techDate" readonly />
 
@@ -88,19 +88,6 @@
                 </form>
             </div>
         </div>
-
-        <!-- Modal for Approving Company Visit -->
-        <div id="companyVisitModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('companyVisitModal')">×</span>
-                <h3>Company Visit Details</h3>
-                <p><strong>Date:</strong> <span id="visitDate"></span></p>
-                <p><strong>Time:</strong> <span id="visitTime"></span></p>
-                <p><strong>Lecturer Name:</strong> <span id="lecturerName"></span></p>
-                <p><strong>Email:</strong> <span id="lecturerEmail"></span></p>
-                <button id="approveButton" onclick="approveVisit()">Approve</button>
-            </div>
-        </div>
     </section>
 </main>
 
@@ -111,19 +98,21 @@
     techtalks = <?php echo json_encode($techtalk); ?>;
     const events = {
         'tech-talks': techtalks,
-        'company-visits': [{
-                date: '2024-11-07',
-                time: '2:00 PM',
-                lecturer_name: 'John',
-                email: 'John1234@gmail.com'
-            },
-            {
-                date: '2025-04-24',
-                time: '4:00 PM',
-                lecturer_name: 'Nimal',
-                email: 'Nimal1234@gmail.com'
-            }
-        ]
+        'company-visits': <?php 
+            use Models\CompanyLecturerVisit;
+            $visits = CompanyLecturerVisit::fetchAll();
+            $formattedVisits = array_map(function($visit) {
+                return [
+                    'id' => $visit['id'],
+                    'date' => $visit['date'],
+                    'time' => $visit['time'],
+                    'lecturer_name' => $visit['lecturer_title'] . '.' . $visit['lecturer_name'],
+                    'email' => $visit['lecturer_email'],
+                    'status' => $visit['status']
+                ];
+            }, $visits);
+            echo json_encode($formattedVisits);
+        ?>
     };
 
     // Check for success or error message and display as a browser alert
@@ -239,28 +228,76 @@
         const companyVisits = events['company-visits'];
         companyVisits.forEach((visit, index) => {
             const row = document.createElement('tr');
+            // Normalize status: Handle 't', true, 'true', or 1 as true, else false
+            const status = ['t', true, 'true', '1', 1].includes(visit.status) ? true : false;
+
+            // Check if the date is in the past
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const visitDate = new Date(visit.date);
+            const isPastDate = visitDate < today;
+
             row.innerHTML = `
                 <td>${visit.date}</td>
                 <td>${visit.time}</td>
                 <td>${visit.lecturer_name}</td>
                 <td>${visit.email}</td>
                 <td>
-                    <button class="approve-button" onclick="openCompanyVisitModal('${visit.date}', '${visit.time}', '${visit.lecturer_name}', '${visit.email}', this.parentElement.parentElement, false)">Approve</button>
+                    ${status === true ? 
+                        '<button class="approve-button approved" disabled>Approved</button>' : 
+                        `<form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}">
+                            <input type="hidden" name="visit_id" value="${visit.id}">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="button" class="approve-button" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
+                        </form>`
+                    }
                 </td>
             `;
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const visitDate = new Date(visit.date);
-            if (visitDate < today) {
+            if (isPastDate) {
                 row.classList.add('past');
                 const approveButton = row.querySelector('.approve-button');
-                approveButton.disabled = true;
-                approveButton.style.cursor = 'not-allowed';
+                if (approveButton && !status) { // Only disable if not approved
+                    approveButton.disabled = true;
+                    approveButton.style.cursor = 'not-allowed';
+                }
             }
 
             visitList.appendChild(row);
         });
+    }
+
+    function confirmApproval(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be approved.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to approve this visit?')) {
+            const form = document.getElementById(`approveForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/store_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit approved successfully');
+                    const button = form.querySelector('.approve-button');
+                    button.textContent = 'Approved';
+                    button.classList.add('approved');
+                    button.disabled = true;
+                } else {
+                    alert('Failed to approve visit: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while approving the visit.');
+            });
+        }
     }
 
     window.onload = () => {
@@ -350,59 +387,22 @@
 
     function editTechTalk() {
         const form = document.getElementById('techTalkForm');
-        form.action = '/company_scedule/edit';
+        form.action = '/company_schedule/edit';
         form.submit();
     }
 
     function deleteTechTalk() {
         if (confirm('Are you sure you want to delete this tech talk?')) {
             const form = document.getElementById('techTalkForm');
-            form.action = '/company_scedule/delete';
+            form.action = '/company_schedule/delete';
             form.submit();
         }
     }
 
     let lastClickedRow;
 
-    function openCompanyVisitModal(date, time, lecturerName, email, rowElement, isPast) {
-        document.getElementById('visitDate').textContent = date;
-        document.getElementById('visitTime').textContent = time;
-        document.getElementById('lecturerName').textContent = lecturerName;
-        document.getElementById('lecturerEmail').textContent = email;
-        lastClickedRow = rowElement;
-
-        const approveButton = document.getElementById('approveButton');
-        if (isPast) {
-            approveButton.style.display = 'none';
-        } else {
-            approveButton.style.display = 'block';
-        }
-
-        document.getElementById('companyVisitModal').style.display = 'flex';
-    }
-
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
-    }
-
-    function approveVisit() {
-        if (lastClickedRow) {
-            const dateStr = document.getElementById('visitDate').textContent;
-            const visitDate = new Date(dateStr);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (visitDate < today) {
-                alert('Cannot approve a past company visit.');
-                return;
-            }
-
-            const approveButton = lastClickedRow.querySelector('.approve-button');
-            approveButton.textContent = 'Approved';
-            approveButton.disabled = true;
-            approveButton.classList.add('approved');
-            closeModal('companyVisitModal');
-            alert('Company Visit Approved!');
-        }
     }
 </script>
 

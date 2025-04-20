@@ -1,9 +1,12 @@
+/* Reset default margins and paddings */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  background-color: #f9fafb;
 }
 
+/* Header and Layout */
 .above {
   display: flex;
   justify-content: space-between;
@@ -60,13 +63,14 @@ body {
 }
 
 .content {
-  background-color: white;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 85%;
 }
 
+/* Schedule Tabs */
 .schedule-title {
   display: flex;
   align-items: center;
@@ -75,8 +79,8 @@ body {
 }
 
 .schedule-title .active {
-  background-color: black;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
   padding: 8px 13px;
 }
 
@@ -86,7 +90,7 @@ body {
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #333;
+  color: #333333;
   transition: color 0.1s ease, background-color 0.1s ease;
   margin-left: 10px;
 }
@@ -94,7 +98,7 @@ body {
 .schedule-system-txt:hover,
 .schedule-student-txt:hover {
   background-color: #f4f4f4;
-  color: rgb(34, 21, 135);
+  color: #221587; /* rgb(34, 21, 135) */
 }
 
 .schedule-system-txt h3,
@@ -106,14 +110,14 @@ body {
 .schedule-system-txt p,
 .schedule-student-txt p {
   margin: 0;
-  color: #777;
+  color: #777777;
   font-size: 14px;
 }
 
 .divider {
   height: 40px;
   width: 2px;
-  background-color: #ddd;
+  background-color: #dddddd;
   margin: 0;
 }
 
@@ -146,32 +150,32 @@ body {
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
-      transform: translateY(10px);
+    opacity: 0;
+    transform: translateY(10px);
   }
   to {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes fadeOut {
   from {
-      opacity: 1;
-      transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
   }
   to {
-      opacity: 0;
-      transform: translateY(10px);
+    opacity: 0;
+    transform: translateY(10px);
   }
 }
 
 .calendar-container {
   text-align: center;
-  background-color: white;
+  background-color: #ffffff;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: auto;
 }
 
@@ -185,7 +189,7 @@ body {
 
 .nav-button {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -217,7 +221,7 @@ body {
 
 .day-box {
   padding: 15px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -225,33 +229,33 @@ body {
 
 .day-box.highlight {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
 }
 
 .day-box.saved {
   background-color: #28a745;
-  color: white;
+  color: #ffffff;
 }
 
 .day-box:hover {
   background-color: #0056b3;
-  color: white;
+  color: #ffffff;
 }
 
 .day-box.saved:hover {
   background-color: #218838;
-  color: white;
+  color: #ffffff;
 }
 
 .day-box.past {
   background-color: #ff0000;
-  color: white;
+  color: #ffffff;
   cursor: not-allowed;
 }
 
 .day-box.past:hover {
   background-color: #cc0000;
-  color: white;
+  color: #ffffff;
 }
 
 /* Company Visits List */
@@ -263,8 +267,8 @@ body {
 .visit-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -278,14 +282,15 @@ body {
 }
 
 .visit-table th {
-  background-color: white;
+  background-color: #f9fafb;
   font-weight: 600;
+  padding: 20px;
   font-size: 16px;
-  color: black;
+  color: #000000;
 }
 
 .visit-table td {
-  color: black;
+  color: #000000;
 }
 
 .visit-table tr.past {
@@ -299,7 +304,7 @@ body {
 /* Approve Button for Company Visits */
 .approve-button {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 8px 16px;
   border-radius: 5px;
@@ -314,18 +319,28 @@ body {
 }
 
 .approve-button.approved {
-  background-color: #28a745;
+  background-color: #28a745; /* Green color for Approved state */
   cursor: not-allowed;
 }
 
 .approve-button.approved:hover {
-  background-color: #22c55e;
+  background-color: #22c55e; /* Lighter green on hover */
 }
 
+/* Ensure approved state overrides disabled state */
 .approve-button:disabled {
   background-color: #d1d5db;
   color: #6b7280;
   cursor: not-allowed;
+}
+
+.approve-button.approved:disabled {
+  background-color: #28a745; /* Keep green even when disabled */
+  color: #ffffff;
+}
+
+.approve-button.approved:disabled:hover {
+  background-color: #22c55e; /* Lighter green on hover, even when disabled */
 }
 
 /* Modal Styling */
@@ -343,7 +358,7 @@ body {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   width: 400px;
@@ -370,7 +385,7 @@ body {
   padding: 8px;
   margin-bottom: 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   font-size: 14px;
   box-sizing: border-box;
 }
@@ -386,7 +401,7 @@ body {
 
 #saveButton {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
 }
 
 #saveButton:hover {
@@ -395,7 +410,7 @@ body {
 
 #editButton {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
   margin-right: 10px;
 }
 
@@ -405,7 +420,7 @@ body {
 
 #deleteButton {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
 }
 
 #deleteButton:hover {
@@ -414,7 +429,7 @@ body {
 
 #approveButton {
   background-color: #28a745;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -435,7 +450,7 @@ body {
 }
 
 .close:hover {
-  color: #000;
+  color: #000000;
 }
 
 #eventDetailModal .modal-content p {
