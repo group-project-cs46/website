@@ -295,4 +295,3 @@
         return true; // Allow form submission
     }
 </script>
-<?php require base_path('views/partials/auth/auth-close.php') ?>
