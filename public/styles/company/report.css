@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
+
 .above {
   display: flex;
   justify-content: space-between;
@@ -10,11 +11,7 @@ body {
   width: 100%;
 }
 
-.above-left {
-  display: flex;
-  align-items: center;
-}
-
+.above-left,
 .above-right {
   display: flex;
   align-items: center;
@@ -41,6 +38,7 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
+
 .main-content {
   flex: 1;
   padding: 15px;
@@ -68,25 +66,83 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Toggle Tabs */
 .table-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-} 
-
-.table-title h3 {
-  margin: 0;
-  font-size: 24px; /* Larger font size for the heading */
-  font-weight: bold; /* Emphasize the heading */
+  gap: 10px;
 }
 
-.table-title p {
-  margin: 0;
-  font-size: 16px; /* Smaller font size for the paragraph */
-  color: #777;
+.table-title .active {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 8px 13px;
 }
 
+.table-title-txt,
+.report-view-txt {
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333333;
+  transition: color 0.1s ease, background-color 0.1s ease;
+  margin-left: 10px;
+}
+
+.table-title-txt:hover,
+.report-view-txt:hover {
+  background-color: #f4f4f4;
+  color: #221587;
+}
+
+.table-title-txt h3,
+.report-view-txt h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.table-title-txt p,
+.report-view-txt p {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 40px;
+  width: 2px;
+  background-color: #dddddd;
+  margin: 0;
+}
+
+/* Report Sections */
+.report-section {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+}
+
+.report-section.active {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+  transition: opacity 0.5s ease, visibility 0s 0s;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .form-container {
   background-color: #fff;
@@ -98,11 +154,13 @@ body {
   text-align: center;
   margin-bottom: 20px;
 }
-.form-container  h2{
+
+.form-container h2 {
   margin-bottom: 20px;
   font-size: 20px;
   font-weight: bold;
 }
+
 .form-content {
   display: flex;
   flex-direction: column;
@@ -124,7 +182,8 @@ label {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="file"] {
   flex-grow: 1;
   min-width: 400px;
   padding: 10px;
@@ -147,6 +206,7 @@ input[type="email"] {
   font-size: 20px;
   color: #777;
 }
+
 .submit-btn {
   background-color: #0ea5e9;
   color: white;
@@ -163,12 +223,209 @@ input[type="email"] {
   background-color: #333;
 }
 
+/* View Report Container */
+.view-report-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: none;
+  text-align: center;
+}
 
+.view-report-container h2 {
+  font-size: 25px;
+  font-weight: 550;
+  margin-bottom: 20px;
+  color: #000;
+}
 
+.view-report-container p {
+  font-size: 16px;
+  color: #777;
+}
 
+/* Report List */
+.report-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
+.report-item {
+  margin-bottom: 0;
+  text-align: left;
+  color: #000000;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 15px;
+  font-size: 14px;
+}
 
+.report-item:last-child {
+  border-bottom: none;
+}
 
+.report-item strong {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+}
 
+.report-item span {
+  display: block;
+  margin: 5px 0;
+  color: #000000;
+}
 
- 
+/* View Button */
+.view-btn {
+  background-color: #0ea5e9;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.view-btn:hover {
+  background-color: #0284c7;
+}
+
+/* Report Detail View */
+.report-detail {
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.report-detail h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.report-detail p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Report Actions */
+.report-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #da190b;
+}
+
+/* Back Button */
+.back-btn {
+  background-color: #666;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #555;
+}
+
+/* Edit Report Form */
+.report-edit-form {
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.report-edit-form h3 {
+  margin-top: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.report-edit-form input,
+.report-edit-form select,
+.report-edit-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Popup Overlay for Messages */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-overlay p {
+  background-color: #fff;
+  padding: 20px 30px;
+  font-size: 18px;
+  color: #333;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-overlay p.error {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+}
