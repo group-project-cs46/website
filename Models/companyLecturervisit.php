@@ -39,4 +39,13 @@ class CompanyLecturerVisit
         ]);
         return true;
     }
+
+    public static function revertStatus($visitId)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('UPDATE lecturer_visits SET status = NULL WHERE id = ?', [
+            $visitId
+        ]);
+        return true;
+    }
 }

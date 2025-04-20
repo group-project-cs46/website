@@ -104,6 +104,7 @@ $router->post('/company_schedule/store', 'company_schedule/store_techtalk.php');
 $router->post('/company_schedule/edit', 'company_schedule/edit_techtalk.php');
 $router->post('/company_schedule/delete', 'company_schedule/delete_techtalk.php');
 $router->post('/company_schedule/store_lecturervisit', 'company_schedule/store_lecturervisit.php');
+$router->post('/company_schedule/revert_lecturervisit', 'company_schedule/revert_lecturervisit.php');
 
 
 
