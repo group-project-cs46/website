@@ -23,10 +23,10 @@ class Complaint
         return $db->query('
             SELECT 
                 complaints.*, 
-                users.name AS accused_name,
-                users.id AS accused_id
+                accused.name AS accused_name,
+                accused.id AS accused_id
             FROM complaints
-            LEFT JOIN users ON complaints.accused_id = users.id
+            LEFT JOIN users accused ON complaints.accused_id = accused.id
             WHERE complainant_id = ?
         ', [$student_id])->get();
     }
@@ -35,7 +35,17 @@ class Complaint
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM complaints WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                complaints.*,
+                accused.name AS accused_name,
+                accused.id AS accused_id,
+                complainant.name AS complainant_name
+            FROM complaints
+            LEFT JOIN users accused ON complaints.accused_id = accused.id
+            LEFT JOIN users complainant ON complaints.complainant_id = complainant.id
+            WHERE complaints.id = ?
+        ', [$id])->find();
     }
 
     public static function deleteById($id)

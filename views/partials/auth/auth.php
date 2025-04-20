@@ -247,8 +247,20 @@ function filter($navItems)
 
 <div style="display: grid; grid-template-columns: 50px 1fr; grid-template-rows: 50px 1fr">
 <!--    left bar -->
-    <div
-        style="z-index: 20; grid-row: span 2; position: sticky; top:0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
+    <div style="
+            z-index: 20;
+            grid-row: span 2;
+            position: sticky;
+            top:0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #e5e7eb;
+            padding-inline: 5px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+        "
+    >
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filter($navItems) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
@@ -272,7 +284,7 @@ function filter($navItems)
     </div>
 
     <!-- top bar -->
-    <div style="position: sticky; top: 0; background-color: #fff; border-bottom: 1px solid #d1d5db; display: flex; justify-content: end; align-items: center; z-index: 10;">
+    <div style="position: sticky; top: 0; background-color: #fff; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: end; align-items: center; z-index: 10; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
         <div style="display: flex; align-items: center; gap: 0.5rem; padding-right: 1rem">
             <div class="bell-container" style="position: relative;">
             <span class="bell-icon" style="cursor: pointer;">
