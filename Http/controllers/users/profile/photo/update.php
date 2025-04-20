@@ -25,6 +25,17 @@ $targetFile = $targetDir . $newFileName;
 
 $user = auth_user();
 
+//$existingCv = Cv::findByUserId($user['id']);
+//dd($existingCv);
+//if ($existingCv) {
+//    $existingFilePath = $targetDir . $existingCv['filename'];
+//    if (file_exists($existingFilePath)) {
+//        unlink($existingFilePath);
+//    }
+//    Cv::update($existingCv['id'], $newFileName);
+//} else {
+//}
+
 // Move the uploaded file to the target directory
 if (move_uploaded_file($fileTmpPath, $targetFile)) {
     $db->query('UPDATE users SET photo = ? WHERE id = ?', [$newFileName, $user['id']]);

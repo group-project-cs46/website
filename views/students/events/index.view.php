@@ -26,7 +26,15 @@ foreach ($techtalks as $techtalk) {
 
             <div class="calender">
                 <!-- days sourced from: https://nationaldaycalendar.com/february/ -->
-                <h1><?= $month_text ?> <?= $year ?></h1>
+                <div style="display: flex; align-items: center; gap: 4rem">
+                    <a href="/students/events?month=<?= $month_num - 1 ?>&year=<?= $year ?>">
+                        <i class="fa-solid fa-circle-left fa-2xl" style="color: var(--color-primary);"></i>
+                    </a>
+                    <h1><?= $month_text ?> <?= $year ?></h1>
+                    <a href="/students/events?month=<?= $month_num + 1 ?>&year=<?= $year ?>">
+                        <i class="fa-solid fa-circle-right fa-2xl" style="color: var(--color-primary);"></i>
+                    </a>
+                </div>
                 <ul>
                     <p>
                         Monday
@@ -64,41 +72,41 @@ foreach ($techtalks as $techtalk) {
                                 </span>
                             </time>
                             <?php if (isset($techtalksByDay[$i])): ?>
-                                <?php foreach ($techtalksByDay[$i] as $techtalk): ?>
+                                <?php foreach ($techtalksByDay[$i] as $event): ?>
                                     <div style="display: flex; flex-direction: column; font-size: 0.7rem; gap: 0.5rem">
-                                        <button class="open-button" onclick="openModal('modal<?= $techtalk['id'] ?>')">
-                                            <?= htmlspecialchars($techtalk['name'] ?? '') ?>
+                                        <button class="open-button" onclick="openModal('modal<?= $event['id'] ?>')">
+                                            <?= htmlspecialchars($event['name'] ?? '') ?>
                                         </button>
 
-                                        <dialog class="modal" id="modal<?= $techtalk['id'] ?>">
+                                        <dialog class="modal" id="modal<?= $event['id'] ?>">
                                             <div class="modal-content"
                                                  style="padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
                                                 <h2 class="modal-title"
                                                     style="font-size: 1.75rem; font-weight: 600; color: #1a1a1a; margin: 0; line-height: 1.2;">
-                                                    <?= htmlspecialchars($techtalk['title'] ?? 'Event Details') ?>
+                                                    <?= htmlspecialchars($event['title'] ?? 'Event Details') ?>
                                                 </h2>
                                                 <p class="modal-description"
                                                    style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">
-                                                    <?= htmlspecialchars($techtalk['description']) ?>
+                                                    <?= htmlspecialchars($event['description']) ?>
                                                 </p>
                                                 <div style="display: flex; flex-direction: column; gap: 0.75rem; color: #6b7280; font-size: 0.95rem;">
                                                 <span class="modal-time" style="display: flex; align-items: center; gap: 0.5rem;">
                                                     <i class="fa-solid fa-clock fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <?= htmlspecialchars(date('H:i', strtotime($techtalk['datetime']))) ?>
+                                                    <?= htmlspecialchars(date('H:i', strtotime($event['datetime']))) ?>
                                                 </span>
                                                     <span class="modal-conductor" style="display: flex; align-items: center; gap: 0.5rem;">
                                                     <i class="fa-solid fa-user fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <?= htmlspecialchars($techtalk['conductor_name'] ?? 'Conductor Name') ?>
+                                                    <?= htmlspecialchars($event['conductor_name'] ?? 'Conductor Name') ?>
                                                 </span>
                                                     <span class="modal-email" style="display: flex; align-items: center; gap: 0.5rem;">
                                                     <i class="fa-solid fa-envelope fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <a href="mailto:<?= htmlspecialchars($techtalk['email'] ?? 'email@example.com') ?>" style="color: #3b82f6; text-decoration: none; transition: color 0.2s ease;">
-                                                        <?= htmlspecialchars($techtalk['email'] ?? 'email@example.com') ?>
+                                                    <a href="mailto:<?= htmlspecialchars($event['email'] ?? 'email@example.com') ?>" style="color: #3b82f6; text-decoration: none; transition: color 0.2s ease;">
+                                                        <?= htmlspecialchars($event['email'] ?? 'email@example.com') ?>
                                                     </a>
                                                 </span>
                                                     <span class="modal-company" style="display: flex; align-items: center; gap: 0.5rem;">
                                                     <i class="fa-solid fa-building fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <?= htmlspecialchars($techtalk['name'] ?? 'Company Name') ?>
+                                                    <?= htmlspecialchars($event['name'] ?? 'Company Name') ?>
                                                 </span>
                                                 </div>
                                                 <form method="dialog" class="modal-actions"
