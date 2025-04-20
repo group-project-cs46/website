@@ -46,9 +46,10 @@ class Application
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT companies.* FROM applications
+        return $db->query('SELECT companies.*, users.name FROM applications
          LEFT JOIN advertisements ON applications.ad_id = advertisements.id
          LEFT JOIN companies ON advertisements.company_id = companies.id
+         LEFT JOIN users ON companies.id = users.id
          WHERE student_id = ? AND selected = TRUE', [$student_id])->find();
     }
 

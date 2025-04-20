@@ -334,4 +334,4 @@ function filter($navItems)
     </script>
 
 <!--    content -->
-    <div style="padding-inline: 0.5rem">
+    <div style="padding-inline: 0.5rem; background-color: #f4f7fc">

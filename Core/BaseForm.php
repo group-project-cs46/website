@@ -1,30 +1,21 @@
 <?php
 
-namespace Http\Forms;
+namespace Core;
 
-use Core\ValidationException;
-use Core\Validator;
-
-class ResetPassword
+abstract class BaseForm
 {
-    protected $errors;
+    protected array $errors = [];
 
     public function __construct(public array $attributes)
     {
-        if (!Validator::string($attributes['password'], 8)) {
-            $this->errors['password'] = 'Password is required';
-        }
-
-        if (!Validator::string($attributes['confirm_password'])) {
-            $this->errors['confirm_password'] = 'Confirm password is required';
-        }
-
+        $this->validateAttributes($attributes);
     }
+
+    abstract protected function validateAttributes(array $attributes): void;
 
     public static function validate($attributes)
     {
         $instance = new static($attributes);
-
         return $instance->failed() ? $instance->throw() : $instance;
     }
 
@@ -33,17 +24,17 @@ class ResetPassword
         ValidationException::throw($this->errors, $this->attributes);
     }
 
-    public function failed()
+    public function failed(): bool
     {
         return !empty($this->errors);
     }
 
-    public function errors()
+    public function errors(): array
     {
         return $this->errors;
     }
 
-    public function error($field, $message)
+    public function error(string $field, string $message): static
     {
         $this->errors[$field] = $message;
         return $this;

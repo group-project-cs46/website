@@ -1,6 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
-    <main style="background-color: #f4f7fc; min-height: 100vh; padding: 40px 20px;">
+    <main style="min-height: 100vh; padding: 40px 20px;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px;">
             <!-- Job Details Section -->
             <div style="flex: 2; min-width: 300px; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
@@ -41,11 +41,22 @@
                     <input type="hidden" name="ad_id" value="<?= htmlspecialchars($ad['id']) ?>">
                     <div>
                         <label for="resume" style="font-size: 1rem; color: #2d3748; font-weight: 500; display: block; margin-bottom: 8px;">Resume</label>
-                        <select id="resume" name="cv_id" required style="width: 100%; padding: 12px; font-size: 1rem; color: #4a5568; border: 1px solid #e2e8f0; border-radius: 8px; background: #f7fafc; outline: none; transition: border-color 0.3s;">
-                            <?php foreach ($userCvs as $cv): ?>
-                                <option value="<?= htmlspecialchars($cv['id']) ?>"><?= htmlspecialchars($cv['original_name']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="select" style="width: 100%">
+                            <select id="resume" name="cv_id" required class="select">
+                                <?php foreach ($userCvs as $cv): ?>
+                                    <option value="<?= htmlspecialchars($cv['id']) ?>"><?= htmlspecialchars($cv['original_name']) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="down_note"></div>
+
+                        <div style="margin-top: 8px">
+                            <?php if (isset($errors['cv_id'])): ?>
+                                <div class="error">
+                                    <?= htmlspecialchars($errors['cv_id']) ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <button type="submit" class="button">
                         Submit Application
@@ -54,5 +65,8 @@
             </div>
         </div>
     </main>
+
+    <link rel="stylesheet" href="/styles/form.css">
+    <link rel="stylesheet" href="/styles/select.css">
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
