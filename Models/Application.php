@@ -60,7 +60,7 @@ class Application
         return $db->query('
             SELECT 
                 applications.id, 
-                advertisements.job_role,
+                internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
                 interviews.start_time AS interview_start_time,
@@ -74,6 +74,7 @@ class Application
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN interviews ON applications.interview_id = interviews.id
             LEFT JOIN cvs ON applications.cv_id = cvs.id
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
             WHERE applications.student_id = ?
         ', [$student_id])->get();
     }

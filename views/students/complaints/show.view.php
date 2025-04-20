@@ -35,8 +35,11 @@
 
         <!-- Chat Section -->
         <section style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <h2 style="color: #333; margin: 0 0 15px; font-size: 24px;">Conversation</h2>
-            <div style="max-height: 400px; overflow-y: auto; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; justify-content: space-between">
+                <h2 style="color: #333; margin: 0 0 15px; font-size: 24px;">Conversation</h2>
+                <i id="reload-icon" class="fas fa-rotate" style="margin-right: 1rem; color: var(--color-primary)" onclick="location.reload()"></i>
+            </div>
+            <div id="chat-box" style="max-height: 400px; overflow-y: auto; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 20px;">
                 <?php foreach($complaint_messages as $message): ?>
                     <?php if($message['sender_id'] == auth_user()['id']): ?>
                         <!-- Message 2 -->
@@ -50,7 +53,7 @@
                         <!-- Message 1 -->
                         <div style="margin-bottom: 15px;">
                             <p style="margin: 0; color: #555; font-size: 14px;"><strong>Admin</strong> <span style="color: #888;"><?= date('d-m-Y H:i', strtotime($message['created_at'])) ?></span></p>
-                            <p style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333;">
+                            <p style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; width: fit-content">
                                 <?= $message['message'] ?>
                             </p>
                         </div>
@@ -59,12 +62,28 @@
             </div>
 
             <!-- Message Input -->
-            <div style="display: flex; gap: 10px;">
-                <textarea style="flex: 1; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; resize: vertical; font-size: 14px;" placeholder="Type your message..."></textarea>
-                <button class="button">
-                    Send
-                </button>
+            <div>
+                <form action="/students/complaints/messages" style="display: flex; gap: 10px;" method="POST">
+                    <textarea style="flex: 1; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; resize: vertical; font-size: 14px;" placeholder="Type your message..." name="message"></textarea>
+                    <input type="hidden" name="complaint_id" value="<?= $complaint['id'] ?>">
+                    <button class="button">
+                        Send
+                    </button>
+                </form>
             </div>
         </section>
     </main>
+
+    <script>
+        window.addEventListener('load', function () {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+    </script>
+
+    <style>
+        #reload-icon:hover {
+            cursor: pointer;
+        }
+    </style>
 <?php require base_path('views/partials/auth/auth-close.php') ?>
