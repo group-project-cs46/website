@@ -14,7 +14,7 @@ class companyStudent
                 s.index_number AS index_no,
                 u.email,
                 s.course,
-                a.job_role,
+                ir.name AS job_role,
                 c.filename AS cv_filename,
                 c.original_name AS cv_original_name,
                 app.selected,
@@ -24,6 +24,7 @@ class companyStudent
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
             INNER JOIN advertisements a ON app.ad_id = a.id
+            INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
             WHERE u.role = 2 AND (app.failed IS NULL) AND (app.shortlisted IS NULL);
         ', [])->get();
@@ -70,7 +71,7 @@ class companyStudent
                 s.index_number AS index_no,
                 u.email,
                 s.course,
-                a.job_role,
+                ir.name AS job_role,
                 c.filename AS cv_filename,
                 c.original_name AS cv_original_name,
                 app.selected,
@@ -82,6 +83,7 @@ class companyStudent
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
             INNER JOIN advertisements a ON app.ad_id = a.id
+            INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
             WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL) AND (app.selected IS NULL);
         ', [])->get();
@@ -104,7 +106,7 @@ class companyStudent
                 s.index_number AS index_no,
                 u.email,
                 s.course,
-                a.job_role,
+                ir.name AS job_role,
                 c.filename AS cv_filename,
                 c.original_name AS cv_original_name,
                 app.selected,
@@ -114,6 +116,7 @@ class companyStudent
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
             INNER JOIN advertisements a ON app.ad_id = a.id
+            INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
             WHERE u.role = 2 
                 AND app.selected = TRUE 
