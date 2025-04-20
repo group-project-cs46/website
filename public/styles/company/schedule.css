@@ -320,11 +320,22 @@ body {
 
 .approve-button.approved {
   background-color: #28a745; /* Green color for Approved state */
-  cursor: not-allowed;
 }
 
 .approve-button.approved:hover {
   background-color: #22c55e; /* Lighter green on hover */
+}
+
+/* Style for past date buttons */
+.approve-button.past {
+  background-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.approve-button.past:hover {
+  background-color: #d1d5db; /* Prevent color change on hover */
+  color: #6b7280;
 }
 
 /* Ensure approved state overrides disabled state */

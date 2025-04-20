@@ -228,10 +228,8 @@
         const companyVisits = events['company-visits'];
         companyVisits.forEach((visit, index) => {
             const row = document.createElement('tr');
-            // Normalize status: Handle 't', true, 'true', or 1 as true, else false
             const status = ['t', true, 'true', '1', 1].includes(visit.status) ? true : false;
 
-            // Check if the date is in the past
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const visitDate = new Date(visit.date);
@@ -244,11 +242,15 @@
                 <td>${visit.email}</td>
                 <td>
                     ${status === true ? 
-                        '<button class="approve-button approved" disabled>Approved</button>' : 
+                        `<form method="POST" action="/company_schedule/revert_lecturervisit" id="revertForm-${visit.id}">
+                            <input type="hidden" name="visit_id" value="${visit.id}">
+                            <input type="hidden" name="action" value="revert">
+                            <button type="button" class="approve-button approved${isPastDate ? ' past' : ''}" onclick="confirmRevert(${visit.id}, ${isPastDate})">Approved</button>
+                        </form>` : 
                         `<form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}">
                             <input type="hidden" name="visit_id" value="${visit.id}">
                             <input type="hidden" name="action" value="approve">
-                            <button type="button" class="approve-button" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
+                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
                         </form>`
                     }
                 </td>
@@ -256,11 +258,6 @@
 
             if (isPastDate) {
                 row.classList.add('past');
-                const approveButton = row.querySelector('.approve-button');
-                if (approveButton && !status) { // Only disable if not approved
-                    approveButton.disabled = true;
-                    approveButton.style.cursor = 'not-allowed';
-                }
             }
 
             visitList.appendChild(row);
@@ -288,7 +285,10 @@
                     const button = form.querySelector('.approve-button');
                     button.textContent = 'Approved';
                     button.classList.add('approved');
-                    button.disabled = true;
+                    button.setAttribute('onclick', `confirmRevert(${visitId}, ${isPastDate})`);
+                    form.setAttribute('action', '/company_schedule/revert_lecturervisit');
+                    form.querySelector('input[name="action"]').value = 'revert';
+                    form.setAttribute('id', `revertForm-${visitId}`);
                 } else {
                     alert('Failed to approve visit: ' + (data.error || 'Unknown error'));
                 }
@@ -296,6 +296,42 @@
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred while approving the visit.');
+            });
+        }
+    }
+
+    function confirmRevert(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be reverted.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to revert this approval?')) {
+            const form = document.getElementById(`revertForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/revert_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit approval reverted successfully');
+                    const button = form.querySelector('.approve-button');
+                    button.textContent = 'Approve';
+                    button.classList.remove('approved');
+                    button.setAttribute('onclick', `confirmApproval(${visitId}, ${isPastDate})`);
+                    form.setAttribute('action', '/company_schedule/store_lecturervisit');
+                    form.querySelector('input[name="action"]').value = 'approve';
+                    form.setAttribute('id', `approveForm-${visitId}`);
+                } else {
+                    alert('Failed to revert visit approval: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while reverting the visit approval.');
             });
         }
     }
