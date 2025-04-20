@@ -100,9 +100,11 @@ $router->post('/company_complaint/edit', 'company_complaint/edit.php')->only('au
 $router->post('/company_complaint/delete', 'company_complaint/delete.php')->only('auth');
 
 
-$router->post('/company_scedule/store', 'company_scedule/store_techtalk.php');
-$router->post('/company_scedule/edit', 'company_scedule/edit_techtalk.php');
-$router->post('/company_scedule/delete', 'company_scedule/delete_techtalk.php');
+$router->post('/company_schedule/store', 'company_schedule/store_techtalk.php');
+$router->post('/company_schedule/edit', 'company_schedule/edit_techtalk.php');
+$router->post('/company_schedule/delete', 'company_schedule/delete_techtalk.php');
+$router->post('/company_schedule/store_lecturervisit', 'company_schedule/store_lecturervisit.php');
+
 
 
 $router->post('/company_report/store', 'company_report/store.php');
