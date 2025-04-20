@@ -13,7 +13,8 @@
         "psr-4": {
             "Core\\": "Core/",
             "Http\\": "Http/",
-            "Models\\": "Models/"
+            "Models\\": "Models/",
+            "Tests\\": "tests/"
         }
     },
     "config": {

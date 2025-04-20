@@ -298,18 +298,25 @@ function filter($navItems)
                 <div class="notifications-dropdown" style="position: absolute; top: 100%; right: 0; background-color: white; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 300px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 100;">
                     <div style="padding: 0.5rem; border-bottom: 1px solid #e5e7eb; font-weight: 500; display: flex; justify-content: space-between; align-items: center;">
                         <span>Notifications</span>
-                        <a href="#" style="font-size: 0.7rem">Read All</a>
+                        <a href="/notifications/read_all" style="font-size: 0.7rem">Read All</a>
                     </div>
                     <?php if (empty($_SESSION['user']['notifications'])): ?>
                         <div style="padding: 1rem; text-align: center; color: #6b7280;">No notifications</div>
                     <?php else: ?>
                         <?php foreach ($_SESSION['user']['notifications'] as $notification): ?>
-                            <a href="/notifications/resolve?id=<?= $notification['id'] ?>" style="text-decoration: none">
+                            <?php if($notification['action_url'] != null): ?>
+                                <a href="/notifications/resolve?id=<?= $notification['id'] ?>" style="text-decoration: none">
+                                    <div class="notification-item">
+                                        <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
+                                        <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
+                                    </div>
+                                </a>
+                            <?php else:?>
                                 <div class="notification-item">
                                     <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
-                                    <small style="color: #6b7280;"><?= date('Y-m-d H:i:s', strtotime($notification['created_at'])) ?></small>
+                                    <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
                                 </div>
-                            </a>
+                            <?php endif ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>

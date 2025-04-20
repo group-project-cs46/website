@@ -61,6 +61,7 @@ $router->get('/students/internship_reports/show', 'students/internship_reports/s
 $router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
 
 $router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+$router->get('/notifications/read_all', 'notifications/read_all.php')->only('auth');
 
 $router->get('/students/complaints', 'students/complaints/index.php')->only('student');
 $router->post('/students/complaints', 'students/complaints/store.php')->only('student');
