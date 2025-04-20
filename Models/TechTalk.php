@@ -30,7 +30,8 @@ AND EXTRACT(YEAR FROM datetime) = EXTRACT(YEAR FROM CURRENT_DATE);', [])->get();
                 t.*,
                 ts.datetime,
                 u.email AS company_email,
-                u.name AS company_name
+                u.name AS company_name,
+                ts.venue
             FROM techtalks t
             LEFT JOIN techtalk_slots ts ON ts.id = t.techtalk_slot_id
             LEFT JOIN companies c ON t.company_id = c.id

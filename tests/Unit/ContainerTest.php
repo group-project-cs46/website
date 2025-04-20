@@ -2,12 +2,17 @@
 
 use Core\Container;
 
-it('can resolve something out of the container', function () {
+it('can bind and resolve a class', function () {
     $container = new Container();
 
-    $container->bind('foo', fn() => 'bar');
+    $container->bind('foo', fn () => 'bar');
 
-    $result = $container->resolve('foo');
+    expect($container->resolve('foo'))->toBe('bar');
+});
 
-    expect($result)->toBe('bar');
+it('throws an exception if no binding exists', function () {
+    $container = new Container();
+
+    expect(fn () => $container->resolve('missing'))
+        ->toThrow(Exception::class, 'Nothing bound to missing');
 });

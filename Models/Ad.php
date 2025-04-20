@@ -86,7 +86,14 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT 
+                *,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function getById($id)
@@ -100,13 +107,21 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, users.name, companies.building,
-         companies.street_name,
-         companies.address_line_2,
-            companies.city FROM advertisements
-                LEFT JOIN companies ON advertisements.company_id = companies.id
-                           LEFT JOIN users ON users.id = companies.id
-                           WHERE advertisements.id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                users.name,
+                companies.building,
+                companies.street_name,
+                companies.address_line_2,
+                companies.city,
+                ir.name AS internship_role
+            FROM advertisements
+            LEFT JOIN companies ON advertisements.company_id = companies.id
+            LEFT JOIN users ON users.id = companies.id
+            LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)

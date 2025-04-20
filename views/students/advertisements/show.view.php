@@ -4,7 +4,7 @@
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px;">
             <!-- Job Details Section -->
             <div style="flex: 2; min-width: 300px; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
-                <h1 style="font-size: 2.2rem; color: #1a202c; margin: 0 0 10px; font-weight: 700;"><?= htmlspecialchars($ad['job_role']) ?></h1>
+                <h1 style="font-size: 2.2rem; color: #1a202c; margin: 0 0 10px; font-weight: 700;"><?= htmlspecialchars($ad['internship_role']) ?></h1>
                 <div style="margin-bottom: 25px;">
                     <span style="font-size: 1.25rem; color: #2d3748; font-weight: 600;"><?= htmlspecialchars($ad['name']) ?></span>
                     <br/>

@@ -25,6 +25,8 @@ class Database
         $config = $this->config;
         $dsn = 'pgsql:host=' . $config['host'] . ';port=' . $config['port'] . ';dbname=' . $config['dbname'];
 
+        log_to_file("Connecting to database: " . $dsn);
+
         try {
             $this->connection = new PDO($dsn, $config['user'], $config['password'], [
                 PDO::ATTR_PERSISTENT => true,

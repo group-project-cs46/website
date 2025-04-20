@@ -7,6 +7,7 @@ use Core\Validator;
 use Http\Forms\ApplicationStore;
 use Models\Ad;
 use Models\Application;
+use Models\Notification;
 use Models\Round;
 use Models\Settings;
 
@@ -24,8 +25,8 @@ $form = ApplicationStore::validate($attributes = [
 $user = auth_user();
 $user_id = $user['id'];
 
-$already_selected = Application::selectedCompanyByStudentId($user_id);
-if (count($already_selected) > 0) {
+$already_selected_companies = Application::selectedCompanyByStudentId($user_id);
+if ($already_selected_companies) {
     Session::flash('toast', 'You have already been selected by a company');
     redirect(urlBack());
 }
@@ -70,6 +71,11 @@ if (count($other_applications) >= $application_limit) {
 
 
 Application::create($user_id, $cv_id, $ad_id);
-
+Notification::create(
+    $ad['company_id'],
+    'New application',
+    'You have a new application for the job ' . $ad['internship_role'] . ' from ' . $user['name'],
+    expires_at: date('Y-m-d H:i:s', strtotime('+1 day'))
+);
 
 redirect('/students/applications');
