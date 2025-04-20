@@ -80,7 +80,7 @@ table {
   background-color: #F9FAFB;
 }
 
-.view-button, .delete-button {
+.view-button, .reject-button {
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
@@ -93,7 +93,7 @@ table {
   color: white;
 }
 
-.delete-button {
+.reject-button {
   background-color: #dc3545;
   color: white;
 }
@@ -112,7 +112,7 @@ table {
 
 .popup-content {
   background-color: white;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border-radius: 10px;
   width: 80%; /* Adjust width for different screen sizes */
