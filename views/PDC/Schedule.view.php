@@ -54,6 +54,8 @@
                         <label for="event-time">Time:</label>
                         <input type="time" id="event-time" name="time" required>
                         <br>
+                        <label for="event-venue">Venue:</label>
+                        <input type="text" id="event-venue" name="venue" required>
                         <button type="submit">Add Event</button>
                     </form>
                 </div>
@@ -72,6 +74,8 @@
                         <input type="date" id="edit-event-date" name="event-date" required>
                         <label for="edit-event-time">Time:</label>
                         <input type="time" id="edit-event-time" name="event-time" required>
+                        <label for="edit-event-venue">Venue:</label>
+                        <input type="text" id="edit-event-venue" name="event-venue" required>
                         <button type="submit" style="margin-top: 10px;">Save Changes</button>
                         <button type="button" id="delete-event-btn" style="background-color: #ff4444; color: white; margin-top: 10px;">Delete slot</button>
                     </form>
@@ -152,6 +156,7 @@
         id: slot.id,
         date: slot.date,
         time: slot.time,
+        venue: slot.venue,
         title: slot.title || 'Tech Talk',
         description: slot.description || 'Scheduled Tech Talk'
     })) : [];
@@ -250,6 +255,7 @@
             time = date.toTimeString().slice(0, 5);
         }
         document.getElementById('edit-event-time').value = time || '';
+        document.getElementById('edit-event-venue').value = event.venue || '';
         
         document.getElementById('editEventModal').style.display = 'block';
 
@@ -306,9 +312,11 @@
         e.preventDefault();
         const eventDate = document.getElementById('event-date').value;
         const eventTime = document.getElementById('event-time').value;
+        const eventVenue = document.getElementById('event-venue').value;
         const newEvent = {
             date: eventDate,
-            time: eventTime
+            time: eventTime,
+            venue: eventVenue
         };
         console.log('Creating tech talk:', newEvent); // Debug
         sendAjaxRequest('/PDC/createtechtalk', newEvent, function(response) {
@@ -318,6 +326,7 @@
                     id: response.id,
                     date: response.date,
                     time: response.time,
+                    venue: response.venue,
                     title: 'Tech Talk',
                     description: 'Scheduled Tech Talk'
                 });
@@ -337,10 +346,12 @@
         const id = document.getElementById('edit-event-id').value;
         const eventDate = document.getElementById('edit-event-date').value;
         const eventTime = document.getElementById('edit-event-time').value;
+        const eventVenue = document.getElementById('edit-event-venue').value;
         const updatedEvent = {
             id: id,
             date: eventDate,
-            time: eventTime
+            time: eventTime,
+            venue: eventVenue
         };
         sendAjaxRequest('/PDC/edittechtalk', updatedEvent, function(response) {
             if (response.success) {
@@ -349,7 +360,8 @@
                     events[eventIndex] = {
                         ...events[eventIndex],
                         date: eventDate,
-                        time: eventTime
+                        time: eventTime,
+                        venue: eventVenue
                     };
                     renderCalendar();
                     closeEditModal();

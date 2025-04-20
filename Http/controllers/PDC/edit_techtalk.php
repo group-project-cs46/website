@@ -7,15 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'] ?? null;
     $date = $_POST['date'] ?? null;
     $time = $_POST['time'] ?? null;
+    $venue = $_POST['venue'] ?? null; 
 
     if ($id && $date && $time) {
-        $result = pdc_techtalk::edit_techtalks($id, $date, $time);
+        $result = pdc_techtalk::edit_techtalks($id, $date, $time, $venue);
         if ($result) {
             echo json_encode([
                 'success' => true,
                 'id' => $id,
                 'date' => $date,
-                'time' => $time
+                'time' => $time,
+                'venue' => $venue,
             ]);
             exit;
         } else {
@@ -23,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
     } else {
-        echo json_encode(['success' => false, 'error' => 'ID, date, and time are required']);
+        echo json_encode(['success' => false, 'error' => 'ID, date, time and venue are required']);
         exit;
     }
 }
