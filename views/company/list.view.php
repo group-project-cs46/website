@@ -1,5 +1,4 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
-<?php dd($parameter); ?>
 <link rel="stylesheet" href="/styles/company/appliedStudent.css" />
 <link rel="stylesheet" href="/styles/company/shortedStudent.css" />
 <link rel="stylesheet" href="/styles/company/selectedStudent.css" />
