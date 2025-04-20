@@ -75,7 +75,7 @@ foreach ($techtalks as $techtalk) {
                                 <?php foreach ($techtalksByDay[$i] as $event): ?>
                                     <div style="display: flex; flex-direction: column; font-size: 0.7rem; gap: 0.5rem">
                                         <button class="open-button" onclick="openModal('modal<?= $event['id'] ?>')">
-                                            <?= htmlspecialchars($event['name'] ?? '') ?>
+                                            <?= htmlspecialchars($event['company_name'] ?? '') ?>
                                         </button>
 
                                         <dialog class="modal" id="modal<?= $event['id'] ?>">
@@ -83,30 +83,30 @@ foreach ($techtalks as $techtalk) {
                                                  style="padding: 2rem; display: flex; flex-direction: column; gap: 1rem;">
                                                 <h2 class="modal-title"
                                                     style="font-size: 1.75rem; font-weight: 600; color: #1a1a1a; margin: 0; line-height: 1.2;">
-                                                    <?= htmlspecialchars($event['title'] ?? 'Event Details') ?>
+                                                    <?= htmlspecialchars($event['company_name'] ?? 'Event Title') ?>
                                                 </h2>
                                                 <p class="modal-description"
-                                                   style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0;">
+                                                   style="font-size: 1rem; color: #4a4a4a; line-height: 1.6; margin: 0; text-align: left">
                                                     <?= htmlspecialchars($event['description']) ?>
                                                 </p>
                                                 <div style="display: flex; flex-direction: column; gap: 0.75rem; color: #6b7280; font-size: 0.95rem;">
                                                 <span class="modal-time" style="display: flex; align-items: center; gap: 0.5rem;">
-                                                    <i class="fa-solid fa-clock fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
+                                                    <i class="fa-solid fa-clock fa-lg" style="color: #6b7280; width: 1.25rem"></i>
                                                     <?= htmlspecialchars(date('H:i', strtotime($event['datetime']))) ?>
                                                 </span>
                                                     <span class="modal-conductor" style="display: flex; align-items: center; gap: 0.5rem;">
-                                                    <i class="fa-solid fa-user fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <?= htmlspecialchars($event['conductor_name'] ?? 'Conductor Name') ?>
+                                                    <i class="fa-solid fa-user fa-lg" style="color: #6b7280; width: 1.25rem"></i>
+                                                    <?= htmlspecialchars($event['host_name'] ?? 'Conductor Name') ?>
                                                 </span>
                                                     <span class="modal-email" style="display: flex; align-items: center; gap: 0.5rem;">
-                                                    <i class="fa-solid fa-envelope fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
+                                                    <i class="fa-solid fa-envelope fa-lg" style="color: #6b7280; width: 1.25rem"></i>
                                                     <a href="mailto:<?= htmlspecialchars($event['email'] ?? 'email@example.com') ?>" style="color: #3b82f6; text-decoration: none; transition: color 0.2s ease;">
-                                                        <?= htmlspecialchars($event['email'] ?? 'email@example.com') ?>
+                                                        <?= htmlspecialchars($event['company_email'] ?? 'email@example.com') ?>
                                                     </a>
                                                 </span>
                                                     <span class="modal-company" style="display: flex; align-items: center; gap: 0.5rem;">
-                                                    <i class="fa-solid fa-building fa-lg" style="color: #6b7280; width: 1.25rem; text-align: center;"></i>
-                                                    <?= htmlspecialchars($event['name'] ?? 'Company Name') ?>
+                                                    <i class="fa-solid fa-building fa-lg" style="color: #6b7280; width: 1.25rem"></i>
+                                                    <?= htmlspecialchars($event['company_name'] ?? 'Company Name') ?>
                                                 </span>
                                                 </div>
                                                 <form method="dialog" class="modal-actions"
@@ -140,5 +140,6 @@ foreach ($techtalks as $techtalk) {
 
     <link rel="stylesheet" href="/styles/thathsara/thathsara4.css">
     <link rel="stylesheet" href="/styles/students/calender.css">
+    <link rel="stylesheet" href="/styles/students/modal.css">
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

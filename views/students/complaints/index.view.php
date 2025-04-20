@@ -4,7 +4,8 @@
 <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
     <!-- Header -->
     <h1 style="color: #0ea5e9; font-size: 28px; text-align: center; margin-bottom: 10px;">Create complaints</h1>
-    <p style="color: #6b7280; font-size: 16px; text-align: center; margin-bottom: 30px;"></p>
+    <p style="color: #6b7280; font-size: 16px; text-align: center; margin-bottom: 40px;">We value your feedback. Please provide details to help us address your concerns.</p>
+
 
     <!-- Upload Form -->
     <div style="padding: 20px; border-radius: 8px; margin-bottom: 30px;">

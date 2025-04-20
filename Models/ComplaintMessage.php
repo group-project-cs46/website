@@ -20,4 +20,14 @@ class ComplaintMessage
             WHERE complaint_id = ?
         ', [$complaint_id])->get();
     }
+
+    public static function create($complaint_id, $sender_id, $message)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('
+            INSERT INTO complaint_messages (complaint_id, sender_id, message)
+            VALUES (?, ?, ?)
+        ', [$complaint_id, $sender_id, $message]);
+    }
 }

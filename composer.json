@@ -9,9 +9,6 @@
     "require": {
         "phpmailer/phpmailer": "^6.9"
     },
-    "require-dev": {
-        "pestphp/pest": "^2.35"
-    },
     "autoload": {
         "psr-4": {
             "Core\\": "Core/",
@@ -23,5 +20,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.8"
     }
 }

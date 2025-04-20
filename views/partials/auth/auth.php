@@ -218,7 +218,7 @@ $navItems = [
     [
         'text' => "Complaints",
         'href' => '/students/complaints',
-        'icon' => 'fa-face-frown',
+        'icon' => 'fa-face-sad-cry',
         'only' => [Role::Student],
     ],
 ];

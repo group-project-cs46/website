@@ -66,6 +66,7 @@ $router->get('/students/complaints', 'students/complaints/index.php')->only('stu
 $router->post('/students/complaints', 'students/complaints/store.php')->only('student');
 $router->delete('/students/complaints', 'students/complaints/destroy.php')->only('student');
 $router->get('/students/complaints/show', 'students/complaints/show.php')->only('student');
+$router->post('/students/complaints/messages', 'students/complaints/messages/store.php')->only('student');
 
 
 // Admin by thathsara
