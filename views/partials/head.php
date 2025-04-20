@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/styles/normalize.css">
     <link rel="stylesheet" href="/styles/tooltip.css">
     <link rel="stylesheet" href="/styles/base.css">
-    <link rel="stylesheet" href="/styles/modal.css">
 <!--    <script src="https://cdn.tailwindcss.com"></script>-->
     <script src="https://kit.fontawesome.com/934c15dc39.js" crossorigin="anonymous"></script>
 </head>

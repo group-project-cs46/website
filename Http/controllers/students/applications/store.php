@@ -4,6 +4,7 @@ use Core\App;
 use Core\Database;
 use Core\Session;
 use Core\Validator;
+use Http\Forms\ApplicationStore;
 use Models\Ad;
 use Models\Application;
 use Models\Round;
@@ -14,6 +15,20 @@ use Models\Settings;
 
 $ad_id = $_POST['ad_id'];
 $cv_id = $_POST['cv_id'];
+
+$form = ApplicationStore::validate($attributes = [
+    'ad_id' => $ad_id,
+    'cv_id' => $cv_id,
+]);
+
+$user = auth_user();
+$user_id = $user['id'];
+
+$already_selected = Application::selectedCompanyByStudentId($user_id);
+if (count($already_selected) > 0) {
+    Session::flash('toast', 'You have already been selected by a company');
+    redirect(urlBack());
+}
 
 $ad = Ad::find($ad_id);
 $max_cvs = $ad['max_cvs'];
@@ -36,15 +51,12 @@ if ($currentRound['id'] !== $ad['round_id']) {
     redirect('/students/advertisements');
 }
 
-
-$user = auth_user();
-$user_id = $user['id'];
-
 $existing_application = Application::findByStudentIdAndAdId($user_id, $ad_id);
 
 if ($existing_application) {
-    Session::flash('toast', 'You have already applied for this job');
-    redirect('/students/advertisements');
+    $form->error('cv_id', 'You have already applied for this job')->throw();
+    //    Session::flash('toast', 'You have already applied for this job');
+    //    redirect('/students/advertisements');
 }
 
 $other_applications = Application::getByStudentId($user_id);

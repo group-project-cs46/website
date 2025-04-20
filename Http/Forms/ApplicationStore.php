@@ -5,18 +5,18 @@ namespace Http\Forms;
 use Core\ValidationException;
 use Core\Validator;
 
-class ResetPassword
+class ApplicationStore
 {
     protected $errors;
 
     public function __construct(public array $attributes)
     {
-        if (!Validator::string($attributes['password'], 8)) {
-            $this->errors['password'] = 'Password is required';
+        if (!Validator::string($attributes['ad_id'])) {
+            $this->error('ad_id', 'Must select an advertisement');
         }
 
-        if (!Validator::string($attributes['confirm_password'])) {
-            $this->errors['confirm_password'] = 'Confirm password is required';
+        if (!Validator::string($attributes['cv_id'])) {
+            $this->error('cv_id', 'Must select a CV');
         }
 
     }
