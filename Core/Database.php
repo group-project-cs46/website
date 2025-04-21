@@ -38,8 +38,6 @@ class Database
         return $this;
     }
 
-    
-
     public function get()
     {
         return $this->statement->fetchAll();
@@ -63,4 +61,6 @@ class Database
         }
         return $result;
     }
+
+
 }

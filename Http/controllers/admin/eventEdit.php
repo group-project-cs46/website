@@ -15,3 +15,4 @@ if (!$event) {
 }
 
 view('admin/eventEdit.view.php', ['event' => $event]);
+

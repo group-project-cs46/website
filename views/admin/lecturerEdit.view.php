@@ -215,7 +215,7 @@
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input value="<?= $LECTURER['mobile'] ?>" type="text" id="contact-no" name="contact" placeholder="Enter Contact No Here" required>
+                    <input value="<?= $LECTURER['mobile'] ?>" type="text" id="contact-no" name="contact" placeholder="Enter Contact No Here" pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate" required>
                 </div>
             </div>
 
