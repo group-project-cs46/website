@@ -16,5 +16,6 @@ $userCvs = \Models\Cv::findByUserId($user['id']);
 view('students/advertisements/show.view.php', [
     'heading' => 'Apply',
     'ad' => $ad,
-    'userCvs' => $userCvs
+    'userCvs' => $userCvs,
+    'errors' => $_SESSION['_flash']['errors'] ?? [],
 ]);

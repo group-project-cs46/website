@@ -45,34 +45,55 @@ class Ad
     public static function byRoundId($roundId) {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*,
-       users.name,
-          users.id AS user_id,
-       companies.building,
-         companies.street_name,
-            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
-                           LEFT JOIN users ON companies.id = users.id
-                           WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId])->get();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                users.name,
+                users.id AS user_id,
+                companies.building,
+                companies.street_name,
+                companies.city,
+                ir.name AS internship_role_name
+            FROM advertisements
+            LEFT JOIN companies ON advertisements.company_id = companies.id 
+            LEFT JOIN users ON companies.id = users.id
+            LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
+            WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$roundId])->get();
     }
 
     public static function byRoundIdAndComapnyId($roundId, $companyId) {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*,
-       users.name,
-          users.id AS user_id,
-       companies.building,
-         companies.street_name,
-            companies.city FROM advertisements LEFT JOIN companies ON advertisements.company_id = companies.id 
-                           LEFT JOIN users ON companies.id = users.id
-                           WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline', [$roundId, $companyId])->get();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                users.name,
+                users.id AS user_id,
+                companies.building,
+                companies.street_name,
+                companies.city,
+                ir.name AS internship_role_name
+            FROM advertisements
+            LEFT JOIN companies ON advertisements.company_id = companies.id 
+            LEFT JOIN users ON companies.id = users.id
+            LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
+            WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$roundId, $companyId])->get();
     }
 
     public static function find($id)
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT 
+                *,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function getById($id)
@@ -86,13 +107,21 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT advertisements.*, users.name, companies.building,
-         companies.street_name,
-         companies.address_line_2,
-            companies.city FROM advertisements
-                LEFT JOIN companies ON advertisements.company_id = companies.id
-                           LEFT JOIN users ON users.id = companies.id
-                           WHERE advertisements.id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                users.name,
+                companies.building,
+                companies.street_name,
+                companies.address_line_2,
+                companies.city,
+                ir.name AS internship_role
+            FROM advertisements
+            LEFT JOIN companies ON advertisements.company_id = companies.id
+            LEFT JOIN users ON users.id = companies.id
+            LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)
@@ -106,6 +135,13 @@ class Ad
             $qualifications_skills,
             $maxCVs
         ]);
+    }
+
+    public static function getByInternshipRoleId($internshipRoleId)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
     }
 
 }

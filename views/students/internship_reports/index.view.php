@@ -12,19 +12,22 @@
 
             <!-- Month Selection -->
             <div>
-                <label for="month" style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px;">Select Month</label>
-                <select id="month" name="month" required style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #374151; outline: none; transition: border-color 0.2s;">
-                    <option value="">Choose a month</option>
-                    <option value="1">Month 1</option>
-                    <option value="2">Month 2</option>
-                    <option value="3">Month 3</option>
-                    <option value="4">Month 4</option>
-                    <option value="5">Month 5</option>
-                    <option value="6">Month 6</option>
-                </select>
-                <?php if (isset($errors['month'])): ?>
-                    <p class="error"><?= $errors['month'] ?></p>
-                <?php endif ?>
+                <label for="month" style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px">Select Month</label>
+                <div class="select" style="width: 100%">
+                    <select id="month" name="month" required class="select">
+                        <option value="">Choose a month</option>
+                        <option value="1">Month 1</option>
+                        <option value="2">Month 2</option>
+                        <option value="3">Month 3</option>
+                        <option value="4">Month 4</option>
+                        <option value="5">Month 5</option>
+                        <option value="6">Month 6</option>
+                    </select>
+                    <?php if (isset($errors['month'])): ?>
+                        <p class="error"><?= $errors['month'] ?></p>
+                    <?php endif ?>
+                </div>
+                <div class="down_note"></div>
             </div>
 
             <!-- PDF Upload -->
@@ -76,5 +79,6 @@
 </div>
 
 <link rel="stylesheet" href="/styles/form.css">
+<link rel="stylesheet" href="/styles/select.css">
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

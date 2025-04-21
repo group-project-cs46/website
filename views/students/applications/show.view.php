@@ -41,16 +41,23 @@
                 <div style="flex: 1; min-width: 300px; max-width: 340px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 1.5rem; transition: transform 0.2s;">
                     <h2 style="color: #0ea5e9; font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0;">Interview Details</h2>
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Date & Time:</strong>
+                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Date:</strong>
                             <?php if ($interview && $interview['complete']): ?>
                                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Completed</span>
-                            <?php elseif (!empty($interview['datetime'])): ?>
-                                <?php echo htmlspecialchars($interview['datetime']) ?>
+                            <?php elseif (!empty($interview['date'])): ?>
+                                <?php echo htmlspecialchars($interview['date']) ?>
                             <?php else: ?>
                                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
                             <?php endif; ?>
                         </p>
-                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Duration:</strong> <?= htmlspecialchars($interview['duration'] ?? 'Not Specified') ?></p>
+                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Time:</strong>
+                            <?php if (!empty($interview['start_time'])): ?>
+                                <?= htmlspecialchars(date('H:i', strtotime($interview['start_time']))) ?> to
+                                <?= htmlspecialchars(date('H:i', strtotime($interview['end_time']))) ?>
+                            <?php else: ?>
+                                <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
+                            <?php endif; ?>
+                        </p>
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Status:</strong>
                             <?php if ($application['selected']): ?>
                                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Selected</span>

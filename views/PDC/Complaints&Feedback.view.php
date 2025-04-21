@@ -22,38 +22,28 @@
         <table class="complaints-table">
             <thead>
                 <tr>
-                    <th>Complaint ID</th>
-                    <th>Type</th>
-                    <th>Title</th>
                     <th>Submitted By</th>
+                    <th>Title</th>
+                    <th>Complaint Against</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody id="complaintsTableBody">
-                <!-- Example complaint entries (to be replaced with dynamic data) -->
-                <tr>
-                    <td>1</td>
-                    <td>System Complaint</td>
-                    <td>Complaint about Service</td>
-                    <td>John Doe</td>
-                    <td>2024-12-22</td>
+                <?php foreach ($complaints as $complaint): ?>
+                <tr id="row-<?= $complaint['id'] ?>">
+                    <td><?= htmlspecialchars($complaint['complainant_name'] ?? 'Unknown') ?></td>
+                    <td><?= htmlspecialchars($complaint['subject']) ?></td>
+                    <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
+                    <td><?= htmlspecialchars($complaint['created_at']) ?></td>
+                    <td><?= htmlspecialchars(str_replace('_', ' ', $complaint['status'])) ?></td>
                     <td>
-                        <button class="view-button" onclick="viewComplaint(1)">View</button>
-                        <button class="delete-button" onclick="deleteComplaint(1)">Delete</button>
+                        <button class="view-button" onclick="viewComplaint(<?= $complaint['id'] ?>)">View</button>
+                        <button class="reject-button" onclick="rejectComplaint(<?= $complaint['id'] ?>)">Reject</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Student Complaint</td>
-                    <td>Feedback on Website</td>
-                    <td>Jane Smith</td>
-                    <td>2024-12-21</td>
-                    <td>
-                        <button class="view-button" onclick="viewComplaint(2)">View</button>
-                        <button class="delete-button" onclick="deleteComplaint(2)">Delete</button>
-                    </td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>
@@ -62,7 +52,7 @@
 <!-- Popup for Complaint Details -->
 <div id="complaintPopup" class="popup">
     <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
+        <span class="close" onclick="closePopup()">×</span>
         <h2>Complaint Details</h2>
         <div class="complaintdetails" id="complaintDetails"></div>
         <div id="additionalInfo" style="margin-top: 20px;"></div>
@@ -72,105 +62,105 @@
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-    // Example data for complaints (you can replace this with real data from a database or API)
-    const complaints = [
-        { 
-            id: 1, 
-            type: 'System Complaint',
-            title: 'Complaint about Service', 
-            details: 'Complaint details for service.',
-            submittedBy: 'John Doe',
-            date: '2024-12-22',
-            //type: 'Student Complain', // Example: could be 'Student', 'Lecturer', etc.
-            contact: 'john.doe@example.com',
-           // status: 'Solved' // Example: could be 'Open', 'Closed', 'In Progress', etc.
-        },
-        { 
-            id: 2, 
-            title: 'Feedback on Website', 
-            type: 'Student Complaint',
-            details: 'Feedback details for website.',
-            submittedBy: 'Jane Smith',
-            date: '2024-12-21',
-            //type: 'Lecturer Complain', // Example: could be 'Student', 'Lecturer', etc.
-            contact: 'jane.smith@example.com',
-            //status: '-' // Example: could be 'Open', 'Closed', 'In Progress', etc.
-        }
-    ];
+    // CSRF token from PHP
+    const csrfToken = '<?= htmlspecialchars($csrf_token) ?>';
 
-    // Function to render complaint details in the popup
-    function viewComplaint(complaintId) {
-        const complaint = complaints.find(c => c.id === complaintId);
-        const complaintDetailsDiv = document.getElementById('complaintDetails');
-        const additionalInfoDiv = document.getElementById('additionalInfo');
-        
-        complaintDetailsDiv.innerHTML = `
-            <p><strong>Title:</strong> ${complaint.title}</p>
-            <p><strong>Details:</strong> ${complaint.details}</p>
-            <p><strong>Submitted By:</strong> ${complaint.submittedBy}</p>
-            <p><strong>Contact:</strong> ${complaint.contact}</p>
-            <p><strong>Date Submitted:</strong> ${complaint.date}</p>
-        `;
-        
-        additionalInfoDiv.innerHTML = `
-            <p><strong>Type:</strong> ${complaint.type}</p>
-            
-        `;
-        
-        document.getElementById('complaintPopup').style.display = 'block';
+    // Function to fetch and display complaint details
+    async function viewComplaint(id) {
+        try {
+            const response = await fetch(`/PDC/managecomplaints?id=${id}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            // Check if the response is okay
+            if (!response.ok) {
+                throw new Error(`HTTP error: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Check if the response indicates an error
+            if (data.success === false) {
+                throw new Error(data.error || 'Failed to fetch complaint');
+            }
+
+            // If successful, 'data' is the complaint object
+            const complaint = data;
+
+            const complaintDetailsDiv = document.getElementById('complaintDetails');
+            const additionalInfoDiv = document.getElementById('additionalInfo');
+
+            complaintDetailsDiv.innerHTML = `
+                <p><strong>Title:</strong> ${complaint.subject || 'N/A'}</p>
+                <p><strong>Details:</strong> ${complaint.description || 'N/A'}</p>
+                <p><strong>Submitted By:</strong> ${complaint.complainant_name || 'Unknown'}</p>
+                <p><strong>Complaint Against:</strong> ${complaint.accused_name || 'Unknown'}</p>
+                <p><strong>Contact:</strong> ${complaint.contact || 'N/A'}</p>
+                <p><strong>Date Submitted:</strong> ${complaint.created_at || 'N/A'}</p>
+            `;
+
+            additionalInfoDiv.innerHTML = `
+                <p><strong>Status:</strong> ${(complaint.status || 'N/A').replace('_', ' ')}</p>
+            `;
+
+            document.getElementById('complaintPopup').style.display = 'block';
+        } catch (error) {
+            alert('Error fetching complaint details: ' + error.message);
+        }
     }
 
     // Function to close the popup
     function closePopup() {
         document.getElementById('complaintPopup').style.display = 'none';
     }
-    function deleteComplaint(complaintId) {
-    const confirmation = confirm('Are you sure you want to delete this complaint?');
-    if (confirmation) {
-        // Find the index of the complaint to be deleted
-        const complaintIndex = complaints.findIndex(c => c.id === complaintId);
-        if (complaintIndex !== -1) {
-            // Remove the complaint from the data array
-            complaints.splice(complaintIndex, 1);
-            alert('Complaint deleted successfully');
-            
-            // Re-render the table
-            renderTable();
-        } else {
-            alert('Complaint not found.');
+
+    // Function to reject a complaint
+    async function rejectComplaint(id) {
+        if (!confirm('Are you sure you want to reject this complaint?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/PDC/managecomplaints', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id, csrf_token: csrfToken })
+            });
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || 'Failed to reject complaint');
+            }
+
+            alert('Complaint rejected successfully');
+            // Remove the row from the table
+            const row = document.getElementById(`row-${id}`);
+            if (row) {
+                row.remove();
+            }
+        } catch (error) {
+            alert('Error rejecting complaint: ' + error.message);
         }
     }
-}
 
-// Function to dynamically render the complaints table
-function renderTable(complaintsArray = complaints) {
-    const tableBody = document.getElementById('complaintsTableBody');
-    tableBody.innerHTML = '';
-    complaintsArray.forEach(complaint => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${complaint.id}</td>
-            <td>${complaint.type}</td>
-            <td>${complaint.title}</td>
-            <td>${complaint.submittedBy}</td>
-            <td>${complaint.date}</td>
-            <td>
-                <button class="view-button" onclick="viewComplaint(${complaint.id})">View</button>
-                <button class="delete-button" onclick="deleteComplaint(${complaint.id})">Delete</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+    // Function to search complaints (client-side filtering)
+    function searchComplaints(searchTerm) {
+        const rows = document.querySelectorAll('#complaintsTableBody tr');
+        searchTerm = searchTerm.toLowerCase();
 
-function searchComplaints(searchTerm) {
-    const filtered = complaints.filter(complaint => 
-        complaint.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        complaint.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        complaint.submittedBy.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        complaint.date.includes(searchTerm)
-    );
-    renderTable(filtered);
-}
+        rows.forEach(row => {
+            const complainant = row.cells[0].textContent.toLowerCase();
+            const subject = row.cells[1].textContent.toLowerCase();
+            const accused = row.cells[2].textContent.toLowerCase();
+            const date = row.cells[3].textContent.toLowerCase();
 
+            const matches = complainant.includes(searchTerm) ||
+                           subject.includes(searchTerm) ||
+                           accused.includes(searchTerm) ||
+                           date.includes(searchTerm);
+
+            row.style.display = matches ? '' : 'none';
+        });
+    }
 </script>
