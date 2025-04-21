@@ -23,7 +23,7 @@ class TrainingSession
     public static function get_all()
     {
         $db = App::resolve(Database::class);
-        return $db->query('SELECT * FROM training_sessions', [])->get();
+        return $db->query('SELECT * FROM training_sessions ORDER BY date', [])->get();
     }
 
     public static function get_by_id($id)
