@@ -182,6 +182,10 @@ $navItems = [
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
+        'filter' => function () {
+            $currentRound = \Models\Round::currentRound();
+            return $currentRound && !$currentRound['restricted'];
+        }
     ],
     [
 
@@ -189,6 +193,18 @@ $navItems = [
         'href' => '/students/applications',
         'icon' => 'fa-file-invoice',
         'only' => [Role::Student],
+    ],
+    [
+        'text' => "Second Round",
+        'href' => '/students/second_round',
+        'icon' => 'fa-solid fa-2',
+        'only' => [Role::Student],
+        'filter' => function () {
+            $currentRound = \Models\Round::currentRound();
+            $isSecondRound = $currentRound && $currentRound['restricted'];
+            $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            return $isSecondRound && !$isSelected;
+        }
     ],
     [
         'text' => "Cvs",
@@ -210,7 +226,13 @@ $navItems = [
         'filter' => function () {
             return !empty(Application::isSelectedByStudentId(auth_user()['id']));
         }
-    ]
+    ],
+    [
+        'text' => "Complaints",
+        'href' => '/students/complaints',
+        'icon' => 'fa-face-sad-cry',
+        'only' => [Role::Student],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
@@ -237,8 +259,20 @@ function filter($navItems)
 
 <div style="display: grid; grid-template-columns: 50px 1fr; grid-template-rows: 50px 1fr">
 <!--    left bar -->
-    <div
-        style="z-index: 20; grid-row: span 2; position: sticky; top:0; height: 100vh; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #d1d5db; padding-inline: 5px">
+    <div style="
+            z-index: 20;
+            grid-row: span 2;
+            position: sticky;
+            top:0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #e5e7eb;
+            padding-inline: 5px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+        "
+    >
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filter($navItems) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
@@ -262,7 +296,7 @@ function filter($navItems)
     </div>
 
     <!-- top bar -->
-    <div style="position: sticky; top: 0; background-color: #fff; border-bottom: 1px solid #d1d5db; display: flex; justify-content: end; align-items: center; z-index: 10;">
+    <div style="position: sticky; top: 0; background-color: #fff; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: end; align-items: center; z-index: 10; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
         <div style="display: flex; align-items: center; gap: 0.5rem; padding-right: 1rem">
             <div class="bell-container" style="position: relative;">
             <span class="bell-icon" style="cursor: pointer;">
@@ -276,18 +310,25 @@ function filter($navItems)
                 <div class="notifications-dropdown" style="position: absolute; top: 100%; right: 0; background-color: white; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 300px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 100;">
                     <div style="padding: 0.5rem; border-bottom: 1px solid #e5e7eb; font-weight: 500; display: flex; justify-content: space-between; align-items: center;">
                         <span>Notifications</span>
-                        <a href="#" style="font-size: 0.7rem">Read All</a>
+                        <a href="/notifications/read_all" style="font-size: 0.7rem">Read All</a>
                     </div>
                     <?php if (empty($_SESSION['user']['notifications'])): ?>
                         <div style="padding: 1rem; text-align: center; color: #6b7280;">No notifications</div>
                     <?php else: ?>
                         <?php foreach ($_SESSION['user']['notifications'] as $notification): ?>
-                            <a href="/notifications/resolve?id=<?= $notification['id'] ?>" style="text-decoration: none">
+                            <?php if($notification['action_url'] != null): ?>
+                                <a href="/notifications/resolve?id=<?= $notification['id'] ?>" style="text-decoration: none">
+                                    <div class="notification-item">
+                                        <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
+                                        <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
+                                    </div>
+                                </a>
+                            <?php else:?>
                                 <div class="notification-item">
                                     <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
-                                    <small style="color: #6b7280;"><?= date('Y-m-d H:i:s', strtotime($notification['created_at'])) ?></small>
+                                    <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
                                 </div>
-                            </a>
+                            <?php endif ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
@@ -324,4 +365,4 @@ function filter($navItems)
     </script>
 
 <!--    content -->
-    <div style="padding-inline: 0.5rem">
+    <div style="padding-inline: 0.5rem; background-color: #f4f7fc">

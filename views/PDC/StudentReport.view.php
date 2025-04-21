@@ -24,7 +24,7 @@
                     <th>Student Name</th>
                     <th>Index No.</th>
                     <th>Company</th>
-                    <th>Report</th>
+                    
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -34,7 +34,7 @@
                     <td><?= htmlspecialchars($report['student_name']) ?></td>
                     <td><?= htmlspecialchars($report['index_number']) ?></td>
                     <td><?= htmlspecialchars($report['company_name']) ?></td>
-                    <td><a href="/<?= htmlspecialchars($report['report1']) ?>" target="_blank">View Report</a></td>
+                    
                     <td>
                         <button class="view-button" onclick="viewReport(<?= $report['id'] ?>)">View</button>
                         <button class="delete-button" onclick="deleteReport(<?= $report['id'] ?>)">Delete</button>
@@ -61,17 +61,27 @@
     let reports = <?= json_encode($reports) ?>;
 
     function viewReport(reportId) {
-        const report = reports.find(r => r.id === reportId);
-        if (!report) return;
-        
-        document.getElementById('reportDetails').innerHTML = `
-            <p><strong>Name:</strong> ${report.student_name}</p>
-            <p><strong>Index No:</strong> ${report.index_number}</p>
-            <p><strong>Company:</strong> ${report.company_name}</p>
-            <p><strong>Report:</strong> <a href="/${report.report1}" target="_blank">View Report</a></p>
-        `;
-        openPopup();
+    const report = reports.find(r => r.id === reportId);
+    if (!report) return;
+
+    let reportLinks = '';
+    for (let i = 1; i <= 6; i++) {
+        const key = `report${i}`;
+        if (report[key]) {
+            const fileName = report[key].split('/').pop();
+            reportLinks += `<p><strong>Report ${i} -</strong> <a href="/${report[key]}" target="_blank">${fileName}</a></p>`;
+        }
     }
+
+    document.getElementById('reportDetails').innerHTML = `
+        <p><strong>Name:</strong> ${report.student_name}</p>
+        <p><strong>Index No:</strong> ${report.index_number}</p>
+        <p><strong>Company:</strong> ${report.company_name}</p>
+        ${reportLinks}
+    `;
+    openPopup();
+}
+
 
     function deleteReport(reportId) {
         if (confirm("Are you sure you want to delete this report?")) {
@@ -106,4 +116,22 @@
             closePopup();
         }
     });
+
+
+    function filterReports() {
+        const searchTerm = document.querySelector('.search-bar').value.toLowerCase();
+        const rows = document.querySelectorAll('.reports-table tbody tr');
+
+        rows.forEach(row => {
+            const studentName = row.cells[0].textContent.toLowerCase();
+            const indexNo = row.cells[1].textContent.toLowerCase();
+            const companyName = row.cells[2].textContent.toLowerCase();
+
+            if (studentName.includes(searchTerm) || indexNo.includes(searchTerm) || companyName.includes(searchTerm)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
 </script>

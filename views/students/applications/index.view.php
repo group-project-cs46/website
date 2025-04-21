@@ -23,14 +23,14 @@
                 <div class="grid-item"><?php echo htmlspecialchars($application['id']); ?></div>
                 <div class="grid-item">
                     <a href="/students/applications/show?id=<?= $application['id'] ?>">
-                        <?php echo htmlspecialchars($application['job_role']); ?>
+                        <?php echo htmlspecialchars($application['internship_role']); ?>
                     </a>
                 </div>
                 <div class="grid-item">
-                    <?php if ($application['interview_complete']): ?>
-                        <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Completed</span>
-                    <?php elseif (!empty($application['interview_date'])): ?>
-                        <?php echo htmlspecialchars($application['interview_date']) ?>
+                    <?php if (!empty($application['interview_date'])): ?>
+                        <?= htmlspecialchars(date('d M Y', strtotime($application['interview_date']))) ?> @
+                        <?= htmlspecialchars(date('H:i', strtotime($application['interview_start_time']))) ?> to
+                        <?= htmlspecialchars(date('H:i', strtotime($application['interview_end_time']))) ?>
                     <?php else: ?>
                         <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
                     <?php endif; ?>

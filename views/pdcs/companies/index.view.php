@@ -71,8 +71,6 @@
                                     <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
                                     <button type="submit" class="button approve-button">Approve</button>
                                 </form>
-
-                               
                             <?php endif; ?>
                         </div>
                         <div class="grid-item" style="text-align: right">
@@ -82,9 +80,8 @@
                                 <div class="grid-item" style="text-align: right">
                                 <form action="/pdcs/companies/reject" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
-                                    <button type= "submit" class="button reject-button" onclick="confirmReject(this)">Reject</button>
+                                    <button type="submit" class="button reject-button" onclick="confirmReject(this)">Reject</button>
                                 </form>
-                                    
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -92,7 +89,7 @@
                 </div>
             </div>
 
-            <div class="container2" id="approved-company-section">
+            <div class="container2" id="approved-companies-section" style="display: none;">
                 <div class="table-title">
                     <h3><b>Approved Companies</b></h3>
                     <p>View Approved Companies</p>
@@ -108,14 +105,30 @@
                         </tr>
                     </thead>
                     <tbody id="registeredCompanyTableBody">
-                        <tr>
-                            <td>Wso2</td>
-                            <td>Nimal</td>
-                            <td>0779657883</td>
-                            <td>Wso2@gmail.com</td>
-                            <td><a href="https://wso2.com/">https://wso2.com/</a></td>
-                        </tr>
-                        <!-- Dynamic rows will be inserted here -->
+                        <?php foreach ($companies as $item): ?>
+                            <?php if ($item['approved']): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($item['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['contact_person'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($item['mobile'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($item['email']); ?></td>
+                                    <td>
+                                        <?php if ($item['website']): ?>
+                                            <a href="<?php echo htmlspecialchars($item['website']); ?>" target="_blank">
+                                                <?php echo htmlspecialchars($item['website']); ?>
+                                            </a>
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php if (empty(array_filter($companies, fn($item) => $item['approved']))): ?>
+                            <tr>
+                                <td colspan="5" style="text-align: center;">No approved companies found.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -131,7 +144,7 @@
 <script>
     function togglecompany(sectionId) {
         const applicationsSection = document.getElementById('company-application-section');
-        const approvedCompaniesSection = document.getElementById('approved-company-section');
+        const approvedCompaniesSection = document.getElementById('approved-companies-section');
         const applicationTab = document.getElementById('companyapplication-tab');
         const approvedCompaniesTab = document.getElementById('approvedcompanies-tab');
 
@@ -150,19 +163,61 @@
 
     // Set initial visibility
     document.getElementById('company-application-section').style.display = 'block';
-    document.getElementById('approved-company-section').style.display = 'none';
+    document.getElementById('approved-companies-section').style.display = 'none';
 
     function confirmReject(button) {
-    if (confirm('Are you sure you want to reject this company?')) {
-        const gridItem = button.closest('.grid-item');
-        button.parentElement.innerHTML = '<span class="text-red-500">Rejected</span>';
-        const approveButton = document.querySelector('.approve-button');
-        if (approveButton) {
-            approveButton.style.display='none';
+        if (confirm('Are you sure you want to reject this company?')) {
+            const gridItem = button.closest('.grid-item');
+            button.parentElement.innerHTML = '<span class="text-red-500">Rejected</span>';
+            const approveButton = document.querySelector('.approve-button');
+            if (approveButton) {
+                approveButton.style.display='none';
+            }
         }
     }
-}
 
+    // Search bar functionality
+    document.getElementById('search-bar').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+
+        // Filter Company Applications (grid)
+        const applicationRows = document.querySelectorAll('#company-application-section .grid > .grid-item:nth-child(7n+1)');
+        applicationRows.forEach((nameCell, index) => {
+            const rowCells = [
+                nameCell, // Name
+                nameCell.nextElementSibling, // Address
+                nameCell.nextElementSibling.nextElementSibling, // Email
+                nameCell.nextElementSibling.nextElementSibling.nextElementSibling, // Mobile
+                nameCell.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling // Website
+            ];
+            const rowText = rowCells.map(cell => cell.textContent.toLowerCase()).join(' ');
+            const matches = rowText.includes(searchTerm);
+            
+            // Show/hide the entire row (7 cells: name, address, email, mobile, website, approve, reject)
+            for (let i = 0; i < 7; i++) {
+                const cell = nameCell.parentElement.children[index * 7 + i];
+                if (cell) {
+                    cell.style.display = matches ? '' : 'none';
+                }
+            }
+        });
+
+        // Filter Approved Companies (table)
+        const approvedRows = document.querySelectorAll('#registeredCompanyTableBody tr:not([style*="text-align: center"])');
+        approvedRows.forEach(row => {
+            const rowText = Array.from(row.cells)
+                .map(cell => cell.textContent.toLowerCase())
+                .join(' ');
+            row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+        });
+
+        // Show/hide "No approved companies found" message
+        const noApprovedMessage = document.querySelector('#registeredCompanyTableBody tr[style*="text-align: center"]');
+        if (noApprovedMessage) {
+            const visibleApprovedRows = Array.from(approvedRows).filter(row => row.style.display !== 'none');
+            noApprovedMessage.style.display = visibleApprovedRows.length === 0 ? '' : 'none';
+        }
+    });
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php'); ?>

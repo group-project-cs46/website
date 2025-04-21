@@ -19,25 +19,30 @@ class pdc_techtalk
         ', [])->get();
     }
 
-    public static function create_techtalk($date, $time)
+    public static function create_techtalk($date, $time, $venue)
     {
         $db = App::resolve(Database::class);
         $datetime = $date . ' ' . $time;
 
-        $result = $db->query('INSERT INTO techtalk_slots (datetime) VALUES (?)', [
-            $datetime
+        $pdcID = auth_user()['id'];
+
+        $result = $db->query('INSERT INTO techtalk_slots (datetime, pdc_id, venue) VALUES (?, ? , ?)', [
+            $datetime,
+            $pdcID,
+            $venue
         ]);
 
         return $result !== false;
     }
 
-    public static function edit_techtalks($id, $date, $time)
+    public static function edit_techtalks($id, $date, $time, $venue)
     {
         $db = App::resolve(Database::class);
         $datetime = $date . ' ' . $time;
 
-        return $db->query('UPDATE techtalk_slots SET datetime = ? WHERE id = ?', [
+        return $db->query('UPDATE techtalk_slots SET datetime = ?, venue = ? WHERE id = ?', [
             $datetime,
+            $venue,
             $id
         ]);
     }

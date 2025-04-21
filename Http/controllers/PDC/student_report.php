@@ -5,7 +5,7 @@ use Models\pdc_studentreport;
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    
+    $reports = pdc_studentreport::fetchAll(); // <-- This was missing
     echo json_encode($reports);
     exit();
 }

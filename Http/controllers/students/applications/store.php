@@ -4,8 +4,11 @@ use Core\App;
 use Core\Database;
 use Core\Session;
 use Core\Validator;
+use Http\Forms\ApplicationStore;
 use Models\Ad;
 use Models\Application;
+use Models\Notification;
+use Models\Round;
 use Models\Settings;
 
 
@@ -13,6 +16,20 @@ use Models\Settings;
 
 $ad_id = $_POST['ad_id'];
 $cv_id = $_POST['cv_id'];
+
+$form = ApplicationStore::validate($attributes = [
+    'ad_id' => $ad_id,
+    'cv_id' => $cv_id,
+]);
+
+$user = auth_user();
+$user_id = $user['id'];
+
+$already_selected_companies = Application::selectedCompanyByStudentId($user_id);
+if ($already_selected_companies) {
+    Session::flash('toast', 'You have already been selected by a company');
+    redirect(urlBack());
+}
 
 $ad = Ad::find($ad_id);
 $max_cvs = $ad['max_cvs'];
@@ -24,16 +41,23 @@ if (count($other_applied) >= $max_cvs) {
     redirect('/students/advertisements');
 }
 
+if (strtotime($ad['deadline']) < time()) {
+    Session::flash('toast', 'Deadline has passed for this job');
+    redirect('/students/advertisements');
+}
 
-
-$user = auth_user();
-$user_id = $user['id'];
+$currentRound = Round::currentRound();
+if ($currentRound['id'] !== $ad['round_id']) {
+    Session::flash('toast', 'This job is not available in this round');
+    redirect('/students/advertisements');
+}
 
 $existing_application = Application::findByStudentIdAndAdId($user_id, $ad_id);
 
 if ($existing_application) {
-    Session::flash('toast', 'You have already applied for this job');
-    redirect('/students/advertisements');
+    $form->error('cv_id', 'You have already applied for this job')->throw();
+    //    Session::flash('toast', 'You have already applied for this job');
+    //    redirect('/students/advertisements');
 }
 
 $other_applications = Application::getByStudentId($user_id);
@@ -47,6 +71,11 @@ if (count($other_applications) >= $application_limit) {
 
 
 Application::create($user_id, $cv_id, $ad_id);
-
+Notification::create(
+    $ad['company_id'],
+    'New application',
+    'You have a new application for the job ' . $ad['internship_role'] . ' from ' . $user['name'],
+    expires_at: date('Y-m-d H:i:s', strtotime('+1 day'))
+);
 
 redirect('/students/applications');
