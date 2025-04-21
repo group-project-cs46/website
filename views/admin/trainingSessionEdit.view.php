@@ -127,8 +127,8 @@
             </div>
 
             <div class="form-group">
-                <label for="place">Place</label>
-                <input type="text" id="place" name="place" value="<?= $TRAINING_SESSION['place'] ?>" required>
+                <label for="venue">Place</label>
+                <input type="text" id="venue" name="venue" value="<?= $TRAINING_SESSION['venue'] ?>" required>
             </div>
             
             <div class="deadline-container">

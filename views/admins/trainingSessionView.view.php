@@ -4,39 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Competition</title>
+    <title>Training Session</title>
     <style>
-        /* *body {
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        *body {
+                background-color: white;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start; /* Align to the top instead of center (NEW) */
         }
 
         .center-wrapper {
-            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin: auto;
-        } */
-
-        *body {
-    background-color: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to the top instead of center (NEW) */
-}
-
-.center-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align items towards the top (NEW) */
-    margin-top: 50px; /* Add some space from the top (NEW) */
-    width: 100%;
-}
+            align-items: flex-start; /* Align items towards the top (NEW) */
+            margin-top: 50px; /* Add some space from the top (NEW) */
+            width: 100%;
+        }
+        
         .form-container {
             background: white;
             border-radius: 10px;
@@ -87,15 +72,30 @@
         .submit-btn {
             background-color: #3498db;
             color: white;
-            padding: 10px;
+            padding: 12px; 
             border: none;
             border-radius: 8px;
-            width: 100%;
+            width: auto;
             font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
             font-weight: bold;
         }
+
+        .submit-btn a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+        } 
+
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* or 'space-between' or 'gap' */
+            margin-top: 20px;
+}
+
 
         .submit-btn:hover {
             background-color: #2980b9;
@@ -114,41 +114,38 @@
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Add Competition</h2>
+        <h2>Trining Session</h2>
         <form method="post" action="/eventsAddition">
             <div class="form-group">
-                <label for="competition-name">Competition Name</label>
+                <label for="competition-name">Name</label>
                 <input type="text" id="competition-name" name="competition-name" required>
             </div>
 
             <div class="form-group">
-                    <label for="events-no">Event No</label>
-                    <input type="text" id="events-no"  name="events-no" required pattern="^UCSC\/Ev\/2025\/\d{3}$" title="Format: UCSC/Ev/2025/123" class="input-validate">
-                </div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="competition-name">Place</label>
+                <input type="text" id="competition-name" name="competition-name" required>
+            </div>
             
             <div class="deadline-container">
                 <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
+                    <label for="time">Start Time</label>
+                    <input type="time" id="time" name="time" required>
                 </div>
                 <div class="form-group">
-                    <label for="time">Time</label>
+                    <label for="time">End Time</label>
                     <input type="time" id="time" name="time" required>
                 </div>
             </div>
 
-            <div class="deadline-container">
-                <div class="form-group">
-                    <label for="deadline-date">Deadline Date</label>
-                    <input type="date" id="deadline-date" name="deadline-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="deadline-time">Deadline Time</label>
-                    <input type="time" id="deadline-time" name="deadline-time" required>
-                </div>
+            <div class="button-container">
+                <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
+                <button type="submit" class="submit-btn"><a href="/eventStudentsManage"> Students List</a></button>
             </div>
-
-            <button type="submit" class="submit-btn">Add Competition</button>
         </form>
     </div>
     </div>

@@ -1,16 +1,10 @@
-<?php 
+<?php
 
-use Models\ViewComplaintAdmin;
+use Models\AdminComplaint;
 
-try {
-    $data = ViewComplaintAdmin::getAllBasicComplaintDetails();
+    $complaints = AdminComplaint::getAll();
+view('admin/complaintManage.view.php', [
+    'COMPLAINT_DATA' => $complaints
+]);
 
-    // Debugging line to see what's inside $data
-    echo "<pre>";
-    print_r($data);
-    echo "</pre>";
 
-    view('admin/complaintManage.view.php', ['COMPLAINT_DATA' => $data]);
-} catch (Exception $e) {
-    die($e->getMessage());
-}
