@@ -15,7 +15,7 @@ $auth_user = auth_user();
 //dd($attendance_code);
 
 if ($training_session['attendance_code'] !== $attendance_code) {
-     Session::flash('toast', 'Invalid attendance code.');
+     Session::flash('toast', 'Invalid QR code.');
      redirect(urlBack());
 }
 
