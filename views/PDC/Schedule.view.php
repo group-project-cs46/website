@@ -474,13 +474,38 @@ function updateCompanyList(companiesToDisplay) {
     companiesToDisplay.forEach((company, index) => {
         const listItem = document.createElement("li");
         let distanceText = company.distanceText ? ` (${company.distanceText})` : '';
-        listItem.innerHTML = `<input type="checkbox" id="company-${index}" onclick="selectCompany(${index}, companiesToDisplay)"> ${company.name} - ${company.address} (${company.city})${distanceText}`;
+        listItem.innerHTML = `<input type="checkbox" id="company-${index}" onchange="selectCompany('${company.name}', this.checked)"> ${company.name} - ${company.address} (${company.city})${distanceText}`;
         companyList.appendChild(listItem);
 
         // Check if the company is already selected
         const isSelected = selectedCompanies.some(selected => selected.name === company.name);
         document.getElementById(`company-${index}`).checked = isSelected;
     });
+}
+
+function selectCompany(companyName, isChecked) {
+    const company = companies.find(c => c.name === companyName);
+    if (!company) {
+        console.error('Company not found:', companyName);
+        return;
+    }
+
+    if (isChecked) {
+        if (!selectedCompanies.some(selected => selected.name === company.name)) {
+            if (selectedCompanies.length < 3) {
+                selectedCompanies.push(company);
+            } else {
+                document.querySelector(`input[id^="company-"][onchange*="selectCompany('${companyName}',"]`).checked = false;
+                alert("You can select up to 3 companies.");
+            }
+        }
+    } else {
+        const companyIndex = selectedCompanies.findIndex(selected => selected.name === company.name);
+        if (companyIndex > -1) {
+            selectedCompanies.splice(companyIndex, 1);
+        }
+    }
+    console.log('Selected companies:', selectedCompanies); // Debug
 }
 
 function findClosestCompanies() {
@@ -551,29 +576,25 @@ function findClosestCompanies() {
     });
 }
 
-function selectCompany(index, companiesToDisplay) {
-    const checkbox = document.getElementById(`company-${index}`);
-    const company = companiesToDisplay[index];
-    if (checkbox.checked && selectedCompanies.length < 3) {
-        // Only add if not already in the list
-        if (!selectedCompanies.some(selected => selected.name === company.name)) {
-            selectedCompanies.push(company);
-        }
-    } else if (!checkbox.checked) {
-        const companyIndex = selectedCompanies.findIndex(selected => selected.name === company.name);
-        if (companyIndex > -1) {
-            selectedCompanies.splice(companyIndex, 1);
-        }
-    }
-}
-
-function openVisitModal() {
-    if (selectedCompanies.length === 0) {
+function openVisitModal(visitIndex = null) {
+    if (selectedCompanies.length === 0 && visitIndex === null) {
         alert("Please select at least one company from the list.");
         return;
     }
     const companyTimeSelection = document.getElementById("company-time-selection");
     companyTimeSelection.innerHTML = "<h3>Select Time for Companies:</h3>";
+
+    let visit = null;
+    if (visitIndex !== null) {
+        visit = visitSchedule[visitIndex];
+        selectedCompanies.length = 0; // Clear current selections
+        visit.visitTimes.forEach(vt => {
+            const company = companies.find(c => c.name === vt.companyName);
+            if (company) selectedCompanies.push(company);
+        });
+        document.getElementById("visit-date").value = visit.visitDate;
+    }
+
     selectedCompanies.forEach((company, index) => {
         const companyTimeDiv = document.createElement("div");
         companyTimeDiv.classList.add("company-time");
@@ -584,11 +605,41 @@ function openVisitModal() {
         timeInput.id = `time-${index}`;
         timeInput.name = `time-${index}`;
         timeInput.required = true;
+        if (visit) {
+            const visitTime = visit.visitTimes.find(vt => vt.companyName === company.name);
+            if (visitTime) timeInput.value = visitTime.visitTime;
+        }
         companyTimeDiv.appendChild(companyLabel);
         companyTimeDiv.appendChild(timeInput);
         companyTimeSelection.appendChild(companyTimeDiv);
     });
+
     document.getElementById("addVisitModal").style.display = "block";
+
+    // Set up form submission
+    document.getElementById("visit-form").onsubmit = function(e) {
+        e.preventDefault();
+        const visitDate = document.getElementById("visit-date").value;
+        const visitTimes = selectedCompanies.map((company, index) => ({
+            companyName: company.name,
+            visitTime: document.getElementById(`time-${index}`).value
+        }));
+        const newVisit = { visitDate, visitTimes };
+        
+        if (visitIndex !== null) {
+            // Update existing visit
+            visitSchedule[visitIndex] = newVisit;
+            updateVisitTable();
+        } else {
+            // Add new visit
+            visitSchedule.push(newVisit);
+            addVisitToTable(newVisit);
+        }
+        
+        closeVisitModal();
+        selectedCompanies.length = 0;
+        updateCompanyList(companies);
+    };
 }
 
 document.getElementById("visit-form").addEventListener("submit", function(e) {
@@ -609,8 +660,10 @@ document.getElementById("visit-form").addEventListener("submit", function(e) {
 
 function addVisitToTable(visit) {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
+    const visitIndex = visitSchedule.indexOf(visit);
     visit.visitTimes.forEach((visitTime, index) => {
         const newRow = tableBody.insertRow();
+        newRow.dataset.visitIndex = visitIndex; // Store visit index
         if (index === 0) {
             const dateCell = newRow.insertCell(0);
             dateCell.rowSpan = visit.visitTimes.length;
@@ -623,7 +676,7 @@ function addVisitToTable(visit) {
         const actionCell = newRow.insertCell(-1);
         const editButton = document.createElement("button");
         editButton.textContent = "Edit";
-        editButton.onclick = () => editVisit(newRow, visit.visitDate, visitTime.companyName);
+        editButton.onclick = () => editVisit(visitIndex, visitTime.companyName);
         actionCell.appendChild(editButton);
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
@@ -632,25 +685,24 @@ function addVisitToTable(visit) {
     });
 }
 
+function updateVisitTable() {
+    const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = ""; // Clear table
+    visitSchedule.forEach(visit => addVisitToTable(visit)); // Re-render all visits
+}
+
 function deleteVisitRow(row) {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
     tableBody.removeChild(row);
 }
 
-function editVisit(row, date, companyName) {
-    const visitIndex = visitSchedule.findIndex(v => v.visitDate === date);
-    const companyIndex = selectedCompanies.findIndex(c => c.name === companyName);
-    const visitTime = visitSchedule[visitIndex].visitTimes[companyIndex];
-    document.getElementById("visit-date").value = date;
-    document.getElementById(`time-${companyIndex}`).value = visitTime.visitTime;
-    document.getElementById("addVisitModal").style.display = "block";
-    document.getElementById("visit-form").onsubmit = function(e) {
-        e.preventDefault();
-        const newVisitTime = document.getElementById(`time-${companyIndex}`).value;
-        visitSchedule[visitIndex].visitTimes[companyIndex].visitTime = newVisitTime;
-        row.cells[1].textContent = newVisitTime;
-        closeVisitModal();
-    };
+function editVisit(visitIndex, companyName) {
+    const visit = visitSchedule[visitIndex];
+    if (!visit) {
+        alert("Visit not found.");
+        return;
+    }
+    openVisitModal(visitIndex);
 }
 
 function filterCompaniesByCity() {
