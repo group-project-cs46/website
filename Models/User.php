@@ -11,9 +11,7 @@ class User
     {
         $db = App::resolve(Database::class);
 
-        $user = $db->query('SELECT * FROM users WHERE id = ?', [$id])->find();
-
-        return $user;
+        return $db->query('SELECT * FROM users WHERE id = ?', [$id])->find();
     }
 
     
@@ -31,24 +29,34 @@ class User
     {
         $db = App::resolve(Database::class);
 
-        $user = $db->query('SELECT
-                u.*,
-                s.*,
-                c.*
-            FROM 
-                users u
-            LEFT JOIN students s 
-                ON u.id = s.id AND u.role = 2  -- Role::Student
-            LEFT JOIN lecturers l
-                ON u.id = l.id AND u.role = 5  -- Role::Lecturer
-            LEFT JOIN companies c 
-                ON u.id = c.id AND u.role = 4  -- Role::Company
-            LEFT JOIN admins a 
-                ON u.id = a.id AND u.role = 1  -- Role::Admin
-            LEFT JOIN pdcs p 
-                ON u.id = p.id AND u.role = 3 -- Role::Pdc
-            WHERE u.id = ?', [$id])
-            ->find();
+        $user = auth_user();
+
+        $query = 'SELECT * FROM users';
+
+        switch ($user['role']) {
+            case 1: // Admin
+                $query .= ' LEFT JOIN admins other ON other.id = users.id';
+                break;
+            case 2: // Student
+                $query .= ' LEFT JOIN students other ON other.id = users.id';
+                break;
+            case 3: // PDC
+                $query .= ' LEFT JOIN pdcs other ON other.id = users.id';
+                break;
+            case 4: // Company
+                $query .= ' LEFT JOIN companies other ON other.id = users.id';
+                break;
+            case 5: // Lecturer
+                $query .= ' LEFT JOIN lecturers other ON other.id = users.id';
+                break;
+            default:
+                // Handle unknown role
+                break;
+        }
+
+        $query .= ' WHERE users.id = ?';
+
+        $user = $db->query($query, [$id])->find();
 
         return $user;
     }
@@ -57,11 +65,29 @@ class User
     {
         $db = App::resolve(Database::class);
 
-        $user = $db->query('UPDATE users SET mobile = ?, bio = ?, linkedin = ?, name = ? WHERE id = ?',
-            [ $attributes['mobile'], $attributes['bio'], $attributes['linkedin'], $attributes['name'] , $id]);
+        // Step 1: Get current user
+        $currentUser = User::find($id);
 
-        return $user;
+        if (!$currentUser) {
+            return null;
+        }
+
+        // Step 2: Merge attributes (use existing if not provided)
+        $mobile   = $attributes['mobile']   ?? $currentUser['mobile'];
+        $bio      = $attributes['bio']      ?? $currentUser['bio'];
+        $linkedin = $attributes['linkedin'] ?? $currentUser['linkedin'];
+        $name     = $attributes['name']     ?? $currentUser['name'];
+
+        // Step 3: Update with merged values
+        $db->query(
+            'UPDATE users SET mobile = ?, bio = ?, linkedin = ?, name = ? WHERE id = ?',
+            [$mobile, $bio, $linkedin, $name, $id]
+        );
+
+//        // Optionally, return updated data
+//        return $db->query('SELECT * FROM users WHERE id = ?', [$id])->find();
     }
+
 
     public static function create($attributes)
     {

@@ -17,6 +17,10 @@ if ($user['role'] === 4) {
     redirect('/accounts/company');
 }
 
+if ($user['role'] === 2) {
+    redirect('/accounts/student');
+}
+
 
 view('/account.view.php', [
     'user' => $user,
