@@ -9,7 +9,7 @@ try {
     die($e->getMessage());
 }
 
-view('admin/eventStudentsManage.view.php', [
+view('admins/eventStudentsManage.view.php', [
     'STUDENT_data' => $data,
     'EVENT_NO' => $eventNo
 ]);

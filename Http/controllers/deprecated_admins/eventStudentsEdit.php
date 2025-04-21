@@ -9,7 +9,7 @@ try {
     }
 
     $data = AddEventStudent::get_by_id($id);
-    view('admin/eventStudentsEdit.view.php', ['student' => $data]);
+    view('admins/eventStudentsEdit.view.php', ['student' => $data]);
 } catch (Exception $e) {
     die($e->getMessage());
 }

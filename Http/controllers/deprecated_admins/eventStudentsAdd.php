@@ -1,3 +1,3 @@
 <?php
 
-view('admin/eventStudentsAdd.view.php', []);
+view('admins/eventStudentsAdd.view.php', []);

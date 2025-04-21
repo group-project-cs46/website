@@ -160,7 +160,7 @@ $navItems = [
     ],
     [
         'text' => 'Complaints',
-        'href' => '/complaint',
+        'href' => '/complaintView',
         'icon' => 'fa-comments',
         'only' => [Role::Admin],
     ],

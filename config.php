@@ -24,7 +24,7 @@ return [
     'mail' => [
         'mailer' => 'smtp',
         'host' => 'email-smtp.us-east-1.amazonaws.com',
-        'port' =>587,
+        'port' => 587,
         'username' => 'AKIAT3IPZKBSHCTVDQPR',
         'password' => 'BAQ945DlKpvWnjVpI3fvSUSqxv0hwoG007mAKmsM5VIi',
         'encryption' => 'tls',
