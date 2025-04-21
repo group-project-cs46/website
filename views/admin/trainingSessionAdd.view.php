@@ -127,8 +127,8 @@
             </div>
 
             <div class="form-group">
-                <label for="place">Place</label>
-                <input type="text" id="placee" name="place" required>
+                <label for="venue">Place</label>
+                <input type="text" id="venue" name="venue" required>
             </div>
             
             <div class="deadline-container">
@@ -140,6 +140,11 @@
                     <label for="end time">End Time</label>
                     <input type="time" id="time" name="end_time" required>
                 </div>
+            </div>
+
+            <div class="form-group" style="width: 100%;">
+                    <label for="password">Password</label>
+                    <input type="text" id="password" required minlength="6" name="password">
             </div>
 
             <button type="submit" class="submit-btn">Add Session</button>
