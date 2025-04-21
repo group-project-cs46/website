@@ -8,7 +8,7 @@ $name = $_POST['name'];
 $date = $_POST['date'];
 $start_time = $_POST['start_time'];
 $end_time = $_POST['end_time'];
-$place = $_POST['place'];
+$venue = $_POST['venue'];
 
 try {
     if (!$id) {
@@ -16,10 +16,12 @@ try {
     }
 
     // Call the model's update method
-    TrainingSession::update($id, $name, $date, $start_time, $end_time, $place);
+    TrainingSession::update($id, $name, $date, $start_time, $end_time, $venue);
 } catch (\Exception $e) {
     die($e->getMessage());
 }
 
 // Redirect after update
 redirect('/trainingSession');
+
+
