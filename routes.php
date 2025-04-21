@@ -1,5 +1,7 @@
 <?php
 
+// Thathsara ############################################################################################################################
+
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -70,14 +72,10 @@ $router->get('/students/complaints/show', 'students/complaints/show.php')->only(
 $router->post('/students/complaints/messages', 'students/complaints/messages/store.php')->only('student');
 
 $router->get('/students/training_sessions/show', 'students/training_sessions/show.php')->only('student');
+$router->get('/students/training_sessions/register', 'students/training_sessions/register.php')->only('student');
+$router->post('/students/training_sessions/attendance', 'students/training_sessions/attendance.php')->only('student');
 
-
-// Admin by thathsara
-
-//$router->get('/admin/pdcs', 'admin/pdcs/index.php');
-//$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
-//$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
-//$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
+// ########################################################################################################################################
 
 //company
 
