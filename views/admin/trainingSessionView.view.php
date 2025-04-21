@@ -4,24 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trining Session</title>
+    <title>Edit Session</title>
     <style>
-        *body {
-                background-color: white;
-                min-height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start; /* Align to the top instead of center (NEW) */
+        /* *body {
+            background-color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .center-wrapper {
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align items towards the top (NEW) */
-            margin-top: 50px; /* Add some space from the top (NEW) */
-            width: 100%;
-        }
-        
+            align-items: center;
+            margin: auto;
+        } */
+
+        *body {
+    background-color: white;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to the top instead of center (NEW) */
+}
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items towards the top (NEW) */
+    margin-top: 50px; /* Add some space from the top (NEW) */
+    width: 100%;
+}
         .form-container {
             background: white;
             border-radius: 10px;
@@ -82,6 +97,12 @@
             font-weight: bold;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: space-between; /* or 'space-between' or 'gap' */
+            margin-top: 20px;
+        }
+
         .submit-btn a {
             color: white;
             text-decoration: none;
@@ -89,14 +110,6 @@
             width: 100%;
             height: 100%;
         } 
-
-        .button-container {
-            display: flex;
-            justify-content: space-between; /* or 'space-between' or 'gap' */
-            margin-top: 20px;
-}
-
-
         .submit-btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
@@ -114,38 +127,40 @@
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Trining Session</h2>
-        <form method="post" action="/eventsAddition">
+        <h2>Edit Session</h2>
+        <form method="post" action="/trainingEdition">
             <div class="form-group">
-                <label for="competition-name">Name</label>
-                <input type="text" id="competition-name" name="competition-name" required>
+                <label for="session-name">Name</label>
+                <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required readonly>
             </div>
 
             <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
+                    <input type="date" id="date" name="date" value="<?= $TRAINING_SESSION['date'] ?>" required readonly>
             </div>
 
             <div class="form-group">
-                <label for="competition-name">Place</label>
-                <input type="text" id="competition-name" name="competition-name" required>
+                <label for="venue">Place</label>
+                <input type="text" id="venue" name="venue" value="<?= $TRAINING_SESSION['venue'] ?>" required readonly>
             </div>
             
             <div class="deadline-container">
                 <div class="form-group">
-                    <label for="time">Start Time</label>
-                    <input type="time" id="time" name="time" required>
+                    <label for="start time">Start Time</label>
+                    <input type="time" id="time" name="start_time" value="<?= $TRAINING_SESSION['start_time'] ?>" required readonly>
                 </div>
                 <div class="form-group">
-                    <label for="time">End Time</label>
-                    <input type="time" id="time" name="time" required>
+                    <label for="end time">End Time</label>
+                    <input type="time" id="time" name="end_time" value="<?= $TRAINING_SESSION['end_time'] ?>" required readonly>
                 </div>
             </div>
+
+            <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
 
             <div class="button-container">
                 <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
                 <button type="submit" class="submit-btn"><a href="/eventStudentsManage"> Students List</a></button>
-            </div>
+            </div>        
         </form>
     </div>
     </div>

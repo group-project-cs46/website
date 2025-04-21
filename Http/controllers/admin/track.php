@@ -9,7 +9,7 @@ try {
     die($e->getMessage());
 }
 
-view('admin/track.view.php', [
+view('admins/track.view.php', [
     'STUDENT_data' => $data,
     'EVENT_NO' => $eventNo
 ]);

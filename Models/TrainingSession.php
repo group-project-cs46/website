@@ -7,24 +7,34 @@ use Core\Database;
 
 class TrainingSession
 {
-    public static function create($name, $date, $start_time, $end_time, $place)
+    public static function create($name, $date, $start_time, $end_time, $venue, $attendence_code)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, place) VALUES (?, ?, ?, ?, ?)', [
+        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, venue, attendence_code) VALUES (?, ?, ?, ?, ?, ?)', [
             $name,
             $date,
             $start_time,
             $end_time,
-            $place
+            $venue,
+            $attendence_code
         ]);
     }
 
+    // public static function get_all()
+    // {
+    //     $db = App::resolve(Database::class);
+    //     return $db->query('SELECT * FROM training_sessions', [])->get();
+    // }
+
     public static function get_all()
-    {
-        $db = App::resolve(Database::class);
-        return $db->query('SELECT * FROM training_sessions', [])->get();
-    }
+{
+    $db = App::resolve(Database::class);
+    // return $db->query('SELECT name, date, start_time, end_time, venue FROM training_sessions', [])->get();
+    return $db->query('SELECT id, name, date, start_time, end_time, venue FROM training_sessions', [])->get();
+
+}
+
 
     public static function get_by_id($id)
     {
@@ -33,12 +43,12 @@ class TrainingSession
         return $result[0] ?? null;
     }
 
-    public static function update($id, $name, $date, $start_time, $end_time, $place)
+    public static function update($id, $name, $date, $start_time, $end_time, $venue)
     {
         $db = App::resolve(Database::class);
         $db->query(
-            'UPDATE training_sessions SET name = ?, date = ?, start_time = ?, end_time = ?, place = ? WHERE id = ?',
-            [$name, $date, $start_time, $end_time, $place, $id]
+            'UPDATE training_sessions SET name = ?, date = ?, start_time = ?, end_time = ?, venue = ? WHERE id = ?',
+            [$name, $date, $start_time, $end_time, $venue, $id]
         );
     }
 
