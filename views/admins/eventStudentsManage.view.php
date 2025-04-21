@@ -87,7 +87,7 @@
                             <td><?= $students['mobile'] ?></td>
                             <td><?= $students['email'] ?></td>
                             <td class="actions">
-                                <a href="/pdcEdit?id=<?= $students['id'] ?>" class="view-button">Edit</a>
+                                <a href="/eventStudentsEdit?id=<?= $students['id'] ?>" class="view-button">Edit</a>
                                 <form action="/eventsStudentsDeletion" method="post">
                                     <input type="hidden" name="id" value="<?= $students['id'] ?>">
                                     <button type="submit" class="disable-button">Delete</button>

@@ -72,8 +72,8 @@ class AddEventStudent
         $data = [
             $student_id,
             $title,
-            $id,
-            $course
+            $course,
+            $id
         ];
 
         $db->query('UPDATE event_students SET student_id=?, title=?, course=? WHERE id=?', $data);

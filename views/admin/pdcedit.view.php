@@ -181,7 +181,7 @@
 </head>
 
 <body>
-    <form class="container" action="/pdcEdition" method="post">
+    <form class="container" action="/pdcEdition" method="post" enctype="multipart/form-data">
         <div class="header">
             <h2>Edit PDC</h2>
         </div>
@@ -205,6 +205,8 @@
                         <option value="mr" <?= $PDC['title'] === "mr" ? "selected" : "" ?>>Mr</option>
                         <option value="mrs" <?= $PDC['title'] === "mrs" ? "selected" : "" ?>>Mrs</option>
                         <option value="ms" <?= $PDC['title'] === "ms" ? "selected" : "" ?>>Ms</option>
+                        <option value="dr" <?= $PDC['title'] === "mrs" ? "selected" : "" ?>>Dr</option>
+                        <option value="prof" <?= $PDC['title'] === "ms" ? "selected" : "" ?>>Prof</option>
                     </select>
                 </div>
 
@@ -221,13 +223,14 @@
 
             <div class="right-column">
                 <div class="profile-image-container">
-                    <img id="profile-preview" src="https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile" alt="Profile Preview">
+                    <input type="hidden" name="current_image" value="<?= $PDC['photo'] ?? '' ?>">
+                    <img id="profile-preview" src="<?= $PDC['photo'] ? '/uploads/photos/' . $PDC['photo'] : 'https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile' ?>" alt="Profile Preview">
                 </div>
 
                 <div class="file-upload">
                     <div class="file-upload-buttons">
                         <button class="btn btn-file" id="choose-file-btn">Choose File</button>
-                        <input type="file" id="file-input" accept="image/*" style="display: none;">
+                        <input type="file" id="file-input" accept="image/*" style="display: none;" name="profile_image">
                         <button class="btn btn-upload" id="upload-btn">Upload</button>
                     </div>
                     <div class="file-upload-status" id="file-status">No file chosen</div>
@@ -242,7 +245,7 @@
         <input type="hidden" name="id" value="<?= $PDC['id'] ?>" />
 
         <div style="padding: 0 20px 20px 20px;">
-            <button class="btn btn-primary" id="add-and-send-btn">Add and send</button>
+            <button class="btn btn-primary">Add and send</button>
         </div>
     </form>
 
@@ -250,12 +253,11 @@
         // File upload functionality
         const fileInput = document.getElementById('file-input');
         const chooseFileBtn = document.getElementById('choose-file-btn');
-        const uploadBtn = document.getElementById('upload-btn');
         const fileStatus = document.getElementById('file-status');
         const profilePreview = document.getElementById('profile-preview');
-        const addAndSendBtn = document.getElementById('add-and-send-btn');
 
-        chooseFileBtn.addEventListener('click', function() {
+        chooseFileBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             fileInput.click();
         });
 
@@ -272,34 +274,6 @@
             } else {
                 fileStatus.textContent = 'No file chosen';
             }
-        });
-
-        uploadBtn.addEventListener('click', function() {
-            if (fileInput.files.length > 0) {
-                // In a real application, this would handle the file upload
-                alert('Uploading file: ' + fileInput.files[0].name);
-            } else {
-                alert('Please choose a file first');
-            }
-        });
-
-        addAndSendBtn.addEventListener('click', function() {
-            // Validate form fields
-            const name = document.getElementById('name').value;
-            const employeeNo = document.getElementById('employee-no').value;
-            const title = document.getElementById('title').value;
-            const email = document.getElementById('email').value;
-            const contactNo = document.getElementById('contact-no').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (!name || !employeeNo || !title || !email || !contactNo || !username || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
-
-            // In a real application, this would submit the form
-            alert('Form submitted successfully!');
         });
     </script>
 </body>

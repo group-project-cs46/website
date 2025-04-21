@@ -219,6 +219,17 @@ $router->get('/eventsView', 'admin/eventView.php');
 $router->get('/eventsAdd', 'admin/eventAdd.php');
 $router->get('/eventsEdit', 'admin/eventEdit.php');
 
+//training session get
+$router->get('/trainingSession', 'admin/trainingManage.php');
+$router->get('/trainingView', 'admin/trainingView.php');
+$router->get('/trainingAdd', 'admin/trainingAdd.php');
+$router->get('/trainingEdit', 'admin/trainingEdit.php');
+
+//training session post
+$router->post('/trainingAddition', controller: 'admin/add-training.php');
+$router->post('/trainingEdition', controller: 'admin/edit-training.php');
+$router->post('/trainingDeletion', controller: 'admin/delete-training.php');
+
 $router->post('/eventsAddition', controller: 'admin/add-events.php');
 $router->post('/eventsEdition', controller: 'admin/edit-events.php');
 $router->post('/eventsDeletion', controller: 'admin/delete-events.php');
@@ -232,10 +243,19 @@ $router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
 $router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
 
 $router->post('/eventsStudentsAddition', controller: 'admin/add-eventStudents.php');
-$router->post('/eventsStudentsEdition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsEdition', controller: 'admin/edit-eventStudents.php');
 $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.php');
 
 $router->get('/track', 'admin/track.php');
+
+$router->get('/complaint', controller: 'admin/complaintNew.php');
+
+
+
+
+
+
+
 
 
 

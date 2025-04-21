@@ -9,7 +9,6 @@ $time = $_POST['time'];
 $deadline_date = $_POST['deadline-date'];
 $deadline_time = $_POST['deadline-time'];
 
-
 try {
     AddEvents::create($events_no, $competition_name, $date, $time, $deadline_date, $deadline_time);
 } catch (\Exception $e) {

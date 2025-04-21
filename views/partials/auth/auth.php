@@ -151,6 +151,18 @@ $navItems = [
         'href' => '/events',
         'icon' => 'fa-solid fa-calendar-days',
         'only' => [Role::Admin],
+    ], 
+    [
+        'text' => 'Training Session',
+        'href' => '/trainingSession',
+        'icon' => 'fa-solid fa-calendar-days',
+        'only' => [Role::Admin],
+    ],
+    [
+        'text' => 'Complaints',
+        'href' => '/complaint',
+        'icon' => 'fa-comments',
+        'only' => [Role::Admin],
     ],
     [
 

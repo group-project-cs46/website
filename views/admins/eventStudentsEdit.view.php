@@ -6,13 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update PDC Profile</title>
+    <title>Edit Students</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: white;
+            background-color: white
         }
 
         .container {
@@ -20,7 +20,7 @@
             margin: 20px auto;
             background-color: #fff;
             border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -34,6 +34,7 @@
             font-size: 18px;
             font-weight: 600;
             color: #333;
+            text-align: center;
         }
 
         .form-container {
@@ -177,11 +178,28 @@
         .btn-upload:hover {
             background-color: #2980b9;
         }
+        .type-container {
+        display: flex;
+        gap: 20px; /* space between the two boxes */
+        margin-bottom: 15px;
+        }
+
+        .type-container .form-group {
+            flex: 1; /* makes both form-group elements take equal width */
+        }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
+
     </style>
 </head>
 
 <body>
-    <form class="container" action="/pdcEdition" method="post">
+    <form class="container" method="post" action="/eventsStudentsEdition">
         <div class="header">
             <h2>Edit Students</h2>
         </div>
@@ -190,38 +208,43 @@
             <div class="left-column">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" value="<?= $PDC['name'] ?>" id="name" name="name" placeholder="Enter Name Here" required>
+                    <input type="text" value="<?= $student['name'] ?>" id="name" placeholder="Enter Name Here" name="name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="employee-no">Employee No:</label>
-                    <input required type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Lecturer ID No. Here">
+                    <label for="student-no">Student No:</label>
+                    <input type="text" value="<?= $student['student_id'] ?>" required id="student-no" placeholder="Enter Lecturer ID No. Here" name="student_no" pattern="^UCSC\/(CS|IS)\/\d{3}$" title="Format: UCSC/CS/123 or UCSC/IS/123" class="input-validate">
                 </div>
-
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <select id="title" name="title" required>
-                        <option value="">Select Title</option>
-                        <option value="mr" <?= $PDC['title'] === "mr" ? "selected" : "" ?>>Mr</option>
-                        <option value="mrs" <?= $PDC['title'] === "mrs" ? "selected" : "" ?>>Mrs</option>
-                        <option value="ms" <?= $PDC['title'] === "ms" ? "selected" : "" ?>>Ms</option>
-                    </select>
+                <div class="type-container">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                            <select id="title" name="title" required>
+                                <option value="">Select Title</option>
+                                <option value="mr" <?= $student['title'] === "mr" ? "selected" : "" ?>>Mr.</option>
+                                <option value="mrs" <?= $student['title'] === "mr" ? "selected" : "" ?>>Mrs.</option>
+                                <option value="ms" <?= $student['title'] === "mr" ? "selected" : "" ?>>Ms.</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="course">Course:</label>
+                        <input type="text" value="<?= $student['course'] ?>" required id="course" placeholder="Enter Course. Here" name="course">
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input value="<?= $PDC['email'] ?>" type="email" id="email" name="email" placeholder="Enter Email Address Here" required>
+                    <input type="email" id="email" value="<?= $student['email'] ?>" required placeholder="Enter Email Address Here" name="email">
                 </div>
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input value="<?= $PDC['mobile'] ?>" type="text" id="contact-no" name="contact" placeholder="Enter Contact No Here" required>
+                    <input type="text" id="contact-no" value="<?= $student['mobile'] ?>" required placeholder="Enter Contact No Here" name="contact" pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
                 </div>
             </div>
 
             <div class="right-column">
                 <div class="profile-image-container">
-                    <img id="profile-preview" src="https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile" alt="Profile Preview">
+                    <img id="profile-preview" src="https://via.placeholder.com/150/6c7eb7/ffffff?text=Profile" alt="">
                 </div>
 
                 <div class="file-upload">
@@ -233,16 +256,21 @@
                     <div class="file-upload-status" id="file-status">No file chosen</div>
                 </div>
 
+                <!-- <div class="form-group" style="width: 100%; margin-top: 15px;">
+                    <label for="username">Username</label>
+                    <input type="text" id="username">
+                </div> -->
+
                 <div class="form-group" style="width: 100%;">
-                    <label for="password">Set New Password(Keep empty if you don't want to change)</label>
-                    <input type="password" id="password" name="password" minlength="6">
+                    <label for="password">Password</label>
+                    <input type="text" id="password" required minlength="6" name="password">
                 </div>
             </div>
         </div>
-        <input type="hidden" name="id" value="<?= $PDC['id'] ?>" />
+        <input type="hidden" name="id" value="<?= $student['id'] ?>" />
 
         <div style="padding: 0 20px 20px 20px;">
-            <button class="btn btn-primary" id="add-and-send-btn">Add and send</button>
+            <button class="btn btn-primary" id="add-and-send-btn">save change</button>
         </div>
     </form>
 
@@ -283,24 +311,24 @@
             }
         });
 
-        addAndSendBtn.addEventListener('click', function() {
-            // Validate form fields
-            const name = document.getElementById('name').value;
-            const employeeNo = document.getElementById('employee-no').value;
-            const title = document.getElementById('title').value;
-            const email = document.getElementById('email').value;
-            const contactNo = document.getElementById('contact-no').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        // addAndSendBtn.addEventListener('click', function() {
+        //     // Validate form fields
+        //     const name = document.getElementById('name').value;
+        //     const employeeNo = document.getElementById('employee-no').value;
+        //     const title = document.getElementById('title').value;
+        //     const email = document.getElementById('email').value;
+        //     const contactNo = document.getElementById('contact-no').value;
+        //     const username = document.getElementById('username').value;
+        //     const password = document.getElementById('password').value;
 
-            if (!name || !employeeNo || !title || !email || !contactNo || !username || !password) {
-                alert('Please fill in all fields');
-                return;
-            }
+        //     if (!name || !employeeNo || !title || !email || !contactNo || !username || !password) {
+        //         alert('Please fill in all fields');
+        //         return;
+        //     }
 
-            // In a real application, this would submit the form
-            alert('Form submitted successfully!');
-        });
+        //     // In a real application, this would submit the form
+        //     // alert('Form submitted successfully!');
+        // });
     </script>
 </body>
 

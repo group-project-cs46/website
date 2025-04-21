@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Competition</title>
+    <title>Edit Session</title>
     <style>
         /* *body {
             background-color: white;
@@ -96,90 +96,56 @@
             transition: 0.3s;
             font-weight: bold;
         }
-         
+
         .submit-btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Add Competition</h2>
-        <!-- <form method="post" action="/eventsAddition">
+        <h2>Edit Session</h2>
+        <form method="post" action="/trainingEdition">
             <div class="form-group">
-                <label for="competition-name">Competition Name</label>
-                <input type="text" id="competition-name" name="competition-name" required>
+                <label for="session-name">Name</label>
+                <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required>
             </div>
 
             <div class="form-group">
-                    <label for="events-no">Event No</label>
-                    <input type="text" id="events-no"  name="events-no" required>
-                </div>
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" value="<?= $TRAINING_SESSION['date'] ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="place">Place</label>
+                <input type="text" id="place" name="place" value="<?= $TRAINING_SESSION['place'] ?>" required>
+            </div>
             
             <div class="deadline-container">
                 <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
+                    <label for="start time">Start Time</label>
+                    <input type="time" id="time" name="start_time" value="<?= $TRAINING_SESSION['start_time'] ?>" required>
                 </div>
                 <div class="form-group">
-                    <label for="time">Time</label>
-                    <input type="time" id="time" name="time" required>
+                    <label for="end time">End Time</label>
+                    <input type="time" id="time" name="end_time" value="<?= $TRAINING_SESSION['end_time'] ?>" required>
                 </div>
             </div>
 
-            <div class="deadline-container">
-                <div class="form-group">
-                    <label for="deadline-date">Deadline Date</label>
-                    <input type="date" id="deadline-date" name="deadline-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="deadline-time">Deadline Time</label>
-                    <input type="time" id="deadline-time" name="deadline-time" required>
-                </div>
-            </div>
+            <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
 
-            <button type="submit" class="submit-btn">Add Competition</button>
-        </form> -->
-
-        <form method="post" action="/eventsEdition">
-    <div class="form-group">
-        <label for="competition-name">Competition Name</label>
-        <input type="text" id="competition-name" name="competition-name" value="<?= $event['name'] ?>" required>
-    </div>
-
-    <div class="form-group">
-        <label for="events-no">Event No</label>
-        <input type="text" id="events-no" name="events-no" value="<?= $event['events_no'] ?>" readonly>
-    </div>
-
-    <div class="deadline-container">
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" id="date" name="date" value="<?= $event['date'] ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="time">Time</label>
-            <input type="time" id="time" name="time" value="<?= $event['time'] ?>" required>
-        </div>
-    </div>
-
-    <div class="deadline-container">
-        <div class="form-group">
-            <label for="deadline-date">Deadline Date</label>
-            <input type="date" id="deadline-date" name="deadline-date" value="<?= $event['deadline_date'] ?>" required>
-        </div>
-        <div class="form-group">
-            <label for="deadline-time">Deadline Time</label>
-            <input type="time" id="deadline-time" name="deadline-time" value="<?= $event['deadline_time'] ?>" required>
-        </div>
-    </div>
-
-    <button type="submit" class="submit-btn">Update Competition</button>
-</form>
-
+            <button type="submit" class="submit-btn">Save Change</button>
+        </form>
     </div>
     </div>
 </body>
