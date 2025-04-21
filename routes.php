@@ -154,6 +154,8 @@ $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
 $router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
+$router->get('/PDC/appliedStudents', '/PDC/appliedStudents.php');
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');

@@ -300,28 +300,43 @@ async function rejectAdvertisement(adId, index, reason) {
     }
 }
 
-    // View approved advertisement (hardcoded student data)
-    function viewApprovedAdvertisement(index) {
-        const studentApplications = [
-            { name: "John Doe", regNo: "2022/CS/001", email: "john.doe@example.com" },
-            { name: "Jane Smith", regNo: "2022/CS/002", email: "jane.smith@example.com" },
-            { name: "Sam Wilson", regNo: "2022/CS/003", email: "sam.wilson@example.com" }
-        ];
-
+    // View approved advertisement students (dynamic fetch)
+    async function viewApprovedAdvertisement(index) {
+        const ad = approvedAdvertisements[index];
         const studentList = document.getElementById('student-list');
-        studentList.innerHTML = '';
+        studentList.innerHTML = ''; // Clear existing content
 
-        studentApplications.forEach(student => {
+        try {
+            const response = await fetch(`/PDC/appliedStudents?id=${ad.id}`);
+            if (!response.ok) throw new Error('Failed to fetch applied students');
+            const result = await response.json();
+
+            if (result.success && result.data.length > 0) {
+                result.data.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${student.name}</td>
+                        <td>${student.registration_number}</td>
+                        <td><a href="mailto:${student.email}" style="color: #007bff;">${student.email}</a></td>
+                    `;
+                    studentList.appendChild(row);
+                });
+            } else if (result.success && result.data.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="3">No students have applied for this advertisement.</td>`;
+                studentList.appendChild(row);
+            } else {
+                throw new Error(result.message || 'Failed to load student applications');
+            }
+
+            document.getElementById('student-popup-modal').style.display = 'block';
+        } catch (error) {
+            console.error('Error fetching applied students:', error);
             const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${student.name}</td>
-                <td>${student.regNo}</td>
-                <td><a href="mailto:${student.email}" style="color: #007bff;">${student.email}</a></td>
-            `;
+            row.innerHTML = `<td colspan="3">Error loading students: ${error.message}</td>`;
             studentList.appendChild(row);
-        });
-
-        document.getElementById('student-popup-modal').style.display = 'block';
+            document.getElementById('student-popup-modal').style.display = 'block';
+        }
     }
 
     // Toggle between sections
