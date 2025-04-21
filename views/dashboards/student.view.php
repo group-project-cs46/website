@@ -1,6 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
-    <main style="min-height: 100vh; padding: 20px; display: flex; justify-content: center; align-items: flex-start;">
+    <main style=" padding: 20px; display: flex; justify-content: center; align-items: flex-start;">
         <div style="width: 100%; max-width: 1500px; background: #ffffff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; margin: 20px;">
             <!-- Header -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
