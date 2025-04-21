@@ -65,8 +65,8 @@
                         <div class="grid-item" style="text-align: right">
                             <?php if ($item['approved']): ?>
                                 <i class="fa-solid fa-check text-green-500"></i>
-                            
-                            <?php else: ?>
+
+                            <?php elseif (!$item['rejected']): ?>
                                 <form action="/pdcs/companies/approve" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
                                     <button type="submit" class="button approve-button">Approve</button>
@@ -76,13 +76,11 @@
                         <div class="grid-item" style="text-align: right">
                             <?php if ($item['rejected']): ?>
                                 <span class="text-red-500">Rejected</span>
-                                <?php elseif (!$item['approved']): ?>
-                                <div class="grid-item" style="text-align: right">
+                            <?php elseif (!$item['approved']): ?>
                                 <form action="/pdcs/companies/reject" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
                                     <button type="submit" class="button reject-button" onclick="confirmReject(this)">Reject</button>
                                 </form>
-                                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -165,17 +163,6 @@
     document.getElementById('company-application-section').style.display = 'block';
     document.getElementById('approved-companies-section').style.display = 'none';
 
-    function confirmReject(button) {
-        if (confirm('Are you sure you want to reject this company?')) {
-            const gridItem = button.closest('.grid-item');
-            button.parentElement.innerHTML = '<span class="text-red-500">Rejected</span>';
-            const approveButton = document.querySelector('.approve-button');
-            if (approveButton) {
-                approveButton.style.display='none';
-            }
-        }
-    }
-
     // Search bar functionality
     document.getElementById('search-bar').addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
@@ -192,7 +179,7 @@
             ];
             const rowText = rowCells.map(cell => cell.textContent.toLowerCase()).join(' ');
             const matches = rowText.includes(searchTerm);
-            
+
             // Show/hide the entire row (7 cells: name, address, email, mobile, website, approve, reject)
             for (let i = 0; i < 7; i++) {
                 const cell = nameCell.parentElement.children[index * 7 + i];
