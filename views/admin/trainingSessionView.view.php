@@ -4,39 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Competition Details</title>
+    <title>Trining Session</title>
     <style>
-        /* *body {
-            background-color: white;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        *body {
+                background-color: white;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start; /* Align to the top instead of center (NEW) */
         }
 
         .center-wrapper {
-            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin: auto;
-        } */
-
-        *body {
-    background-color: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align to the top instead of center (NEW) */
-}
-
-.center-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align items towards the top (NEW) */
-    margin-top: 50px; /* Add some space from the top (NEW) */
-    width: 100%;
-}
+            align-items: flex-start; /* Align items towards the top (NEW) */
+            margin-top: 50px; /* Add some space from the top (NEW) */
+            width: 100%;
+        }
+        
         .form-container {
             background: white;
             border-radius: 10px;
@@ -117,50 +102,50 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
+
+        .input-validate:invalid {
+            border: 1px solid red;
+        }
+        .input-validate:valid {
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Competition Details</h2>
-        <form method="post" action="/eventsEdition">
-    <div class="form-group">
-        <label for="competition-name">Competition Name</label>
-        <input type="text" id="competition-name" name="competition-name" value="<?= $event['name'] ?>" readonly>
-    </div>
+        <h2>Trining Session</h2>
+        <form method="post" action="/eventsAddition">
+            <div class="form-group">
+                <label for="competition-name">Name</label>
+                <input type="text" id="competition-name" name="competition-name" required>
+            </div>
 
-    <div class="form-group">
-        <label for="events-no">Event No</label>
-        <input type="text" id="events-no" name="events-no" value="<?= $event['events_no'] ?>" readonly>
-    </div>
+            <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+            </div>
 
-    <div class="deadline-container">
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" id="date" name="date" value="<?= $event['date'] ?>" readonly>
-        </div>
-        <div class="form-group">
-            <label for="time">Time</label>
-            <input type="time" id="time" name="time" value="<?= $event['time'] ?>" readonly>
-        </div>
-    </div>
-
-    <div class="deadline-container">
-        <div class="form-group">
-            <label for="deadline-date">Deadline Date</label>
-            <input type="date" id="deadline-date" name="deadline-date" value="<?= $event['deadline_date'] ?>" readonly>
-        </div>
-        <div class="form-group">
-            <label for="deadline-time">Deadline Time</label>
-            <input type="time" id="deadline-time" name="deadline-time" value="<?= $event['deadline_time'] ?>" readonly>
-        </div>
-    </div>
+            <div class="form-group">
+                <label for="competition-name">Place</label>
+                <input type="text" id="competition-name" name="competition-name" required>
+            </div>
+            
+            <div class="deadline-container">
+                <div class="form-group">
+                    <label for="time">Start Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">End Time</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+            </div>
 
             <div class="button-container">
-            <button type="submit" class="submit-btn"><a href="/eventmanage">Previous</a></button>
-            <button type="submit" class="submit-btn"><a href="/eventStudentsManage"> Students List</a></button>
-</div>
-
+                <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
+                <button type="submit" class="submit-btn"><a href="/eventStudentsManage"> Students List</a></button>
+            </div>
         </form>
     </div>
     </div>

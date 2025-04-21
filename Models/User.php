@@ -73,4 +73,5 @@ class User
         $lastInsertedId = $db->connection->lastInsertId();
         return $lastInsertedId;
     }
+
 }
