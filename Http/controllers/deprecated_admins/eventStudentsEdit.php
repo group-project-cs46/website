@@ -1,6 +1,6 @@
 <?php
 
-use Models\AddPdc;
+use Models\AddEventStudent;
 
 try {
     $id = $_GET['id'];
@@ -8,10 +8,8 @@ try {
         throw new Exception("id is required!");
     }
 
-    $data = AddPdc::get_by_id($id);
-    view('admin/pdcEdit.view.php', ['PDC' => $data]);
+    $data = AddEventStudent::get_by_id($id);
+    view('admin/eventStudentsEdit.view.php', ['student' => $data]);
 } catch (Exception $e) {
     die($e->getMessage());
 }
-
-

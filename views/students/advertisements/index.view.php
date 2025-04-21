@@ -24,8 +24,8 @@
                         </div>
 
                         <button type="submit" class="button">Filter</button>
-                        <a href="/students/advertisements" style="display: flex">
-                            <button class="button">Clear</button>
+                        <a href="/students/advertisements" style="" class="button">
+                            <button>Clear</button>
                         </a>
                     </form>
                 <?php endif; ?>

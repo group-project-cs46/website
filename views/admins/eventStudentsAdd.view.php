@@ -223,8 +223,6 @@
                                 <option value="mr">Mr.</option>
                                 <option value="mrs">Mrs.</option>
                                 <option value="ms">Ms.</option>
-                                <option value="dr">Dr.</option>
-                                <option value="prof">Prof.</option>
                             </select>
                     </div>
                     <div class="form-group">
