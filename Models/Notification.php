@@ -34,6 +34,9 @@ class Notification
 
     public static function create($user_id, $title, $message, $action_url = null, $expires_at = null)
     {
+        if (is_null($expires_at)) {
+            $expires_at = date('Y-m-d H:i:s', strtotime('+1 day'));
+        }
         $db = App::resolve(Database::class);
         $db->query("INSERT INTO notifications (user_id, title, message, action_url, expires_at) VALUES (?, ?, ?, ?, ?)", [
             $user_id,
