@@ -129,6 +129,9 @@ $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
+$router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php'); 
+$router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
+
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
