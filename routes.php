@@ -45,6 +45,8 @@ $router->get('/students/events', 'students/events/index.php')->only('student');
 $router->get('/account', 'account.php')->only('auth');
 $router->get('/accounts/company', 'accounts/company/index.php')->only('company');
 $router->patch('/accounts/company', 'accounts/company/update.php')->only('auth');
+$router->get('/accounts/student', 'accounts/student/index.php')->only('student');
+$router->patch('/accounts/student', 'accounts/student/update.php')->only('auth');
 
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');

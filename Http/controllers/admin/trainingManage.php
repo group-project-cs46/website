@@ -9,3 +9,4 @@ try {
 }
 
 view('admin/trainingManage.view.php', ['TRAINING_SESSION'=>$data]);
+

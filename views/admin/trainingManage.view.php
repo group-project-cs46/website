@@ -25,7 +25,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Place</th>
+                        <th>Venue</th>
                         <th>Start Time</th>                       
                         <th>End Time</th>
                         <th>Actions</th>
@@ -37,7 +37,7 @@
                         <tr>       
                             <td><?= $training_session['name'] ?></td>
                             <td><?= $training_session['date'] ?></td>
-                            <td><?= $training_session['place'] ?></td>
+                            <td><?= $training_session['venue'] ?></td>
                             <td><?= $training_session['start_time'] ?></td>
                             <td><?= $training_session['end_time'] ?></td>
                             <td class="actions">
