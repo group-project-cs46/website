@@ -100,7 +100,7 @@
                         <td>John Doe</td>
                         <td>2024/CS/123</td>
                         <td>pending</td>
-                        <td>CS</td>
+                        <td>computer science</td>
                         <td>johndoe@example.com</td>
                         <td>22001417</td>
                         <td>
@@ -112,7 +112,7 @@
                         <td>Jane Smith</td>
                         <td>2024/IS/456</td>
                         <td>hired</td>
-                        <td>IS</td>
+                        <td>information systems</td>
                         <td>janesmith@example.com</td>
                         <td>22301213</td>
                         <td>
@@ -148,7 +148,7 @@
                     <tr>
                         <td>John Doe</td>
                         <td>2024/CS/123</td>
-                        <td>CS</td>
+                        <td>computer science</td>
                         <td>CISCO labs</td>
                         <td>Software Engineer</td>
                         <td>
@@ -193,22 +193,21 @@
 
             <label for="course">Course:</label>
             <select id="course" name="course">
-                <option value="CS">CS</option>
-                <option value="IS">IS</option>
+                <option value="computer science">computer science</option>
+                <option value="information systems">information systems</option>
             </select>
             <div style="display: flex; justify-content: space-between;">
                 <button type="submit" id="submitStudent">Add Student</button>
-                <button id="closeFormButton">Close</button>
+                
             </div>
-
+                        
         </form>
 
-
+        <button id="closeFormButton">Close</button>
 
 
     </div>
 </div>
-
 
 
 <div id="editForm" class="popup-form">
@@ -241,16 +240,16 @@
 
             <label for="course">Course:</label>
             <select id="course" name="course">
-                <option value="CS">CS</option>
-                <option value="IS">IS</option>
+                <option value="computer science">computer science</option>
+                <option value="information systems">information systems</option>
             </select>
 
             <button type="submit" id="submitStudent">Save changes</button>
-            <button id="closeFormButton" onclick="closeeditform()">Close</button>
+            
         </form>
 
 
-
+        <button id="closeFormButton" onclick="closeeditform()">Close</button>
         <!-- //<button id="closeFormButton" onclick="closeeditform()">Close</button> -->
     </div>
 </div>
@@ -339,7 +338,7 @@
         studenteditform.elements.student_id.value = student.id;
         studenteditform.elements.name.value = student.name;
         studenteditform.elements.registration_number.value = student.registration_number;
-        studenteditform.elements.course.value = "CS";
+        studenteditform.elements.course.value = "computer science";
         studenteditform.elements.email.value = student.email;
         studenteditform.elements.index_number.value = student.index_number;
     }
