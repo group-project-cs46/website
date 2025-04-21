@@ -231,3 +231,77 @@ body {
   background-color: #f44336; /* Red for Not Hired */
   color: white;
 }
+
+/* Styling for the content-boxes container */
+.content-boxes {
+  display: flex;
+  justify-content: space-between; /* Distribute boxes evenly */
+  gap: 15px; /* Reduced gap between boxes (originally larger due to default spacing) */
+  margin-bottom: 20px;
+}
+
+/* Styling for individual boxes */
+.box {
+  flex: 1; /* Make boxes take equal width */
+  background: linear-gradient(135deg, #e0f7fa 0%, #b3e5fc 100%); /* Gradient background for a modern look */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  border-left: 5px solid #0ea5e9; /* Accent border on the left */
+  text-align: center; /* Center-align text for better presentation */
+}
+
+/* Hover effect for boxes */
+.box:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Styling for the box headings */
+.box h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Styling for the date and time in the boxes */
+.box h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Add a subtle icon or decoration above the box heading (optional) */
+.box h2::before {
+  content: "📅"; /* Calendar icon (you can replace with a FontAwesome icon if available) */
+  display: block;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Improve overall content section */
+.content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-boxes {
+    flex-direction: column; /* Stack boxes vertically on smaller screens */
+    gap: 10px; /* Smaller gap for mobile */
+  }
+
+  .box {
+    width: 100%; /* Full width on mobile */
+  }
+}

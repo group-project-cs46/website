@@ -18,17 +18,30 @@
         <div class="content-boxes">
             <div class="box">
                 <h2>Next Company Visit</h2>
-                <h3>15.08.2024</h3>
-                <h3>3.00 P.M</h3>
+                <?php if ($nextCompanyVisit): ?>
+                    <?php
+                        $visitDate = date('d.m.Y', strtotime($nextCompanyVisit['date']));
+                        $visitTime = date('g.i A', strtotime($nextCompanyVisit['time']));
+                    ?>
+                    <h3>Date : <?php echo $visitDate; ?></h3>
+                    <h3>Time : <?php echo $visitTime; ?></h3>
+                <?php else: ?>
+                    <h3>No upcoming company visits scheduled.</h3>
+                <?php endif; ?>
             </div>
             <div class="box">
                 <h2>Next Techtalk Date</h2>
-                <h3>15.08.2024</h3>
-                <h3>3.00 P.M</h3>
-            </div>
-            <div class="box">
-                <h2>Selected students</h2>
-                <h3>50</h3>
+                <?php if ($nextTechTalk): ?>
+                    <?php
+                        $techTalkDateTime = new DateTime($nextTechTalk['datetime']);
+                        $techTalkDate = $techTalkDateTime->format('d.m.Y');
+                        $techTalkTime = $techTalkDateTime->format('g.i A');
+                    ?>
+                    <h3>Date : <?php echo $techTalkDate; ?></h3>
+                    <h3>Time : <?php echo $techTalkTime; ?></h3>
+                <?php else: ?>
+                    <h3>No upcoming tech talks scheduled.</h3>
+                <?php endif; ?>
             </div>
         </div>
         <div class="table-title">
@@ -77,46 +90,46 @@
 </main>
 
 <script>
-    // Pass PHP array to JavaScript
-    const appliedStudents = <?php echo json_encode($appliedStudents); ?>;
+// Pass PHP array to JavaScript
+const appliedStudents = <?php echo json_encode($appliedStudents); ?>;
 
-    // Function to render the student table
-    function renderAppliedTable(students) {
-        const tableBody = document.getElementById("studentTableBody");
-        tableBody.innerHTML = ""; // Clear existing table rows
-        students.forEach(student => {
-            const row = document.createElement("tr");
-            row.setAttribute("data-jobrole", student.job_role);
-            row.innerHTML = `
-                <td>${student.student_name}</td>
-                <td>${student.index_no}</td>
-                <td>${student.email}</td>
-                <td>${student.job_role}</td>
-                <td>${student.course}</td>
-                <td>
-                    <button class="status-btn ${student.status === 'Hired' ? 'hired' : 'not-hired'}" disabled>${student.status}</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // Function to filter applied students by job role only
-    function filterAppliedStudents() {
-        const jobRoleFilter = document.getElementById("applied-jobrole-filter").value.trim().toLowerCase();
-        const rows = document.querySelectorAll("#studentTableBody tr");
-
-        rows.forEach(row => {
-            const jobrole = row.getAttribute("data-jobrole").toLowerCase();
-            const matchesJobRole = !jobRoleFilter || jobrole.includes(jobRoleFilter);
-            row.style.display = matchesJobRole ? "" : "none";
-        });
-    }
-
-    // Initialize default render
-    document.addEventListener("DOMContentLoaded", () => {
-        renderAppliedTable(appliedStudents); // Render all applied students by default
+// Function to render the student table
+function renderAppliedTable(students) {
+    const tableBody = document.getElementById("studentTableBody");
+    tableBody.innerHTML = ""; // Clear existing table rows
+    students.forEach(student => {
+        const row = document.createElement("tr");
+        row.setAttribute("data-jobrole", student.job_role);
+        row.innerHTML = `
+            <td>${student.student_name}</td>
+            <td>${student.index_no}</td>
+            <td>${student.email}</td>
+            <td>${student.job_role}</td>
+            <td>${student.course}</td>
+            <td>
+                <button class="status-btn ${student.status === 'Hired' ? 'hired' : 'not-hired'}" disabled>${student.status}</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
     });
+}
+
+// Function to filter applied students by job role only
+function filterAppliedStudents() {
+    const jobRoleFilter = document.getElementById("applied-jobrole-filter").value.trim().toLowerCase();
+    const rows = document.querySelectorAll("#studentTableBody tr");
+
+    rows.forEach(row => {
+        const jobrole = row.getAttribute("data-jobrole").toLowerCase();
+        const matchesJobRole = !jobRoleFilter || jobrole.includes(jobRoleFilter);
+        row.style.display = matchesJobRole ? "" : "none";
+    });
+}
+
+// Initialize default render
+document.addEventListener("DOMContentLoaded", () => {
+    renderAppliedTable(appliedStudents); // Render all applied students by default
+});
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
