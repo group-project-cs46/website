@@ -24,22 +24,25 @@ body {
 .above-right > div {
   margin-left: 20px;
 }
+
 .above-left img,
 .above-right img {
   margin-right: 10px;
 }
+
 .company-info {
   display: flex;
   align-items: center;
 }
 
 .company-name {
-  margin-left: 10px; /* Space between logo and name */
+  margin-left: 10px;
   text-align: left;
-  line-height: 1.2; /* Adjust line-height*/
+  line-height: 1.2;
   font-size: 20px;
   font-weight: bold;
 }
+
 .main-content {
   flex: 1;
   padding: 15px;
@@ -59,16 +62,18 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
+
 .content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 .content-title h2 {
   margin: 0;
-  font-size: 24px; /* Larger font size for the heading */
-  font-weight: bold; /* Emphasize the heading */
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .table-title {
@@ -80,8 +85,8 @@ body {
 
 .table-title h3 {
   margin: 0;
-  font-size: 24px; /* Larger font size for the heading */
-  font-weight: bold; /* Emphasize the heading */
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .student-table {
@@ -119,11 +124,11 @@ body {
 /* Responsive Design for Mobile */
 @media (max-width: 600px) {
   .sidebar {
-    width: 40px; /* Narrower sidebar for mobile */
+    width: 40px;
   }
 
   .main-content {
-    margin-left: 40px; /* Adjust main content margin for mobile */
+    margin-left: 40px;
   }
 }
 
@@ -141,23 +146,25 @@ body {
   width: 300px;
   height: 150px;
 }
+
 .box h2 {
   text-align: center;
   margin-top: -10px;
- 
 }
+
 .box h3 {
   text-align: center;
   font-size: 18px;
   font-weight: bold;
 }
+
 /* Filter Container Styles */
 .filter-container {
   margin: 15px 0;
   display: flex;
   align-items: center;
-  margin-right: 100px;
-  justify-content: flex-start;
+  gap: 20px;
+  justify-content: flex-end;
 }
 
 .filter-container label {
@@ -166,7 +173,8 @@ body {
   font-weight: bold;
 }
 
-.filter-container select {
+.filter-container select,
+.filter-container input {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -176,14 +184,50 @@ body {
   transition: background-color 0.3s ease;
 }
 
-/* Hover effect for select dropdown */
-.filter-container select:hover {
+/* Hover effect for select and input */
+.filter-container select:hover,
+.filter-container input:hover {
   background-color: #e8e8e8;
 }
 
-/* Select dropdown focus styles */
-.filter-container select:focus {
+/* Select and input focus styles */
+.filter-container select:focus,
+.filter-container input:focus {
   outline: none;
   border-color: #007bff;
   background-color: #e9f5ff;
+}
+
+/* Ensure filter-right is properly spaced */
+.filter-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Error message styling */
+.error {
+  color: #d32f2f;
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* Status Button Styling */
+.status-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: not-allowed; /* Indicate non-interactivity */
+}
+
+.status-btn.hired {
+  background-color: #4caf50; /* Green for Hired */
+  color: white;
+}
+
+.status-btn.not-hired {
+  background-color: #f44336; /* Red for Not Hired */
+  color: white;
 }
