@@ -83,7 +83,8 @@ class Application
 
         return $db->query('
             SELECT 
-                applications.id, 
+                applications.id,
+                applications.created_at,
                 internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
@@ -91,7 +92,8 @@ class Application
                 interviews.end_time AS interview_end_time,
                 selected,
                 failed,
-                cvs.original_name AS cv_name
+                cvs.original_name AS cv_name,
+                users.name AS company_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
             LEFT JOIN companies ON advertisements.company_id = companies.id

@@ -23,11 +23,11 @@
                         <option value="5">Month 5</option>
                         <option value="6">Month 6</option>
                     </select>
-                    <?php if (isset($errors['month'])): ?>
-                        <p class="error"><?= $errors['month'] ?></p>
-                    <?php endif ?>
+                    <div class="down_note"></div>
                 </div>
-                <div class="down_note"></div>
+                <?php if (isset($errors['month'])): ?>
+                    <p class="error"><?= $errors['month'] ?></p>
+                <?php endif ?>
             </div>
 
             <!-- PDF Upload -->
