@@ -1,3 +1,3 @@
 <?php
 
-view('admin/complaintsManage.view.php', []);
+view('admin/complaintManage.view.php', []);
