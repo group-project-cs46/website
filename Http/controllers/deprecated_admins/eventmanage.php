@@ -11,3 +11,4 @@ try {
 view('admin/eventsmanage.view.php', [
     'EVENTS_data' => $data
 ]);
+

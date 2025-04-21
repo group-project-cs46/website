@@ -74,8 +74,7 @@ Application::create($user_id, $cv_id, $ad_id);
 Notification::create(
     $ad['company_id'],
     'New application',
-    'You have a new application for the job ' . $ad['internship_role'] . ' from ' . $user['name'],
-    expires_at: date('Y-m-d H:i:s', strtotime('+1 day'))
+    'You have a new application for the job ' . $ad['internship_role'] . ' from ' . $user['name']
 );
 
 redirect('/students/applications');
