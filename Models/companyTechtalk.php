@@ -35,6 +35,7 @@ class companyTechtalk
         return true;
     }
 
+
     public static function updateHostDetails($techtalkId, $hostName, $hostEmail, $description)
     {
         $db = App::resolve(Database::class);
