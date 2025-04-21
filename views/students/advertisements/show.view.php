@@ -44,7 +44,11 @@
                         <div class="select" style="width: 100%">
                             <select id="resume" name="cv_id" required class="select">
                                 <?php foreach ($userCvs as $cv): ?>
-                                    <option value="<?= htmlspecialchars($cv['id']) ?>"><?= htmlspecialchars($cv['original_name']) ?></option>
+                                    <option value="<?= htmlspecialchars($cv['id']) ?>"><?= htmlspecialchars($cv['original_name']) ?>
+                                        <?php if(!empty($cv['type'])):  ?>
+                                            (<?= htmlspecialchars($cv['type']) ?>)
+                                        <?php endif;?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
