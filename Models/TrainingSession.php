@@ -7,24 +7,24 @@ use Core\Database;
 
 class TrainingSession
 {
-    public static function create($name, $date, $start_time, $end_time, $venue, $attendence_code)
+    public static function create($name, $date, $start_time, $end_time, $venue, $attendance_code)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, venue, attendence_code) VALUES (?, ?, ?, ?, ?, ?)', [
+        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, venue, attendance_code) VALUES (?, ?, ?, ?, ?, ?)', [
             $name,
             $date,
             $start_time,
             $end_time,
             $venue,
-            $attendence_code
+            $attendance_code
         ]);
     }
 
     public static function get_all()
     {
         $db = App::resolve(Database::class);
-        return $db->query('SELECT * FROM training_sessions ORDER BY date', [])->get();
+        return $db->query('SELECT * FROM training_sessions ORDER BY created_at DESC', [])->get();
     }
 
     public static function get_by_id($id)
