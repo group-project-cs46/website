@@ -76,6 +76,22 @@
                         <input type="time" id="edit-event-time" name="event-time" required>
                         <label for="edit-event-venue">Venue:</label>
                         <input type="text" id="edit-event-venue" name="event-venue" required>
+                        <div id="edit-event-description-container" style="display: none;">
+                            <label for="edit-event-description">Description:</label>
+                            <textarea id="edit-event-description" name="event-description" disabled></textarea>
+                        </div>
+                        <div id="edit-event-company-container" style="display: none;">
+                            <label for="edit-event-company">Company:</label>
+                            <input type="text" id="edit-event-company" name="event-company" disabled >
+                        </div>
+                        <div id="edit-event-contactperson-container" style="display: none;">
+                            <label for="edit-event-contactperson">Contact Person:</label>
+                            <input type="text" id="edit-event-contactperson" name="event-contactperson" disabled >
+                        </div>
+                        <div id="edit-event-contactemail-container" style="display: none;">
+                            <label for="edit-event-contactemail">Contact Email:</label>
+                            <input type="text" id="edit-event-contactemail" name="event-contactemail" disabled >
+                        </div>
                         <button type="submit" style="margin-top: 10px;">Save Changes</button>
                         <button type="button" id="delete-event-btn" style="background-color: #ff4444; color: white; margin-top: 10px;">Delete slot</button>
                     </form>
@@ -98,7 +114,7 @@
                 <div class="address-input">
                     <label for="user-address">Enter Your Address:</label>
                     <input type="text" id="user-address" placeholder="Enter your address" required>
-                    <button onclick="findClosestCompanies()">Find Closest Companies</button>
+                    <button onclick="findClosestCompanies()" style="color:blue">Find Closest Companies</button>
                 </div>
                 <label for="city-filter">Filter by City:</label>
                 <select id="city-filter" onchange="filterCompaniesByCity()">
@@ -159,12 +175,15 @@
 let techtalkData = <?php echo json_encode($techtalk); ?>;
 console.log('techtalkData:', techtalkData); // Debug: Inspect techtalkData
 let events = techtalkData ? techtalkData.map(slot => ({
-    id: slot.id,
+    id: slot.slot_id, // Use slot_id instead of id
     date: slot.date,
     time: slot.time,
     venue: slot.venue,
     title: slot.title || 'Tech Talk',
-    description: slot.description || 'Scheduled Tech Talk'
+    description: slot.description || 'N/A',
+    company: slot.company_name || 'N/A',
+    contactPerson: slot.host_name || 'N/A',
+    contactEmail: slot.host_email || 'N/A'
 })) : [];
 console.log('events:', events); // Debug: Inspect events
 
@@ -216,6 +235,9 @@ function renderCalendar() {
         eventDivs.forEach(event => {
             const eventDiv = document.createElement("div");
             eventDiv.classList.add("event");
+            // // Set background color based on allocation status
+            eventDiv.style.backgroundColor = event.company && event.company !== 'N/A' ? '#90EE90' : '#007bff'; // Green for allocated, blue for unallocated
+            eventDiv.style.color = '#000000'; // Ensure text is readable 
             eventDiv.textContent = event.time;
             eventDiv.title = `${event.time} - ${event.description}`;
             eventDiv.onclick = () => openEditModal(event);
@@ -262,6 +284,40 @@ function openEditModal(event) {
     }
     document.getElementById('edit-event-time').value = time || '';
     document.getElementById('edit-event-venue').value = event.venue || '';
+
+    // Conditionally show fields only if data is available (not 'N/A')
+    const descriptionContainer = document.getElementById('edit-event-description-container');
+    const companyContainer = document.getElementById('edit-event-company-container');
+    const contactPersonContainer = document.getElementById('edit-event-contactperson-container');
+    const contactEmailContainer = document.getElementById('edit-event-contactemail-container');
+
+    if (event.description && event.description !== 'N/A') {
+        document.getElementById('edit-event-description').value = event.description;
+        descriptionContainer.style.display = 'block';
+    } else {
+        descriptionContainer.style.display = 'none';
+    }
+
+    if (event.company && event.company !== 'N/A') {
+        document.getElementById('edit-event-company').value = event.company;
+        companyContainer.style.display = 'block';
+    } else {
+        companyContainer.style.display = 'none';
+    }
+
+    if (event.contactPerson && event.contactPerson !== 'N/A') {
+        document.getElementById('edit-event-contactperson').value = event.contactPerson;
+        contactPersonContainer.style.display = 'block';
+    } else {
+        contactPersonContainer.style.display = 'none';
+    }
+
+    if (event.contactEmail && event.contactEmail !== 'N/A') {
+        document.getElementById('edit-event-contactemail').value = event.contactEmail;
+        contactEmailContainer.style.display = 'block';
+    } else {
+        contactEmailContainer.style.display = 'none';
+    }
     
     document.getElementById('editEventModal').style.display = 'block';
 
@@ -391,81 +447,88 @@ let map;
 let markers = [];
 let userMarker = null;
 let userLatLng = null;
-const companies = [
-    {
-        name: "Virtusa Pvt Ltd",
-        address: "No. 752, Dr. Danister De Silva Mawatha, Colombo 09",
-        lat: 6.9271,
-        lng: 79.8644,
-        city: "Colombo 09"
-    },
-    {
-        name: "IFS R&D International Pvt Ltd",
-        address: "No. 752, Dr. Danister De Silva Mawatha, Colombo 09",
-        lat: 6.9265,
-        lng: 79.8651,
-        city: "Colombo 09"
-    },
-    {
-        name: "WSO2 Lanka Pvt Ltd",
-        address: "No. 20, Palm Grove, Colombo 03",
-        lat: 6.9022,
-        lng: 79.8554,
-        city: "Colombo 03"
-    },
-    {
-        name: "Bileeta Pvt Ltd",
-        address: "No. 131, Nawala Road, Narahenpita, Colombo 05",
-        lat: 6.8893,
-        lng: 79.8776,
-        city: "Colombo 05"
-    },
-    {
-        name: "Zone24x7 Pvt Ltd",
-        address: "61, Bauddhaloka Mawatha, Colombo 04",
-        lat: 6.9027,
-        lng: 79.8611,
-        city: "Colombo 04"
-    },
-    {
-        name: "hSenid Software International",
-        address: "No. 50, Jawatta Road, Colombo 05",
-        lat: 6.8947,
-        lng: 79.8668,
-        city: "Colombo 05"
-    }
-];
+
+// Replace hardcoded companies array with PHP-generated data
+const companies = <?php echo json_encode(array_map(function($company) {
+    // Construct the address by combining relevant fields
+    $addressParts = array_filter([
+        $company['building'] ?? '',
+        $company['street_name'] ?? '',
+        $company['address_line_2'] ?? '',
+        $company['city'] ?? '',
+        $company['postal_code'] ?? ''
+    ]);
+    $address = implode(', ', $addressParts);
+    
+    return [
+        'name' => $company['company_name'],
+        'address' => $address ?: 'Address not available',
+        'city' => $company['city'] ?? 'City not available'
+    ];
+}, $companies)); ?>;
+console.log('companies:', companies); // Debug: Inspect companies array
 
 const selectedCompanies = [];
 const visitSchedule = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 6.9271, lng: 79.8612 }, // Colombo city center
+        center: { lat: 6.9271, lng: 79.8612 }, // Default: Colombo city center
         zoom: 12,
     });
-    loadCompanyMarkers();
+    geocodeCompaniesAndLoadMarkers();
 }
 
-function loadCompanyMarkers() {
+// Geocode all company addresses and load markers
+function geocodeCompaniesAndLoadMarkers() {
+    const geocoder = new google.maps.Geocoder();
+    Promise.all(companies.map((company, index) => {
+        return new Promise((resolve) => {
+            geocoder.geocode({ address: company.address }, (results, status) => {
+                if (status === google.maps.GeocoderStatus.OK && results[0]) {
+                    const { lat, lng } = results[0].geometry.location;
+                    companies[index] = {
+                        ...company,
+                        lat: lat(),
+                        lng: lng()
+                    };
+                    resolve();
+                } else {
+                    console.error(`Geocoding failed for ${company.address}: ${status}`);
+                    companies[index] = { ...company, lat: null, lng: null };
+                    resolve();
+                }
+            });
+        });
+    })).then(() => {
+        // Filter out companies with failed geocoding
+        const validCompanies = companies.filter(c => c.lat !== null && c.lng !== null);
+        loadCompanyMarkers(validCompanies);
+        updateCompanyList(validCompanies);
+    }).catch(error => {
+        console.error('Error geocoding companies:', error);
+        alert('Failed to load company locations. Please try again later.');
+    });
+}
+
+function loadCompanyMarkers(companiesToDisplay) {
     // Clear existing markers
     markers.forEach(marker => marker.setMap(null));
     markers = [];
 
-    companies.forEach((company, index) => {
-        const marker = new google.maps.Marker({
-            position: { lat: company.lat, lng: company.lng },
-            map: map,
-            title: company.name,
-            icon: {
-                url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-            }
-        });
-        markers.push(marker);
+    companiesToDisplay.forEach((company) => {
+        if (company.lat && company.lng) {
+            const marker = new google.maps.Marker({
+                position: { lat: company.lat, lng: company.lng },
+                map: map,
+                title: company.name,
+                icon: {
+                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                }
+            });
+            markers.push(marker);
+        }
     });
-
-    // Update company list
-    updateCompanyList(companies);
 }
 
 function updateCompanyList(companiesToDisplay) {
@@ -519,12 +582,12 @@ function findClosestCompanies() {
     geocoder.geocode({ address: address }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK && results[0]) {
             userLatLng = results[0].geometry.location;
-            
+
             // Clear previous user marker
             if (userMarker) {
                 userMarker.setMap(null);
             }
-            
+
             // Add marker for user location
             userMarker = new google.maps.Marker({
                 position: userLatLng,
@@ -539,30 +602,46 @@ function findClosestCompanies() {
             map.setCenter(userLatLng);
             map.setZoom(14);
 
-            // Calculate distances to all companies
+            // Use already geocoded companies
+            const validCompanies = companies.filter(c => c.lat !== null && c.lng !== null);
+            if (validCompanies.length === 0) {
+                alert("No valid company locations available for distance calculation.");
+                return;
+            }
+
+            // Calculate distances
             const distanceMatrixService = new google.maps.DistanceMatrixService();
             distanceMatrixService.getDistanceMatrix({
                 origins: [userLatLng],
-                destinations: companies.map(company => new google.maps.LatLng(company.lat, company.lng)),
+                destinations: validCompanies.map(company => new google.maps.LatLng(company.lat, company.lng)),
                 travelMode: google.maps.TravelMode.DRIVING,
                 unitSystem: google.maps.UnitSystem.METRIC
             }, (response, status) => {
                 if (status === google.maps.DistanceMatrixStatus.OK) {
                     const distances = response.rows[0].elements;
                     const companiesWithDistance = companies.map((company, index) => {
-                        if (distances[index].status === "OK") {
+                        if (company.lat !== null && company.lng !== null && distances[index] && distances[index].status === "OK") {
                             return {
                                 ...company,
                                 distance: distances[index].distance.value, // in meters
                                 distanceText: distances[index].distance.text // e.g., "5.2 km"
                             };
                         } else {
-                            return { ...company, distance: Infinity, distanceText: "N/A" };
+                            return {
+                                ...company,
+                                distance: Infinity,
+                                distanceText: "N/A"
+                            };
                         }
                     });
 
                     // Sort companies by distance
                     companiesWithDistance.sort((a, b) => a.distance - b.distance);
+
+                    // Update global companies array with distance info
+                    companies.forEach((company, index) => {
+                        companies[index] = companiesWithDistance.find(c => c.name === company.name) || company;
+                    });
 
                     // Update company list with sorted companies
                     updateCompanyList(companiesWithDistance);
@@ -625,7 +704,7 @@ function openVisitModal(visitIndex = null) {
             visitTime: document.getElementById(`time-${index}`).value
         }));
         const newVisit = { visitDate, visitTimes };
-        
+
         if (visitIndex !== null) {
             // Update existing visit
             visitSchedule[visitIndex] = newVisit;
@@ -635,28 +714,12 @@ function openVisitModal(visitIndex = null) {
             visitSchedule.push(newVisit);
             addVisitToTable(newVisit);
         }
-        
+
         closeVisitModal();
         selectedCompanies.length = 0;
         updateCompanyList(companies);
     };
 }
-
-document.getElementById("visit-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const visitDate = document.getElementById("visit-date").value;
-    const visitTimes = selectedCompanies.map((company, index) => ({
-        companyName: company.name,
-        visitTime: document.getElementById(`time-${index}`).value
-    }));
-    const newVisit = { visitDate, visitTimes };
-    visitSchedule.push(newVisit);
-    addVisitToTable(newVisit);
-    closeVisitModal();
-    // Clear selections after scheduling
-    selectedCompanies.length = 0;
-    updateCompanyList(companies);
-});
 
 function addVisitToTable(visit) {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
@@ -680,7 +743,7 @@ function addVisitToTable(visit) {
         actionCell.appendChild(editButton);
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
-        deleteButton.onclick = () => deleteVisitRow(newRow);
+        deleteButton.onclick = () => deleteVisitRow(visitIndex, visitTime.companyName);
         actionCell.appendChild(deleteButton);
     });
 }
@@ -691,9 +754,23 @@ function updateVisitTable() {
     visitSchedule.forEach(visit => addVisitToTable(visit)); // Re-render all visits
 }
 
-function deleteVisitRow(row) {
-    const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
-    tableBody.removeChild(row);
+function deleteVisitRow(visitIndex, companyName) {
+    const visit = visitSchedule[visitIndex];
+    if (!visit) {
+        alert("Visit not found.");
+        return;
+    }
+
+    // Remove the specific visitTime for the company
+    visit.visitTimes = visit.visitTimes.filter(vt => vt.companyName !== companyName);
+
+    // If no visitTimes remain, remove the entire visit
+    if (visit.visitTimes.length === 0) {
+        visitSchedule.splice(visitIndex, 1);
+    }
+
+    // Re-render the table to fix alignments
+    updateVisitTable();
 }
 
 function editVisit(visitIndex, companyName) {
@@ -712,6 +789,7 @@ function filterCompaniesByCity() {
         filteredCompanies = companies.filter(company => company.city === selectedCity);
     }
     updateCompanyList(filteredCompanies);
+    loadCompanyMarkers(filteredCompanies);
 }
 
 function closeVisitModal() {

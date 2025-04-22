@@ -8,16 +8,26 @@ use Core\Database;
 class pdc_techtalk
 {
     public static function fetchAll()
-    {
-        $db = App::resolve(Database::class);
-        return $db->query('
-            SELECT 
-                ts.*, 
-                TO_CHAR(ts.datetime, \'YYYY-MM-DD\') AS date,   
-                TO_CHAR(ts.datetime, \'HH12:MI AM\') AS time 
-            FROM techtalk_slots ts;
-        ', [])->get();
-    }
+{
+    $db = App::resolve(Database::class);
+
+    $techtalks = $db->query('
+        SELECT
+            ts.id AS slot_id,
+            ts.venue,
+            TO_CHAR(ts.datetime, \'YYYY-MM-DD\') AS date,
+            TO_CHAR(ts.datetime, \'HH12:MI AM\') AS time,
+            t.description,
+            t.host_name,
+            t.host_email,
+            u.name AS company_name
+        FROM techtalk_slots ts
+        LEFT JOIN techtalks t ON ts.id = t.techtalk_slot_id
+        LEFT JOIN users u ON t.company_id = u.id;
+    ', [])->get();
+
+    return $techtalks;
+}
 
     public static function create_techtalk($date, $time, $venue)
     {

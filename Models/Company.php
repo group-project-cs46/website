@@ -19,6 +19,21 @@ class Company
 
         return $db->query('SELECT * FROM companies LEFT JOIN users ON users.id = companies.id', [])->get();
     }
+    
+    public static function fetchapprovedcompanies()
+{
+    $db = App::resolve(Database::class);
+
+    return $db->query('
+        SELECT 
+            companies.*, 
+            users.name AS company_name 
+        FROM companies 
+        INNER JOIN users ON users.id = companies.id 
+        WHERE users.approved = true
+    ', [])->get();
+}
+
 
     public static function byRoundId($roundId)
     {
