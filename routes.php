@@ -231,6 +231,8 @@ $router->get('/trainingEdit', 'admin/trainingEdit.php');
 $router->post('/trainingAddition', controller: 'admin/add-training.php');
 $router->post('/trainingEdition', controller: 'admin/edit-training.php');
 $router->post('/trainingDeletion', controller: 'admin/delete-training.php');
+$router->get('/admin/training_sessions/qrcodes/show', 'admin/training_sessions/qrcodes/show.php');
+
 
 $router->post('/eventsAddition', controller: 'admin/add-events.php');
 $router->post('/eventsEdition', controller: 'admin/edit-events.php');

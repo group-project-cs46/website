@@ -67,6 +67,11 @@ class Database
         return $this;
     }
 
+    public function fetchColumn()
+    {
+        return $this->statement->fetchColumn();
+    }
+
     public function get()
     {
         return $this->statement->fetchAll();
