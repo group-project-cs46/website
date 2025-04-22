@@ -42,6 +42,7 @@
                             <td><?= $training_session['end_time'] ?></td>
                             <td class="actions">
                                 <a href="/trainingView?id=<?= $training_session['id'] ?>" class="view-button">View</a>
+                                <a href="/admin/training_sessions/qrcodes/show?id=<?= $training_session['qrcode_id'] ?>" class="view-button">Download QR</a>
                                 <a href="/trainingEdit?id=<?=$training_session['id'] ?>" class="view-button">Edit</a>
                                 <form action="/trainingDeletion" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="<?=$training_session['id'] ?>">

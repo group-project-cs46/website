@@ -85,7 +85,7 @@
                         <p style="font-size: 14px; margin: 5px 0;">Name: <?= $user['name'] ?></p>
                         <p style="font-size: 14px; margin: 5px 0;">Course: <?= ucwords($user['course']) ?></p>
                         <p style="font-size: 14px; margin: 5px 0;">Applications: <?= count($applications ?? 0) ?></p>
-                        <a href="#" style="display: inline-block; margin-top: 15px; color: white; text-decoration: underline; font-size: 14px;">Edit Profile</a>
+                        <a href="/account" style="display: inline-block; margin-top: 15px; color: white; text-decoration: underline; font-size: 14px;">Edit Profile</a>
                     </div>
 
                     <!-- Upcoming Deadlines -->

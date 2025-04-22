@@ -17,7 +17,6 @@
                     <h3><b>Create Company Report</b></h3>
                     <p>Fill out the report details below</p>
                 </div>
-                <button class="add-button"><a href="/reportMain">Back</a></button>
             </div>
 
             <form class="report-form" method="post" action="/reportStore" enctype="multipart/form-data">

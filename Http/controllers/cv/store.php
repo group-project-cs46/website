@@ -13,7 +13,7 @@ $form = Forms\CvUpload::validate($attributes = [
 
 
 // Define the target directory
-$targetDir = base_path('storage/cvs/');
+$targetDir = base_path('storage/');
 
 // Get file details
 $fileTmpPath = $attributes['cv']['tmp_name'];
