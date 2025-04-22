@@ -16,7 +16,7 @@ if (count($cvApplications) > 0) {
     Session::flash('toast', 'This CV is being used by an application and cannot be deleted');
 } else if ($cv) {
     // Define the target directory
-    $targetDir = base_path('storage/cvs/');
+    $targetDir = base_path('storage/');
     $filePath = $targetDir . $cv['filename'];
 
     // Check if the file exists and delete it
