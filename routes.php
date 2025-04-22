@@ -169,8 +169,8 @@ $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
-$router->get('/complaints', controller: 'admin/complaints.php');
-$router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaints', controller: 'admin/complaintManage.php');
+$router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendarVisit', 'lecturer/calendarVisit.php');
@@ -260,7 +260,7 @@ $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.ph
 
 $router->get('/track', 'admin/track.php');
 
-$router->get('/complaint', controller: 'admin/complaintNew.php');
+$router->get('/complaintView', controller: 'admin/complaintView.php');
 
 
 
