@@ -16,15 +16,15 @@ class CompanyLecturerVisit
                 lv.lecturer_id,
                 lv.company_id,
                 lv.time,
-                lv.lecturer_company_report_id,
                 lv.date,
-                lv.status,
+                lv.approved AS status,
+                lv.rejected AS rejected,  -- Include rejected status
                 l.title AS lecturer_title,
                 u.name AS lecturer_name,
                 u.email AS lecturer_email
             FROM lecturer_visits lv
             LEFT JOIN lecturers l ON lv.lecturer_id = l.id
-            LEFT JOIN users u ON lv.lecturer_id = u.id
+            LEFT JOIN users u ON l.id = u.id
             WHERE u.role = 5
         ', [])->get();
         return $visits;
@@ -33,7 +33,7 @@ class CompanyLecturerVisit
     public static function updateStatus($visitId, $status)
     {
         $db = App::resolve(Database::class);
-        $db->query('UPDATE lecturer_visits SET status = ? WHERE id = ?', [
+        $db->query('UPDATE lecturer_visits SET approved = ?, rejected = NULL WHERE id = ?', [
             $status,
             $visitId
         ]);
@@ -43,7 +43,25 @@ class CompanyLecturerVisit
     public static function revertStatus($visitId)
     {
         $db = App::resolve(Database::class);
-        $db->query('UPDATE lecturer_visits SET status = NULL WHERE id = ?', [
+        $db->query('UPDATE lecturer_visits SET approved = NULL WHERE id = ?', [
+            $visitId
+        ]);
+        return true;
+    }
+
+    public static function rejectVisit($visitId)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('UPDATE lecturer_visits SET rejected = TRUE, approved = NULL WHERE id = ?', [
+            $visitId
+        ]);
+        return true;
+    }
+
+    public static function revertReject($visitId)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('UPDATE lecturer_visits SET rejected = NULL WHERE id = ?', [
             $visitId
         ]);
         return true;

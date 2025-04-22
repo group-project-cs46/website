@@ -108,7 +108,8 @@
                     'time' => $visit['time'],
                     'lecturer_name' => $visit['lecturer_title'] . '.' . $visit['lecturer_name'],
                     'email' => $visit['lecturer_email'],
-                    'status' => $visit['status']
+                    'status' => $visit['status'], // Maps to lv.approved (TRUE/NULL)
+                    'rejected' => $visit['rejected'] // Maps to lv.rejected (TRUE/NULL)
                 ];
             }, $visits);
             echo json_encode($formattedVisits);
@@ -228,32 +229,49 @@
         const companyVisits = events['company-visits'];
         companyVisits.forEach((visit, index) => {
             const row = document.createElement('tr');
-            const status = ['t', true, 'true', '1', 1].includes(visit.status) ? true : false;
+            const isApproved = visit.status === true || visit.status === 'true';
+            const isRejected = visit.rejected === true || visit.rejected === 'true';
 
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const visitDate = new Date(visit.date);
             const isPastDate = visitDate < today;
 
+            let actionButtons = '';
+            if (isApproved) {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/revert_lecturervisit" id="revertForm-${visit.id}">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="revert">
+                        <button type="button" class="approve-button approved${isPastDate ? ' past' : ''}" onclick="confirmRevert(${visit.id}, ${isPastDate})">Approved</button>
+                    </form>`;
+            } else if (isRejected) {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/revert_reject_lecturervisit" id="revertRejectForm-${visit.id}">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="revert_reject">
+                        <button type="button" class="reject-button rejected${isPastDate ? ' past' : ''}" onclick="confirmRevertReject(${visit.id}, ${isPastDate})">Rejected</button>
+                    </form>`;
+            } else {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}" style="display: inline;">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="approve">
+                        <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
+                    </form>
+                    <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visit.id}" style="display: inline;">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visit.id}, ${isPastDate})">Reject</button>
+                    </form>`;
+            }
+
             row.innerHTML = `
                 <td>${visit.date}</td>
                 <td>${visit.time}</td>
                 <td>${visit.lecturer_name}</td>
                 <td>${visit.email}</td>
-                <td>
-                    ${status === true ? 
-                        `<form method="POST" action="/company_schedule/revert_lecturervisit" id="revertForm-${visit.id}">
-                            <input type="hidden" name="visit_id" value="${visit.id}">
-                            <input type="hidden" name="action" value="revert">
-                            <button type="button" class="approve-button approved${isPastDate ? ' past' : ''}" onclick="confirmRevert(${visit.id}, ${isPastDate})">Approved</button>
-                        </form>` : 
-                        `<form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}">
-                            <input type="hidden" name="visit_id" value="${visit.id}">
-                            <input type="hidden" name="action" value="approve">
-                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
-                        </form>`
-                    }
-                </td>
+                <td>${actionButtons}</td>
             `;
 
             if (isPastDate) {
@@ -289,6 +307,9 @@
                     form.setAttribute('action', '/company_schedule/revert_lecturervisit');
                     form.querySelector('input[name="action"]').value = 'revert';
                     form.setAttribute('id', `revertForm-${visitId}`);
+                    // Remove the reject button
+                    const rejectForm = document.getElementById(`rejectForm-${visitId}`);
+                    if (rejectForm) rejectForm.remove();
                 } else {
                     alert('Failed to approve visit: ' + (data.error || 'Unknown error'));
                 }
@@ -318,13 +339,18 @@
             .then(data => {
                 if (data.success) {
                     alert('Visit approval reverted successfully');
-                    const button = form.querySelector('.approve-button');
-                    button.textContent = 'Approve';
-                    button.classList.remove('approved');
-                    button.setAttribute('onclick', `confirmApproval(${visitId}, ${isPastDate})`);
-                    form.setAttribute('action', '/company_schedule/store_lecturervisit');
-                    form.querySelector('input[name="action"]').value = 'approve';
-                    form.setAttribute('id', `approveForm-${visitId}`);
+                    const td = form.parentElement;
+                    td.innerHTML = `
+                        <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visitId}, ${isPastDate})">Approve</button>
+                        </form>
+                        <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="reject">
+                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
+                        </form>`;
                 } else {
                     alert('Failed to revert visit approval: ' + (data.error || 'Unknown error'));
                 }
@@ -332,6 +358,86 @@
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred while reverting the visit approval.');
+            });
+        }
+    }
+
+    function confirmReject(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be rejected.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to reject this visit?')) {
+            const form = document.getElementById(`rejectForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/reject_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit rejected successfully');
+                    const button = form.querySelector('.reject-button');
+                    button.textContent = 'Rejected';
+                    button.classList.add('rejected');
+                    button.setAttribute('onclick', `confirmRevertReject(${visitId}, ${isPastDate})`);
+                    form.setAttribute('action', '/company_schedule/revert_reject_lecturervisit');
+                    form.querySelector('input[name="action"]').value = 'revert_reject';
+                    form.setAttribute('id', `revertRejectForm-${visitId}`);
+                    // Remove the approve button
+                    const approveForm = document.getElementById(`approveForm-${visitId}`);
+                    if (approveForm) approveForm.remove();
+                } else {
+                    alert('Failed to reject visit: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while rejecting the visit.');
+            });
+        }
+    }
+
+    function confirmRevertReject(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be reverted.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to revert this rejection?')) {
+            const form = document.getElementById(`revertRejectForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/revert_reject_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit rejection reverted successfully');
+                    const td = form.parentElement;
+                    td.innerHTML = `
+                        <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visitId}, ${isPastDate})">Approve</button>
+                        </form>
+                        <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="reject">
+                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
+                        </form>`;
+                } else {
+                    alert('Failed to revert visit rejection: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while reverting the visit rejection.');
             });
         }
     }
