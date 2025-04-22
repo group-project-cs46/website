@@ -165,19 +165,6 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
-
-        'text' => 'Calendar',
-        'href' => '/calendar',
-        'icon' => 'fa-solid fa-calendar-days',
-        'only' => [Role::Lecturer],
-    ],
-    [
-        'text' => 'Report',
-        'href' => '/reportMain',
-        'icon' => 'fa-sheet-plastic',
-        'only' => [Role::Lecturer],
-    ],
-    [
         'text' => 'Advertisements',
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
@@ -232,6 +219,13 @@ $navItems = [
         'href' => '/students/complaints',
         'icon' => 'fa-face-sad-cry',
         'only' => [Role::Student],
+    ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/lecturers/visits',
+        'icon' => 'fa-solid fa-person-walking',
+        'only' => [Role::Lecturer],
     ],
 ];
 
