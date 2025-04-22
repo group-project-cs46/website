@@ -109,6 +109,9 @@ $router->post('/company_schedule/revert_lecturervisit', 'company_schedule/revert
 
 
 $router->post('/company_report/store', 'company_report/store.php');
+$router->get('/company_report/show', 'company_report/show.php');
+$router->get('/company_report/download_all', 'company_report/download_all.php')->only('auth');
+$router->delete('/company_report/delete_all', 'company_report/delete_all.php')->only('auth');
 
 $router->post('/company_student/shortlisted', 'company_student/store_shortlisted.php');
 $router->post('/company_student/nonShortlisted', 'company_student/store_nonShortlisted.php');
