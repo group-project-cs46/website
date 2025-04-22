@@ -1,6 +1,7 @@
 <?php
 
 // Thathsara ############################################################################################################################
+// Student
 
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
@@ -76,6 +77,10 @@ $router->post('/students/complaints/messages', 'students/complaints/messages/sto
 $router->get('/students/training_sessions/show', 'students/training_sessions/show.php')->only('student');
 $router->get('/students/training_sessions/register', 'students/training_sessions/register.php')->only('student');
 $router->post('/students/training_sessions/attendance', 'students/training_sessions/attendance.php')->only('student');
+
+// Lecturer
+$router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
+
 
 // ########################################################################################################################################
 
@@ -168,7 +173,6 @@ $router->get('/complaints', controller: 'admin/complaints.php');
 $router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
-$router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/calendarVisit', 'lecturer/calendarVisit.php');
 $router->get('/profilelec', 'lecturer/account.php');
 $router->get('/profile', 'admin/account.php');
@@ -176,7 +180,6 @@ $router->get('/profile', 'admin/account.php');
 
 
 $router->get('/report', 'lecturer/report.php');
-$router->get('/reportMain', 'lecturer/reportMain.php');
 $router->get('/reportView', 'lecturer/reportView.php');
 
 $router->get('/pdcManage', 'admin/pdcManage.php');
