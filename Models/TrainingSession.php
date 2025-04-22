@@ -7,17 +7,18 @@ use Core\Database;
 
 class TrainingSession
 {
-    public static function create($name, $date, $start_time, $end_time, $venue, $attendance_code)
+    public static function create($name, $date, $start_time, $end_time, $venue, $attendance_code, $qrcode_id)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, venue, attendance_code) VALUES (?, ?, ?, ?, ?, ?)', [
+        $db->query('INSERT INTO training_sessions (name, date, start_time, end_time, venue, attendance_code, qrcode_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [
             $name,
             $date,
             $start_time,
             $end_time,
             $venue,
-            $attendance_code
+            $attendance_code,
+            $qrcode_id
         ]);
     }
 
