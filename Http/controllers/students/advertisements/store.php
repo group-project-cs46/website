@@ -6,6 +6,8 @@ use Core\Validator;
 use Models\Ad;
 
 
+dd('why does student store advertisements');
+
 $job_type = $_POST['job_type'] ?? null;
 $job_role = $_POST['job_role'] ?? null;
 $responsibilities = $_POST['responsibilities'] ?? null;

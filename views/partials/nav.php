@@ -143,7 +143,6 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
-
         'text' => 'Calendar',
         'href' => '/calendar',
         'icon' => 'fa-solid fa-calendar-days',

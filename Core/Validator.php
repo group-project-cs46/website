@@ -22,7 +22,11 @@ class Validator
 
     public static function url(string $value)
     {
-        return filter_var($value, FILTER_VALIDATE_URL);
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            $scheme = parse_url($value, PHP_URL_SCHEME);
+            return in_array($scheme, ['http', 'https']);
+        }
+        return false;
     }
 
     public static function file($file, $allowedExtensions = [], $maxSize = INF)
@@ -35,7 +39,7 @@ class Validator
         $fileNameCmps = explode(".", $file['name']);
         $fileExtension = strtolower(end($fileNameCmps));
 
-        if (!in_array($fileExtension, $allowedExtensions)) {
+        if (!empty($allowedExtensions) && !in_array($fileExtension, $allowedExtensions)) {
             return false;
         }
 

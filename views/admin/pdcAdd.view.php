@@ -182,15 +182,15 @@
         .input-validate:invalid {
             border: 1px solid red;
         }
+
         .input-validate:valid {
             border: 1px solid #ddd;
         }
-
     </style>
 </head>
 
 <body>
-    <form class="container" method="post" action="/pdcAddition">
+    <form class="container" method="post" action="/pdcAddition" enctype="multipart/form-data">
         <div class="header">
             <h2>Add New PDC</h2>
         </div>
@@ -226,7 +226,7 @@
 
                 <div class="form-group">
                     <label for="contact-no">Contact No:</label>
-                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact"  pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
+                    <input type="text" id="contact-no" required placeholder="Enter Contact No Here" name="contact" pattern="^\d{10}$" title="Enter exactly 10 digits" class="input-validate">
                 </div>
             </div>
 
@@ -238,8 +238,7 @@
                 <div class="file-upload">
                     <div class="file-upload-buttons">
                         <button class="btn btn-file" id="choose-file-btn">Choose File</button>
-                        <input type="file" id="file-input" accept="image/*" style="display: none;">
-                        <button class="btn btn-upload" id="upload-btn">Upload</button>
+                        <input type="file" id="file-input" accept="image/*" style="display: none;" name="profile_image">
                     </div>
                     <div class="file-upload-status" id="file-status">No file chosen</div>
                 </div>
@@ -262,6 +261,34 @@
     </form>
 
     <script>
+        const fileInput = document.getElementById('file-input');
+        const chooseFileBtn = document.getElementById('choose-file-btn');
+        const fileStatus = document.getElementById('file-status');
+        const profilePreview = document.getElementById('profile-preview');
+
+        // Handle "Choose File" button
+        chooseFileBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default button behavior
+            fileInput.click();
+        });
+
+        // Show file name only (not preview) when a file is chosen
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                fileStatus.textContent = fileInput.files[0].name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                fileStatus.textContent = 'No file chosen';
+            }
+        });
+    </script>
+
+
+    <!-- <script>
         // File upload functionality
         const fileInput = document.getElementById('file-input');
         const chooseFileBtn = document.getElementById('choose-file-btn');
@@ -296,9 +323,9 @@
             } else {
                 alert('Please choose a file first');
             }
-        });
+        }); -->
 
-        // addAndSendBtn.addEventListener('click', function() {
+    <!-- // addAndSendBtn.addEventListener('click', function() {
         //     // Validate form fields
         //     const name = document.getElementById('name').value;
         //     const employeeNo = document.getElementById('employee-no').value;
@@ -315,8 +342,8 @@
 
         //     // In a real application, this would submit the form
         //     // alert('Form submitted successfully!');
-        // });
-    </script>
+        // }); -->
+    <!-- </script> -->
 </body>
 
 </html>

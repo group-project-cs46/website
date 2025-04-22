@@ -1,5 +1,8 @@
 <?php
 
+// Thathsara ############################################################################################################################
+// Student
+
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -43,6 +46,8 @@ $router->get('/students/events', 'students/events/index.php')->only('student');
 $router->get('/account', 'account.php')->only('auth');
 $router->get('/accounts/company', 'accounts/company/index.php')->only('company');
 $router->patch('/accounts/company', 'accounts/company/update.php')->only('auth');
+$router->get('/accounts/student', 'accounts/student/index.php')->only('student');
+$router->patch('/accounts/student', 'accounts/student/update.php')->only('auth');
 
 $router->post('/cv/store', 'cv/store.php')->only('student');
 $router->get('/cv/show', 'cv/show.php')->only('student');
@@ -61,14 +66,23 @@ $router->get('/students/internship_reports/show', 'students/internship_reports/s
 $router->delete('/students/internship_reports/delete', 'students/internship_reports/destroy.php')->only('student');
 
 $router->get('/notifications/resolve', 'notifications/resolve.php')->only('auth');
+$router->get('/notifications/read_all', 'notifications/read_all.php')->only('auth');
+
+$router->get('/students/complaints', 'students/complaints/index.php')->only('student');
+$router->post('/students/complaints', 'students/complaints/store.php')->only('student');
+$router->delete('/students/complaints', 'students/complaints/destroy.php')->only('student');
+$router->get('/students/complaints/show', 'students/complaints/show.php')->only('student');
+$router->post('/students/complaints/messages', 'students/complaints/messages/store.php')->only('student');
+
+$router->get('/students/training_sessions/show', 'students/training_sessions/show.php')->only('student');
+$router->get('/students/training_sessions/register', 'students/training_sessions/register.php')->only('student');
+$router->post('/students/training_sessions/attendance', 'students/training_sessions/attendance.php')->only('student');
+
+// Lecturer
+$router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 
 
-// Admin by thathsara
-
-//$router->get('/admin/pdcs', 'admin/pdcs/index.php');
-//$router->post('/admin/pdcs/disable', 'admin/pdcs/disable.php');
-//$router->get('/admin/pdcs/create', 'admin/pdcs/create.php');
-//$router->post('/admin/pdcs/store', 'admin/pdcs/store.php');
+// ########################################################################################################################################
 
 //company
 
@@ -122,6 +136,9 @@ $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
+$router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php'); 
+$router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
+
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
@@ -142,6 +159,8 @@ $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
 $router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
+$router->get('/PDC/appliedStudents', '/PDC/appliedStudents.php');
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
@@ -150,29 +169,27 @@ $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
-$router->get('/complaints', controller: 'admins/complaints.php');
-$router->get('/complaintsForm', controller: 'admins/complaintsForm.php');
-$router->get('/complaintsReply', controller: 'admins/complaintsReply.php');
+$router->get('/complaints', controller: 'admin/complaintManage.php');
+$router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
-$router->get('/calendar', 'lecturer/calendar.php');
 $router->get('/calendarVisit', 'lecturer/calendarVisit.php');
 $router->get('/profilelec', 'lecturer/account.php');
-$router->get('/profile', 'admins/account.php');
+$router->get('/profile', 'admin/account.php');
 
 
 
 $router->get('/report', 'lecturer/report.php');
-$router->get('/reportMain', 'lecturer/reportMain.php');
 $router->get('/reportView', 'lecturer/reportView.php');
 
-$router->get('/pdcManage', 'admins/pdcManage.php');
-$router->get('/pdcAdd', 'admins/pdcAdd.php');
-$router->get('/pdcEdit', controller: 'admins/pdcEdit.php');
+$router->get('/pdcManage', 'admin/pdcManage.php');
+$router->get('/pdcAdd', 'admin/pdcAdd.php');
+$router->get('/pdcEdit', controller: 'admin/pdcEdit.php');
 
 
-$router->get('/lecturerManage', 'admins/lecturerManage.php');
-$router->get('/lecturerAdd', 'admins/lecturerAdd.php');
-$router->get('/lecturerEdit', 'admins/lecturerEdit.php');
+$router->get('/lecturerManage', 'admin/lecturerManage.php');
+$router->get('/lecturerAdd', 'admin/lecturerAdd.php');
+$router->get('/lecturerEdit', 'admin/lecturerEdit.php');
 
 $router->post('/pdcAddition', controller: 'admin/add-pdc.php');
 $router->post('/pdcEdition', controller: 'admin/edit-pdc.php');
@@ -212,6 +229,19 @@ $router->get('/eventsView', 'admin/eventView.php');
 $router->get('/eventsAdd', 'admin/eventAdd.php');
 $router->get('/eventsEdit', 'admin/eventEdit.php');
 
+//training session get
+$router->get('/trainingSession', 'admin/trainingManage.php');
+$router->get('/trainingView', 'admin/trainingView.php');
+$router->get('/trainingAdd', 'admin/trainingAdd.php');
+$router->get('/trainingEdit', 'admin/trainingEdit.php');
+
+//training session post
+$router->post('/trainingAddition', controller: 'admin/add-training.php');
+$router->post('/trainingEdition', controller: 'admin/edit-training.php');
+$router->post('/trainingDeletion', controller: 'admin/delete-training.php');
+$router->get('/admin/training_sessions/qrcodes/show', 'admin/training_sessions/qrcodes/show.php');
+
+
 $router->post('/eventsAddition', controller: 'admin/add-events.php');
 $router->post('/eventsEdition', controller: 'admin/edit-events.php');
 $router->post('/eventsDeletion', controller: 'admin/delete-events.php');
@@ -225,10 +255,19 @@ $router->get('/eventStudentsAdd', 'admin/eventStudentsAdd.php');
 $router->get('/eventStudentsEdit', 'admin/eventStudentsEdit.php');
 
 $router->post('/eventsStudentsAddition', controller: 'admin/add-eventStudents.php');
-$router->post('/eventsStudentsEdition', controller: 'admin/add-eventStudents.php');
+$router->post('/eventsStudentsEdition', controller: 'admin/edit-eventStudents.php');
 $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.php');
 
 $router->get('/track', 'admin/track.php');
+
+$router->get('/complaintView', controller: 'admin/complaintView.php');
+
+
+
+
+
+
+
 
 
 
