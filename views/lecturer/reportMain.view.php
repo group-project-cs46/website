@@ -10,7 +10,7 @@
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
                 <h2><b>Manage Reports</b></h2>
             </div>
-            <input type="text" placeholder="Search Complaints..." class="search-bar" id="searchInput" onkeyup="searchTable()">
+            <input type="text" placeholder="Search Company Reports..." class="search-bar" id="searchInput" onkeyup="searchTable()">
             
         </header>
 
