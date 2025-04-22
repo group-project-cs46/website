@@ -7,21 +7,23 @@
         }
     ],
     "require": {
-        "phpmailer/phpmailer": "^6.9"
-    },
-    "require-dev": {
-        "pestphp/pest": "^2.35"
+        "phpmailer/phpmailer": "^6.9",
+        "endroid/qr-code": "^6.0"
     },
     "autoload": {
         "psr-4": {
             "Core\\": "Core/",
             "Http\\": "Http/",
-            "Models\\": "Models/"
+            "Models\\": "Models/",
+            "Tests\\": "tests/"
         }
     },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.8"
     }
 }

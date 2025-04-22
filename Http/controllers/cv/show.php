@@ -12,7 +12,7 @@ if ($cv['user_id'] != auth_user()['id']) {
 }
 
 if ($cv) {
-    $filePath = base_path('storage/cvs/' . $cv['filename']);
+    $filePath = base_path('storage/' . $cv['filename']);
     $originalName = $cv['original_name'];
 
     if (file_exists($filePath)) {
