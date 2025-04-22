@@ -148,11 +148,22 @@ table {
     
 }
 
-
+/* Align Edit and Delete buttons side by side */
+.Edit-button,
+.disable-button {
+    display: inline-block; /* Align buttons horizontally */
+    margin-right: 8px; /* Add spacing between buttons */
+}
 
 
 .student-table th {
     background-color: #F9FAFB;
+}
+
+/* Ensure the form around the Delete button doesn't break the layout */
+#deleteform {
+    display: inline; /* Prevent the form from taking full width */
+    margin: 0; /* Remove any default margins */
 }
 
 .disable-button,

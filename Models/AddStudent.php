@@ -72,4 +72,38 @@ class AddStudent {
         
         return $result; // Returns a row if a duplicate exists, false otherwise
     }
+
+    public static function disable_student($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('UPDATE users SET disabled = ? WHERE id = ?', [1, $id]);
+
+        
+    }
+
+    public static function fetch_hired_students()
+    {
+        $db = App::resolve(Database::class);
+
+        $result = $db->query(
+            "SELECT 
+                su.name AS student_name,
+                s.registration_number,
+                s.course,
+                cu.name AS company_name,
+                ir.name AS job_role
+            FROM applications a
+            JOIN students s ON a.student_id = s.id
+            JOIN users su ON s.id = su.id
+            JOIN advertisements ad ON a.ad_id = ad.id
+            JOIN users cu ON ad.company_id = cu.id
+            JOIN internship_roles ir ON ad.internship_role_id = ir.id
+            WHERE a.selected = true",
+            []
+        )->get();
+
+
+        return $result; // Returns a row if a duplicate exists, false otherwise
+    }
 }

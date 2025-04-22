@@ -131,6 +131,9 @@ $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
+$router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php'); 
+$router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
+
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
@@ -151,6 +154,8 @@ $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
 $router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
+$router->get('/PDC/appliedStudents', '/PDC/appliedStudents.php');
+
 
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
@@ -159,8 +164,8 @@ $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
-$router->get('/complaints', controller: 'admin/complaints.php');
-$router->get('/complaintsForm', controller: 'admin/complaintsForm.php');
+$router->get('/complaints', controller: 'admin/complaintManage.php');
+$router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
 $router->get('/calendar', 'lecturer/calendar.php');
@@ -252,7 +257,7 @@ $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.ph
 
 $router->get('/track', 'admin/track.php');
 
-$router->get('/complaint', controller: 'admin/complaintNew.php');
+$router->get('/complaintView', controller: 'admin/complaintView.php');
 
 
 
