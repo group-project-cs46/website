@@ -11,13 +11,12 @@ class LecturerVisit
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('
-            SELECT 
+        return $db->query('SELECT 
                 lecturer_visits.*, 
                 lecturer.name AS lecturer_name,
                 companies.name AS company_name
             FROM lecturer_visits
-            LEFT JOIN companies ON lecturer_visits.company_id = companies.id
-        ', [])->get();
+            LEFT JOIN companies ON lecturer_visits.company_id = companies.id', []
+            )->get();
     }
 }
