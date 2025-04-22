@@ -1,24 +1,31 @@
 <?php
 
-use Models\User;
-use Models\Cv;
+use Core\Session;
+use Models\Qrcode;
 
-$cv_id = $_GET['id'];
+//dd('cv show');
 
-$cv = Cv::find($cv_id);
+$qrcode_id = $_GET['id'];
 
-if ($cv['user_id'] != auth_user()['id']) {
-    redirect('/students/cvs');
+$qrcode = Qrcode::find($qrcode_id);
+
+$auth_user = auth_user();
+
+//dd($auth_user);
+
+if ($auth_user['id'] !== 1) {
+    Session::flash('toast', 'You are not authorized to view this QR code.');
+    redirect('/');
 }
 
-if ($cv) {
-    $filePath = base_path('storage/' . $cv['filename']);
-    $originalName = $cv['original_name'];
+if ($qrcode) {
+    $filePath = base_path('storage/' . $qrcode['filename']);
+//    $originalName = $cv['original_name'];
 
     if (file_exists($filePath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $originalName . '"');
+        header('Content-Disposition: attachment; filename="' . $qrcode['training_session_name'] . '.png' . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
@@ -31,7 +38,7 @@ if ($cv) {
         // redirect('/account');
     }
 } else {
-    dd('CV not found');
+    dd('QR not found');
     // Handle the error, e.g., CV not found
     // redirect('/account');
 }
