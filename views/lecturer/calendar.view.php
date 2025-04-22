@@ -6,9 +6,9 @@
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
-                <h2><b>Lecturer Schedule</b></h2>
+                <h2><b>Schedule Visit</b></h2>
             </div>
-            <input type="text" placeholder="Search Complaints..." class="search-bar" id="searchInput" onkeyup="searchDates()">
+            <input type="text" placeholder="Search Dates ..." class="search-bar" id="searchInput" onkeyup="searchDates()">
             
         </header>
 
