@@ -31,51 +31,19 @@
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
-                    <tr>
-                        <td>
-                            <strong>WSO2</strong><br>
-                            <small>2025-04-10</small><br>
-                        </td>
-                        <td class="actions">
-                            <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
-                            <a href="/reportView?id=example" class="view-button" >View</a>
-
-                            <form action="/complaintDisable" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="1">
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>IFS</strong><br>
-                            <small>2025-04-15</small><br>
-                        </td>
-                        <td class="actions">
-                            <!-- <a href="/complaintView?id=1" class="view-button" >View</a> -->
-                            <a href="/reportView?id=example" class="view-button" >View</a>
-
-                            <form action="/complaintDisable" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="1">
-                            </form>
-                        </td>
-                    </tr>
-
-                    <!-- <?php foreach ($PDC_data as $pdc): ?>
+                    
+                    <?php foreach ($LECTURER_VISIT as $lecturer_visit): ?>
                         <tr>
-                            <td><?= $pdc['employee_id'] ?></td>
-                            <td><?= $pdc['title'] ?></td>
-                            <td><?= $pdc['name'] ?></td>
-                            <td><?= $pdc['mobile'] ?></td>
-                            <td><?= $pdc['email'] ?></td>
+                            <td><?= $lecturer_visit['employee_id'] ?></td>            
                             <td class="actions">
-                                <a href="/pdcEdit?id=<?= $pdc['id'] ?>" class="view-button">Edit</a>
-                                <form action="/pdcDeletion" method="post">
-                                    <input type="hidden" name="id" value="<?= $pdc['id'] ?>">
-                                    <button type="submit" class="disable-button">Disable</button>
+                                <a href="/reportView?id=<?= $lecturer_visit['id'] ?>" class="view-button">Edit</a>
+                                <form action="/reportDeletion" method="post">
+                                    <input type="hidden" name="id" value="<?= $lecturer['id'] ?>">
+                                    <button type="submit" class="disable-button">Delete</button>
                                 </form>
                             </td>
                         </tr>
-                    <?php endforeach; ?> --> 
+                    <?php endforeach; ?> 
 
                 </tbody>
             </table>
