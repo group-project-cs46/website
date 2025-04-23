@@ -37,4 +37,22 @@ class TrainingSessionRegistration
         ]);
 
     }
+
+    public static function getAllByTrainingId($training_session_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT 
+                training_session_registrations.*, 
+                users.name AS sname,
+                users.email AS semail,
+                students.registration_number AS re_no,
+                students.index_number AS index_no
+            FROM training_session_registrations
+            LEFT JOIN users ON training_session_registrations.user_id = users.id
+            LEFT JOIN students ON training_session_registrations.user_id = students.id
+
+            WHERE training_session_id = ?
+        ', [$training_session_id])->get();
+    }
 }
