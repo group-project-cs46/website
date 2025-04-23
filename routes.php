@@ -240,15 +240,6 @@ $router->get('/eventmanage', 'admin/eventmanage.php');
 $router->get('/eventView', 'admin/eventView.php');
 $router->get('/eventAdd', 'admin/eventAdd.php');
 
-
-$router->get('/e-pdcadd', 'admin/e-pdcadd.php');
-
-
-
-
-
-
-
 // $router->post('/admin/pdc/update-password', 'PdcController@updatePassword');
 
 $router->get('/events', 'admin/eventmanage.php');
@@ -288,6 +279,9 @@ $router->post('/eventsStudentsDeletion', controller: 'admin/add-eventStudents.ph
 $router->get('/track', 'admin/track.php');
 
 $router->get('/complaintView', controller: 'admin/complaintView.php');
+
+$router->get('/attendance', controller: 'admin/attendanceManage.php');
+
 
 
 
