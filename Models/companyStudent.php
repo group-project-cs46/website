@@ -1,5 +1,7 @@
 <?php
+
 namespace Models;
+
 use Core\App;
 use Core\Database;
 
@@ -19,19 +21,42 @@ class companyStudent
                 c.original_name AS cv_original_name,
                 app.selected,
                 app.shortlisted,
-                app.id AS application_id
+                app.id AS application_id,
+                app.student_id
             FROM users u
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
-            INNER JOIN advertisements a ON app.ad_id = a.id
-            INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
+            LEFT JOIN advertisements a ON app.ad_id = a.id
+            LEFT JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
             WHERE u.role = 2 AND (app.failed IS NULL) AND (app.shortlisted IS NULL);
         ', [])->get();
 
+        // Collect all student IDs to check for selected applications
+        $studentIds = array_unique(array_column($students, 'student_id'));
+
+        // Debug: Log the student IDs and the query
+        error_log('Student IDs: ' . print_r($studentIds, true));
+
+        // Query to check if each student has any selected application
+        $selectedStudents = [];
+        if (!empty($studentIds)) {
+            $placeholders = implode(',', array_fill(0, count($studentIds), '?'));
+            $query = "SELECT DISTINCT student_id FROM applications WHERE student_id IN ($placeholders) AND selected = TRUE";
+            error_log('Second Query: ' . $query);
+            error_log('Parameters: ' . print_r($studentIds, true));
+
+            // Use the query method with proper parameter binding
+            $selectedResult = $db->query($query, array_values($studentIds))->get();
+
+            // Create a set of student IDs who have at least one selected application
+            $selectedStudents = array_column($selectedResult, 'student_id');
+        }
+
+        // Update the status for each application
         foreach ($students as &$student) {
-            $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
-            $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
+            // If the student has any selected application, mark all their applications as "Hired"
+            $student['status'] = in_array($student['student_id'], $selectedStudents) ? 'Hired' : 'Not Hired';
         }
         unset($student);
 
@@ -78,7 +103,8 @@ class companyStudent
                 app.shortlisted,
                 app.failed,
                 app.id AS application_id,
-                app.interview_id
+                app.interview_id,
+                app.student_id
             FROM users u
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
@@ -88,9 +114,27 @@ class companyStudent
             WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL) AND (app.selected IS NULL);
         ', [])->get();
 
+        // Collect all student IDs to check for selected applications
+        $studentIds = array_unique(array_column($students, 'student_id'));
+
+        // Query to check if each student has any selected application
+        $selectedStudents = [];
+        if (!empty($studentIds)) {
+            $placeholders = implode(',', array_fill(0, count($studentIds), '?'));
+            $selectedResult = $db->query("
+                SELECT DISTINCT student_id
+                FROM applications
+                WHERE student_id IN ($placeholders) AND selected = TRUE
+            ", array_values($studentIds))->get();
+
+            // Create a set of student IDs who have at least one selected application
+            $selectedStudents = array_column($selectedResult, 'student_id');
+        }
+
+        // Update the status for each application
         foreach ($students as &$student) {
-            $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
-            $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
+            // If the student has any selected application, mark all their applications as "Hired"
+            $student['status'] = in_array($student['student_id'], $selectedStudents) ? 'Hired' : 'Not Hired';
         }
         unset($student);
 
@@ -123,13 +167,14 @@ class companyStudent
                 AND app.shortlisted = TRUE 
                 AND (app.failed IS NULL);
         ', [])->get();
-    
+
         foreach ($students as &$student) {
+            // Check the selected status for this specific application
             $isSelected = filter_var($student['selected'], FILTER_VALIDATE_BOOLEAN);
             $student['status'] = $isSelected ? 'Hired' : 'Not Hired';
         }
         unset($student);
-    
+
         return $students;
     }
 

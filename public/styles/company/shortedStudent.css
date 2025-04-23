@@ -45,7 +45,7 @@ body {
 .company-name {
   margin-left: 10px; /* Space between logo and name */
   text-align: left;
-  line-height: 1.2; /* Adjust line-height*/
+  line-height: 1.2; /* Adjust line-height */
   font-size: 20px;
   font-weight: bold;
 }
@@ -69,6 +69,7 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
+
 .content {
   background-color: white;
   padding: 20px;
@@ -109,6 +110,7 @@ body {
 .add-button:hover {
   background-color: #01060c;
 }
+
 .student-table {
   width: 100%;
   border-collapse: collapse;
@@ -139,8 +141,9 @@ body {
     margin-left: 40px; /* Adjust main content margin for mobile */
   }
 }
+
 .short-btn-container {
-  display: block; 
+  display: block;
 }
 
 /* Style for view button */
@@ -154,6 +157,7 @@ body {
   width: 120px; /* Ensure button takes full width of the cell */
   text-align: center;
 }
+
 /* Style for schedule button */
 .short-schedule-btn {
   background-color: #0ea5e9;
@@ -166,6 +170,17 @@ body {
   text-align: center;
 }
 
+/* Style for the new select button */
+.short-select-btn {
+  background-color: #3b82f6; /* Blue color to match the Applied section's Select button */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; /* Ensure button takes full width of the cell */
+  text-align: center;
+}
 
 .short-view-btn:hover {
   background-color: #01080a;
@@ -177,12 +192,17 @@ body {
   color: white;
 }
 
+.short-select-btn:hover {
+  background-color: #2563eb; /* Darker blue on hover, matching Applied section */
+}
+
 .form-row {
   display: flex;
   flex-direction: column; /* Changed from row to column to stack content */
   margin-bottom: 15px;
   margin-top: 30px;
 }
+
 label {
   font-size: 18px;
   color: #333;
@@ -191,23 +211,26 @@ label {
   margin-left: 5px;
   margin-bottom: 5px; /* Added margin to create space between label and content */
 }
+
 .period {
   display: flex; /* Align the inputs in a row */
   flex-direction: column; /* Stack the "From" and "To" inputs vertically */
   margin: 5px 0px 10px 40px; /* Adjust space */
   width: 200px;
 }
+
 .date-picker {
   position: relative;
   display: inline-block;
-
   flex-direction: row;
   align-items: center;
   margin-top: 20px;
 }
+
 .form-row button {
   text-align: center;
 }
+
 .save-button {
   background-color: #495358;
   color: white;
@@ -217,6 +240,7 @@ label {
   cursor: pointer;
   font-size: 16px;
 }
+
 .save-button:hover {
   background-color: black;
 }
@@ -261,6 +285,7 @@ label {
   color: #555;
   pointer-events: none; /* Ensures icon doesn’t block input interaction */
 }
+
 .interview-heading {
   font-size: 20px; /* Adjust to your desired h1 size */
   font-weight: bold; /* Ensure it has a bold appearance */
@@ -305,7 +330,6 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
   filter: blur(5px);
 }
 
-
 /* Modal styling for success */
 .modal-success {
   position: fixed;
@@ -340,35 +364,35 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
   margin: -10px -10px 0 0;
   color: white;
 }
-/* Ensure consistent styling for status buttons in Short Listed Student section */
+
+/* Updated styling for Current Job Status in Short Listed Student section */
 .short-status-btn {
-  border: none;
-  padding: 8px 20px; /* Keep existing padding */
+  padding: 8px 20px; /* Keep padding consistent */
   border-radius: 5px;
-  cursor: pointer;
-  width: 120px; /* Ensure buttons take full width of the cell */
+  width: 120px; /* Ensure it takes full width of the cell */
   text-align: center;
   font-size: 16px; /* Keep font size */
   font-weight: bold; /* Keep font weight */
+  display: inline-block; /* Ensure it behaves like a button but without interactivity */
 }
 
-/* Style for "Hired" buttons */
+/* Style for "Hired" status */
 .short-status-btn.hired {
-  background-color: #4caf50; /* Green background as in screenshot */
+  background-color: #4caf50; /* Green background */
   color: white; /* White text */
-  cursor: not-allowed; /* Show a "not-allowed" cursor */
 }
 
-/* Style for "Not Hired" buttons */
+/* Style for "Not Hired" status */
 .short-status-btn.not-hired {
-  background-color: #f44336; /* Red background as in screenshot */
+  background-color: #f44336; /* Red background */
   color: white; /* White text */
 }
 
-/* Hover effect for "Not Hired" buttons (optional, to match interactivity) */
+/* Remove hover effect since it's no longer a button */
 .short-status-btn.not-hired:hover {
-  background-color: #d32f2f; /* Slightly darker red on hover */
+  background-color: #f44336; /* No change on hover */
 }
+
 /* Flexbox layout for filter container */
 .filter-container {
   display: flex;
