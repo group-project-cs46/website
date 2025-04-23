@@ -254,4 +254,28 @@ class companyStudent
 
         return true;
     }
+    public static function getApplicationById($applicationId)
+    {
+        $db = App::resolve(Database::class);
+        $application = $db->query('
+        SELECT app.id, app.cv_id, app.ad_id, app.student_id
+        FROM applications app
+        WHERE app.id = ?
+    ', [$applicationId])->find();
+
+        return $application;
+    }
+
+    public static function canAccessApplication($applicationId, $companyId)
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('
+        SELECT 1
+        FROM applications app
+        INNER JOIN advertisements ad ON app.ad_id = ad.id
+        WHERE app.id = ? AND ad.company_id = ?
+    ', [$applicationId, $companyId])->find();
+
+        return !empty($result);
+    }
 }
