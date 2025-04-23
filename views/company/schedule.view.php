@@ -9,17 +9,6 @@
                 <i class="fa-solid fa-calendar-days" style="font-size: 40px;"></i>
                 <h2>Schedule</h2>
             </div>
-            <div class="above-right">
-                <div class="company-info">
-                    <i class="fa-regular fa-building" style="font-size: 40px;"></i>
-                    <div class="company-name">
-                        Creative<br>Software
-                    </div>
-                </div>
-                <div>
-                    <i class="fa-solid fa-bell" style="font-size: 40px;"></i>
-                </div>
-            </div>
         </div>
     </header>
 
@@ -40,78 +29,102 @@
 
         <div id="techTalksSection" class="calendar-section active">
             <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
+                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">←</button>
                 <h2 id="calendarHeader" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">→</button>
             </div>
 
             <div id="tech-talks-calendar" class="calendar-container"></div>
         </div>
 
-        <div id="companyVisitsSection" class="calendar-section">
-            <div class="calendar-navigation-container">
-                <button id="prevMonth" class="nav-button" onclick="changeMonth(-1)">&#8592;</button>
-                <h2 id="calendarHeaderCompanyVisits" class="calendar-header"></h2>
-                <button id="nextMonth" class="nav-button" onclick="changeMonth(1)">&#8594;</button>
+        <div id="companyVisitsSection" class="companyVisitsSection">
+            <div class="visit-list-container">
+                <table class="visit-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Lecturer Name</th>
+                            <th>Lecturer's Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="company-visits-list"></tbody>
+                </table>
             </div>
-            <div id="company-visits-calendar" class="calendar-container"></div>
         </div>
 
-        <!-- Modal for Adding Tech Talk Details -->
-        <div id="techTalkModal" class="modal" >
+        <!-- Modal for Adding/Editing Tech Talk Details -->
+        <div id="techTalkModal" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('techTalkModal')">&times;</span>
+                <span class="close" onclick="closeModal('techTalkModal')">×</span>
                 <h3>Tech Talk Details</h3>
-                <form id="techTalkForm" method="POST" action="/company_scedule/store">
+                <form id="techTalkForm" method="POST" action="/company_schedule/store">
                     <label for="techDate">Date:</label>
-                    <input  type="text" id="techDate" readonly />
+                    <input type="text" id="techDate" readonly />
 
-                    <input type="text" name ="techid" id="techid"  hidden/>
+                    <input type="text" name="techid" id="techid" hidden />
+                    <input type="text" name="techtalk_id" id="techtalk_id" hidden />
 
                     <label for="techTime">Time:</label>
                     <input type="text" id="techTime" readonly />
 
-                    <label for="conductorName">Conductor Name:</label>
-                    <input  name ="conductorName" type="text" id="conductorName" placeholder="Enter Conductor Name" required />
+                    <label for="techVenue">Venue:</label>
+                    <input type="text" id="techVenue" readonly />
 
-                    <label for="conductorEmail">Conductor Email:</label>
-                    <input name ="conductorEmail" type="email" id="conductorEmail" placeholder="Enter Conductor Email" required />
+                    <label for="hostName">Resource person Name:</label>
+                    <input name="hostName" type="text" id="hostName" placeholder="Enter Resource person Name" required />
 
-                    <label for="description">Description:</label>
-                    <textarea  name ="description" id="description" placeholder="Enter Description" required></textarea>
+                    <label for="hostEmail">Resource person's Email Address:</label>
+                    <input name="hostEmail" type="email" id="hostEmail" placeholder="Enter Resource person's Email" required />
 
-                    <button type="submit">Save</button>
+                    <label for="description">Description about the topic:</label>
+                    <textarea name="description" id="description" placeholder="Enter Description" required></textarea>
+
+                    <!-- Conditionally show Save or Edit/Delete buttons -->
+                    <div id="actionButtons">
+                        <button type="submit" id="saveButton">Save</button>
+                    </div>
                 </form>
-            </div>
-        </div>
-
-        <!-- Modal for Approving Company Visit -->
-        <div id="companyVisitModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('companyVisitModal')">&times;</span>
-                <h3>Company Visit Details</h3>
-                <p><strong>Date:</strong> <span id="visitDate"></span></p>
-                <p><strong>Time:</strong> <span id="visitTime"></span></p>
-                <p><strong>Lecturer Name:</strong> <span id="lecturerName"></span></p>
-                <p><strong>Email:</strong> <span id="lecturerEmail"></span></p>
-                <button id="approveButton" onclick="approveVisit()">Approve</button>
             </div>
         </div>
     </section>
 </main>
 
 <script>
-    let currentYear = new Date().getFullYear(); // Start with current year
-    let currentMonth = new Date().getMonth(); // Start with current month (0-indexed)
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth();
 
     techtalks = <?php echo json_encode($techtalk); ?>;
     const events = {
         'tech-talks': techtalks,
-        'company-visits': [
-            { date: '2024-11-07', time: '2:00 PM', lecturer_name: 'John', email: 'John1234@gmail.com' },
-            { date: '2024-11-14', time: '4:00 PM', lecturer_name: 'Nimal', email: 'Nimal1234@gmail.com' }
-        ]
+        'company-visits': <?php 
+            use Models\CompanyLecturerVisit;
+            $visits = CompanyLecturerVisit::fetchAll();
+            $formattedVisits = array_map(function($visit) {
+                return [
+                    'id' => $visit['id'],
+                    'date' => $visit['date'],
+                    'time' => $visit['time'],
+                    'lecturer_name' => $visit['lecturer_title'] . '.' . $visit['lecturer_name'],
+                    'email' => $visit['lecturer_email'],
+                    'status' => $visit['status'], // Maps to lv.approved (TRUE/NULL)
+                    'rejected' => $visit['rejected'] // Maps to lv.rejected (TRUE/NULL)
+                ];
+            }, $visits);
+            echo json_encode($formattedVisits);
+        ?>
     };
+
+    // Check for success or error message and display as a browser alert
+    <?php if (isset($_SESSION['success'])): ?>
+        alert('<?php echo $_SESSION['success']; unset($_SESSION['success']); ?>');
+        sessionStorage.setItem('savedTechTalkDate', '<?php echo isset($_SESSION['savedDate']) ? $_SESSION['savedDate'] : ''; unset($_SESSION['savedDate']); ?>');
+        sessionStorage.setItem('techTalkSaved', 'true');
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        alert('<?php echo $_SESSION['error']; unset($_SESSION['error']); ?>');
+    <?php endif; ?>
 
     function changeMonth(direction) {
         currentMonth += direction;
@@ -125,20 +138,16 @@
         }
 
         updateCalendarHeader('tech-talks');
-        updateCalendarHeader('company-visits');
         initializeCalendar('tech-talks');
-        initializeCalendar('company-visits');
     }
 
     function updateCalendarHeader(section) {
-        const headerElement = section === 'tech-talks'
-            ? document.getElementById('calendarHeader')
-            : document.getElementById('calendarHeaderCompanyVisits');
+        const headerElement = document.getElementById('calendarHeader');
         headerElement.textContent = `${new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} ${currentYear}`;
     }
 
     function initializeCalendar(section) {
-        const containerId = section === 'tech-talks' ? 'tech-talks-calendar' : 'company-visits-calendar';
+        const containerId = 'tech-talks-calendar';
         const eventList = events[section];
         createCalendar(containerId, eventList, currentYear, currentMonth);
     }
@@ -162,6 +171,9 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
         for (let i = 0; i < firstDay; i++) {
             const emptyCell = document.createElement('div');
             calendarGrid.appendChild(emptyCell);
@@ -173,15 +185,35 @@
             dayCell.className = 'day-box';
             dayCell.textContent = day;
 
+            const cellDate = new Date(year, month, day);
+            cellDate.setHours(0, 0, 0, 0);
+
+            const isPastDate = cellDate < today;
+
             const event = events.find(e => e.date === dateStr);
             if (event) {
-                dayCell.classList.add('highlight');
-                if (containerId === 'tech-talks-calendar'){
-                    dayCell.onclick = () => openTechTalkModal(event.date, event.time,event.id,event.conductor_email,event.conductor_email,event.description);
-                } else if (containerId === 'company-visits-calendar') {
-                    dayCell.onclick = () =>
-                        openCompanyVisitModal(event.date, event.time, event.lecturer_name, event.email, dayCell);
+                const savedDate = sessionStorage.getItem('savedTechTalkDate');
+                if (isPastDate) {
+                    dayCell.classList.add('past');
+                } else if (savedDate === dateStr || (event.host_name && event.host_email && event.description)) {
+                    dayCell.classList.add('saved');
+                } else {
+                    dayCell.classList.add('highlight');
                 }
+
+                const hasTechTalk = event.host_name && event.host_email && event.description;
+                dayCell.onclick = () => {
+                    if (isPastDate && !hasTechTalk) {
+                        alert('This date is in the past and cannot be scheduled for a new tech talk.');
+                    } else {
+                        openTechTalkModal(event.date, event.time, event.slot_id, event.host_name, event.host_email, event.description, event.venue, event.techtalk_id, isPastDate);
+                    }
+                };
+            } else if (isPastDate) {
+                dayCell.style.cursor = 'not-allowed';
+                dayCell.onclick = () => {
+                    alert('This date is in the past and cannot be scheduled for a new tech talk.');
+                };
             }
 
             calendarGrid.appendChild(dayCell);
@@ -190,12 +222,238 @@
         container.appendChild(calendarGrid);
     }
 
+    function initializeCompanyVisitsList() {
+        const visitList = document.getElementById('company-visits-list');
+        visitList.innerHTML = '';
+
+        const companyVisits = events['company-visits'];
+        companyVisits.forEach((visit, index) => {
+            const row = document.createElement('tr');
+            const isApproved = visit.status === true || visit.status === 'true';
+            const isRejected = visit.rejected === true || visit.rejected === 'true';
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const visitDate = new Date(visit.date);
+            const isPastDate = visitDate < today;
+
+            let actionButtons = '';
+            if (isApproved) {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/revert_lecturervisit" id="revertForm-${visit.id}">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="revert">
+                        <button type="button" class="approve-button approved${isPastDate ? ' past' : ''}" onclick="confirmRevert(${visit.id}, ${isPastDate})">Approved</button>
+                    </form>`;
+            } else if (isRejected) {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/revert_reject_lecturervisit" id="revertRejectForm-${visit.id}">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="revert_reject">
+                        <button type="button" class="reject-button rejected${isPastDate ? ' past' : ''}" onclick="confirmRevertReject(${visit.id}, ${isPastDate})">Rejected</button>
+                    </form>`;
+            } else {
+                actionButtons = `
+                    <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}" style="display: inline;">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="approve">
+                        <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visit.id}, ${isPastDate})">Approve</button>
+                    </form>
+                    <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visit.id}" style="display: inline;">
+                        <input type="hidden" name="visit_id" value="${visit.id}">
+                        <input type="hidden" name="action" value="reject">
+                        <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visit.id}, ${isPastDate})">Reject</button>
+                    </form>`;
+            }
+
+            row.innerHTML = `
+                <td>${visit.date}</td>
+                <td>${visit.time}</td>
+                <td>${visit.lecturer_name}</td>
+                <td>${visit.email}</td>
+                <td>${actionButtons}</td>
+            `;
+
+            if (isPastDate) {
+                row.classList.add('past');
+            }
+
+            visitList.appendChild(row);
+        });
+    }
+
+    function confirmApproval(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be approved.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to approve this visit?')) {
+            const form = document.getElementById(`approveForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/store_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit approved successfully');
+                    const button = form.querySelector('.approve-button');
+                    button.textContent = 'Approved';
+                    button.classList.add('approved');
+                    button.setAttribute('onclick', `confirmRevert(${visitId}, ${isPastDate})`);
+                    form.setAttribute('action', '/company_schedule/revert_lecturervisit');
+                    form.querySelector('input[name="action"]').value = 'revert';
+                    form.setAttribute('id', `revertForm-${visitId}`);
+                    // Remove the reject button
+                    const rejectForm = document.getElementById(`rejectForm-${visitId}`);
+                    if (rejectForm) rejectForm.remove();
+                } else {
+                    alert('Failed to approve visit: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while approving the visit.');
+            });
+        }
+    }
+
+    function confirmRevert(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be reverted.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to revert this approval?')) {
+            const form = document.getElementById(`revertForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/revert_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit approval reverted successfully');
+                    const td = form.parentElement;
+                    td.innerHTML = `
+                        <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visitId}, ${isPastDate})">Approve</button>
+                        </form>
+                        <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="reject">
+                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
+                        </form>`;
+                } else {
+                    alert('Failed to revert visit approval: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while reverting the visit approval.');
+            });
+        }
+    }
+
+    function confirmReject(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be rejected.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to reject this visit?')) {
+            const form = document.getElementById(`rejectForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/reject_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit rejected successfully');
+                    const button = form.querySelector('.reject-button');
+                    button.textContent = 'Rejected';
+                    button.classList.add('rejected');
+                    button.setAttribute('onclick', `confirmRevertReject(${visitId}, ${isPastDate})`);
+                    form.setAttribute('action', '/company_schedule/revert_reject_lecturervisit');
+                    form.querySelector('input[name="action"]').value = 'revert_reject';
+                    form.setAttribute('id', `revertRejectForm-${visitId}`);
+                    // Remove the approve button
+                    const approveForm = document.getElementById(`approveForm-${visitId}`);
+                    if (approveForm) approveForm.remove();
+                } else {
+                    alert('Failed to reject visit: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while rejecting the visit.');
+            });
+        }
+    }
+
+    function confirmRevertReject(visitId, isPastDate) {
+        if (isPastDate) {
+            alert('This date has already passed and cannot be reverted.');
+            return;
+        }
+
+        if (confirm('Are you sure you want to revert this rejection?')) {
+            const form = document.getElementById(`revertRejectForm-${visitId}`);
+            const formData = new FormData(form);
+
+            fetch('/company_schedule/revert_reject_lecturervisit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Visit rejection reverted successfully');
+                    const td = form.parentElement;
+                    td.innerHTML = `
+                        <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visitId}, ${isPastDate})">Approve</button>
+                        </form>
+                        <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
+                            <input type="hidden" name="visit_id" value="${visitId}">
+                            <input type="hidden" name="action" value="reject">
+                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
+                        </form>`;
+                } else {
+                    alert('Failed to revert visit rejection: ' + (data.error || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while reverting the visit rejection.');
+            });
+        }
+    }
+
     window.onload = () => {
         updateCalendarHeader('tech-talks');
-        updateCalendarHeader('company-visits');
         initializeCalendar('tech-talks');
-        initializeCalendar('company-visits');
+        initializeCompanyVisitsList();
         toggleSchedule('tech-talks');
+
+        if (sessionStorage.getItem('techTalkSaved') === 'true') {
+            const saveButton = document.getElementById('saveButton');
+            if (saveButton) {
+                saveButton.classList.add('saved');
+            }
+        }
     };
 
     function toggleSchedule(section) {
@@ -221,40 +479,73 @@
         }
     }
 
-    function openTechTalkModal(date, time,id,conductor_name,conductor_email,description) {
-
+    function openTechTalkModal(date, time, slot_id, host_name, host_email, description, venue, techtalk_id, isPast) {
+        console.log('Opening modal with slot_id:', slot_id);
         document.getElementById('techDate').value = date;
         document.getElementById('techTime').value = time;
-        document.getElementById('techid').value = id;
-        document.getElementById('conductorName').value = (conductor_name !== null && conductor_name !== undefined && conductor_name !== 'NULL') ? conductor_name : '';
-        document.getElementById('conductorEmail').value = (conductor_email !== null && conductor_email !== undefined && conductor_email !== 'NULL') ? conductor_email : '';
-        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description  : '';
+        document.getElementById('techid').value = slot_id;
+        document.getElementById('techtalk_id').value = techtalk_id || '';
+        document.getElementById('hostName').value = (host_name !== null && host_name !== undefined && host_name !== 'NULL') ? host_name : '';
+        document.getElementById('hostEmail').value = (host_email !== null && host_email !== undefined && host_email !== 'NULL') ? host_email : '';
+        document.getElementById('description').value = (description !== null && description !== undefined && description !== 'NULL') ? description : '';
+        document.getElementById('techVenue').value = (venue !== null && venue !== undefined && venue !== 'NULL') ? venue : '';
+
+        const hostNameInput = document.getElementById('hostName');
+        const hostEmailInput = document.getElementById('hostEmail');
+        const descriptionInput = document.getElementById('description');
+
+        if (isPast) {
+            hostNameInput.setAttribute('readonly', 'readonly');
+            hostEmailInput.setAttribute('readonly', 'readonly');
+            descriptionInput.setAttribute('readonly', 'readonly');
+        } else {
+            hostNameInput.removeAttribute('readonly');
+            hostEmailInput.removeAttribute('readonly');
+            descriptionInput.removeAttribute('readonly');
+        }
+
+        const hasData = host_name && host_email && description;
+        const actionButtons = document.getElementById('actionButtons');
+        actionButtons.innerHTML = '';
+
+        if (isPast) {
+            actionButtons.innerHTML = '';
+        } else if (hasData) {
+            actionButtons.innerHTML = `
+            <button type="button" id="editButton" onclick="editTechTalk()">Edit</button>
+            <button type="button" id="deleteButton" onclick="deleteTechTalk()">Delete</button>
+        `;
+        } else {
+            actionButtons.innerHTML = `<button type="submit" id="saveButton">Save</button>`;
+            if (sessionStorage.getItem('techTalkSaved') === 'true') {
+                const saveButton = document.getElementById('saveButton');
+                saveButton.classList.add('saved');
+            }
+        }
+
         document.getElementById('techTalkModal').style.display = 'flex';
+        sessionStorage.setItem('currentTechTalkDate', date);
     }
 
-    function openCompanyVisitModal(date, time, lecturerName, email, dateElement) {
-        document.getElementById('visitDate').textContent = date;
-        document.getElementById('visitTime').textContent = time;
-        document.getElementById('lecturerName').textContent = lecturerName;
-        document.getElementById('lecturerEmail').textContent = email;
-        lastClickedDateElement = dateElement;
-        document.getElementById('companyVisitModal').style.display = 'flex';
+    function editTechTalk() {
+        const form = document.getElementById('techTalkForm');
+        form.action = '/company_schedule/edit';
+        form.submit();
     }
+
+    function deleteTechTalk() {
+        if (confirm('Are you sure you want to delete this tech talk?')) {
+            const form = document.getElementById('techTalkForm');
+            form.action = '/company_schedule/delete';
+            form.submit();
+        }
+    }
+
+    let lastClickedRow;
 
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
     }
-
-    function approveVisit() {
-        if (lastClickedDateElement) {
-            lastClickedDateElement.style.backgroundColor = 'green';
-            lastClickedDateElement.style.color = 'white';
-        }
-        closeModal('companyVisitModal');
-        alert('Company Visit Approved!');
-    }
-
-    
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

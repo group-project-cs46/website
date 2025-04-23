@@ -112,10 +112,10 @@ class companyComplaint
                 }
             }
 
-            // Include updated_at in the query now that the column exists
+            // Remove updated_at from the query
             $db->query(
                 'UPDATE complaints 
-                 SET complaint_type = ?, subject = ?, description = ?, accused_id = ?, updated_at = CURRENT_TIMESTAMP 
+                 SET complaint_type = ?, subject = ?, description = ?, accused_id = ? 
                  WHERE id = ?',
                 [
                     $complaintType,
