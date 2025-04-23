@@ -246,7 +246,8 @@ label {
 
 input[type="text"],
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+textarea {
   flex-grow: 1; /* Allow input box to grow and fill the remaining space */
   min-width: 400px; /* Minimum width for the input box */
   padding: 10px;
@@ -254,6 +255,11 @@ input[type="number"] {
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+}
+
+textarea {
+  min-height: 80px; /* Set a minimum height for textareas */
+  resize: vertical; /* Allow vertical resizing only */
 }
 
 .input-with-icon {
