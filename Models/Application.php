@@ -7,6 +7,22 @@ use Core\Database;
 
 class Application
 {
+    public static function getApplicationsWithoutSelectedStudents($ad_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('
+            SELECT a.*
+            FROM applications a
+            WHERE a.ad_id = ? AND NOT EXISTS (
+                SELECT 1
+                FROM applications a2
+                WHERE a2.student_id = a.student_id
+                AND a2.selected = true
+                AND a2.id != a.id
+            )
+        ', [$ad_id])->get();
+    }
     public static function getByAdId($ad_id)
     {
         $db = App::resolve(Database::class);

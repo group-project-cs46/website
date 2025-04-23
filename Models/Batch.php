@@ -65,5 +65,12 @@ class Batch
         $db->query('DELETE FROM batches WHERE id = ?', [$id]);
     }
 
+    public static function currentBatch()
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM batches WHERE current = 1')->find();
+    }
+
 
 }

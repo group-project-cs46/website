@@ -42,7 +42,7 @@ class Ad
                            WHERE companies.id = ?', [$company_id])->get();
     }
 
-    public static function byRoundId($roundId) {
+    public static function byRoundId($batchId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
@@ -58,11 +58,11 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline
-        ', [$roundId])->get();
+            WHERE advertisements.batch_id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$batchId])->get();
     }
 
-    public static function byRoundIdAndComapnyId($roundId, $companyId) {
+    public static function byRoundIdAndComapnyId($batchId, $companyId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
@@ -78,8 +78,8 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
-        ', [$roundId, $companyId])->get();
+            WHERE advertisements.batch_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$batchId, $companyId])->get();
     }
 
     public static function find($id)
