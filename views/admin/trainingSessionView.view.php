@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Session</title>
+    <title>Session Deatails</title>
     <style>
         /* *body {
             background-color: white;
@@ -127,7 +127,7 @@
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Edit Session</h2>
+        <h2>Session Deatails</h2>
         <form method="post" action="/trainingEdition">
             <div class="form-group">
                 <label for="session-name">Name</label>
@@ -159,7 +159,8 @@
 
             <div class="button-container">
                 <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
-                <button type="submit" class="submit-btn"><a href="/eventStudentsManage"> Students List</a></button>
+                <button type="submit" class="submit-btn"><a href="/attendance?id=<?= $TRAINING_SESSION['id'] ?>"> Students List</a></button>
+                                                         
             </div>        
         </form>
     </div>
