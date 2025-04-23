@@ -1,9 +1,10 @@
 <?php
 
-use Models\companyTechtalk;
+use Models\CompanyTechtalk;
+use Models\CompanyLecturerVisit;
 
 // Fetch data from the database
-$techtalk = companyTechtalk::fetchAll();
-
+$techtalk = CompanyTechtalk::fetchAll();
+$companyLecturerVisit = CompanyLecturerVisit::fetchAll();
 
 view('company/schedule.view.php', ['techtalk' => $techtalk]);

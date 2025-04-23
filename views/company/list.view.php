@@ -1,5 +1,4 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
-
 <link rel="stylesheet" href="/styles/company/appliedStudent.css" />
 <link rel="stylesheet" href="/styles/company/shortedStudent.css" />
 <link rel="stylesheet" href="/styles/company/selectedStudent.css" />
@@ -10,17 +9,6 @@
             <div class="above-left">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
                 <h2>Student Management</h2>
-            </div>
-
-            <div class="above-right">
-                <div class="company-info">
-                    <i class="fa-regular fa-building" style="font-size: 40px;"></i>
-                    <div class="company-name">Creative<br>Software</div>
-                </div>
-
-                <div>
-                    <i class="fa-solid fa-bell" style="font-size: 40px;"></i>
-                </div>
             </div>
         </div>
     </header>
@@ -230,51 +218,51 @@
             </div>
         </div>
 
-<!-- Selected Student Section -->
-<div class="table-box" id="selectedSection" style="display: none;">
-    <!-- Filter Dropdowns -->
-    <div class="filter-container">
-        <div class="filter-left">
-            <label for="selected-course-filter">Filter by Course:</label>
-            <select id="selected-course-filter" onchange="filterSelectedStudents()">
-                <option value="all">All</option>
-                <option value="CS">CS</option>
-                <option value="IS">IS</option>
-            </select>
+        <!-- Selected Student Section -->
+        <div class="table-box" id="selectedSection" style="display: none;">
+            <!-- Filter Dropdowns -->
+            <div class="filter-container">
+                <div class="filter-left">
+                    <label for="selected-course-filter">Filter by Course:</label>
+                    <select id="selected-course-filter" onchange="filterSelectedStudents()">
+                        <option value="all">All</option>
+                        <option value="CS">CS</option>
+                        <option value="IS">IS</option>
+                    </select>
+                </div>
+                <div class="filter-right">
+                    <label for="selected-jobrole-filter">Filter by Job Role:</label>
+                    <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
+                    <datalist id="selected-jobrole-options">
+                        <option value="Software Engineer">
+                        <option value="Cybersecurity Analyst">
+                        <option value="DevOps Engineer">
+                        <option value="IT Support Specialist">
+                        <option value="AI/ML Engineer">
+                        <option value="Data Analyst">
+                    </datalist>
+                </div>
+            </div>
+            <div id="selected-error" class="error" style="display: <?php echo $errorSelected ? 'block' : 'none'; ?>;">
+                <?php echo $errorSelected ?: 'No selected students found.'; ?>
+            </div>
+            <table class="student-table" id="selected-table" style="display: <?php echo $errorSelected ? 'none' : 'table'; ?>;">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Index No</th>
+                        <th>Email</th>
+                        <th>Job Role</th>
+                        <th>Course</th>
+                        <th>View CV</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="select-table-body">
+                    <!-- Dynamic rows for selected students -->
+                </tbody>
+            </table>
         </div>
-        <div class="filter-right">
-            <label for="selected-jobrole-filter">Filter by Job Role:</label>
-            <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
-            <datalist id="selected-jobrole-options">
-                <option value="Software Engineer">
-                <option value="Cybersecurity Analyst">
-                <option value="DevOps Engineer">
-                <option value="IT Support Specialist">
-                <option value="AI/ML Engineer">
-                <option value="Data Analyst">
-            </datalist>
-        </div>
-    </div>
-    <div id="selected-error" class="error" style="display: <?php echo $errorSelected ? 'block' : 'none'; ?>;">
-        <?php echo $errorSelected ?: 'No selected students found.'; ?>
-    </div>
-    <table class="student-table" id="selected-table" style="display: <?php echo $errorSelected ? 'none' : 'table'; ?>;">
-        <thead>
-            <tr>
-                <th>Student Name</th>
-                <th>Index No</th>
-                <th>Email</th>
-                <th>Job Role</th>
-                <th>Course</th>
-                <th>View CV</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="select-table-body">
-            <!-- Dynamic rows for selected students -->
-        </tbody>
-    </table>
-</div>
     </section>
 </main>
 
@@ -286,6 +274,11 @@ const selectedStudents = <?php echo json_encode($selectedStudents); ?>;
 
 // Track scheduled interviews
 const scheduledStudents = Array(shortlistedStudents.length).fill(false);
+
+// Function to show alert when trying to change status in applied section
+function showSelectFirstAlert(studentName) {
+    alert(`Please select ${studentName} first to change their status.`);
+}
 
 // Function to render applied student table
 function renderAppliedTable(students) {
@@ -307,7 +300,7 @@ function renderAppliedTable(students) {
             <td>${student.job_role}</td>
             <td>${student.course}</td>
             <td>
-                <button class="applied-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index}, 'applied')">${student.status}</button>
+                <button class="applied-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="${student.status === 'Hired' ? 'toggleStatus(this, ' + index + ', \'applied\')' : 'showSelectFirstAlert(\'' + student.student_name + '\')'}">${student.status}</button>
             </td>
             <td>
                 ${student.cv_filename ? 
@@ -323,6 +316,73 @@ function renderAppliedTable(students) {
             </td>
         `;
         tableBody.appendChild(row);
+    });
+}
+
+// Function to toggle status (only for shortlisted students, but handle "Hired" alert for applied)
+function toggleStatus(button, index, section) {
+    let student;
+    let studentList;
+
+    if (section === "applied") {
+        studentList = appliedStudents;
+        student = appliedStudents[index];
+    } else if (section === "shorted") {
+        studentList = shortlistedStudents;
+        student = shortlistedStudents[index];
+    }
+
+    if (student.status === "Hired") {
+        alert("This student has already been hired by another company.");
+        return;
+    }
+
+    // Only allow status changes for shortlisted students
+    if (section !== "shorted") {
+        return; // Do nothing further if in applied section
+    }
+
+    // Update the backend to mark as selected (sets selected = TRUE)
+    fetch('/company_student/select', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ application_id: student.application_id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove the student from shortlistedStudents
+            shortlistedStudents.splice(index, 1);
+            scheduledStudents.splice(index, 1);
+            renderShortlistedTable(shortlistedStudents);
+
+            // Fetch the updated list of selected students from the server
+            fetch('/company_student/selected')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the selectedStudents array with the server data
+                        selectedStudents.length = 0; // Clear the existing array
+                        data.students.forEach(student => selectedStudents.push(student));
+                        renderSelectedTable(selectedStudents);
+                        toggleSection('selected');
+                    } else {
+                        alert('Failed to fetch updated selected students: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching selected students:', error);
+                    alert('An error occurred while fetching the updated selected students.');
+                });
+        } else {
+            alert('Failed to update status: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating the status.');
     });
 }
 
@@ -469,9 +529,6 @@ function selectStudent(index) {
     const alreadyShorted = shortlistedStudents.some(s => s.email === student.email && s.job_role === student.job_role);
 
     if (!alreadyShorted) {
-        shortlistedStudents.push(student);
-        scheduledStudents.push(false); // Add a new entry for this student in scheduledStudents
-
         // Update the backend to mark as shortlisted
         fetch('http://localhost:8000/company_student/shortlisted', {
             method: 'POST',
@@ -483,6 +540,17 @@ function selectStudent(index) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Add to shortlisted students
+                shortlistedStudents.push(student);
+                scheduledStudents.push(false); // Add a new entry for this student in scheduledStudents
+                // Remove from applied students
+                appliedStudents.splice(index, 1);
+                // Re-render both tables
+                renderAppliedTable(appliedStudents);
+                renderShortlistedTable(shortlistedStudents);
+                // Apply filters to maintain current view
+                filterAppliedStudents();
+                filterShortedStudents();
                 alert(`${student.student_name} has been added to the Shortlisted Student List.`);
             } else {
                 alert('Failed to shortlist student.');
@@ -525,72 +593,6 @@ function rejectStudent(index) {
             alert('An error occurred while rejecting the student.');
         });
     }
-}
-
-function toggleStatus(button, index, section) {
-    let student;
-    let studentList;
-
-    if (section === "applied") {
-        studentList = appliedStudents;
-        student = appliedStudents[index];
-    } else if (section === "shorted") {
-        studentList = shortlistedStudents;
-        student = shortlistedStudents[index];
-    }
-
-    if (student.status === "Hired") {
-        alert("This student has already been hired by another company.");
-        return;
-    }
-
-    // Update the backend to mark as selected (sets selected = TRUE)
-    fetch('/company_student/select', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ application_id: student.application_id })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Remove the student from shortlistedStudents
-            if (section === "shorted") {
-                shortlistedStudents.splice(index, 1);
-                scheduledStudents.splice(index, 1);
-                renderShortlistedTable(shortlistedStudents);
-
-                // Fetch the updated list of selected students from the server
-                fetch('/company_student/selected')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Update the selectedStudents array with the server data
-                            selectedStudents.length = 0; // Clear the existing array
-                            data.students.forEach(student => selectedStudents.push(student));
-                            renderSelectedTable(selectedStudents);
-                            toggleSection('selected');
-                        } else {
-                            alert('Failed to fetch updated selected students: ' + (data.error || 'Unknown error'));
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching selected students:', error);
-                        alert('An error occurred while fetching the updated selected students.');
-                    });
-            } else if (section === "applied") {
-                student.status = "Hired";
-                renderAppliedTable(appliedStudents);
-            }
-        } else {
-            alert('Failed to update status: ' + (data.error || 'Unknown error'));
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the status.');
-    });
 }
 
 // Function to open the modal to schedule an interview
@@ -858,7 +860,7 @@ function removeSelectedStudent(index) {
 
 // Initialize default render
 document.addEventListener("DOMContentLoaded", () => {
-    toggleSection("shorted"); // Show the shortlisted students tab by default
+    toggleSection("applied"); // Show the applied students tab by default
 });
 </script>
 
