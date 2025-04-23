@@ -35,15 +35,15 @@ class Company
 }
 
 
-    public static function byRoundId($roundId)
+    public static function byBatchId($batchId)
     {
         $db = App::resolve(Database::class);
 
         return $db->query(
             'SELECT DISTINCT companies.*, users.name FROM companies
             LEFT JOIN advertisements ON companies.id = advertisements.company_id
-            LEFT JOIN users ON users.id = companies.id WHERE advertisements.round_id = ?',
-            [$roundId]
+            LEFT JOIN users ON users.id = companies.id WHERE advertisements.batch_id = ?',
+            [$batchId]
         )->get();
     }
 

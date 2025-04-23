@@ -4,27 +4,25 @@ use Models\Ad;
 use Models\Company;
 use Models\Round;
 
-//$currentRound = Round::currentRound();
+$currentBatch = \Models\Batch::currentBatch();
 
-if ($currentRound && $currentRound['restricted']) {
+
+if ($currentBatch && $currentBatch['current_round'] == 'second') {
     redirect('/students/advertisements/second_round');
 }
 
-//dd($currentRound);
 
 
-$companies = Company::byRoundId($currentRound['id']);
-
-//    dd($companies);
+$companies = Company::byBatchId($currentBatch['id']);
 
 
 $company_id = $_GET['company_id'] ?? null;
 
 
 if ($company_id) {
-    $ads = Ad::byRoundIdAndComapnyId($currentRound['id'], $company_id);
+    $ads = Ad::byBatchIdAndComapnyId($currentBatch['id'], $company_id);
 } else {
-    $ads = Ad::byRoundId($currentRound['id']);
+    $ads = Ad::byBatchId($currentBatch['id']);
 }
 
 
@@ -33,5 +31,5 @@ view('students/advertisements/index.view.php', [
     'heading' => 'Jobs',
     'ads' => $ads,
     'companies' => $companies,
-    'currentRound' => $currentRound
+    'currentRound' => $currentBatch
 ]);
