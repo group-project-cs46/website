@@ -69,8 +69,18 @@ class Batch
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM batches WHERE current = 1')->find();
+        return $db->query('
+            SELECT
+                *,
+                CASE
+                    WHEN first_round_end_time IS NULL OR first_round_end_time > NOW() THEN \'first\'
+                    WHEN second_round_end_time IS NULL OR second_round_end_time > NOW() THEN \'second\'
+                    ELSE \'completed\'
+                END AS current_round
+            FROM batches
+            WHERE (first_round_end_time IS NULL OR first_round_end_time > NOW())
+            OR (second_round_end_time IS NULL OR second_round_end_time > NOW())
+            ORDER BY created_at DESC
+        ', [])->find();
     }
-
-
 }

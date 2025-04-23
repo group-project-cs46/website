@@ -42,7 +42,7 @@ class Ad
                            WHERE companies.id = ?', [$company_id])->get();
     }
 
-    public static function byRoundId($batchId) {
+    public static function byBatchId($batchId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
@@ -62,7 +62,7 @@ class Ad
         ', [$batchId])->get();
     }
 
-    public static function byRoundIdAndComapnyId($batchId, $companyId) {
+    public static function byBatchIdAndComapnyId($batchId, $companyId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
