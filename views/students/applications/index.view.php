@@ -23,7 +23,7 @@
                 <div class="grid-item"><?php echo htmlspecialchars($application['id']); ?></div>
                 <div class="grid-item">
                     <a href="/students/applications/show?id=<?= $application['id'] ?>">
-                        <?php echo htmlspecialchars($application['job_role']); ?>
+                        <?php echo htmlspecialchars($application['internship_role']); ?>
                     </a>
                 </div>
                 <div class="grid-item">

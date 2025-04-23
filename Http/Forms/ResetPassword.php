@@ -11,7 +11,7 @@ class ResetPassword
 
     public function __construct(public array $attributes)
     {
-        if (!Validator::string($attributes['password'])) {
+        if (!Validator::string($attributes['password'], 8)) {
             $this->errors['password'] = 'Password is required';
         }
 

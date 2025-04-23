@@ -14,6 +14,30 @@ class Application
         return $db->query('SELECT * FROM applications WHERE ad_id = ?', [$ad_id])->get();
 
     }
+
+    public static function thatHasInterviewForMonthAndYearByStudentId(int $month, int $year, int $student_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('
+            SELECT
+                applications.*,
+                interviews.date,
+                interviews.start_time,
+                interviews.end_time,
+                users.name AS company_name,
+                interviews.venue,
+                ir.name AS internship_role,
+                users.email AS company_email
+            FROM applications
+            LEFT JOIN interviews ON applications.interview_id = interviews.id
+            LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+            LEFT JOIN users ON users.id = advertisements.company_id
+            LEFT JOIN internship_roles ir ON ir.id = advertisements.internship_role_id 
+            WHERE EXTRACT(MONTH FROM interviews.date) = ? AND EXTRACT(YEAR FROM interviews.date) = ? AND student_id = ?
+        ', [$month, $year, $student_id])->get();
+
+    }
     public static function getByStudentId($student_id)
     {
         $db = App::resolve(Database::class);
@@ -46,9 +70,10 @@ class Application
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT companies.* FROM applications
+        return $db->query('SELECT companies.*, users.name FROM applications
          LEFT JOIN advertisements ON applications.ad_id = advertisements.id
          LEFT JOIN companies ON advertisements.company_id = companies.id
+         LEFT JOIN users ON companies.id = users.id
          WHERE student_id = ? AND selected = TRUE', [$student_id])->find();
     }
 
@@ -58,21 +83,24 @@ class Application
 
         return $db->query('
             SELECT 
-                applications.id, 
-                advertisements.job_role,
+                applications.id,
+                applications.created_at,
+                internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
                 interviews.start_time AS interview_start_time,
                 interviews.end_time AS interview_end_time,
                 selected,
                 failed,
-                cvs.original_name AS cv_name
+                cvs.original_name AS cv_name,
+                users.name AS company_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
             LEFT JOIN companies ON advertisements.company_id = companies.id
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN interviews ON applications.interview_id = interviews.id
             LEFT JOIN cvs ON applications.cv_id = cvs.id
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
             WHERE applications.student_id = ?
         ', [$student_id])->get();
     }

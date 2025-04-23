@@ -1,12 +1,10 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
+use Models\pdc_complaints;
 
-$db = App::resolve(Database::class);
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
 
-//dd($user);
+$complaintdata = pdc_complaints::fetchAll();
 
-view('PDC/Complaints&Feedback.view.php');
+view('PDC/Complaints&Feedback.view.php',['complaints' => $complaintdata]);
+

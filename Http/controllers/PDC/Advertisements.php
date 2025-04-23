@@ -1,12 +1,7 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
+use Models\PdcAdvertisements;
 
-$db = App::resolve(Database::class);
+$advertisementdata = PdcAdvertisements::fetchAll(); 
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
-
-//dd($user);
-
-view('PDC/Advertisements.view.php');
+view('PDC/Advertisements.view.php',['advertisements' => $advertisementdata]);

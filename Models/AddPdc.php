@@ -7,17 +7,40 @@ use Core\Database;
 
 class AddPdc
 {
-    public static function create($employee_id, $title, $email, $name, $contact_no, $password)
+    // public static function create($employee_id, $title, $email, $name, $contact_no, $password)
+    // {
+    //     $db = App::resolve(Database::class);
+
+    //     $db->query('INSERT INTO users(name,email,mobile,password,role,approved) VALUES (?, ?, ?, ?, ?, ?)', [
+    //         $name,
+    //         $email,
+    //         $contact_no,
+    //         password_hash($password, PASSWORD_DEFAULT),
+    //         3,
+    //         1
+    //     ]);
+
+    //     $id = $db->getLastInsertedId();
+
+    //     $db->query('INSERT INTO pdcs(employee_id, title, id) VALUES (?, ?, ?)', [
+    //         $employee_id,
+    //         $title,
+    //         $id
+    //     ]);
+    // }
+
+    public static function create($employee_id, $title, $email, $name, $contact_no, $password, $photo = null)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO users(name,email,mobile,password,role,approved) VALUES (?, ?, ?, ?, ?, ?)', [
+        $db->query('INSERT INTO users(name, email, mobile, password, role, approved, photo) VALUES (?, ?, ?, ?, ?, ?, ?)', [
             $name,
             $email,
             $contact_no,
             password_hash($password, PASSWORD_DEFAULT),
             3,
-            1
+            1,
+            $photo
         ]);
 
         $id = $db->getLastInsertedId();
@@ -28,6 +51,7 @@ class AddPdc
             $id
         ]);
     }
+
 
     public static function get_all()
     {
@@ -60,20 +84,21 @@ class AddPdc
     //     ]);
     // }
 
-    public static function update($id, $name, $email, $employee_id, $contact, $title, $password)
+    public static function update($id, $name, $email, $employee_id, $contact, $title, $password, $photo)
     {
         $data = [
             $name,
             $email,
-            $contact
+            $contact,
+            $photo
         ];
         $sql = "";
 
         if (!empty(trim($password))) {
             array_push($data, password_hash($password, PASSWORD_DEFAULT));
-            $sql = "UPDATE users SET name=?, email=?, mobile=?, password=? WHERE id=?";
+            $sql = "UPDATE users SET name=?, email=?, mobile=?, photo=?, password=? WHERE id=?";
         } else {
-            $sql = "UPDATE users SET name=?, email=?, mobile=? WHERE id=?";
+            $sql = "UPDATE users SET name=?, email=?, mobile=?, photo=? WHERE id=?";
         }
 
         array_push($data, $id);
@@ -101,18 +126,17 @@ class AddPdc
     }
 
     public static function toggle_status($id)
-{
-    $db = App::resolve(Database::class);
+    {
+        $db = App::resolve(Database::class);
 
-    // Get current status
-    $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
+        // Get current status
+        $result = $db->query('SELECT approved FROM users WHERE id = ?', [$id])->get();
 
-    if (empty($result)) return;
+        if (empty($result)) return;
 
-    $current = $result[0]['approved'];
-    $new = $current ? 0 : 1;
+        $current = $result[0]['approved'];
+        $new = $current ? 0 : 1;
 
-    $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
-}
-
+        $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
+    }
 }
