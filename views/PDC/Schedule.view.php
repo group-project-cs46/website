@@ -135,8 +135,11 @@
                     <thead>
                         <tr>
                             <th>Visit Date</th>
-                            <th>Company Name</th>
+                            <th>Lecturer</th>
+                            <th>Company</th>
                             <th>Visit Time</th>
+                            <th>Status</th>
+                            <th>Approved</th>
                             <th>Edit</th>
                         </tr>
                     </thead>
@@ -158,7 +161,7 @@
                         <input type="date" id="visit-date" name="visit-date" required>
                         <div id="company-time-selection">
                             <h3>Select Time for Companies:</h3>
-                            <!-- Dynamic time input will be generated here -->
+                            <!-- Dynamic time inputs will be generated here -->
                         </div>
                         <button type="submit">Schedule Visit</button>
                     </form>
@@ -186,6 +189,20 @@ let events = techtalkData ? techtalkData.map(slot => ({
     contactEmail: slot.host_email || 'N/A'
 })) : [];
 console.log('events:', events); // Debug: Inspect events
+
+// Pass company visits data
+let visitData = <?php echo json_encode($visits); ?>;
+console.log('visitData:', visitData); // Debug: Inspect visitData
+let visits = visitData ? visitData.map(visit => ({
+    id: visit.id,
+    date: visit.date,
+    time: visit.time,
+    lecturer: visit.lecturer_name || 'N/A',
+    company: visit.company_name || 'N/A',
+    status: visit.status || 'Scheduled', // Use actual status if available
+    approved: visit.approved || 'No' // Use actual approved status if available
+})) : [];
+console.log('visits:', visits); // Debug: Inspect visits
 
 // Toggle schedule
 function toggleSchedule(sectionId, tabId) {
@@ -235,7 +252,6 @@ function renderCalendar() {
         eventDivs.forEach(event => {
             const eventDiv = document.createElement("div");
             eventDiv.classList.add("event");
-            // // Set background color based on allocation status
             eventDiv.style.backgroundColor = event.company && event.company !== 'N/A' ? '#90EE90' : '#007bff'; // Green for allocated, blue for unallocated
             eventDiv.style.color = '#000000'; // Ensure text is readable 
             eventDiv.textContent = event.time;
@@ -339,7 +355,7 @@ function deleteEvent(id) {
             events = events.filter(event => event.id != id);
             renderCalendar();
             closeEditModal();
-            window.location.reload();
+            window.location.href = '/PDC/schedule'; // Explicit redirect
         } else {
             alert('Failed to delete tech talk: ' + (response.error || 'Unknown error'));
         }
@@ -358,7 +374,13 @@ function sendAjaxRequest(url, data, callback) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                callback(JSON.parse(xhr.responseText));
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    callback(response);
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e);
+                    alert('An error occurred while processing the response: Invalid JSON');
+                }
             } else {
                 console.error('Error:', xhr.statusText);
                 alert('An error occurred while processing your request: ' + xhr.statusText);
@@ -395,7 +417,7 @@ document.getElementById('event-form').addEventListener('submit', function(e) {
             renderCalendar();
             document.getElementById('event-form').reset();
             closeModal();
-            window.location.reload();
+            window.location.href = '/PDC/schedule'; // Explicit redirect
         } else {
             alert('Failed to create tech talk: ' + (response.error || 'Unknown error'));
         }
@@ -427,7 +449,7 @@ document.getElementById('edit-event-form').addEventListener('submit', function(e
                 };
                 renderCalendar();
                 closeEditModal();
-                window.location.reload();
+                window.location.href = '/PDC/schedule'; // Explicit redirect
             }
         } else {
             alert('Failed to update tech talk: ' + (response.error || 'Unknown error'));
@@ -448,9 +470,7 @@ let markers = [];
 let userMarker = null;
 let userLatLng = null;
 
-// Replace hardcoded companies array with PHP-generated data
 const companies = <?php echo json_encode(array_map(function($company) {
-    // Construct the address by combining relevant fields
     $addressParts = array_filter([
         $company['building'] ?? '',
         $company['street_name'] ?? '',
@@ -461,15 +481,15 @@ const companies = <?php echo json_encode(array_map(function($company) {
     $address = implode(', ', $addressParts);
     
     return [
+        'id' => $company['id'],
         'name' => $company['company_name'],
         'address' => $address ?: 'Address not available',
         'city' => $company['city'] ?? 'City not available'
     ];
 }, $companies)); ?>;
-console.log('companies:', companies); // Debug: Inspect companies array
+console.log('Companies array:', companies);
 
 const selectedCompanies = [];
-const visitSchedule = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
@@ -479,7 +499,6 @@ function initMap() {
     geocodeCompaniesAndLoadMarkers();
 }
 
-// Geocode all company addresses and load markers
 function geocodeCompaniesAndLoadMarkers() {
     const geocoder = new google.maps.Geocoder();
     Promise.all(companies.map((company, index) => {
@@ -501,7 +520,6 @@ function geocodeCompaniesAndLoadMarkers() {
             });
         });
     })).then(() => {
-        // Filter out companies with failed geocoding
         const validCompanies = companies.filter(c => c.lat !== null && c.lng !== null);
         loadCompanyMarkers(validCompanies);
         updateCompanyList(validCompanies);
@@ -512,7 +530,6 @@ function geocodeCompaniesAndLoadMarkers() {
 }
 
 function loadCompanyMarkers(companiesToDisplay) {
-    // Clear existing markers
     markers.forEach(marker => marker.setMap(null));
     markers = [];
 
@@ -535,40 +552,44 @@ function updateCompanyList(companiesToDisplay) {
     const companyList = document.getElementById("company-list");
     companyList.innerHTML = "<li><b>Available Companies:</b></li>";
     companiesToDisplay.forEach((company, index) => {
+        if (!company.id) {
+            console.error('Company missing ID:', company);
+            return;
+        }
         const listItem = document.createElement("li");
         let distanceText = company.distanceText ? ` (${company.distanceText})` : '';
-        listItem.innerHTML = `<input type="checkbox" id="company-${index}" onchange="selectCompany('${company.name}', this.checked)"> ${company.name} - ${company.address} (${company.city})${distanceText}`;
+        listItem.innerHTML = `<input type="checkbox" id="company-${index}" onchange="selectCompany('${company.id}', '${company.name}', this.checked)"> ${company.name} - ${company.address} (${company.city})${distanceText}`;
         companyList.appendChild(listItem);
 
-        // Check if the company is already selected
-        const isSelected = selectedCompanies.some(selected => selected.name === company.name);
+        const isSelected = selectedCompanies.some(selected => selected.id == company.id);
         document.getElementById(`company-${index}`).checked = isSelected;
     });
 }
 
-function selectCompany(companyName, isChecked) {
-    const company = companies.find(c => c.name === companyName);
+function selectCompany(companyId, companyName, isChecked) {
+    console.log('Selecting company:', { companyId, companyName, isChecked });
+    const company = companies.find(c => c.id == companyId);
     if (!company) {
-        console.error('Company not found:', companyName);
+        console.error('Company not found for ID:', companyId);
         return;
     }
 
     if (isChecked) {
-        if (!selectedCompanies.some(selected => selected.name === company.name)) {
+        if (!selectedCompanies.some(selected => selected.id == company.id)) {
             if (selectedCompanies.length < 3) {
                 selectedCompanies.push(company);
             } else {
-                document.querySelector(`input[id^="company-"][onchange*="selectCompany('${companyName}',"]`).checked = false;
+                document.getElementById(`company-${index}`).checked = false;
                 alert("You can select up to 3 companies.");
             }
         }
     } else {
-        const companyIndex = selectedCompanies.findIndex(selected => selected.name === company.name);
+        const companyIndex = selectedCompanies.findIndex(selected => selected.id == company.id);
         if (companyIndex > -1) {
             selectedCompanies.splice(companyIndex, 1);
         }
     }
-    console.log('Selected companies:', selectedCompanies); // Debug
+    console.log('Updated selectedCompanies:', selectedCompanies);
 }
 
 function findClosestCompanies() {
@@ -583,12 +604,10 @@ function findClosestCompanies() {
         if (status === google.maps.GeocoderStatus.OK && results[0]) {
             userLatLng = results[0].geometry.location;
 
-            // Clear previous user marker
             if (userMarker) {
                 userMarker.setMap(null);
             }
 
-            // Add marker for user location
             userMarker = new google.maps.Marker({
                 position: userLatLng,
                 map: map,
@@ -598,18 +617,15 @@ function findClosestCompanies() {
                 }
             });
 
-            // Center map on user location
             map.setCenter(userLatLng);
             map.setZoom(14);
 
-            // Use already geocoded companies
             const validCompanies = companies.filter(c => c.lat !== null && c.lng !== null);
             if (validCompanies.length === 0) {
                 alert("No valid company locations available for distance calculation.");
                 return;
             }
 
-            // Calculate distances
             const distanceMatrixService = new google.maps.DistanceMatrixService();
             distanceMatrixService.getDistanceMatrix({
                 origins: [userLatLng],
@@ -623,8 +639,8 @@ function findClosestCompanies() {
                         if (company.lat !== null && company.lng !== null && distances[index] && distances[index].status === "OK") {
                             return {
                                 ...company,
-                                distance: distances[index].distance.value, // in meters
-                                distanceText: distances[index].distance.text // e.g., "5.2 km"
+                                distance: distances[index].distance.value,
+                                distanceText: distances[index].distance.text
                             };
                         } else {
                             return {
@@ -635,15 +651,12 @@ function findClosestCompanies() {
                         }
                     });
 
-                    // Sort companies by distance
                     companiesWithDistance.sort((a, b) => a.distance - b.distance);
 
-                    // Update global companies array with distance info
                     companies.forEach((company, index) => {
-                        companies[index] = companiesWithDistance.find(c => c.name === company.name) || company;
+                        companies[index] = companiesWithDistance.find(c => c.id === company.id) || company;
                     });
 
-                    // Update company list with sorted companies
                     updateCompanyList(companiesWithDistance);
                 } else {
                     alert("Error calculating distances: " + status);
@@ -655,131 +668,162 @@ function findClosestCompanies() {
     });
 }
 
-function openVisitModal(visitIndex = null) {
-    if (selectedCompanies.length === 0 && visitIndex === null) {
+function openVisitModal(visitId = null) {
+    console.log('Opening visit modal, selectedCompanies:', selectedCompanies);
+    if (selectedCompanies.length === 0 && !visitId) {
         alert("Please select at least one company from the list.");
         return;
     }
+
     const companyTimeSelection = document.getElementById("company-time-selection");
     companyTimeSelection.innerHTML = "<h3>Select Time for Companies:</h3>";
 
-    let visit = null;
-    if (visitIndex !== null) {
-        visit = visitSchedule[visitIndex];
-        selectedCompanies.length = 0; // Clear current selections
-        visit.visitTimes.forEach(vt => {
-            const company = companies.find(c => c.name === vt.companyName);
-            if (company) selectedCompanies.push(company);
-        });
-        document.getElementById("visit-date").value = visit.visitDate;
-    }
-
-    selectedCompanies.forEach((company, index) => {
-        const companyTimeDiv = document.createElement("div");
-        companyTimeDiv.classList.add("company-time");
-        const companyLabel = document.createElement("label");
-        companyLabel.textContent = `Time for ${company.name}:`;
-        const timeInput = document.createElement("input");
-        timeInput.type = "time";
-        timeInput.id = `time-${index}`;
-        timeInput.name = `time-${index}`;
-        timeInput.required = true;
+    if (visitId) {
+        const visit = visits.find(v => v.id == visitId);
         if (visit) {
-            const visitTime = visit.visitTimes.find(vt => vt.companyName === company.name);
-            if (visitTime) timeInput.value = visitTime.visitTime;
+            document.getElementById("visit-date").value = visit.date;
+            const companyTimeDiv = document.createElement("div");
+            companyTimeDiv.classList.add("company-time");
+            const companyLabel = document.createElement("label");
+            companyLabel.textContent = `Time for ${visit.company}:`;
+            const timeInput = document.createElement("input");
+            timeInput.type = "time";
+            timeInput.id = `time-0`;
+            timeInput.name = `time-0`;
+            timeInput.value = visit.time;
+            timeInput.required = true;
+            companyTimeDiv.appendChild(companyLabel);
+            companyTimeDiv.appendChild(timeInput);
+            companyTimeSelection.appendChild(companyTimeDiv);
         }
-        companyTimeDiv.appendChild(companyLabel);
-        companyTimeDiv.appendChild(timeInput);
-        companyTimeSelection.appendChild(companyTimeDiv);
-    });
+    } else {
+        selectedCompanies.forEach((company, index) => {
+            const companyTimeDiv = document.createElement("div");
+            companyTimeDiv.classList.add("company-time");
+            const companyLabel = document.createElement("label");
+            companyLabel.textContent = `Time for ${company.name}:`;
+            const timeInput = document.createElement("input");
+            timeInput.type = "time";
+            timeInput.id = `time-${index}`;
+            timeInput.name = `time-${index}`;
+            timeInput.required = true;
+            companyTimeDiv.appendChild(companyLabel);
+            companyTimeDiv.appendChild(timeInput);
+            companyTimeSelection.appendChild(companyTimeDiv);
+        });
+    }
 
     document.getElementById("addVisitModal").style.display = "block";
 
-    // Set up form submission
     document.getElementById("visit-form").onsubmit = function(e) {
         e.preventDefault();
         const visitDate = document.getElementById("visit-date").value;
-        const visitTimes = selectedCompanies.map((company, index) => ({
-            companyName: company.name,
-            visitTime: document.getElementById(`time-${index}`).value
-        }));
-        const newVisit = { visitDate, visitTimes };
 
-        if (visitIndex !== null) {
-            // Update existing visit
-            visitSchedule[visitIndex] = newVisit;
-            updateVisitTable();
+        if (visitId) {
+            const visitTime = document.getElementById("time-0").value;
+            const data = { id: visitId, date: visitDate, time: visitTime };
+            sendAjaxRequest('/PDC/editvisit', data, function(response) {
+                if (response.success) {
+                    const visitIndex = visits.findIndex(v => v.id == visitId);
+                    if (visitIndex !== -1) {
+                        visits[visitIndex] = { ...visits[visitIndex], date: visitDate, time: visitTime };
+                        updateVisitTable();
+                        closeVisitModal();
+                        window.location.href = '/PDC/schedule';
+                    }
+                } else {
+                    alert('Failed to update visit: ' + (response.error || 'Unknown error'));
+                }
+            });
         } else {
-            // Add new visit
-            visitSchedule.push(newVisit);
-            addVisitToTable(newVisit);
-        }
+            const times = selectedCompanies.map((_, index) => document.getElementById(`time-${index}`).value);
+            const companyIds = selectedCompanies.map(company => company.id);
+            const data = {
+                date: visitDate,
+                times: JSON.stringify(times), // Send as JSON string
+                company_ids: JSON.stringify(companyIds) // Send as JSON string
+            };
 
-        closeVisitModal();
-        selectedCompanies.length = 0;
-        updateCompanyList(companies);
+            sendAjaxRequest('/PDC/createvisit', data, function(response) {
+                console.log('Create visit response:', response);
+                if (response.success && response.ids) {
+                    // Add new visits to the visits array
+                    response.ids.forEach((id, index) => {
+                        visits.push({
+                            id: id,
+                            date: visitDate,
+                            time: times[index],
+                            lecturer: 'N/A', // Updated on page reload
+                            company: selectedCompanies[index].name,
+                            status: 'Scheduled',
+                            approved: 'No'
+                        });
+                    });
+                    updateVisitTable();
+                    closeVisitModal();
+                    selectedCompanies.length = 0; // Clear selections
+                    updateCompanyList(companies); // Refresh company list
+                    window.location.href = '/PDC/schedule';
+                } else {
+                    alert('Failed to create visits: ' + (response.error || 'Unknown error'));
+                }
+            });
+        }
     };
 }
 
 function addVisitToTable(visit) {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
-    const visitIndex = visitSchedule.indexOf(visit);
-    visit.visitTimes.forEach((visitTime, index) => {
-        const newRow = tableBody.insertRow();
-        newRow.dataset.visitIndex = visitIndex; // Store visit index
-        if (index === 0) {
-            const dateCell = newRow.insertCell(0);
-            dateCell.rowSpan = visit.visitTimes.length;
-            dateCell.textContent = visit.visitDate;
-        }
-        const companyCell = newRow.insertCell(-1);
-        companyCell.textContent = visitTime.companyName;
-        const timeCell = newRow.insertCell(-1);
-        timeCell.textContent = visitTime.visitTime;
-        const actionCell = newRow.insertCell(-1);
-        const editButton = document.createElement("button");
-        editButton.textContent = "Edit";
-        editButton.onclick = () => editVisit(visitIndex, visitTime.companyName);
-        actionCell.appendChild(editButton);
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.onclick = () => deleteVisitRow(visitIndex, visitTime.companyName);
-        actionCell.appendChild(deleteButton);
-    });
+    const newRow = tableBody.insertRow();
+    newRow.dataset.visitId = visit.id;
+
+    const dateCell = newRow.insertCell(0);
+    dateCell.textContent = visit.date;
+
+    const lecturerCell = newRow.insertCell(1);
+    lecturerCell.textContent = visit.lecturer;
+
+    const companyCell = newRow.insertCell(2);
+    companyCell.textContent = visit.company;
+
+    const timeCell = newRow.insertCell(3);
+    timeCell.textContent = visit.time;
+
+    const statusCell = newRow.insertCell(4);
+    statusCell.textContent = visit.status;
+
+    const approvedCell = newRow.insertCell(5);
+    approvedCell.textContent = visit.approved;
+
+    const actionCell = newRow.insertCell(6);
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit";
+    editButton.onclick = () => openVisitModal(visit.id);
+    actionCell.appendChild(editButton);
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.onclick = () => deleteVisit(visit.id);
+    actionCell.appendChild(deleteButton);
 }
 
 function updateVisitTable() {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
-    tableBody.innerHTML = ""; // Clear table
-    visitSchedule.forEach(visit => addVisitToTable(visit)); // Re-render all visits
+    tableBody.innerHTML = "";
+    visits.forEach(visit => addVisitToTable(visit));
 }
 
-function deleteVisitRow(visitIndex, companyName) {
-    const visit = visitSchedule[visitIndex];
-    if (!visit) {
-        alert("Visit not found.");
-        return;
-    }
+function deleteVisit(visitId) {
+    if (!confirm('Are you sure you want to delete this company visit?')) return;
 
-    // Remove the specific visitTime for the company
-    visit.visitTimes = visit.visitTimes.filter(vt => vt.companyName !== companyName);
-
-    // If no visitTimes remain, remove the entire visit
-    if (visit.visitTimes.length === 0) {
-        visitSchedule.splice(visitIndex, 1);
-    }
-
-    // Re-render the table to fix alignments
-    updateVisitTable();
-}
-
-function editVisit(visitIndex, companyName) {
-    const visit = visitSchedule[visitIndex];
-    if (!visit) {
-        alert("Visit not found.");
-        return;
-    }
-    openVisitModal(visitIndex);
+    sendAjaxRequest('/PDC/deletevisit', { id: visitId }, function(response) {
+        if (response.success) {
+            visits = visits.filter(visit => visit.id != visitId);
+            updateVisitTable();
+            window.location.href = '/PDC/schedule';
+        } else {
+            alert('Failed to delete visit: ' + (response.error || 'Unknown error'));
+        }
+    });
 }
 
 function filterCompaniesByCity() {
@@ -794,6 +838,37 @@ function filterCompaniesByCity() {
 
 function closeVisitModal() {
     document.getElementById("addVisitModal").style.display = "none";
+}
+
+function sendAjaxRequest(url, data, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    callback(response);
+                } catch (e) {
+                    console.error('Error parsing JSON response:', e);
+                    alert('An error occurred while processing the response: Invalid JSON');
+                }
+            } else {
+                console.error('Error:', xhr.statusText);
+                alert('An error occurred while processing your request: ' + xhr.statusText);
+            }
+        }
+    };
+    const params = Object.keys(data).map(key => `${key}=${encodeURIComponent(data[key])}`).join('&');
+    xhr.send(params);
+}
+
+// Initialize visits table
+try {
+    updateVisitTable();
+} catch (error) {
+    console.error('Error rendering visit table:', error);
 }
 
 window.onload = initMap;
