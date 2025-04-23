@@ -28,6 +28,12 @@ class TrainingSession
         return $db->query('SELECT * FROM training_sessions ORDER BY created_at DESC', [])->get();
     }
 
+    public static function findById($id)
+    {
+        $db = App::resolve(Database::class);
+        return $db->query('SELECT * FROM training_sessions WHERE id = ?', [$id])->find();
+    }
+
     public static function get_by_id($id)
     {
         $db = App::resolve(Database::class);

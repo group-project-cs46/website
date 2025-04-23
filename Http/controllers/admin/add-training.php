@@ -14,12 +14,13 @@ $attendance_code = $_POST['password'];
 try {
     $qrcode_id = Qr::generate($attendance_code);
     TrainingSession::create($name, $date, $start_time, $end_time, $venue, $attendance_code, $qrcode_id);
-//        dd($qrcode_id);
+    //   dd($qrcode_id);
 
 } catch (\Exception $e) {
     die($e->getMessage());
 }
-redirect('/trainingSession');
+
+redirect('trainingSession');
 
 
     
