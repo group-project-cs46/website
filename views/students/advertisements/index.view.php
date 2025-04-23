@@ -24,8 +24,8 @@
                         </div>
 
                         <button type="submit" class="button">Filter</button>
-                        <a href="/students/advertisements" style="display: flex">
-                            <button class="button">Clear</button>
+                        <a href="/students/advertisements" style="" class="button">
+                            <button>Clear</button>
                         </a>
                     </form>
                 <?php endif; ?>
@@ -61,7 +61,7 @@
                         </div>
 
                         <div class="job-details">
-                            <h1 class="job-title"><?= $item['job_role'] ?></h1>
+                            <h1 class="job-title"><?= $item['internship_role_name'] ?></h1>
                             <p class="job-description"><?= $item['responsibilities'] ?></p>
                         </div>
                     </div>

@@ -25,6 +25,8 @@ class Database
         $config = $this->config;
         $dsn = 'pgsql:host=' . $config['host'] . ';port=' . $config['port'] . ';dbname=' . $config['dbname'];
 
+        log_to_file("Connecting to database: " . $dsn);
+
         try {
             $this->connection = new PDO($dsn, $config['user'], $config['password'], [
                 PDO::ATTR_PERSISTENT => true,
@@ -51,7 +53,6 @@ class Database
             $this->statement->execute($params);
         } catch (PDOException $e) {
             if (strpos($e->getMessage(), 'server closed the connection') !== false) {
-                dd('reconnect');
                 $this->connect(); // reconnect
                 $this->statement = $this->connection->prepare($query);
                 $this->statement->execute($params);
@@ -64,6 +65,11 @@ class Database
         log_to_file("Query time: " . round(($end - $start) * 1000, 2) . "ms");
 
         return $this;
+    }
+
+    public function fetchColumn()
+    {
+        return $this->statement->fetchColumn();
     }
 
     public function get()
@@ -89,4 +95,6 @@ class Database
         }
         return $result;
     }
+
+
 }

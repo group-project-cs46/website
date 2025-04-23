@@ -35,8 +35,8 @@ $db->query('INSERT INTO users (email, password, role, approved, name) VALUES (?,
 
 $lastInsertedId = $db->connection->lastInsertId();
 
-$db->query('INSERT INTO companies (id, company_name, building, street_name, address_line_2, city, postal_code, website) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    [$lastInsertedId, $attributes['name'], $attributes['building'], $attributes['street_name'], $attributes['address_line_2'], $attributes['city'], $attributes['postal_code'], $attributes['website']]);
+$db->query('INSERT INTO companies (id, building, street_name, address_line_2, city, postal_code, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [$lastInsertedId, $attributes['building'], $attributes['street_name'], $attributes['address_line_2'], $attributes['city'], $attributes['postal_code'], $attributes['website']]);
 
 //login([
 //    'email' => $attributes['email'],

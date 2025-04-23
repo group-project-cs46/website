@@ -23,11 +23,11 @@
                         <option value="5">Month 5</option>
                         <option value="6">Month 6</option>
                     </select>
-                    <?php if (isset($errors['month'])): ?>
-                        <p class="error"><?= $errors['month'] ?></p>
-                    <?php endif ?>
+                    <div class="down_note"></div>
                 </div>
-                <div class="down_note"></div>
+                <?php if (isset($errors['month'])): ?>
+                    <p class="error"><?= $errors['month'] ?></p>
+                <?php endif ?>
             </div>
 
             <!-- PDF Upload -->
@@ -54,7 +54,7 @@
                 <div style="background: #e5e7eb; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <span style="color: #6b7280; font-size: 16px;">Month <?= $item['description'] ?></span><br>
-                        <span style="color: #6b7280; font-size: 14px;">Uploaded: <?= date('Y-m-d H:i:s', strtotime($item['submitted_at'])) ?></span>
+                        <span style="color: #6b7280; font-size: 14px;">Uploaded: <?= date('Y-m-d H:i:s', strtotime($item['created_at'])) ?></span>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center">
                         <a href="/students/internship_reports/show?id=<?= $item['id'] ?>"

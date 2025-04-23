@@ -7,11 +7,12 @@
     border-radius: 0.5rem;
     overflow: hidden;
     border: 1px solid var(--gray-200);
+    background-color: white;
 }
 
 .grid-header {
     font-weight: bold;
-    background-color: #F9FAFB;
+    background-color: var(--gray-200);
     padding: 8px;
 }
 

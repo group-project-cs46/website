@@ -1,9 +1,11 @@
 <?php
 
+use Models\Company;
 use Models\pdc_techtalk;
 
-// Fetch data from the database
+$companies = Company::fetchapprovedcompanies();
+
 $techtalk = pdc_techtalk::fetchAll();
 
 // Pass the data to the view
-view('PDC/Schedule.view.php', ['techtalk' => $techtalk]);
+view('PDC/Schedule.view.php', ['techtalk' => $techtalk, 'companies' => $companies]);
