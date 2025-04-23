@@ -129,7 +129,7 @@ $router->post('/company_student/update_interview', 'company_student/update_inter
 $router->delete('/company_student/delete_interview', 'company_student/delete_interview.php');
 
 
-
+//###################################################################################################################
 //PDC
 
 $router->get('/pdcs/companies', '/pdcs/companies/index.php');
@@ -161,12 +161,17 @@ $router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->get('/PDC/appliedStudents', '/PDC/appliedStudents.php');
 
-
+$router->post('/PDC/createvisit', '/PDC/pdc_create_visit.php');    
+$router->post('/PDC/deletevisit', '/PDC/pdc_delete_visit.php');
+$router->post('/PDC/editvisit', '/PDC/pdc_edit_visit.php');
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
 $router->post('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
+
+
+//#################################################################################################################
 
 
 $router->get('/complaints', controller: 'admin/complaintManage.php');
