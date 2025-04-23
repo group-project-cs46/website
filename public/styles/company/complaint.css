@@ -79,8 +79,8 @@ body {
 }
 
 .complaint-title .active {
-  background-color: rgba(191, 192, 190, 0.595);
-  color: #000;
+  background-color: #000000; /* Black background for active tab, matching screenshot */
+  color: #ffffff; /* White text for active tab */
   padding: 8px 13px;
 }
 
@@ -88,13 +88,11 @@ body {
   margin: 0;
   font-size: 18px;
   font-weight: bold;
-  color: #000;
 }
 
 .complaint-title p {
   margin: 0;
   font-size: 14px;
-  color: #777;
 }
 
 .form-container {
@@ -212,7 +210,8 @@ label {
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #333;
+  color: #333; /* Black text for inactive tab */
+  background-color: #ffffff; /* White background for inactive tab, matching screenshot */
   transition: color 0.1s ease, background-color 0.1s ease;
   margin-left: 10px;
 }
@@ -223,17 +222,25 @@ label {
   color: rgb(34, 21, 135);
 }
 
+.complaint-insert-txt.active h3,
+.complaint-insert-txt.active p,
+.complaint-view-txt.active h3,
+.complaint-view-txt.active p {
+  color: #ffffff; /* Ensure text inside active tab is white */
+}
+
 .complaint-insert-txt h3,
 .complaint-view-txt h3 {
   margin: 0;
   font-size: 18px;
+  color: #000; /* Black text for inactive tab h3 */
 }
 
 .complaint-insert-txt p,
 .complaint-view-txt p {
   margin: 0;
-  color: #777;
   font-size: 14px;
+  color: #777; /* Gray text for inactive tab p */
 }
 
 .divider {

@@ -233,6 +233,7 @@ body {
   font-weight: bold;
   width: 120px;
   text-align: center;
+  cursor: pointer; /* Ensure it looks clickable */
 }
 
 .hired {
