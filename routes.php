@@ -135,6 +135,8 @@ $router->post('/company_student/select', 'company_student/store_selected.php');
 $router->get('/company_student/selected', 'company_student/get_selected.php');
 $router->get('/company_student/applied', 'company_student/get_applied.php');
 $router->get('/company_student/shortlisted', 'company_student/get_shortlisted.php');
+$router->get('/company/cv/download', 'company/cv_download.php')->only('company');
+
 
 
 $router->post('/company_student/store_schedule', 'company_student/store_schedule.php');
