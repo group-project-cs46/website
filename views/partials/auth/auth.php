@@ -122,6 +122,12 @@ $navItems = [
         'icon' => 'fa-ban',
         'only' => [Role::Pdc]
     ],
+    [
+        'text' => "Start Internship",
+        'href' => '/pdcs/batches',
+        'icon' => 'fa-solid fa-calendar-plus',
+        'only' => [Role::Pdc]
+    ],
 //    [
 //        'text' => "PDCs",
 //        'href' => '/admins/pdcs',

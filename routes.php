@@ -79,8 +79,18 @@ $router->get('/students/training_sessions/register', 'students/training_sessions
 $router->post('/students/training_sessions/attendance', 'students/training_sessions/attendance.php')->only('student');
 
 // Lecturer
-$router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 
+$router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
+$router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
+
+// pdc
+
+$router->get('/pdcs/batches', 'pdcs/batches/index.php')->only('pdc');
+$router->get('/pdcs/batches/create', 'pdcs/batches/create.php')->only('pdc');
+$router->post('/pdcs/batches/store', 'pdcs/batches/store.php')->only('pdc');
+$router->get('/pdcs/batches/edit', 'pdcs/batches/edit.php')->only('pdc');
+$router->patch('/pdcs/batches/update', 'pdcs/batches/update.php')->only('pdc');
+$router->delete('/pdcs/batches/delete', 'pdcs/batches/destroy.php')->only('pdc');
 
 // ########################################################################################################################################
 

@@ -11,6 +11,7 @@ class Middleware
         'admin' => Admin::class,
         'company' => Company::class,
         'lecturer' => Lecturer::class,
+        'pdc' => Pdc::class,
     ];
 
     public static function resolve($key)
