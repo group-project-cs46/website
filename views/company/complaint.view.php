@@ -9,19 +9,6 @@
         <i class="fa-brands fa-readme" style="font-size: 40px;"></i>
         <h2>Complaint Management</h2>
       </div>
-
-      <div class="above-right">
-        <div class="company-info">
-          <i class="fa-regular fa-building" style="font-size: 40px;"></i>
-          <div class="company-name">
-            Creative<br>Software
-          </div>
-        </div>
-
-        <div>
-          <i class="fa-solid fa-bell" style="font-size: 40px;"></i>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -113,7 +100,6 @@
             </div>
 
             <button type="submit" class="submit-btn">Update</button>
-            <button type="button" class="cancel-btn" onclick="cancelEdit()">Cancel</button>
           </form>
         </div>
       </div>
@@ -170,11 +156,17 @@ function fetchAndRenderComplaints() {
     .then(response => response.json())
     .then(data => {
       const complaintList = document.getElementById('complaintList');
-      if (!data.success || data.complaints.length === 0) {
+      // Check if the request failed
+      if (!data.success) {
+        complaintList.innerHTML = '<p>Failed to fetch complaints. Please try again later.</p>';
+        return;
+      }
+      // Check if there are no complaints
+      if (data.complaints.length === 0) {
         complaintList.innerHTML = '<p>No complaints available to display at the moment.</p>';
         return;
       }
-
+      // Render complaints if they exist
       let html = '<ul class="complaint-items">';
       data.complaints.forEach((complaint, index) => {
         html += `
@@ -236,12 +228,7 @@ function editComplaint() {
   toggleEditFormFields();
 }
 
-// Function to cancel editing and return to the detail view
-function cancelEdit() {
-  const editComplaintForm = document.getElementById('editComplaintForm');
-  editComplaintForm.style.display = 'none';
-  showComplaintDetail(currentComplaint);
-}
+
 
 // Function to delete a complaint
 function deleteComplaint() {
