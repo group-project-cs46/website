@@ -115,6 +115,7 @@
                             <th>Current Job Status</th>
                             <th>View CV</th>
                             <th>Schedule Interview</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="student-table-body">
