@@ -144,4 +144,11 @@ class Ad
         return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
     }
 
+    public static function getByBatchId($batchId)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE batch_id = ?', [$batchId])->get();
+    }
+
 }
