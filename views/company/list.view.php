@@ -256,7 +256,6 @@
                         <th>Job Role</th>
                         <th>Course</th>
                         <th>View CV</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody id="select-table-body">
@@ -275,11 +274,6 @@ const selectedStudents = <?php echo json_encode($selectedStudents); ?>;
 
 // Track scheduled interviews
 const scheduledStudents = Array(shortlistedStudents.length).fill(false);
-
-// Function to show alert when trying to change status in applied section
-function showSelectFirstAlert(studentName) {
-    alert(`Please select ${studentName} first to change their status.`);
-}
 
 // Function to render applied student table
 function renderAppliedTable(students) {
@@ -301,7 +295,7 @@ function renderAppliedTable(students) {
             <td>${student.job_role}</td>
             <td>${student.course}</td>
             <td>
-                <button class="applied-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="${student.status === 'Hired' ? 'toggleStatus(this, ' + index + ', \'applied\')' : 'showSelectFirstAlert(\'' + student.student_name + '\')'}">${student.status}</button>
+                <span class="applied-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}">${student.status}</span>
             </td>
             <td>
                 ${student.cv_filename ? 
@@ -317,73 +311,6 @@ function renderAppliedTable(students) {
             </td>
         `;
         tableBody.appendChild(row);
-    });
-}
-
-// Function to toggle status (only for shortlisted students, but handle "Hired" alert for applied)
-function toggleStatus(button, index, section) {
-    let student;
-    let studentList;
-
-    if (section === "applied") {
-        studentList = appliedStudents;
-        student = appliedStudents[index];
-    } else if (section === "shorted") {
-        studentList = shortlistedStudents;
-        student = shortlistedStudents[index];
-    }
-
-    if (student.status === "Hired") {
-        alert("This student has already been hired by another company.");
-        return;
-    }
-
-    // Only allow status changes for shortlisted students
-    if (section !== "shorted") {
-        return; // Do nothing further if in applied section
-    }
-
-    // Update the backend to mark as selected (sets selected = TRUE)
-    fetch('/company_student/select', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ application_id: student.application_id })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Remove the student from shortlistedStudents
-            shortlistedStudents.splice(index, 1);
-            scheduledStudents.splice(index, 1);
-            renderShortlistedTable(shortlistedStudents);
-
-            // Fetch the updated list of selected students from the server
-            fetch('/company_student/selected')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Update the selectedStudents array with the server data
-                        selectedStudents.length = 0; // Clear the existing array
-                        data.students.forEach(student => selectedStudents.push(student));
-                        renderSelectedTable(selectedStudents);
-                        toggleSection('selected');
-                    } else {
-                        alert('Failed to fetch updated selected students: ' + (data.error || 'Unknown error'));
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching selected students:', error);
-                    alert('An error occurred while fetching the updated selected students.');
-                });
-        } else {
-            alert('Failed to update status: ' + (data.error || 'Unknown error'));
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while updating the status.');
     });
 }
 
@@ -406,7 +333,7 @@ function renderShortlistedTable(students) {
             <td>${student.email}</td>
             <td>${student.job_role}</td>
             <td>
-                <button class="short-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}" onclick="toggleStatus(this, ${index}, 'shorted')">${student.status}</button>
+                <span class="short-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}">${student.status}</span>
             </td>
             <td>
                 ${student.cv_filename ? 
@@ -419,6 +346,9 @@ function renderShortlistedTable(students) {
                     ${isScheduled ? 'Interview Scheduled' : 'Schedule Interview'}
                 </button>
             </td>
+            <td>
+                <button class="short-btn short-select-btn" onclick="selectShortlistedStudent(${index})">Select</button>
+            </td>
         `;
         tableBody.appendChild(row);
     });
@@ -429,7 +359,7 @@ function renderSelectedTable(students) {
     const tableBody = document.getElementById("select-table-body");
     const errorDiv = document.getElementById("selected-error");
     const table = document.getElementById("selected-table");
-    
+
     tableBody.innerHTML = ""; // Clear existing rows
 
     if (students.length === 0) {
@@ -517,62 +447,95 @@ function filterSelectedStudents() {
     renderSelectedTable(filteredStudents);
 }
 
-// Function to handle selecting a student
+// Function to refresh all student lists
+function refreshAllLists() {
+    // Fetch updated applied students
+    fetch('/company_student/applied')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                appliedStudents.length = 0;
+                data.students.forEach(student => appliedStudents.push(student));
+                renderAppliedTable(appliedStudents);
+                filterAppliedStudents();
+            }
+        })
+        .catch(error => console.error('Error refreshing applied students:', error));
+
+    // Fetch updated shortlisted students
+    fetch('/company_student/shortlisted')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                shortlistedStudents.length = 0;
+                scheduledStudents.length = 0;
+                data.students.forEach(student => {
+                    shortlistedStudents.push(student);
+                    scheduledStudents.push(!!student.interview_id);
+                });
+                renderShortlistedTable(shortlistedStudents);
+                filterShortedStudents();
+            }
+        })
+        .catch(error => console.error('Error refreshing shortlisted students:', error));
+
+    // Fetch updated selected students
+    fetch('/company_student/selected')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                selectedStudents.length = 0;
+                data.students.forEach(student => selectedStudents.push(student));
+                renderSelectedTable(selectedStudents);
+                filterSelectedStudents();
+            }
+        })
+        .catch(error => console.error('Error refreshing selected students:', error));
+}
+
+// Function to handle selecting a student from Applied list
 function selectStudent(index) {
     const student = appliedStudents[index];
 
-    // Check if the student is already hired
+    // Check if the student is already hired for this application
     if (student.status === "Hired") {
-        alert("This student has already been hired by another company.");
+        alert("This application has already been hired by another company.");
         return;
     }
 
-    const alreadyShorted = shortlistedStudents.some(s => s.email === student.email && s.job_role === student.job_role);
-
-    if (!alreadyShorted) {
-        // Update the backend to mark as shortlisted
-        fetch('http://localhost:8000/company_student/shortlisted', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ application_id: student.application_id })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Add to shortlisted students
-                shortlistedStudents.push(student);
-                scheduledStudents.push(false); // Add a new entry for this student in scheduledStudents
-                // Remove from applied students
-                appliedStudents.splice(index, 1);
-                // Re-render both tables
-                renderAppliedTable(appliedStudents);
-                renderShortlistedTable(shortlistedStudents);
-                // Apply filters to maintain current view
-                filterAppliedStudents();
-                filterShortedStudents();
-                alert(`${student.student_name} has been added to the Shortlisted Student List.`);
-            } else {
-                alert('Failed to shortlist student.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while shortlisting the student.');
-        });
-    } else {
-        alert(`${student.student_name} is already in the Shortlisted Student List for ${student.job_role}.`);
-    }
+    // Update the backend to mark as shortlisted
+    fetch('/company_student/shortlisted', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ application_id: student.application_id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove from applied students
+            appliedStudents.splice(index, 1);
+            // Refresh all lists
+            refreshAllLists();
+            alert(`${student.student_name}'s application for ${student.job_role} has been added to the Shortlisted Student List.`);
+        } else {
+            alert('Failed to shortlist student: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while shortlisting the student.');
+    });
 }
 
-// Function to handle rejecting a student
+// Function to handle rejecting a student from Applied list
 function rejectStudent(index) {
     const student = appliedStudents[index];
 
-    if (confirm(`Are you sure you want to reject ${student.student_name}?`)) {
+    if (confirm(`Are you sure you want to reject ${student.student_name}'s application for ${student.job_role}?`)) {
         // Update the backend to mark as rejected
-        fetch('http://localhost:8000/company_student/nonShortlisted', {
+        fetch('/company_student/nonShortlisted', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -582,11 +545,13 @@ function rejectStudent(index) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Remove from applied students
                 appliedStudents.splice(index, 1);
-                renderAppliedTable(appliedStudents);
-                alert(`${student.student_name} has been rejected.`);
+                // Refresh all lists
+                refreshAllLists();
+                alert(`${student.student_name}'s application for ${student.job_role} has been rejected.`);
             } else {
-                alert('Failed to reject student.');
+                alert('Failed to reject student: ' + (data.error || 'Unknown error'));
             }
         })
         .catch(error => {
@@ -594,6 +559,45 @@ function rejectStudent(index) {
             alert('An error occurred while rejecting the student.');
         });
     }
+}
+
+// Function to handle selecting a student from Shortlisted list
+function selectShortlistedStudent(index) {
+    const student = shortlistedStudents[index];
+
+    // Check if the student is already hired for this application
+    if (student.status === "Hired") {
+        alert("This application has already been hired by another company.");
+        return;
+    }
+
+    // Update the backend to mark as selected
+    fetch('/company_student/select', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ application_id: student.application_id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Remove from shortlisted students
+            shortlistedStudents.splice(index, 1);
+            scheduledStudents.splice(index, 1);
+            // Refresh all lists
+            refreshAllLists();
+            alert(`${student.student_name}'s application for ${student.job_role} has been added to the Selected Student List.`);
+            // Switch to the Selected tab
+            toggleSection('selected');
+        } else {
+            alert('Failed to select student: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while selecting the student.');
+    });
 }
 
 // Function to open the modal to schedule an interview
@@ -628,7 +632,7 @@ function viewInterviewDetails(button) {
                 document.getElementById("viewInterviewModal").style.display = "flex";
                 document.getElementById("viewInterviewModal").setAttribute("data-student-index", studentIndex);
             } else {
-                alert('Failed to fetch interview details.');
+                alert('Failed to fetch interview details: ' + (data.error || 'Unknown error'));
             }
         })
         .catch(error => {
@@ -794,7 +798,7 @@ function deleteInterview() {
                 closeViewInterviewModal();
                 alert('Interview deleted successfully.');
             } else {
-                alert('Failed to delete interview.');
+                alert('Failed to delete interview: ' + (data.error || 'Unknown error'));
             }
         })
         .catch(error => {
@@ -827,35 +831,6 @@ function toggleSection(section) {
         document.getElementById("selected-jobrole-filter").value = "";
         renderSelectedTable(selectedStudents);
         filterSelectedStudents();
-    }
-}
-
-// Function to remove a selected student
-function removeSelectedStudent(index) {
-    const student = selectedStudents[index];
-    if (confirm(`Are you sure you want to remove ${student.student_name} from selected students?`)) {
-        // Update the backend to mark as not selected (sets selected = FALSE)
-        fetch('/company/remove-selected-student', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ application_id: student.application_id })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                selectedStudents.splice(index, 1);
-                renderSelectedTable(selectedStudents);
-                alert(`${student.student_name} has been removed from selected students.`);
-            } else {
-                alert('Failed to remove student.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while removing the student.');
-        });
     }
 }
 

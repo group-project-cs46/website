@@ -18,9 +18,9 @@ try {
     $applicationId = (int) $data['application_id'];
     $db = App::resolve(Database::class);
 
-    // Check if the application exists and fetch the student_id
+    // Check if the application exists
     $application = $db->query('
-        SELECT student_id, selected 
+        SELECT selected 
         FROM applications 
         WHERE id = ?
     ', [$applicationId])->find();
@@ -30,20 +30,18 @@ try {
         exit;
     }
 
-    // Check if the student is already selected for this application
+    // Check if the application is already selected
     if (filter_var($application['selected'], FILTER_VALIDATE_BOOLEAN)) {
-        echo json_encode(['success' => false, 'error' => 'Student is already selected']);
+        echo json_encode(['success' => false, 'error' => 'Application is already selected']);
         exit;
     }
 
-    $studentId = $application['student_id'];
-
-    // Update the selected column to TRUE for ALL applications of this student
+    // Update the selected column to TRUE for THIS application only
     $db->query('
         UPDATE applications
         SET selected = TRUE
-        WHERE student_id = ?
-    ', [$studentId]);
+        WHERE id = ?
+    ', [$applicationId]);
 
     echo json_encode(['success' => true]);
 } catch (Exception $e) {
