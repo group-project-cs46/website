@@ -85,7 +85,7 @@ class CompanyDashboard
         $visits = $db->query('
             SELECT lv.date, lv.time
             FROM lecturer_visits lv
-            WHERE lv.status = TRUE AND lv.date > :current_date
+            WHERE lv.approved = TRUE AND lv.date > :current_date
             ORDER BY lv.date ASC, lv.time ASC
             LIMIT 1
         ', [
