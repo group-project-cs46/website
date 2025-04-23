@@ -4,7 +4,7 @@ use Models\Ad;
 use Models\Company;
 use Models\Round;
 
-$currentRound = Round::currentRound();
+//$currentRound = Round::currentRound();
 
 if ($currentRound && $currentRound['restricted']) {
     redirect('/students/advertisements/second_round');
