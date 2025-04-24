@@ -22,3 +22,4 @@ if ($complaint['complainant_id'] != $auth_user['id']) {
 ComplaintMessage::create($complaint_id, $auth_user['id'], $message);
 
 redirect(urlBack());
+
