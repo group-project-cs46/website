@@ -79,7 +79,7 @@ body {
 }
 
 .complaint-title .active {
-  background-color: #000000; /* Black background for active tab, matching screenshot */
+  background-color: #000000; /* Black background for active tab */
   color: #ffffff; /* White text for active tab */
   padding: 8px 13px;
 }
@@ -96,53 +96,80 @@ body {
 }
 
 .form-container {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 25px;
-  background: none;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.form-container.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.form-container input,
-.form-container select,
-.form-container textarea {
-  width: 100%;
-  box-sizing: border-box;
   background-color: #fff;
-  color: #333;
-  margin-bottom: 30px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 30px 20px;
+  border-radius: 10px;
+  width: 70%; /* Increased from 60% to 80% */
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.form-container input::placeholder,
-.form-container select::placeholder,
-.form-container textarea::placeholder {
+.form-container h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Adjust form-field to align labels and inputs in one line, then stack fields vertically */
+.form-field {
+  display: flex;
+  flex-direction: row; /* Keep label and input in one line */
+  align-items: center;
+  gap: 10px;
+  padding-left: 40px;
+  margin-bottom: 20px; /* Add spacing between fields */
+}
+
+/* Ensure labels are in one line and aligned */
+.form-field label {
+  font-size: 16px;
+  color: #333;
+  width: 150px;
+  margin-right: 20px;
+  text-align: left;
+  white-space: nowrap; /* Prevent label text from wrapping */
+}
+
+/* Align input, select, and textarea to start from the same point */
+.form-field input,
+.form-field select,
+.form-field textarea {
+  flex-grow: 1;
+  min-width: 400px;
+  max-width: 600px; /* Optional: Limit max width for consistency */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-field input::placeholder,
+.form-field select::placeholder,
+.form-field textarea::placeholder {
   color: #aaa;
 }
 
-textarea {
-  height: 150px;
+.form-field textarea {
+  height: 100px;
   resize: none;
 }
 
 .submit-btn {
   background-color: #0ea5e9;
   color: white;
-  padding: 13px 32px;
+  padding: 12px 30px;
   font-size: 16px;
   border: none;
-  border-radius: 30px;
+  border-radius: 20px;
   cursor: pointer;
   display: block;
   margin: 0 auto;
@@ -156,6 +183,25 @@ textarea {
 @media (max-width: 600px) {
   .main-content {
     margin-left: 40px;
+  }
+
+  .form-field {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+  }
+
+  .form-field label {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    min-width: 100%;
+    width: 100%;
   }
 }
 
@@ -193,7 +239,7 @@ textarea {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
 }
 
@@ -210,8 +256,8 @@ label {
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #333; /* Black text for inactive tab */
-  background-color: #ffffff; /* White background for inactive tab, matching screenshot */
+  color: #333; /* Black text for inactive.expecting tab */
+  background-color: #ffffff; /* White background for inactive tab */
   transition: color 0.1s ease, background-color 0.1s ease;
   margin-left: 10px;
 }
@@ -250,13 +296,31 @@ label {
   margin: 0;
 }
 
-/* Complaint Section */
-.complaint-section {
+/* Complaint Form Section */
+.complaint-form-section {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  width: 100%;
+  margin-top: 20px;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+}
+
+.complaint-form-section.active {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+  transition: opacity 0.5s ease, visibility 0s 0s;
+  animation: fadeIn 0.5s ease;
+}
+
+/* Complaint View Section */
+.complaint-view-section {
   opacity: 0;
   visibility: hidden;
   display: none;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  width: 70%;
+  width: 100%;
   background-color: white;
   transition: opacity 0.5s ease, visibility 0s 0.5s;
   flex-direction: column;
@@ -266,7 +330,7 @@ label {
   border-radius: 5px;
 }
 
-.complaint-section.active {
+.complaint-view-section.active {
   opacity: 1;
   visibility: visible;
   display: flex;
@@ -286,22 +350,9 @@ label {
   }
 }
 
-/* Fade-out Keyframe Animation */
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
-
 /* View Complaint Container */
 .view-complaint-container {
   width: 100%;
-  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: white;
@@ -321,137 +372,126 @@ label {
   color: #777;
 }
 
-/* Complaint List */
-.complaint-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* Complaint Table */
+.complaint-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.complaint-item {
-  margin-bottom: 20px;
+.complaint-table th,
+.complaint-table td {
+  padding: 12px 15px;
   text-align: left;
-  color: #000;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-}
-
-.complaint-item strong {
-  color: #000;
-}
-
-.complaint-item span {
-  display: block;
-  margin: 5px 0;
-}
-
-/* View Button */
-.view-btn {
-  background-color: #0ea5e9;
-  color: white;
-  padding: 8px 16px;
   font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 5px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.view-btn:hover {
-  background-color: #0288d1;
-}
-
-/* Complaint Detail View */
-.complaint-detail {
-  text-align: left;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.complaint-detail h3 {
-  margin-top: 0;
-  font-size: 20px;
+.complaint-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
   color: #333;
-}
-
-.complaint-detail p {
-  margin: 10px 0;
+  text-transform: uppercase;
   font-size: 16px;
+}
+
+.complaint-table td {
   color: #333;
 }
 
-/* Complaint Actions */
-.complaint-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+.complaint-table tr:last-child td {
+  border-bottom: none;
 }
 
-/* Edit Button */
-.edit-btn {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
+.complaint-table tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Buttons */
+.button {
+  padding: 8px;
   font-size: 14px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
 }
 
-.edit-btn:hover {
-  background-color: #45a049;
+.button:hover {
+  opacity: 0.9;
 }
 
-/* Delete Button */
-.delete-btn {
+.button.is-red {
   background-color: #f44336;
   color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.delete-btn:hover {
+.button.is-red:hover {
   background-color: #da190b;
 }
 
-/* Back Button */
-.back-btn {
-  background-color: #666;
+.button:not(.is-red) {
+  background-color: #0ea5e9;
   color: white;
-  padding: 10px 20px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.back-btn:hover {
-  background-color: #555;
+.button:not(.is-red):hover {
+  background-color: #0284c7;
 }
 
-/* Edit Complaint Form */
-.complaint-edit-form {
-  text-align: left;
-  background-color: #f9f9f9;
+/* Center text for "No complaints found" */
+.complaint-table td[colspan="6"] {
+  font-size: 16px;
+  color: #777;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
 }
 
-.complaint-edit-form h3 {
-  margin-top: 0;
+.modal-content h3 {
+  margin-top: 10px;
   font-size: 20px;
   color: #333;
+  text-align: center;
 }
 
-.complaint-edit-form input,
-.complaint-edit-form select,
-.complaint-edit-form textarea {
+.modal-content label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
   width: 100%;
   box-sizing: border-box;
   background-color: #fff;
@@ -459,23 +499,25 @@ label {
   margin-bottom: 20px;
   padding: 10px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
 }
 
+
+
 /* Cancel Button */
-.cancel-btn {
+/* .cancel-btn {
   background-color: #999;
   color: white;
-  padding: 13px 32px;
-  font-size: 16px;
+  padding: 7px 20px;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 190px;
   border: none;
-  border-radius: 30px;
+  border-radius: 20px;
   cursor: pointer;
-  display: inline-block;
-  margin-left: 10px;
 }
 
 .cancel-btn:hover {
   background-color: #888;
-}
+} */
