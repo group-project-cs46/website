@@ -14,6 +14,8 @@ $ad = Ad::getById($application['ad_id']);
 $company = Company::getById($ad['company_id']);
 $interview = Interview::getById($application['interview_id']);
 
+
+//dd($application);
 //dd($interview);
 
 if ($interview) {

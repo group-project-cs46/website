@@ -100,7 +100,14 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function findWithCompany($id)

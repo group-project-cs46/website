@@ -2,7 +2,6 @@
 
 use Models\Ad;
 use Models\Company;
-use Models\Round;
 
 $currentBatch = \Models\Batch::currentBatch();
 

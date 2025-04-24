@@ -13,6 +13,7 @@ enum Role: int
     case Lecturer = 5;
 }
 
+
 $navItems = [
     [
         'text' => 'Dashboard',
@@ -164,8 +165,12 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            return $currentRound && !$currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
+
+            return !$isSecondRound;
         }
     ],
     [
@@ -181,8 +186,10 @@ $navItems = [
         'icon' => 'fa-solid fa-2',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            $isSecondRound = $currentRound && $currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
             $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
             return $isSecondRound && !$isSelected;
         }
