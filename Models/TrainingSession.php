@@ -55,4 +55,12 @@ class TrainingSession
         $db = App::resolve(Database::class);
         $db->query('DELETE FROM training_sessions WHERE id = ?', [$id]);
     }
+
+    public static function get_count()
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query("SELECT COUNT(*) AS count FROM training_sessions")->find();
+        return $result['count'];
+    }
+
 }

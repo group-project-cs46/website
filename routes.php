@@ -281,6 +281,12 @@ $router->get('/track', 'admin/track.php');
 $router->get('/complaintView', controller: 'admin/complaintView.php');
 
 $router->get('/attendance', controller: 'admin/attendanceManage.php');
+$router->post('/messageAddition', controller: 'admin/add-message.php');
+
+$router->post('/complaintDeletion', controller: 'admin/reject-complaint.php');
+
+
+
 
 
 

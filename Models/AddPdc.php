@@ -7,27 +7,6 @@ use Core\Database;
 
 class AddPdc
 {
-    // public static function create($employee_id, $title, $email, $name, $contact_no, $password)
-    // {
-    //     $db = App::resolve(Database::class);
-
-    //     $db->query('INSERT INTO users(name,email,mobile,password,role,approved) VALUES (?, ?, ?, ?, ?, ?)', [
-    //         $name,
-    //         $email,
-    //         $contact_no,
-    //         password_hash($password, PASSWORD_DEFAULT),
-    //         3,
-    //         1
-    //     ]);
-
-    //     $id = $db->getLastInsertedId();
-
-    //     $db->query('INSERT INTO pdcs(employee_id, title, id) VALUES (?, ?, ?)', [
-    //         $employee_id,
-    //         $title,
-    //         $id
-    //     ]);
-    // }
 
     public static function create($employee_id, $title, $email, $name, $contact_no, $password, $photo = null)
     {
@@ -70,19 +49,6 @@ class AddPdc
         }
         return $data[0];
     }
-
-    // public static function update_pdc($employee_id, $title, $pdcname, $contact_no, $email)
-    // {
-    //     $db = App::resolve(Database::class);
-
-    //     $db->query('UPDATE pdc SET title=?, pdcname=?, contact_no=?,email=? WHERE employee_id=?', [
-    //         $title,
-    //         $pdcname,
-    //         $contact_no,
-    //         $email,
-    //         $employee_id,
-    //     ]);
-    // }
 
     public static function update($id, $name, $email, $employee_id, $contact, $title, $password, $photo)
     {
@@ -139,4 +105,13 @@ class AddPdc
 
         $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
     }
+
+    public static function get_total_count()
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('SELECT COUNT(*) as total FROM pdcs')->get();
+        return $result[0]['total'] ?? 0;
+    }
+
+
 }
