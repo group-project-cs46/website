@@ -37,4 +37,22 @@ class AdminComplaint
         ', [$id])->find();
     }
 
+    public static function updateStatus($complaint_id, $new_status)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query("UPDATE complaints SET status = :status WHERE id = :id", [
+            'status' => $new_status,
+            'id' => $complaint_id
+        ]);
+    }
+
+    public static function deleteById($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM complaints WHERE id = ?', [$id]);
+
+    }
+
 }

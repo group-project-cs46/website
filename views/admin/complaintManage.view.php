@@ -61,7 +61,7 @@
                             <td><?= $complaint_data['status'] ?></td>
                             <td class="actions">
                                 <a href="/complaintView?id=<?= $complaint_data['id'] ?>" class="view-button">View</a>
-                                <form action="/complaintReject" method="post" style="display:inline;">
+                                <form action="/complaintDeletion" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $complaint_data['id'] ?>">
                                     <button type="submit" class="disable-button">Reject</button>
                                 </form>
