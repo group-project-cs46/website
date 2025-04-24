@@ -51,12 +51,12 @@ class Student
     {
         $db = App::resolve(Database::class);
 
-        $round = Round::currentRound();
+        $currentBatch = Batch::currentBatch();
 
         return $db->query('
             SELECT
                 applications.*,
-                advertisements.round_id,
+                advertisements.batch_id,
                 advertisements.company_id,
                 students.index_number,
 	            users.name
@@ -66,8 +66,8 @@ class Student
             LEFT JOIN users ON users.id = applications.student_id
             WHERE
                 applications.selected = TRUE
-                AND advertisements.round_id = ?
+                AND advertisements.batch_id = ?
                 AND advertisements.company_id = ?
-        ', [$round['id'], $companyId])->get();
+        ', [$currentBatch['id'], $companyId])->get();
     }
 }

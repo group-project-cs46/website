@@ -33,21 +33,21 @@
                 <?php if ($message['sender_id'] == auth_user()['id']): ?>
                     <!-- Message from current user -->
                     <div style="margin-bottom: 15px; text-align: right;">
-                        <p style="margin: 0; color: #555; font-size: 14px;"><strong><?= htmlspecialchars($message['sender_name']) ?></strong> 
+                        <p style="margin: 0; color: #555; font-size: 14px;"><strong><?=$message['sender_name'] ?></strong> 
                             <span style="color: #888;"><?= date('Y-m-d H:i', strtotime($message['created_at'])) ?></span>
                         </p>
                         <p style="background: #c8e6c9; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; display: inline-block;">
-                            <?= nl2br(htmlspecialchars($message['message'])) ?>
+                            <?= $message['message'] ?>
                         </p>
                     </div>
                 <?php else: ?>
                     <!-- Message from others (admin or other parties) -->
                     <div style="margin-bottom: 15px;">
-                        <p style="margin: 0; color: #555; font-size: 14px;"><strong><?= htmlspecialchars($message['sender_name']) ?></strong> 
+                        <p style="margin: 0; color: #555; font-size: 14px;"><strong><?=$message['sender_name'] ?></strong> 
                             <span style="color: #888;"><?= date('Y-m-d H:i', strtotime($message['created_at'])) ?></span>
                         </p>
                         <p style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; width: fit-content;">
-                            <?= nl2br(htmlspecialchars($message['message'])) ?>
+                            <?= $message['message'] ?>
                         </p>
                     </div>
                 <?php endif; ?>
@@ -55,8 +55,10 @@
         </div>
 
         <!-- Message Input -->
-        <form method="POST" action="/students/complaints/messages" style="display: flex; gap: 10px;">
+        <form method="POST" action="/messageAddition" style="display: flex; gap: 10px;">
+
             <textarea name="message" placeholder="Type your message..." style="flex: 1; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; resize: vertical; font-size: 14px;"></textarea>
+            
             <input type="hidden" name="complaint_id" value="<?= $COMPLAINT['id'] ?>">
             <button style="padding: 10px 20px; background: #1976d2; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: background 0.2s;">
                 Send
