@@ -7,9 +7,21 @@ use Core\Database;
 
 class companyStudent
 {
+    // Helper method to get the authenticated company_id
+    private static function getCompanyId()
+    {
+        $auth_user = auth_user();
+        if (!$auth_user || !isset($auth_user['id'])) {
+            throw new \Exception('User not authenticated or company_id not found');
+        }
+        return $auth_user['id'];
+    }
+
     public static function fetchAllStudents()
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
         $students = $db->query('
             SELECT 
                 u.name AS student_name,
@@ -26,11 +38,14 @@ class companyStudent
             FROM users u
             INNER JOIN students s ON u.id = s.id
             INNER JOIN applications app ON s.id = app.student_id
-            LEFT JOIN advertisements a ON app.ad_id = a.id
-            LEFT JOIN internship_roles ir ON a.internship_role_id = ir.id
+            INNER JOIN advertisements a ON app.ad_id = a.id
+            INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
-            WHERE u.role = 2 AND (app.failed IS NULL) AND (app.shortlisted IS NULL);
-        ', [])->get();
+            WHERE u.role = 2 
+                AND (app.failed IS NULL) 
+                AND (app.shortlisted IS NULL)
+                AND a.company_id = :company_id;
+        ', ['company_id' => $company_id])->get();
 
         // Collect all student IDs to check for selected applications
         $studentIds = array_unique(array_column($students, 'student_id'));
@@ -66,6 +81,14 @@ class companyStudent
     public static function shortedlistStudent($applicationId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the application belongs to this company
+        $application = self::getApplicationById($applicationId);
+        if (!$application || !self::canAccessApplication($applicationId, $company_id)) {
+            throw new \Exception('Unauthorized access to application');
+        }
+
         $result = $db->query('
             UPDATE applications
             SET shortlisted = TRUE
@@ -78,6 +101,14 @@ class companyStudent
     public static function nonShortedlistStudent($applicationId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the application belongs to this company
+        $application = self::getApplicationById($applicationId);
+        if (!$application || !self::canAccessApplication($applicationId, $company_id)) {
+            throw new \Exception('Unauthorized access to application');
+        }
+
         $result = $db->query('
             UPDATE applications
             SET failed = TRUE
@@ -90,6 +121,8 @@ class companyStudent
     public static function fetchShortlitedStudents()
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
         $students = $db->query('
             SELECT 
                 u.name AS student_name,
@@ -111,8 +144,12 @@ class companyStudent
             INNER JOIN advertisements a ON app.ad_id = a.id
             INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
-            WHERE u.role = 2 AND app.shortlisted = TRUE AND (app.failed IS NULL) AND (app.selected IS NULL);
-        ', [])->get();
+            WHERE u.role = 2 
+                AND app.shortlisted = TRUE 
+                AND (app.failed IS NULL) 
+                AND (app.selected IS NULL)
+                AND a.company_id = :company_id;
+        ', ['company_id' => $company_id])->get();
 
         // Collect all student IDs to check for selected applications
         $studentIds = array_unique(array_column($students, 'student_id'));
@@ -144,6 +181,8 @@ class companyStudent
     public static function fetchSelectedStudents()
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
         $students = $db->query('
             SELECT
                 u.name AS student_name,
@@ -165,8 +204,9 @@ class companyStudent
             WHERE u.role = 2 
                 AND app.selected = TRUE 
                 AND app.shortlisted = TRUE 
-                AND (app.failed IS NULL);
-        ', [])->get();
+                AND (app.failed IS NULL)
+                AND a.company_id = :company_id;
+        ', ['company_id' => $company_id])->get();
 
         foreach ($students as &$student) {
             // Check the selected status for this specific application
@@ -181,6 +221,13 @@ class companyStudent
     public static function scheduleInterview($applicationId, $venue, $date, $fromTime, $toTime)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the application belongs to this company
+        $application = self::getApplicationById($applicationId);
+        if (!$application || !self::canAccessApplication($applicationId, $company_id)) {
+            throw new \Exception('Unauthorized access to application');
+        }
 
         // Combine date and time for start_time and end_time
         $startTime = "$date $fromTime";
@@ -209,11 +256,23 @@ class companyStudent
     public static function getInterviewDetails($interviewId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
         $interview = $db->query('
-            SELECT venue, start_time, end_time, date
-            FROM interviews
-            WHERE id = ?
-        ', [$interviewId])->find();
+            SELECT i.venue, i.start_time, i.end_time, i.date
+            FROM interviews i
+            INNER JOIN applications app ON i.id = app.interview_id
+            INNER JOIN advertisements a ON app.ad_id = a.id
+            WHERE i.id = :interview_id 
+                AND a.company_id = :company_id;
+        ', [
+            'interview_id' => $interviewId,
+            'company_id' => $company_id
+        ])->find();
+
+        if (!$interview) {
+            throw new \Exception('Interview not found or unauthorized access');
+        }
 
         return $interview;
     }
@@ -221,6 +280,10 @@ class companyStudent
     public static function updateInterview($interviewId, $venue, $date, $fromTime, $toTime)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the interview belongs to this company
+        $interview = self::getInterviewDetails($interviewId); // This will throw an exception if unauthorized
 
         // Combine date and time for start_time and end_time
         $startTime = "$date $fromTime";
@@ -238,6 +301,16 @@ class companyStudent
     public static function deleteInterview($applicationId, $interviewId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the application and interview belong to this company
+        $application = self::getApplicationById($applicationId);
+        if (!$application || !self::canAccessApplication($applicationId, $company_id)) {
+            throw new \Exception('Unauthorized access to application');
+        }
+
+        // Verify that the interview belongs to this company
+        $interview = self::getInterviewDetails($interviewId); // This will throw an exception if unauthorized
 
         // First, remove the interview_id from the applications table
         $db->query('
@@ -254,14 +327,15 @@ class companyStudent
 
         return true;
     }
+
     public static function getApplicationById($applicationId)
     {
         $db = App::resolve(Database::class);
         $application = $db->query('
-        SELECT app.id, app.cv_id, app.ad_id, app.student_id
-        FROM applications app
-        WHERE app.id = ?
-    ', [$applicationId])->find();
+            SELECT app.id, app.cv_id, app.ad_id, app.student_id
+            FROM applications app
+            WHERE app.id = ?
+        ', [$applicationId])->find();
 
         return $application;
     }
@@ -270,11 +344,11 @@ class companyStudent
     {
         $db = App::resolve(Database::class);
         $result = $db->query('
-        SELECT 1
-        FROM applications app
-        INNER JOIN advertisements ad ON app.ad_id = ad.id
-        WHERE app.id = ? AND ad.company_id = ?
-    ', [$applicationId, $companyId])->find();
+            SELECT 1
+            FROM applications app
+            INNER JOIN advertisements ad ON app.ad_id = ad.id
+            WHERE app.id = ? AND ad.company_id = ?
+        ', [$applicationId, $companyId])->find();
 
         return !empty($result);
     }

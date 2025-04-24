@@ -7,9 +7,21 @@ use Core\Database;
 
 class CompanyLecturerVisit
 {
+    // Helper method to get the authenticated company_id
+    private static function getCompanyId()
+    {
+        $auth_user = auth_user();
+        if (!$auth_user || !isset($auth_user['id'])) {
+            throw new \Exception('User not authenticated or company_id not found');
+        }
+        return $auth_user['id'];
+    }
+
     public static function fetchAll()
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
         $visits = $db->query('
             SELECT 
                 lv.id,
@@ -26,13 +38,22 @@ class CompanyLecturerVisit
             LEFT JOIN lecturers l ON lv.lecturer_id = l.id
             LEFT JOIN users u ON l.id = u.id
             WHERE u.role = 5
-        ', [])->get();
+                AND lv.company_id = :company_id;
+        ', ['company_id' => $company_id])->get();
         return $visits;
     }
 
     public static function updateStatus($visitId, $status)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the visit belongs to this company
+        $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
+        if (!$visit || $visit['company_id'] != $company_id) {
+            throw new \Exception('Unauthorized access to update lecturer visit');
+        }
+
         $db->query('UPDATE lecturer_visits SET approved = ?, rejected = NULL WHERE id = ?', [
             $status,
             $visitId
@@ -43,6 +64,14 @@ class CompanyLecturerVisit
     public static function revertStatus($visitId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the visit belongs to this company
+        $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
+        if (!$visit || $visit['company_id'] != $company_id) {
+            throw new \Exception('Unauthorized access to revert lecturer visit');
+        }
+
         $db->query('UPDATE lecturer_visits SET approved = NULL WHERE id = ?', [
             $visitId
         ]);
@@ -52,6 +81,14 @@ class CompanyLecturerVisit
     public static function rejectVisit($visitId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the visit belongs to this company
+        $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
+        if (!$visit || $visit['company_id'] != $company_id) {
+            throw new \Exception('Unauthorized access to reject lecturer visit');
+        }
+
         $db->query('UPDATE lecturer_visits SET rejected = TRUE, approved = NULL WHERE id = ?', [
             $visitId
         ]);
@@ -61,6 +98,14 @@ class CompanyLecturerVisit
     public static function revertReject($visitId)
     {
         $db = App::resolve(Database::class);
+        $company_id = self::getCompanyId();
+
+        // Verify that the visit belongs to this company
+        $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
+        if (!$visit || $visit['company_id'] != $company_id) {
+            throw new \Exception('Unauthorized access to revert rejection of lecturer visit');
+        }
+
         $db->query('UPDATE lecturer_visits SET rejected = NULL WHERE id = ?', [
             $visitId
         ]);

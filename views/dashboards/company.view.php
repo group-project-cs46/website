@@ -46,24 +46,26 @@
         </div>
         <div class="table-title">
             <div class="table-title-txt">
-                <h3>Applied students</h3>
+                <h3>Applied Students</h3>
                 <p>Manage student accounts</p>
             </div>
             <!-- Filter Dropdowns (Removed Filter by Course) -->
-            <div class="filter-container">
-                <div class="filter-right">
-                    <label for="applied-jobrole-filter">Filter by Job Role:</label>
-                    <input list="applied-jobrole-options" id="applied-jobrole-filter" class="applied-jobrole-input" oninput="filterAppliedStudents()" placeholder="Type or select a job role">
-                    <datalist id="applied-jobrole-options">
-                        <option value="Software Engineer">
-                        <option value="Cybersecurity Analyst">
-                        <option value="DevOps Engineer">
-                        <option value="IT Support Specialist">
-                        <option value="AI/ML Engineer">
-                        <option value="Data Analyst">
-                    </datalist>
+            <?php if ($appliedStudents): ?>
+                <div class="filter-container">
+                    <div class="filter-right">
+                        <label for="applied-jobrole-filter">Filter by Job Role:</label>
+                        <input list="applied-jobrole-options" id="applied-jobrole-filter" class="applied-jobrole-input" oninput="filterAppliedStudents()" placeholder="Type or select a job role">
+                        <datalist id="applied-jobrole-options">
+                            <option value="Software Engineer">
+                            <option value="Cybersecurity Analyst">
+                            <option value="DevOps Engineer">
+                            <option value="IT Support Specialist">
+                            <option value="AI/ML Engineer">
+                            <option value="Data Analyst">
+                        </datalist>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
 
         <!-- Display error message if no data -->
