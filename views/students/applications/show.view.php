@@ -13,7 +13,7 @@
                 <div style="flex: 1; min-width: 300px; max-width: 340px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 1.5rem; transition: transform 0.2s;">
                     <h2 style="color: #0ea5e9; font-size: 1.5rem; font-weight: 600; margin: 0 0 1rem 0;">Job Description</h2>
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Role:</strong> <?= htmlspecialchars($ad['job_role']) ?></p>
+                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Role:</strong> <?= htmlspecialchars($ad['internship_role']) ?></p>
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Responsibilities:</strong> <?= htmlspecialchars($ad['responsibilities']) ?></p>
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Qualifications:</strong> <?= htmlspecialchars($ad['qualifications_skills']) ?></p>
                     </div>
