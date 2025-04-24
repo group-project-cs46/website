@@ -65,7 +65,6 @@
                         <div class="grid-item" style="text-align: right">
                             <?php if ($item['approved']): ?>
                                 <i class="fa-solid fa-check text-green-500"></i>
-
                             <?php elseif (!$item['rejected']): ?>
                                 <form action="/pdcs/companies/approve" method="post" style="display: inline;">
                                     <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
@@ -96,18 +95,19 @@
                     <thead>
                         <tr>
                             <th>Company</th>
-                            <th>Contact Person</th>
+                            <!-- <th>Contact Person</th> -->
                             <th>Contact No.</th>
                             <th>Email</th>
                             <th>Website</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="registeredCompanyTableBody">
-                        <?php foreach ($companies as $item): ?>
-                            <?php if ($item['approved']): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($item['name']); ?></td>
-                                    <td><?php echo htmlspecialchars($item['contact_person'] ?? '-'); ?></td>
+                        <?php foreach ($approvedcompanies as $item): ?>
+                            <?php if (!($item['disabled'] ?? false)): ?>
+                                <tr id="approved-row-<?php echo $item['company_id']; ?>">
+                                    <td><?php echo htmlspecialchars($item['company_name']); ?></td>
+                                    
                                     <td><?php echo htmlspecialchars($item['mobile'] ?? '-'); ?></td>
                                     <td><?php echo htmlspecialchars($item['email']); ?></td>
                                     <td>
@@ -119,12 +119,15 @@
                                             -
                                         <?php endif; ?>
                                     </td>
+                                    <td>
+                                        <button class="blacklist-button" onclick="BlacklistCompany(<?php echo $item['company_id']; ?>)">Blacklist</button>
+                                    </td>
                                 </tr>
                             <?php endif; ?>
                         <?php endforeach; ?>
-                        <?php if (empty(array_filter($companies, fn($item) => $item['approved']))): ?>
+                        <?php if (empty(array_filter($approvedcompanies, fn($item) => !($item['disabled'] ?? false)))): ?>
                             <tr>
-                                <td colspan="5" style="text-align: center;">No approved companies found.</td>
+                                <td colspan="6" style="text-align: center;">No approved companies found.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -162,6 +165,56 @@
     // Set initial visibility
     document.getElementById('company-application-section').style.display = 'block';
     document.getElementById('approved-companies-section').style.display = 'none';
+
+    function BlacklistCompany(company_id) {
+        if (!confirm("Are you sure you want to blacklist this company?")) {
+            return;
+        }
+
+        // Prompt for the reason
+        const reason = prompt("Please enter the reason for blacklisting this company:");
+        if (reason === null) {
+            // User cancelled the prompt
+            return;
+        }
+        if (reason.trim() === '') {
+            alert('A reason is required to blacklist the company.');
+            return;
+        }
+
+        fetch('/PDC/blacklistcompany', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                company_id: company_id,
+                reason: reason.trim()
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                const row = document.getElementById(`approved-row-${company_id}`);
+                if (row) {
+                    row.remove(); // Remove the row after blacklisting
+                }
+                // Update the "No approved companies found" message visibility
+                const approvedRows = document.querySelectorAll('#registeredCompanyTableBody tr:not([style*="text-align: center"])');
+                const noApprovedMessage = document.querySelector('#registeredCompanyTableBody tr[style*="text-align: center"]');
+                if (noApprovedMessage) {
+                    noApprovedMessage.style.display = approvedRows.length === 0 ? '' : 'none';
+                }
+            } else {
+                alert('Failed to blacklist company: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the request.');
+        });
+    }
 
     // Search bar functionality
     document.getElementById('search-bar').addEventListener('input', function() {

@@ -179,6 +179,10 @@ $router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');
 $router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
 $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
+$router->get('/PDC/downloadReport', '/PDC/downloadReport.php');
+$router->post('/PDC/blacklistcompany', '/PDC/blacklistcompany.php');
+$router->post('/PDC/removeblacklist', '/PDC/removeBlacklist.php');
+
 $router->get('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->post('/PDC/manageadvertisements', '/PDC/manage_advertisements.php');
 $router->get('/PDC/appliedStudents', '/PDC/appliedStudents.php');
@@ -189,6 +193,7 @@ $router->post('/PDC/editvisit', '/PDC/pdc_edit_visit.php');
 
 $router->get('/PDC/complaints&feedback', '/PDC/Complaints&Feedback.php');
 $router->post('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
+$router->post('/PDC/markcomplaintsolved', '/PDC/markComplaintSolved.php');
 $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 

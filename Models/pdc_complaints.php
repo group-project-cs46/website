@@ -41,7 +41,17 @@ class pdc_complaints
         $db = App::resolve(Database::class);
         $db->query('
             UPDATE complaints 
-            SET status = "rejected" 
+            SET status =  \'rejected\'  
+            WHERE id = ?
+        ', [$id]);
+    }
+
+    public static function complaintsolved($id)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('
+            UPDATE complaints 
+            SET status =  \'resolved\'  
             WHERE id = ?
         ', [$id]);
     }

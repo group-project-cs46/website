@@ -33,6 +33,16 @@
             </thead>
             <tbody id="companyTableBody">
                 <!-- Dynamic Rows -->
+                <?php foreach ($blacklistedcompanies as $blacklisted): ?>
+                    <tr id="row-<?= $blacklisted['company_id'] ?>">
+                        <td><?= htmlspecialchars($blacklisted['name']) ?></td>
+                        <td><?= htmlspecialchars($blacklisted['email']) ?></td>
+                        <td><?= htmlspecialchars($blacklisted['reason']) ?></td>
+                        <td>
+                            <button class="view-button" onclick="RemoveBlacklist(<?= $blacklisted['company_id'] ?>)">remove</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </section>
@@ -49,7 +59,7 @@
 
             <label for="companyEmail">Company Email:</label>
             <input type="email" id="companyEmail" name="companyEmail" required />
-            
+
             <label for="blacklistReason">Reason for Blacklisting:</label>
             <textarea id="blacklistReason" name="blacklistReason" required></textarea>
 
@@ -59,110 +69,107 @@
 </div>
 
 <script>
-
-// Predefined list of blacklisted companies with their details
-const blacklistedCompanies = [
-    { name: "Tech Innovators", email: "info@techinnovators.com", reason: "Breach of contract" },
-    { name: "FutureSoft Ltd", email: "hr@futuresoft.com", reason: "Unethical hiring practices" },
-    { name: "CodeCrafters Inc", email: "support@codecrafters.io", reason: "Poor internship experience" },
-    { name: "Skyline Solutions", email: "contact@skyline.com", reason: "Fake job postings" },
-    { name: "CyberNest Pvt Ltd", email: "hello@cybernest.org", reason: "Data privacy violations" },
-    { name: "Quantum Dynamics", email: "careers@quantumd.com", reason: "Harassment complaints" },
-];
-
-// Function to populate the table with dynamic data
-function populateTable() {
-    const tableBody = document.getElementById('companyTableBody');
-    tableBody.innerHTML = ""; // Clear table first
-
-    blacklistedCompanies.forEach(company => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${company.name}</td>
-            <td>${company.email}</td>
-            <td>${company.reason}</td>
-            <td>
-                <button class="remove-button" onclick="removeCompany(this)">Remove</button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
-
-// Populate table on page load
-window.onload = populateTable;
-
-
-
-
-function showAddCompanyPopup() {
-    document.getElementById('addCompanyPopup').style.display = 'flex';
-}
-
-function closeAddCompanyPopup() {
-    document.getElementById('addCompanyPopup').style.display = 'none';
-}
-
-function submitAddCompany(event) {
-    event.preventDefault();
-
-    const companyName = document.getElementById('companyName').value;
-    const companyEmail = document.getElementById('companyEmail').value;
-    const blacklistReason = document.getElementById('blacklistReason').value;
-
-    if (companyName && companyEmail && blacklistReason) {
-        const tableBody = document.getElementById('companyTableBody');
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${companyName}</td>
-            <td>${companyEmail}</td>
-            <td>${blacklistReason}</td>
-            <td><button class="remove-button" onclick="removeCompany(this)">Remove</button></td>
-        `;
-        tableBody.appendChild(newRow);
-
-        // Simulate email sending
-        sendBlacklistEmail(companyEmail, companyName, blacklistReason);
-
-        document.getElementById('addCompanyForm').reset();
-        closeAddCompanyPopup();
-        alert('Successfully added to blacklist and reason message was sent');
-    } else {
-        alert('Please fill out all fields.');
+    function showAddCompanyPopup() {
+        document.getElementById('addCompanyPopup').style.display = 'flex';
     }
-}
 
-function sendBlacklistEmail(email, company, reason) {
-    console.log(`Sending email to ${email}\nSubject: Blacklisting Notice\nMessage: Your company "${company}" has been blacklisted due to: ${reason}`);
-}
+    function closeAddCompanyPopup() {
+        document.getElementById('addCompanyPopup').style.display = 'none';
+    }
 
-function removeCompany(button) {
-    const row = button.closest('tr');
-    row.remove();
-    alert('Company removed from blacklist');
-}
+    function submitAddCompany(event) {
+        event.preventDefault();
 
-function filterCompanies() {
-    const searchInput = document.querySelector('.search-bar').value.toLowerCase();
-    const tableRows = document.querySelectorAll('#companyTableBody tr');
-    
-    tableRows.forEach(row => {
-        const companyName = row.cells[0].textContent.toLowerCase();
-        const companyEmail = row.cells[1].textContent.toLowerCase();
-        if (companyName.includes(searchInput) || companyEmail.includes(searchInput)) {
-            row.style.display = '';
+        const companyName = document.getElementById('companyName').value;
+        const companyEmail = document.getElementById('companyEmail').value;
+        const blacklistReason = document.getElementById('blacklistReason').value;
+
+        if (companyName && companyEmail && blacklistReason) {
+            const tableBody = document.getElementById('companyTableBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${companyName}</td>
+                <td>${companyEmail}</td>
+                <td>${blacklistReason}</td>
+                <td><button class="remove-button" onclick="removeCompany(this)">Remove</button></td>
+            `;
+            tableBody.appendChild(newRow);
+
+            // Simulate email sending
+            sendBlacklistEmail(companyEmail, companyName, blacklistReason);
+
+            document.getElementById('addCompanyForm').reset();
+            closeAddCompanyPopup();
+            alert('Successfully added to blacklist and reason message was sent');
         } else {
-            row.style.display = 'none';
+            alert('Please fill out all fields.');
         }
-    });
-}
-
-window.onclick = function (event) {
-    const popup = document.getElementById('addCompanyPopup');
-    if (event.target === popup) {
-        closeAddCompanyPopup();
     }
-};
+
+    function sendBlacklistEmail(email, company, reason) {
+        console.log(`Sending email to ${email}\nSubject: Blacklisting Notice\nMessage: Your company "${company}" has been blacklisted due to: ${reason}`);
+    }
+
+    function RemoveBlacklist(company_id) {
+        if (!confirm("Are you sure you want to remove this company from the blacklist?")) {
+            return;
+        }
+
+        fetch('/PDC/removeblacklist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                company_id: company_id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                const row = document.getElementById(`row-${company_id}`);
+                if (row) {
+                    const button = row.querySelector('.view-button');
+                    if (button) {
+                        button.textContent = 'removed'; // Change button text to "removed"
+                        button.disabled = true; // Disable the button
+                        button.classList.add('status-removed'); // Add a class for styling
+                    }
+                    // Optionally, add a class to the row to indicate it's unblacklisted
+                    row.classList.add('unblacklisted-row');
+                }
+            } else {
+                alert('Failed to remove from blacklist: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the request.');
+        });
+    }
+
+    function filterCompanies() {
+        const searchInput = document.querySelector('.search-bar').value.toLowerCase();
+        const tableRows = document.querySelectorAll('#companyTableBody tr');
+
+        tableRows.forEach(row => {
+            const companyName = row.cells[0].textContent.toLowerCase();
+            const companyEmail = row.cells[1].textContent.toLowerCase();
+            if (companyName.includes(searchInput) || companyEmail.includes(searchInput)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    window.onclick = function(event) {
+        const popup = document.getElementById('addCompanyPopup');
+        if (event.target === popup) {
+            closeAddCompanyPopup();
+        }
+    };
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
