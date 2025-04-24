@@ -35,8 +35,8 @@
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
                         <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Complaints</h2>
                         <div style="display: flex; flex-direction: column; gap: 15px;">
-                        <div style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
-                        <div style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                        <div style="max-height: 370px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                        <div style="max-height: 370px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
                           <?php foreach ($COMPLAINT_DATA as $complaint_data): ?>
                               <?php
                                   $createdAt = strtotime($complaint_data['created_at']);
@@ -73,7 +73,7 @@
                 <div>
                     
                     <a href="/pdcManage" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC </p>
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
                         
@@ -81,14 +81,14 @@
                       </a>
 
                       <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer </p>
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p> 
                     </div>
                     </a>
 
                     <a href="/trainingSession" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training </p>
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Session</p> 
                     </div>
