@@ -1,115 +1,105 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php'); ?>
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="/styles/pasindu/dashboard.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Dashboard</h1>
-            <p>View current progress</p>
-        </header>
+<link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
+<div class="mmm">
+    <main class="main-content">
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <div class="above">
+                <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
+                <h2><b>Admin Dashboard</b></h2>
+            </div>               
+             <div style="display: flex; gap: 20px; flex-direction: column;">
+                    <a href="/account" class="_button">
+                        <button>
+                            View Profile
+                        </button>
+                    </a>
 
-        <div class="stats-container">
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="icon-container">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h2 class="stat-number" data-target="15">0</h2>
+                    <form action="/sessions" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="button is-red">
+                            Logout
+                        </button>
+                    </form>
                 </div>
-                <p class="stat-title">Companies Registered</p>
             </div>
 
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="icon-container">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <h2 class="stat-number" data-target="3">0</h2>
-                </div>
-                <p class="stat-title">Blacklisted Companies</p>
-            </div>
+            <!-- Dashboard Grid -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <!-- Left Column: Internship Applications & Recent Activities -->
+                <div>
+                    <!-- Internship Applications -->
+                    <a href="/complaints" style="text-decoration: none; color: inherit;">
 
-            <div class="stat-card">
-                <div class="stat-header">
-                    <div class="icon-container">
-                        <i class="fas fa-users"></i>
+                    <div style="background: #f9f9f9; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                        <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Complaints</h2>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                        <div style="max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;">
+                          <?php foreach ($COMPLAINT_DATA as $complaint_data): ?>
+                              <?php
+                                  $createdAt = strtotime($complaint_data['created_at']);
+                                  $isNew = (time() - $createdAt) < 86400; // Last 24 hours
+                              ?>
+                              <div style="background: <?= $isNew ? '#e6f7ff' : 'white' ?>; border-left: <?= $isNew ? '5px solid #4a90e2' : 'none' ?>; border-radius: 8px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                                  <div>
+                                      <h3 style="font-size: 16px; color: #333; margin: 0;">
+                                          <?= $complaint_data['complainant_name'] ?>
+                                          <?php if ($isNew): ?>
+                                              <span style="background-color: #4a90e2; color: white; font-size: 10px; padding: 2px 6px; margin-left: 8px; border-radius: 4px;">NEW</span>
+                                          <?php endif ?>
+                                      </h3>
+                                      <p style="font-size: 14px; color: #666; margin: 5px 0;">
+                                          <?= date('Y-m-d H:i', $createdAt) ?> • Status <?= $complaint_data['status'] ?>
+                                      </p>
+                                  </div>
+                              </div>
+                          <?php endforeach ?>
+</div>
+
+</div>
+
+
+                        </div>
+                        <!-- <a href="/students/applications" style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
+                            View All Applications
+                        </a> -->
                     </div>
-                    <h2 class="stat-number" data-target="200">0</h2>
+</a>
+                    
                 </div>
-                <p class="stat-title">No.of students Registered</p>
+
+                <div>
+                    
+                    <a href="/pdcManage" style="text-decoration: none; color: inherit;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC </p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+                        
+                      </div>
+                      </a>
+
+                      <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer </p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p> 
+                    </div>
+                    </a>
+
+                    <a href="/trainingSession" style="text-decoration: none; color: inherit;">
+                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training </p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Session</p> 
+                    </div>
+                    </a>
+
+                    
+                </div>
             </div>
         </div>
-    </div>
-    <script src="/scripts/pasindu/dashboard.js"></script>
-</body>
-</html> -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="/styles/pasindu/dashboard.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <div class="dashboard">
-    <header>
-      <!-- <div>
-    <i class="fas fa-user-graduate" style="font-size: 40px;"></i>
+    </main>
 
-      <h1>Dashboard</h1>
-      <p>View current progress</p>
-      </div> -->
-      <div class="above">
-            <i class="fa-solid fa-gauge" style="font-size: 40px;"></i>
-            <h2><b>Dashboard</b></h2>
-        </div>
-    </header>
-    <div class="stats">
-    <a href="/pdcManage" style="text-decoration: none; color: inherit;">
-      <div class="stat">
-        <h2>10</h2>
-        <p>Registered PDC Accounts</p>
-      </div>
-      </a>
-      <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
-      <div class="stat">
-        <h2>20</h2>
-        <p>Registered Lecturer Accounts</p>
-      </div>
-      </a>
-      <a href="/eventStudentsManage" style="text-decoration: none; color: inherit;">
-      <div class="stat">
-        <h2>200</h2>
-        <p>Registered Students(events)</p>
-      </div>
-      </a>
-    </div>
-    <div class="charts">
-      <div class="chart-container">
-        <h3>Internship Placements</h3>
-        <canvas id="barChart"></canvas>
-      </div>
-      <div class="chart-container">
-        <h3>Job Roles</h3>
-        <canvas id="donutChart"></canvas>
-      </div>
-    </div>
-  </div>
-  <script src="/scripts/pasindu/dashboard.js"></script>
-  </body>
-</html>
+   
 
-  
-
-
-<?php require base_path('views/partials/auth/auth-close.php') ?>
+<?php require base_path('views/partials/auth/auth-close.php'); ?>
