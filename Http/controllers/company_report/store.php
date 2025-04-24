@@ -29,24 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Validate all 6 reports
-    $reportsData = [];
-    for ($i = 1; $i <= 6; $i++) {
-        $reportKey = "report{$i}";
-        if (!isset($_FILES[$reportKey]) || $_FILES[$reportKey]['error'] === UPLOAD_ERR_NO_FILE) {
-            $errors[$reportKey] = "Report {$i} is required.";
-            continue;
-        }
+    // Validate description
+    $description = $_POST['description'] ?? '';
+    if (empty($description)) {
+        $errors['description'] = "Description is required.";
+    }
 
+    // Validate the single report
+    if (!isset($_FILES['report']) || $_FILES['report']['error'] === UPLOAD_ERR_NO_FILE) {
+        $errors['report'] = "Report file is required.";
+    } else {
         $form = Forms\ReportUpload::validate([
-            'report' => $_FILES[$reportKey],
-            'description' => "Report {$i}" // Automatically set description
+            'report' => $_FILES['report']
         ]);
-
-        $reportsData[$i] = [
-            'file' => $_FILES[$reportKey],
-            'description' => "Report {$i}"
-        ];
     }
 
     // If there are validation errors, reload the view with errors
@@ -60,28 +55,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get company ID (already checked above)
     $companyId = $userId;
 
-    // Process file uploads
+    // Process file upload
     $targetDir = base_path('storage/reports/');
-    foreach ($reportsData as $i => $reportData) {
-        $fileTmpPath = $reportData['file']['tmp_name'];
-        $fileName = $reportData['file']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
+    $fileTmpPath = $_FILES['report']['tmp_name'];
+    $fileName = $_FILES['report']['name'];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
 
-        $newFileName = md5(time() . $fileName . $i) . '.' . $fileExtension;
-        $targetFile = $targetDir . $newFileName;
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+    $targetFile = $targetDir . $newFileName;
 
-        if (!move_uploaded_file($fileTmpPath, $targetFile)) {
-            $errors["report{$i}"] = "Report {$i} has not been uploaded.";
-        } else {
-            companyReport::create(
-                $companyId,
-                $subjectId,
-                $newFileName,
-                $fileName,
-                $reportData['description']
-            );
-        }
+    if (!move_uploaded_file($fileTmpPath, $targetFile)) {
+        $errors['report'] = "The report has not been uploaded.";
+    } else {
+        companyReport::create(
+            $companyId,
+            $subjectId,
+            $newFileName,
+            $fileName,
+            $description
+        );
     }
 
     // If there were upload errors, reload the view
@@ -92,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    redirect('/company/report?success=Reports uploaded successfully');
+    redirect('/company/report?success=Report uploaded successfully');
     exit();
 }
 
