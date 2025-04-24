@@ -109,6 +109,7 @@ class Application
                 selected,
                 failed,
                 cvs.original_name AS cv_name,
+                cvs.id AS cv_id,
                 users.name AS company_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
@@ -118,6 +119,7 @@ class Application
             LEFT JOIN cvs ON applications.cv_id = cvs.id
             LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
             WHERE applications.student_id = ?
+            ORDER BY created_at
         ', [$student_id])->get();
     }
 
