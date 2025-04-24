@@ -26,7 +26,7 @@ class LecturerVisit
             WHERE lecturer_visits.id = ?
         ', [$id])->find();
     }
-    public static function getByLecturerId($lecturerId)
+    public static function getByLecturerId($lecturerId, $batchId)
     {
         $db = App::resolve(Database::class);
 
@@ -37,7 +37,8 @@ class LecturerVisit
             FROM lecturer_visits
             LEFT JOIN users company ON lecturer_visits.company_id = company.id
             WHERE lecturer_visits.lecturer_id = ?
+            AND lecturer_visits.batch_id = ?
             ORDER BY date, time
-        ', [$lecturerId])->get();
+        ', [$lecturerId, $batchId])->get();
     }
 }
