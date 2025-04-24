@@ -78,7 +78,6 @@
                         <th>Email</th>
                         <th>Job Role</th>
                         <th>Course</th>
-                        <th>Current Job Status</th>
                     </tr>
                 </thead>
                 <tbody id="studentTableBody">
@@ -106,9 +105,6 @@ function renderAppliedTable(students) {
             <td>${student.email}</td>
             <td>${student.job_role}</td>
             <td>${student.course}</td>
-            <td>
-                <button class="status-btn ${student.status === 'Hired' ? 'hired' : 'not-hired'}" disabled>${student.status}</button>
-            </td>
         `;
         tableBody.appendChild(row);
     });
