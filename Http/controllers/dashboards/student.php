@@ -11,7 +11,7 @@ $training_sessions = TrainingSession::get_all();
 $user = User::findByIdWithRoleData($auth_user['id']);
 
 $applications = Application::getByStudentIdWithDetails($auth_user['id']);
-$applications = array_slice($applications, 0, 3);
+$applications = array_slice($applications, 0, 5);
 
 
 //dd($applications);

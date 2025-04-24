@@ -65,5 +65,22 @@ class Batch
         $db->query('DELETE FROM batches WHERE id = ?', [$id]);
     }
 
+    public static function currentBatch()
+    {
+        $db = App::resolve(Database::class);
 
+        return $db->query('
+            SELECT
+                *,
+                CASE
+                    WHEN first_round_end_time IS NULL OR first_round_end_time > NOW() THEN \'first\'
+                    WHEN second_round_end_time IS NULL OR second_round_end_time > NOW() THEN \'second\'
+                    ELSE \'completed\'
+                END AS current_round
+            FROM batches
+            WHERE (first_round_end_time IS NULL OR first_round_end_time > NOW())
+            OR (second_round_end_time IS NULL OR second_round_end_time > NOW())
+            ORDER BY created_at DESC
+        ', [])->find();
+    }
 }

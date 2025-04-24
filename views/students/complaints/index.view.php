@@ -67,7 +67,7 @@
         <div class="grid-item">
             <?php if ($item['status'] == 'pending'): ?>
                 <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
-            <?php elseif ($item['status'] == 'in_review'): ?>
+            <?php elseif ($item['status'] == 'in review'): ?>
                 <span style="background-color: var(--yellow-500); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">In Review</span>
             <?php elseif ($item['status'] == 'resolved'): ?>
                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Resolved</span>

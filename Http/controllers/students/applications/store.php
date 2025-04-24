@@ -7,6 +7,7 @@ use Core\Validator;
 use Http\Forms\ApplicationStore;
 use Models\Ad;
 use Models\Application;
+use Models\Batch;
 use Models\Notification;
 use Models\Round;
 use Models\Settings;
@@ -46,9 +47,9 @@ if (strtotime($ad['deadline']) < time()) {
     redirect('/students/advertisements');
 }
 
-$currentRound = Round::currentRound();
-if ($currentRound['id'] !== $ad['round_id']) {
-    Session::flash('toast', 'This job is not available in this round');
+$currentBatch = Batch::currentBatch();
+if ($currentBatch['id'] !== $ad['batch_id']) {
+    Session::flash('toast', 'This ad is not for your batch');
     redirect('/students/advertisements');
 }
 
