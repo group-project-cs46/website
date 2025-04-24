@@ -112,6 +112,10 @@ $router->post('/company_complaint/store', 'company_complaint/store.php');
 $router->get('/company/complaint/list', 'company_complaint/list.php')->only('auth');
 $router->post('/company_complaint/edit', 'company_complaint/edit.php')->only('auth');
 $router->post('/company_complaint/delete', 'company_complaint/delete.php')->only('auth');
+$router->get('/company_complaint/show', 'company_complaint/show.php')->only('company');
+$router->post('//messages', 'company_complaint/messages/store.php')->only('company');
+$router->get('/company/complaint/show', 'company_complaint/show.php')->only('company');
+$router->post('/company/complaint/messages', 'company_complaint/messages/store.php')->only('company');
 
 
 $router->post('/company_schedule/store', 'company_schedule/store_techtalk.php');
