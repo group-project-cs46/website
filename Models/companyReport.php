@@ -29,7 +29,7 @@ class companyReport
             FROM reports r 
             LEFT JOIN students s ON r.subject_id = s.id 
             WHERE r.sender_id = ? 
-            ORDER BY r.description', 
+            ORDER BY r.created_at DESC', 
             [$senderId]
         )->get();
     }
@@ -76,6 +76,24 @@ class companyReport
         }
 
         $db = App::resolve(Database::class);
+
+        // Check if a report already exists for this student and company
+        $existingReport = $db->query(
+            'SELECT * FROM reports WHERE subject_id = ? AND sender_id = ?',
+            [$subjectId, $senderId]
+        )->find();
+
+        if ($existingReport) {
+            // Delete the existing report file
+            $existingFilePath = base_path('storage/reports/' . $existingReport['filename']);
+            if (file_exists($existingFilePath)) {
+                unlink($existingFilePath);
+            }
+            // Delete the existing report record
+            $db->query('DELETE FROM reports WHERE id = ?', [$existingReport['id']]);
+        }
+
+        // Insert the new report
         $db->query(
             'INSERT INTO reports (sender_id, subject_id, filename, original_name, description, created_at) 
              VALUES (?, ?, ?, ?, ?, NOW())',
@@ -121,6 +139,21 @@ class companyReport
         }
 
         $db = App::resolve(Database::class);
+        $reports = $db->query('
+            SELECT r.* 
+            FROM reports r 
+            JOIN students s ON r.subject_id = s.id 
+            WHERE s.index_number = ? AND r.sender_id = ?', 
+            [$indexNumber, $senderId]
+        )->get();
+
+        foreach ($reports as $report) {
+            $filePath = base_path('storage/reports/' . $report['filename']);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
         $db->query('
             DELETE FROM reports 
             USING students 
