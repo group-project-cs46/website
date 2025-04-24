@@ -118,7 +118,6 @@
 
           <div class="modal-actions">
             <button type="submit" class="submit-btn">Update</button>
-            <!-- <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button> -->
           </div>
         </form>
       </div>
@@ -191,7 +190,7 @@ function fetchAndRenderComplaints() {
         html += `
           <tr>
             <td>${complaint.complaint_type === 'system' ? 'System Complaint' : 'Student Complaint'}</td>
-            <td>${complaint.subject}</td>
+            <td><a href="/company/complaint/show?id=${complaint.id}">${complaint.subject}</a></td>
             <td>${complaint.description}</td>
             <td>${complaint.status || 'Pending'}</td>
             <td>
