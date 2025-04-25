@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $companyId = $userId;
 
     // Process file upload
-    $targetDir = base_path('storage/reports/');
+    $targetDir = base_path('storage/');
     $fileTmpPath = $_FILES['report']['tmp_name'];
     $fileName = $_FILES['report']['name'];
     $fileNameCmps = explode(".", $fileName);
