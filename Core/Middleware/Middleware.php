@@ -12,19 +12,24 @@ class Middleware
         'company' => Company::class,
         'lecturer' => Lecturer::class,
         'pdc' => Pdc::class,
+        'isSecondRound' => IsSecondRound::class,
+        'isFirstRound' => IsFirstRound::class,
     ];
 
-    public static function resolve($key)
+    public static function resolve(array $keys)
     {
-        if (!$key) {
+        if (!$keys) {
             return;
         }
-        $middleware = static::MAP[$key] ?? false;
 
-        if (!$middleware) {
-            throw new \Exception("Middleware not found for key: {$key}");
+        foreach ($keys as $key) {
+            $middleware = static::MAP[$key] ?? null;
+
+            if (!$middleware) {
+                throw new \Exception("Middleware not found for key: {$key}");
+            }
+
+            (new $middleware)->handle();
         }
-
-        (new $middleware)->handle();
     }
 }

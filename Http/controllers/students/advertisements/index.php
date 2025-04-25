@@ -3,13 +3,8 @@
 use Models\Ad;
 use Models\Company;
 
+
 $currentBatch = \Models\Batch::currentBatch();
-
-
-if ($currentBatch && $currentBatch['current_round'] == 'second') {
-    redirect('/students/advertisements/second_round');
-}
-
 
 
 $companies = Company::byBatchId($currentBatch['id']);
