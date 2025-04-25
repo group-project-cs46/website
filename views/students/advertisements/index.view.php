@@ -64,7 +64,9 @@
                             <h1 class="job-title"><?= $item['internship_role_name'] ?></h1>
                             <p class="job-description"><?= $item['responsibilities'] ?></p>
                         </div>
-                        <img src="/files?id=<?= $item['photo_id'] ?>" alt="">
+                        <img src="/files?id=<?= $item['photo_id'] ?>"
+                             style="width: 100%; aspect-ratio: 1/ 1; object-fit: cover; border-radius: .5rem" alt="Ad image"
+                        >
                     </div>
                 <?php endforeach; ?>
             </div>
