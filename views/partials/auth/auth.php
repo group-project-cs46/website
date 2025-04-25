@@ -13,6 +13,7 @@ enum Role: int
     case Lecturer = 5;
 }
 
+
 $navItems = [
     [
         'text' => 'Dashboard',
@@ -122,6 +123,12 @@ $navItems = [
         'icon' => 'fa-ban',
         'only' => [Role::Pdc]
     ],
+    [
+        'text' => "Start Internship",
+        'href' => '/pdcs/batches',
+        'icon' => 'fa-solid fa-calendar-plus',
+        'only' => [Role::Pdc]
+    ],
 //    [
 //        'text' => "PDCs",
 //        'href' => '/admins/pdcs',
@@ -147,21 +154,9 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
-        'text' => 'Events',
-        'href' => '/events',
-        'icon' => 'fa-solid fa-calendar-days',
-        'only' => [Role::Admin],
-    ], 
-    [
         'text' => 'Training Session',
         'href' => '/trainingSession',
         'icon' => 'fa-solid fa-calendar-days',
-        'only' => [Role::Admin],
-    ],
-    [
-        'text' => 'Complaints',
-        'href' => '/complaintView',
-        'icon' => 'fa-comments',
         'only' => [Role::Admin],
     ],
     [
@@ -170,8 +165,12 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            return $currentRound && !$currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
+
+            return !$isSecondRound;
         }
     ],
     [
@@ -187,8 +186,10 @@ $navItems = [
         'icon' => 'fa-solid fa-2',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            $isSecondRound = $currentRound && $currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
             $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
             return $isSecondRound && !$isSelected;
         }

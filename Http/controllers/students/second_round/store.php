@@ -23,7 +23,9 @@ if (count($chosen_roles) >= 3) {
 SecondRoundRole::create($attributes['role'], auth_user()['id'], $attributes['cv']);
 
 
-$related_ads = Ad::getByInternshipRoleId($attributes['role']);
+$related_ads = Ad::getByInternshipRoleIdWithoutAlreadyAppliedInTheFirstRound($attributes['role']);
+
+//dd($related_ads);
 
 foreach ($related_ads as $ad) {
     Application::createWithIsSecondRound(auth_user()['id'], $attributes['cv'], $ad['id'], true);

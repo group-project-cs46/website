@@ -8,7 +8,17 @@
             <i class="fas fa-comments" style="font-size: 40px;"></i>
             <h2><b>Complaints & Feedback</b></h2>
         </div>
-        <input type="text" id="searchComplaints" placeholder="Search..." class="search-bar" onkeyup="searchComplaints(this.value)">
+        <div class="filter-search-container">
+            <select id="filterColumn" onchange="searchComplaints(document.getElementById('searchComplaints').value)">
+                <option value="all">All Columns</option>
+                <option value="complainant_name">Submitted By</option>
+                <option value="subject">Title</option>
+                <option value="accused_name">Complaint Against</option>
+                <option value="complaint_type">Complaint Type</option>
+                <option value="created_at">Date</option>
+            </select>
+            <input type="text" id="searchComplaints" placeholder="Search..." class="search-bar" onkeyup="searchComplaints(this.value)">
+        </div>
     </header>
 
     <section class="content">
@@ -17,14 +27,13 @@
             <p>View Complaints & Feedback</p>
         </div>
 
-        
-
         <table class="complaints-table">
             <thead>
                 <tr>
                     <th>Submitted By</th>
                     <th>Title</th>
                     <th>Complaint Against</th>
+                    <th>Complaint_type</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -32,17 +41,25 @@
             </thead>
             <tbody id="complaintsTableBody">
                 <?php foreach ($complaints as $complaint): ?>
-                <tr id="row-<?= $complaint['id'] ?>">
-                    <td><?= htmlspecialchars($complaint['complainant_name'] ?? 'Unknown') ?></td>
-                    <td><?= htmlspecialchars($complaint['subject']) ?></td>
-                    <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
-                    <td><?= htmlspecialchars($complaint['created_at']) ?></td>
-                    <td><?= htmlspecialchars(str_replace('_', ' ', $complaint['status'])) ?></td>
-                    <td>
-                        <button class="view-button" onclick="viewComplaint(<?= $complaint['id'] ?>)">View</button>
-                        <button class="reject-button" onclick="rejectComplaint(<?= $complaint['id'] ?>)">Reject</button>
-                    </td>
-                </tr>
+                    <tr id="row-<?= $complaint['id'] ?>" class="<?= $complaint['status'] === 'rejected' ? 'disabled' : '' ?>">
+                        <td><?= htmlspecialchars($complaint['complainant_name'] ?? 'Unknown') ?></td>
+                        <td><?= htmlspecialchars($complaint['subject']) ?></td>
+                        <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
+                        <td><?= htmlspecialchars($complaint['complaint_type']) ?></td>
+                        <td><?= htmlspecialchars($complaint['created_at']) ?></td>
+                        <?php
+                        $status = $complaint['status'];
+                        $statusClass = 'status-' . strtolower(str_replace(' ', '_', $status));
+                        ?>
+                        <td class="<?= $statusClass ?>"><?= htmlspecialchars(str_replace('_', ' ', $status)) ?></td>
+                        <td>
+                            <button class="view-button" onclick="viewComplaint(<?= $complaint['id'] ?>)">View</button>
+                            <button class="reject-button <?= in_array($complaint['status'], ['rejected', 'resolved']) ? 'button-disabled' : '' ?>"
+                                onclick="rejectComplaint(<?= $complaint['id'] ?>)"
+                                <?= in_array($complaint['status'], ['rejected', 'resolved']) ? 'disabled' : '' ?>>Reject</button>
+
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -56,8 +73,10 @@
         <h2>Complaint Details</h2>
         <div class="complaintdetails" id="complaintDetails"></div>
         <div id="additionalInfo" style="margin-top: 20px;"></div>
+        <div id="complaintActions"></div>
     </div>
 </div>
+
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
@@ -70,7 +89,9 @@
         try {
             const response = await fetch(`/PDC/managecomplaints?id=${id}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             // Check if the response is okay
@@ -96,6 +117,7 @@
                 <p><strong>Details:</strong> ${complaint.description || 'N/A'}</p>
                 <p><strong>Submitted By:</strong> ${complaint.complainant_name || 'Unknown'}</p>
                 <p><strong>Complaint Against:</strong> ${complaint.accused_name || 'Unknown'}</p>
+                <p><strong>Complaint Type:</strong> ${complaint.complaint_type || 'N/A'}</p>
                 <p><strong>Contact:</strong> ${complaint.contact || 'N/A'}</p>
                 <p><strong>Date Submitted:</strong> ${complaint.created_at || 'N/A'}</p>
             `;
@@ -103,6 +125,25 @@
             additionalInfoDiv.innerHTML = `
                 <p><strong>Status:</strong> ${(complaint.status || 'N/A').replace('_', ' ')}</p>
             `;
+
+            // Add "Complaint Solved" button dynamically based on status
+            const actionsDiv = document.getElementById('complaintActions');
+            actionsDiv.innerHTML = ''; // Clear previous button
+
+            if (complaint.status !== 'rejected' && complaint.status !== 'resolved') {
+                const solvedButton = document.createElement('button');
+                solvedButton.textContent = 'Complaint Solved';
+                solvedButton.className = 'solved-button';
+                solvedButton.onclick = () => complaintsolved(complaint.id);
+                actionsDiv.appendChild(solvedButton);
+            } else {
+                const solvedButton = document.createElement('button');
+                solvedButton.textContent = 'Complaint Solved';
+                solvedButton.className = 'solved-button button-disabled';
+                solvedButton.disabled = true;
+                actionsDiv.appendChild(solvedButton);
+            }
+
 
             document.getElementById('complaintPopup').style.display = 'block';
         } catch (error) {
@@ -124,8 +165,13 @@
         try {
             const response = await fetch('/PDC/managecomplaints', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id, csrf_token: csrfToken })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id,
+                    csrf_token: csrfToken
+                })
             });
             const result = await response.json();
 
@@ -134,31 +180,107 @@
             }
 
             alert('Complaint rejected successfully');
-            // Remove the row from the table
+            location.reload(); // Reload the page to reflect changes
+            // Disable the row instead of removing it
             const row = document.getElementById(`row-${id}`);
             if (row) {
-                row.remove();
+                // Add a 'disabled' class to the row
+                row.classList.add('disabled');
+                // Update the status column to "rejected"
+                row.cells[5].textContent = 'rejected'; // Status column is the 6th column (index 5)
+                // Disable the action buttons
+                const buttons = row.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('button-disabled');
+                });
             }
         } catch (error) {
             alert('Error rejecting complaint: ' + error.message);
         }
     }
 
-    // Function to search complaints (client-side filtering)
+    // Function to mark a complaint as solved
+    async function complaintsolved(id) {
+        if (!confirm('Are you sure you want to mark this complaint as solved?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/PDC/markcomplaintsolved', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id,
+                    csrf_token: csrfToken
+                })
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.error || 'Failed to mark complaint as solved');
+            }
+
+            alert('Complaint marked as solved successfully');
+            location.reload(); // Reload the page to reflect changes
+
+            // If you prefer to update the row without reloading, you can comment the line above
+            const row = document.getElementById(`row-${id}`);
+            if (row) {
+                row.classList.add('disabled');
+                row.cells[5].textContent = 'solved';
+                const buttons = row.querySelectorAll('button');
+                buttons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.add('button-disabled');
+                });
+            }
+        } catch (error) {
+            alert('Error marking complaint as solved: ' + error.message);
+        }
+    }
+
+
+    // Function to search complaints with column-specific filtering
     function searchComplaints(searchTerm) {
+        const filterColumn = document.getElementById('filterColumn').value;
         const rows = document.querySelectorAll('#complaintsTableBody tr');
         searchTerm = searchTerm.toLowerCase();
 
         rows.forEach(row => {
-            const complainant = row.cells[0].textContent.toLowerCase();
-            const subject = row.cells[1].textContent.toLowerCase();
-            const accused = row.cells[2].textContent.toLowerCase();
-            const date = row.cells[3].textContent.toLowerCase();
+            // Map column names to their indices in the table
+            const columns = {
+                'complainant_name': 0,
+                'subject': 1,
+                'accused_name': 2,
+                'complaint_type': 3,
+                'created_at': 4
+            };
 
-            const matches = complainant.includes(searchTerm) ||
-                           subject.includes(searchTerm) ||
-                           accused.includes(searchTerm) ||
-                           date.includes(searchTerm);
+            let matches = false;
+
+            if (filterColumn === 'all') {
+                // Search across all columns
+                const complainant = row.cells[0].textContent.toLowerCase();
+                const subject = row.cells[1].textContent.toLowerCase();
+                const accused = row.cells[2].textContent.toLowerCase();
+                const complaintType = row.cells[3].textContent.toLowerCase();
+                const date = row.cells[4].textContent.toLowerCase();
+
+                matches = complainant.includes(searchTerm) ||
+                    subject.includes(searchTerm) ||
+                    accused.includes(searchTerm) ||
+                    complaintType.includes(searchTerm) ||
+                    date.includes(searchTerm);
+            } else {
+                // Search in the selected column only
+                const columnIndex = columns[filterColumn];
+                const cellText = row.cells[columnIndex].textContent.toLowerCase();
+                matches = cellText.includes(searchTerm);
+            }
 
             row.style.display = matches ? '' : 'none';
         });

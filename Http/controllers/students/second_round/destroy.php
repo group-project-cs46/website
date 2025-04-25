@@ -13,7 +13,7 @@ $second_round_role_id = $_POST['id'];
 $second_round_role = SecondRoundRole::getById($second_round_role_id);
 
 
-$matching_ads = Ad::getByInternshipRoleId($second_round_role['internship_role_id']);
+$matching_ads = Ad::getByInternshipRoleIdWithoutAlreadyAppliedInTheFirstRound($second_round_role['internship_role_id']);
 
 $delete_allowed = true;
 $application_ids_to_be_deleted = [];

@@ -8,7 +8,5 @@ try {
     die($e->getMessage());
 }
 
-//dd($data);
-
 view('admin/trainingManage.view.php', ['TRAINING_SESSION'=>$data]);
 
