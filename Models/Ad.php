@@ -42,7 +42,7 @@ class Ad
                            WHERE companies.id = ?', [$company_id])->get();
     }
 
-    public static function byRoundId($roundId) {
+    public static function byBatchId($batchId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
@@ -58,11 +58,11 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.round_id = ? AND CURRENT_DATE < advertisements.deadline
-        ', [$roundId])->get();
+            WHERE advertisements.batch_id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$batchId])->get();
     }
 
-    public static function byRoundIdAndComapnyId($roundId, $companyId) {
+    public static function byBatchIdAndComapnyId($batchId, $companyId) {
         $db = App::resolve(Database::class);
 
         return $db->query('
@@ -78,8 +78,8 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.round_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
-        ', [$roundId, $companyId])->get();
+            WHERE advertisements.batch_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
+        ', [$batchId, $companyId])->get();
     }
 
     public static function find($id)
@@ -100,7 +100,14 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function findWithCompany($id)
@@ -137,11 +144,33 @@ class Ad
         ]);
     }
 
-    public static function getByInternshipRoleId($internshipRoleId)
+    public static function getByInternshipRoleIdWithoutAlreadyAppliedInTheFirstRound($internshipRoleId)
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
+        $auth_user = auth_user();
+        $currentBatch = Batch::currentBatch();
+
+        return $db->query('
+            SELECT
+                *
+            FROM advertisements
+            WHERE internship_role_id = ?
+            AND batch_id = ?
+            AND id NOT IN (
+                SELECT ad_id
+                FROM applications
+                WHERE student_id = ?
+                AND is_second_round IS null
+            )
+        ', [$internshipRoleId, $currentBatch['id'], $auth_user['id']])->get();
+    }
+
+    public static function getByBatchId($batchId)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('SELECT * FROM advertisements WHERE batch_id = ?', [$batchId])->get();
     }
 
 }

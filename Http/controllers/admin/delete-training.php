@@ -10,4 +10,4 @@ try {
     die("Error deleting event: " . $e->getMessage());
 }
 
-redirect('/trainingSession');
+redirect(path: '/trainingSession');

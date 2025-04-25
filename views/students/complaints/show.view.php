@@ -10,13 +10,13 @@
                     <p style="margin: 5px 0; color: #555;"><strong>Accused:</strong> <?= $complaint['accused_id'] == 1 ? 'System' : $complaint['accused_name'] ?></p>
                     <p style="margin: 5px 0; color: #555;"><strong>Status:</strong>
                         <?php if ($complaint['status'] == 'pending'): ?>
-                            <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
+                            <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.2rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
                         <?php elseif ($complaint['status'] == 'in_review'): ?>
                             <span style="background-color: var(--yellow-500); color: white; padding-inline: 0.6rem; padding-block: 0.2rem; border-radius: 100px; font-size: 0.8rem">In Review</span>
                         <?php elseif ($complaint['status'] == 'resolved'): ?>
-                            <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Resolved</span>
+                            <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.2rem; border-radius: 100px; font-size: 0.8rem">Resolved</span>
                         <?php elseif ($complaint['status'] == 'rejected'): ?>
-                            <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Rejected</span>
+                            <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.2rem; border-radius: 100px; font-size: 0.8rem">Rejected</span>
                         <?php endif; ?>
                     </p>
                 </div>
@@ -40,25 +40,29 @@
                 <i id="reload-icon" class="fas fa-rotate" style="margin-right: 1rem; color: var(--color-primary)" onclick="location.reload()"></i>
             </div>
             <div id="chat-box" style="max-height: 400px; overflow-y: auto; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 20px;">
-                <?php foreach($complaint_messages as $message): ?>
-                    <?php if($message['sender_id'] == auth_user()['id']): ?>
-                        <!-- Message 2 -->
-                        <div style="margin-bottom: 15px; text-align: right;">
-                            <p style="margin: 0; color: #555; font-size: 14px;"><strong><?= $message['sender_name'] ?></strong> <span style="color: #888;"><?= date('d-m-Y H:i', strtotime($message['created_at'])) ?></span></p>
-                            <p style="background: #c8e6c9; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; display: inline-block;">
-                                <?= $message['message'] ?>
-                            </p>
-                        </div>
-                    <?php else: ?>
-                        <!-- Message 1 -->
-                        <div style="margin-bottom: 15px;">
-                            <p style="margin: 0; color: #555; font-size: 14px;"><strong>Admin</strong> <span style="color: #888;"><?= date('d-m-Y H:i', strtotime($message['created_at'])) ?></span></p>
-                            <p style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; width: fit-content">
-                                <?= $message['message'] ?>
-                            </p>
-                        </div>
-                    <?php endif ?>
-                <?php endforeach ?>
+                <?php if(!empty($complaint_messages)): ?>
+                    <?php foreach($complaint_messages as $message): ?>
+                        <?php if($message['sender_id'] == auth_user()['id']): ?>
+                            <!-- Message 2 -->
+                            <div style="margin-bottom: 15px; text-align: right;">
+                                <p style="margin: 0; color: #555; font-size: 14px;"><strong><?= $message['sender_name'] ?></strong> <span style="color: #888;"><?= date('d-m-Y H:i', strtotime($message['created_at'])) ?></span></p>
+                                <p style="background: #c8e6c9; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; display: inline-block;">
+                                    <?= $message['message'] ?>
+                                </p>
+                            </div>
+                        <?php else: ?>
+                            <!-- Message 1 -->
+                            <div style="margin-bottom: 15px;">
+                                <p style="margin: 0; color: #555; font-size: 14px;"><strong>Admin</strong> <span style="color: #888;"><?= date('d-m-Y H:i', strtotime($message['created_at'])) ?></span></p>
+                                <p style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin: 5px 0; color: #333; width: fit-content">
+                                    <?= $message['message'] ?>
+                                </p>
+                            </div>
+                        <?php endif ?>
+                    <?php endforeach ?>
+                <?php else: ?>
+                    <p style="text-align: center; color: #888;">No messages yet. Start the conversation!</p>
+                <?php endif ?>
             </div>
 
             <!-- Message Input -->

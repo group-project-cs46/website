@@ -31,6 +31,27 @@
   width: 250px;
 }
 
+.filter-search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#filterColumn {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#filterColumn:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
 .header h2 {
   margin: 0;
 }
@@ -80,7 +101,7 @@ table {
   background-color: #F9FAFB;
 }
 
-.view-button, .delete-button {
+.download-button, .delete-button {
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
@@ -88,7 +109,7 @@ table {
   cursor: pointer;
 }
 
-.view-button {
+.download-button {
   background-color: #007bff;
   color: white;
 }
