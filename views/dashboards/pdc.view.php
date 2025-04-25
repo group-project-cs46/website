@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="box-content">
-                    <span class="big">50</span>
+                    <span class="big"><?php echo htmlspecialchars($registeredCompanies); ?></span>
                     Companies Registered
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="box-content">
-                    <span class="big">10</span>
+                    <span class="big"><?php echo htmlspecialchars($blacklistedCompanies); ?></span>
                     Blacklisted Companies
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="box-content">
-                    <span class="big">200</span>
+                    <span class="big"><?php echo htmlspecialchars($registeredStudents); ?></span>
                     Students Registered
                 </div>
             </div>
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="box-content">
-                    <span class="big">50</span>
+                    <span class="big"><?php echo htmlspecialchars($hiredStudents); ?></span>
                     Students Hired
                 </div>
             </div>
@@ -151,7 +151,29 @@
                 </tr>
             </thead>
             <tbody id="advertisement-list">
-                <!-- Dynamic content will be injected here -->
+                <?php if (empty($approvedAds)): ?>
+                    <tr>
+                        <td colspan="5" style="text-align: center;">No approved advertisements available.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($approvedAds as $ad): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($ad['company_name']); ?></td>
+                            <td style="color: <?php echo $ad['approved'] ? '#28a745' : '#dc3545'; ?>">
+                                <?php echo $ad['approved'] ? 'Approved' : 'Not Approved'; ?>
+                            </td>
+                            <td><?php echo htmlspecialchars($ad['job_role']); ?></td>
+                            <td>
+                                <?php echo htmlspecialchars($ad['vacancy_count']); ?>
+                            </td>
+                            <td>
+                                <a href="mailto:<?php echo htmlspecialchars($ad['company_email']); ?>">
+                                    <?php echo htmlspecialchars($ad['company_email']); ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tbody>
         </table>
     </section>
@@ -165,7 +187,11 @@
 
     // Format date to a readable string
     function formatDate(dateString) {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
@@ -226,7 +252,9 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: new URLSearchParams({ id: id })
+                body: new URLSearchParams({
+                    id: id
+                })
             });
 
             if (response.ok) {
@@ -260,16 +288,16 @@
     // Setup form submission for adding round
     document.addEventListener("DOMContentLoaded", () => {
         renderRounds();
-        
+
         // Add Round Form Setup
         document.getElementById('addRoundForm').addEventListener('submit', async function(event) {
             event.preventDefault();
-            
+
             // Form validation
             const name = document.getElementById('addRoundName').value.trim();
             const startDateValue = document.getElementById('addStartDate').value;
             const endDateValue = document.getElementById('addEndDate').value;
-            
+
             // Validate dates
             const startDate = new Date(startDateValue);
             const endDate = new Date(endDateValue);
@@ -286,16 +314,16 @@
                 alert("End date must be greater than start date.");
                 return;
             }
-            
+
             // Create form data for submission
             const formData = new FormData(this);
-            
+
             try {
                 const response = await fetch('/PDC/setround', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 if (response.ok) {
                     closeModal();
                     await fetchRounds();
@@ -308,16 +336,16 @@
                 alert('Failed to add round. Please try again.');
             }
         });
-        
+
         // Edit Round Form Setup
         document.getElementById('editRoundForm').addEventListener('submit', async function(event) {
             event.preventDefault();
-            
+
             // Form validation
             const name = document.getElementById('editRoundName').value.trim();
             const startDateValue = document.getElementById('editStartDate').value;
             const endDateValue = document.getElementById('editEndDate').value;
-            
+
             // Validate dates
             const startDate = new Date(startDateValue);
             const endDate = new Date(endDateValue);
@@ -334,16 +362,16 @@
                 alert("End date must be greater than start date.");
                 return;
             }
-            
+
             // Create form data for submission
             const formData = new FormData(this);
-            
+
             try {
                 const response = await fetch('/PDC/updateround', {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 if (response.ok) {
                     closeEditModal();
                     await fetchRounds();
@@ -362,7 +390,7 @@
     function openAddModal() {
         document.getElementById('roundModal').classList.add('active');
         document.getElementById('addRoundForm').reset();
-        
+
         // Set min date for start date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('addStartDate').min = today;
@@ -374,45 +402,6 @@
         document.getElementById('addRoundForm').reset();
     }
 
-    // Sample data for demonstration
-    const advertisements = [
-        {
-            title: "Software Engineer Intern (WSO2)",
-            status: "Hiring",
-            role: "Intern",
-            applied: 10,
-            email: "hiring@gmail.com"
-        },
-        {
-            title: "Data Analyst Intern (Virtusa)",
-            status: "Closed",
-            role: "Intern",
-            applied: 8,
-            email: "apply@virtusa.com"
-        },
-        {
-            title: "Frontend Developer Intern (99x)",
-            status: "Hiring",
-            role: "Intern",
-            applied: 15,
-            email: "jobs@99x.com"
-        },
-        {
-            title: "Backend Developer Intern (Sysco LABS)",
-            status: "Hiring",
-            role: "Intern",
-            applied: 12,
-            email: "interns@syscolabs.com"
-        },
-        {
-            title: "UI/UX Designer Intern (CreativeHub)",
-            status: "Closed",
-            role: "Intern",
-            applied: 5,
-            email: "careers@creativehub.com"
-        }
-    ];
-
     // Render advertisements
     function renderAdvertisements(data) {
         const advertisementList = document.getElementById('advertisement-list');
@@ -421,11 +410,11 @@
         data.forEach(ad => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${ad.title}</td>
-                <td style="color: ${ad.status === 'Hiring' ? '#28a745' : '#dc3545'}">${ad.status}</td>
-                <td>${ad.role}</td>
-                <td>${ad.applied}</td>
-                <td><a href="mailto:${ad.email}" style="color: #007bff;">${ad.email}</a></td>
+                <td>${ad.company_name}</td>
+                <td style="color: ${ad.approved === 'approved' ? '#28a745' : '#dc3545'}">${ad.approved}</td>
+                <td>${ad.job_role}</td>
+                <td>${ad.vacancy_count}</td>
+                <td><a href="mailto:${ad.company_email}" style="color: #007bff;">${ad.company_email}</a></td>
             `;
             advertisementList.appendChild(row);
         });
@@ -433,7 +422,7 @@
 
     // Initial load of advertisements
     document.addEventListener('DOMContentLoaded', function() {
-        renderAdvertisements(advertisements);
+        renderRounds();
         // Initial fetch of rounds data
         fetchRounds();
     });
