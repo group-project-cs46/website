@@ -144,11 +144,26 @@ class Ad
         ]);
     }
 
-    public static function getByInternshipRoleId($internshipRoleId)
+    public static function getByInternshipRoleIdWithoutAlreadyAppliedInTheFirstRound($internshipRoleId)
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
+        $auth_user = auth_user();
+        $currentBatch = Batch::currentBatch();
+
+        return $db->query('
+            SELECT
+                *
+            FROM advertisements
+            WHERE internship_role_id = ?
+            AND batch_id = ?
+            AND id NOT IN (
+                SELECT ad_id
+                FROM applications
+                WHERE student_id = ?
+                AND is_second_round IS null
+            )
+        ', [$internshipRoleId, $currentBatch['id'], $auth_user['id']])->get();
     }
 
     public static function getByBatchId($batchId)
