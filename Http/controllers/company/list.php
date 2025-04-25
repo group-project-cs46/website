@@ -10,10 +10,12 @@ try {
         'errorApplied' => empty($appliedStudents) ? 'No applied students found.' : null
     ];
 } catch (\Exception $e) {
-    error_log('Error fetching applied students: ' . $e->getMessage());
+    // Log the detailed error for debugging
+    error_log('Error fetching applied students: ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
+    error_log('Stack trace: ' . $e->getTraceAsString());
     $appliedData = [
         'appliedStudents' => [],
-        'errorApplied' => 'An error occurred while fetching applied students. Please try again later.'
+        'errorApplied' => 'An error occurred while fetching applied students: ' . $e->getMessage() . '. Please try again later.'
     ];
 }
 
