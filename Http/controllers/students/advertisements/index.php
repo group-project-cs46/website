@@ -19,11 +19,11 @@ if ($company_id) {
     $ads = Ad::byBatchId($currentBatch['id']);
 }
 
-
+//dd($ads);
 
 view('students/advertisements/index.view.php', [
     'heading' => 'Jobs',
     'ads' => $ads,
     'companies' => $companies,
-    'currentRound' => $currentBatch
+    'currentBatch' => $currentBatch
 ]);

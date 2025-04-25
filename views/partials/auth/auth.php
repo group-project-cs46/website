@@ -160,6 +160,12 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/student',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Student],
+    ],
+    [
         'text' => 'Advertisements',
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
@@ -172,12 +178,6 @@ $navItems = [
 
             return !$isSecondRound;
         }
-    ],
-    [
-        'text' => 'Dashboard',
-        'href' => '/dashboard/student',
-        'icon' => 'fa-dashboard',
-        'only' => [Role::Student],
     ],
     [
 

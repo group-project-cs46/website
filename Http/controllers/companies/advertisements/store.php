@@ -23,7 +23,7 @@ $form = AdvertisementStore::validate($attributes = [
     'file' => $_FILES['file'] ?? null,
 ]);
 
-$photo_id = Storage::store($attributes['file']);
+$photo_id = Storage::store($attributes['file'], isPublic: true);
 
 Ad::create(
     $attributes['internship_role_id'],

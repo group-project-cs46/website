@@ -9,7 +9,7 @@ class IsFirstRound
     public function handle()
     {
         $currentBatch = Batch::currentBatch();
-        $isFirstRound = $currentBatch['current_round'] == 'first_round';
+        $isFirstRound = $currentBatch['current_round'] == 'first';
         if (!$isFirstRound) {
             redirect('/');
         }

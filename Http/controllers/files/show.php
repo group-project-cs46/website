@@ -10,12 +10,14 @@ $file = File::getById($file_id);
 
 $auth_user = auth_user();
 
-if ($file['user_id'] !== $auth_user['id']) {
+$isOwner = $file['user_id'] === $auth_user['id'];
+$isPublic = $file['is_public'] ?? false;
+
+if (!($isOwner || $isPublic)) {
     http_response_code(403);
     echo "You are not authorized to access this file.";
     exit;
 }
-
 
 $targetDir = base_path('storage/');
 $filename = $file['filename'];
