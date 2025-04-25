@@ -46,16 +46,15 @@
         </div>
         <div class="table-title">
             <div class="table-title-txt">
-                <h3>Applied Students</h3>
-                <p>Manage student accounts</p>
+                <h3>Selected Students List</h3>
             </div>
             <!-- Filter Dropdowns (Removed Filter by Course) -->
-            <?php if ($appliedStudents): ?>
+            <?php if ($selectedStudents): ?>
                 <div class="filter-container">
                     <div class="filter-right">
-                        <label for="applied-jobrole-filter">Filter by Job Role:</label>
-                        <input list="applied-jobrole-options" id="applied-jobrole-filter" class="applied-jobrole-input" oninput="filterAppliedStudents()" placeholder="Type or select a job role">
-                        <datalist id="applied-jobrole-options">
+                        <label for="selected-jobrole-filter">Filter by Job Role:</label>
+                        <input list="selected-jobrole-options" id="selected-jobrole-filter" class="selected-jobrole-input" oninput="filterSelectedStudents()" placeholder="Type or select a job role">
+                        <datalist id="selected-jobrole-options">
                             <option value="Software Engineer">
                             <option value="Cybersecurity Analyst">
                             <option value="DevOps Engineer">
@@ -69,8 +68,8 @@
         </div>
 
         <!-- Display error message if no data -->
-        <?php if ($errorApplied): ?>
-            <p class="error"><?php echo $errorApplied; ?></p>
+        <?php if ($errorSelected): ?>
+            <p class="error"><?php echo $errorSelected; ?></p>
         <?php else: ?>
             <table class="student-table">
                 <thead>
@@ -92,10 +91,10 @@
 
 <script>
 // Pass PHP array to JavaScript
-const appliedStudents = <?php echo json_encode($appliedStudents); ?>;
+const selectedStudents = <?php echo json_encode($selectedStudents); ?>;
 
 // Function to render the student table
-function renderAppliedTable(students) {
+function renderSelectedTable(students) {
     const tableBody = document.getElementById("studentTableBody");
     tableBody.innerHTML = ""; // Clear existing table rows
     students.forEach(student => {
@@ -112,9 +111,9 @@ function renderAppliedTable(students) {
     });
 }
 
-// Function to filter applied students by job role only
-function filterAppliedStudents() {
-    const jobRoleFilter = document.getElementById("applied-jobrole-filter").value.trim().toLowerCase();
+// Function to filter selected students by job role only
+function filterSelectedStudents() {
+    const jobRoleFilter = document.getElementById("selected-jobrole-filter").value.trim().toLowerCase();
     const rows = document.querySelectorAll("#studentTableBody tr");
 
     rows.forEach(row => {
@@ -126,7 +125,7 @@ function filterAppliedStudents() {
 
 // Initialize default render
 document.addEventListener("DOMContentLoaded", () => {
-    renderAppliedTable(appliedStudents); // Render all applied students by default
+    renderSelectedTable(selectedStudents); // Render all selected students by default
 });
 </script>
 

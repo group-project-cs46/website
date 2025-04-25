@@ -15,7 +15,7 @@ class CompanyDashboard
         return $auth_user['id'];
     }
 
-    public static function fetchAppliedStudents()
+    public static function fetchSelectedStudents()
     {
         $db = App::resolve(Database::class);
         $company_id = self::getCompanyId();
@@ -39,8 +39,7 @@ class CompanyDashboard
             INNER JOIN internship_roles ir ON a.internship_role_id = ir.id
             LEFT JOIN cvs c ON app.cv_id = c.id
             WHERE u.role = 2 
-                AND (app.failed IS NULL) 
-                AND (app.shortlisted IS NULL)
+                AND app.selected = TRUE 
                 AND a.company_id = :company_id;
         ', ['company_id' => $company_id])->get();
 
