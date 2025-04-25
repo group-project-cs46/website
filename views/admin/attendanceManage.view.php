@@ -38,7 +38,7 @@
                             <td><?= $attendance['index_no'] ?></td>
                             <td><?= $attendance['semail'] ?></td>
                             <td class="actions">
-                                <form action="/pdcToggleStatus" method="post" style="display:inline;">
+                                <form action="/trainingSession" method="post" style="display:inline;">
                                     <input type="hidden" name="id" value="<?= $attendance['id'] ?>">
                                     <?php if ($attendance['attended']): ?>
                                         <button type="submit" class="enable-button">Attended</button>
