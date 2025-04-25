@@ -101,6 +101,7 @@ class Application
             SELECT 
                 applications.id,
                 applications.created_at,
+                applications.is_second_round,
                 internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,

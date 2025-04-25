@@ -4,6 +4,7 @@ namespace Core;
 
 use Core\Database;
 use Core\App;
+use Models\InternshipRole;
 
 // Resolve database connection from App container
 $db = App::resolve(Database::class);
@@ -14,5 +15,10 @@ $query = "SELECT a.*, ir.name AS job_role
           LEFT JOIN internship_roles ir ON a.internship_role_id = ir.id";
 $advertisements = $db->query($query, [])->get();
 
+$internship_roles = InternshipRole::getAll();
+
 // Pass data to the view
-view('company/advertisment.view.php', ['advertisements' => $advertisements]);
+view('company/advertisment.view.php', [
+    'advertisements' => $advertisements,
+    'internship_roles' => $internship_roles
+]);

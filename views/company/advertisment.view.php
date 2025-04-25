@@ -1,14 +1,14 @@
 <?php require base_path('views/partials/auth/auth.php'); ?>
 
-<link rel="stylesheet" href="/styles/company/advertisment.css" />
+<link rel="stylesheet" href="/styles/company/advertisment.css"/>
 
 <main class="main-content">
     <header class="header">
         <div class="above">
             <div class="above-left">
-            <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
+                <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
                 <h2>Ads</h2>
-            </div> 
+            </div>
         </div>
     </header>
 
@@ -23,32 +23,32 @@
 
         <table class="student-table">
             <thead>
-                <tr>
-                    <th>Job Role</th>
-                    <th>Vacancy Count</th>
-                    <th>Deadline Date</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th>Job Role</th>
+                <th>Vacancy Count</th>
+                <th>Deadline Date</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody id="advertisementTable">
-                <?php foreach ($advertisements as $ad): ?>
-                    <tr id="row-<?= $ad['id'] ?>">
-                        <td><?= htmlspecialchars($ad['job_role']) ?></td>
-                        <td><?= htmlspecialchars($ad['vacancy_count']) ?></td>
-                        <td><?= htmlspecialchars($ad['deadline']) ?></td>
-                        <td>
-                            <div class="btn-container">
-                                <button class="view-btn" onclick="viewAd(<?= $ad['id'] ?>)">View</button>
-                                <button class="edit-btn" onclick="editAd(<?= $ad['id'] ?>)">Edit</button>
-                                <form method="POST" action="/ads/delete" onsubmit="return confirmDelete();">
-                                    <input type="hidden" name="id" value="<?= $ad['id'] ?>">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button class="delete-btn" type="submit">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+            <?php foreach ($advertisements as $ad): ?>
+                <tr id="row-<?= $ad['id'] ?>">
+                    <td><?= htmlspecialchars($ad['job_role']) ?></td>
+                    <td><?= htmlspecialchars($ad['vacancy_count']) ?></td>
+                    <td><?= htmlspecialchars($ad['deadline']) ?></td>
+                    <td>
+                        <div class="btn-container">
+                            <button class="view-btn" onclick="viewAd(<?= $ad['id'] ?>)">View</button>
+                            <button class="edit-btn" onclick="editAd(<?= $ad['id'] ?>)">Edit</button>
+                            <form method="POST" action="/ads/delete" onsubmit="return confirmDelete();">
+                                <input type="hidden" name="id" value="<?= $ad['id'] ?>">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button class="delete-btn" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </section>
@@ -77,30 +77,43 @@
             <div class="popup-text">
                 <h2>Details about Advertisement</h2>
             </div>
-            <form class="form-content" method="POST" action="/ads/store"  onsubmit="return validateForm();">
+            <form class="form-content" method="POST" action="/ads/store" onsubmit="return validateForm();">
                 <div class="form-field">
                     <label for="job_role">Job Role :</label>
-                    <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />
+                    <!--                    <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />-->
+                    <div class="select" style="flex: 1">
+                        <select name="internship_role_id" class="select" required>
+                            <option value="">Select Company</option>
+                            <?php foreach ($internship_roles as $item): ?>
+                                <option value="<?= $item['id'] ?>">
+                                    <?= $item['name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="down_note"></div>
                 </div>
                 <div class="form-field">
                     <label for="responsibilities">Responsibilities :</label>
-                    <input type="text" name="responsibilities" id="responsibilities" placeholder="Enter Responsibilities" />
+                    <input type="text" name="responsibilities" id="responsibilities"
+                           placeholder="Enter Responsibilities"/>
                 </div>
                 <div class="form-field">
                     <label for="qualification_skills">Qualifications And Skills :</label>
-                    <input type="text" name="qualification_skills" id="qualification_skills" placeholder="Enter Qualifications And Skills" />
+                    <input type="text" name="qualification_skills" id="qualification_skills"
+                           placeholder="Enter Qualifications And Skills"/>
                 </div>
                 <div class="form-field">
                     <label for="vacancy_count">Vacancy Count :</label>
-                    <input type="number" name="vacancy_count" id="vacancy_count" placeholder="Enter Vacancy Count" />
+                    <input type="number" name="vacancy_count" id="vacancy_count" placeholder="Enter Vacancy Count"/>
                 </div>
                 <div class="form-field">
                     <label for="maxCVs">Maximum CV's Count:</label>
-                    <input type="number" name="maxCVs" id="maxCVs" placeholder="Enter the Maximum CV's Count" />
+                    <input type="number" name="maxCVs" id="maxCVs" placeholder="Enter the Maximum CV's Count"/>
                 </div>
                 <div class="form-field">
                     <label for="deadline">Deadline Date :</label>
-                    <input type="date" name="deadline" id="deadline" placeholder="Enter Deadline Date" />
+                    <input type="date" name="deadline" id="deadline" placeholder="Enter Deadline Date"/>
                 </div>
                 <button class="submit-btn" type="submit">Submit</button>
             </form>
@@ -120,8 +133,19 @@
             <form id="editAdForm" method="post" action="/ads/edit">
                 <input type="hidden" id="edit_id" name="id">
                 <div class="edit-form-field">
-                    <label for="edit_job_role">Job Role :</label>
-                    <input type="text" id="edit_job_role" name="job_role" required>
+                    <label for="job_role">Job Role :</label>
+                    <!--                    <input type="text" name="job_role" id="job_role" placeholder="About the Job Role" required />-->
+                    <div class="select" style="flex: 1">
+                        <select name="internship_role_id" class="select" required>
+                            <option value="">Select Company</option>
+                            <?php foreach ($internship_roles as $item): ?>
+                                <option value="<?= $item['id'] ?>">
+                                    <?= $item['name'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="down_note"></div>
                 </div>
                 <div class="edit-form-field">
                     <label for="edit_responsibilities">Responsibilities :</label>
@@ -148,6 +172,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     // Modal controls
@@ -219,7 +244,6 @@
     }
 
 
-
     // Function to open the Edit Modal and populate fields
     function editAd(adId) {
 
@@ -281,6 +305,7 @@
             alert('An error occurred while updating the advertisement.');
         }
     }
+
     function validateForm() {
         const vacancyCount = document.getElementById('vacancy_count').value;
         const maxCVs = document.getElementById('maxCVs').value;
@@ -295,3 +320,5 @@
         return true; // Allow form submission
     }
 </script>
+
+<link rel="stylesheet" href="/styles/select.css">
