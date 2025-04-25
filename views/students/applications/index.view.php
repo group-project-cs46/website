@@ -26,12 +26,13 @@
                 </div>
             </div>
 
-            <div class="grid">
+            <div class="grid" style="grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr 1fr auto auto">
                 <div class="grid-header">ID</div>
                 <div class="grid-header">Role</div>
                 <div class="grid-header">Interview</div>
                 <div class="grid-header">Company</div>
                 <div class="grid-header">Status</div>
+                <div class="grid-header">Round</div>
                 <div class="grid-header">Cv Sent</div>
                 <div class="grid-header"></div>
                 <div class="grid-header"></div>
@@ -62,6 +63,9 @@
                         <?php else: ?>
                             <span style="background-color: var(--sky-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
                         <?php endif; ?>
+                    </div>
+                    <div class="grid-item">
+                        <?= $application['is_second_round'] ? "Second" : "First" ?>
                     </div>
                     <div class="grid-item">
                         <?= htmlspecialchars($application['cv_name'] ?? ''); ?>
@@ -138,7 +142,7 @@
     </main>
 
     <link rel="stylesheet" href="/styles/thathsara/thathsara4.css">
-    <link rel="stylesheet" href="/styles/students/applications/table.css">
+    <link rel="stylesheet" href="/styles/students/table.css">
     <link rel="stylesheet" href="/styles/students/modal.css">
     <link rel="stylesheet" href="/styles/select.css">
 
