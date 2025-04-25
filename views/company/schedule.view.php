@@ -88,12 +88,26 @@
                 </form>
             </div>
         </div>
+
+        <!-- Modal for Rejection Reason -->
+        <div id="rejectReasonModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('rejectReasonModal')">×</span>
+                <h3>Reason for Rejection</h3>
+                <form id="rejectReasonForm">
+                    <label for="rejectReason">Please provide a reason for rejecting this visit:</label>
+                    <textarea id="rejectReason" name="reason" placeholder="Enter reason for rejection" required></textarea>
+                    <button type="button" id="submitRejectReason">Submit</button>
+                </form>
+            </div>
+        </div>
     </section>
 </main>
 
 <script>
     let currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth();
+    let currentVisitId = null;
 
     techtalks = <?php echo json_encode($techtalk); ?>;
     const events = {
@@ -247,11 +261,7 @@
                     </form>`;
             } else if (isRejected) {
                 actionButtons = `
-                    <form method="POST" action="/company_schedule/revert_reject_lecturervisit" id="revertRejectForm-${visit.id}">
-                        <input type="hidden" name="visit_id" value="${visit.id}">
-                        <input type="hidden" name="action" value="revert_reject">
-                        <button type="button" class="reject-button rejected${isPastDate ? ' past' : ''}" onclick="confirmRevertReject(${visit.id}, ${isPastDate})">Rejected</button>
-                    </form>`;
+                    <button type="button" class="reject-button rejected${isPastDate ? ' past' : ''}" disabled>Rejected</button>`;
             } else {
                 actionButtons = `
                     <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visit.id}" style="display: inline;">
@@ -262,7 +272,7 @@
                     <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visit.id}" style="display: inline;">
                         <input type="hidden" name="visit_id" value="${visit.id}">
                         <input type="hidden" name="action" value="reject">
-                        <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visit.id}, ${isPastDate})">Reject</button>
+                        <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="openRejectReasonModal(${visit.id}, ${isPastDate})">Reject</button>
                     </form>`;
             }
 
@@ -307,7 +317,6 @@
                     form.setAttribute('action', '/company_schedule/revert_lecturervisit');
                     form.querySelector('input[name="action"]').value = 'revert';
                     form.setAttribute('id', `revertForm-${visitId}`);
-                    // Remove the reject button
                     const rejectForm = document.getElementById(`rejectForm-${visitId}`);
                     if (rejectForm) rejectForm.remove();
                 } else {
@@ -349,7 +358,7 @@
                         <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
                             <input type="hidden" name="visit_id" value="${visitId}">
                             <input type="hidden" name="action" value="reject">
-                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
+                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="openRejectReasonModal(${visitId}, ${isPastDate})">Reject</button>
                         </form>`;
                 } else {
                     alert('Failed to revert visit approval: ' + (data.error || 'Unknown error'));
@@ -362,84 +371,43 @@
         }
     }
 
-    function confirmReject(visitId, isPastDate) {
+    function openRejectReasonModal(visitId, isPastDate) {
         if (isPastDate) {
             alert('This date has already passed and cannot be rejected.');
             return;
         }
 
-        if (confirm('Are you sure you want to reject this visit?')) {
-            const form = document.getElementById(`rejectForm-${visitId}`);
-            const formData = new FormData(form);
-
-            fetch('/company_schedule/reject_lecturervisit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Visit rejected successfully');
-                    const button = form.querySelector('.reject-button');
-                    button.textContent = 'Rejected';
-                    button.classList.add('rejected');
-                    button.setAttribute('onclick', `confirmRevertReject(${visitId}, ${isPastDate})`);
-                    form.setAttribute('action', '/company_schedule/revert_reject_lecturervisit');
-                    form.querySelector('input[name="action"]').value = 'revert_reject';
-                    form.setAttribute('id', `revertRejectForm-${visitId}`);
-                    // Remove the approve button
-                    const approveForm = document.getElementById(`approveForm-${visitId}`);
-                    if (approveForm) approveForm.remove();
-                } else {
-                    alert('Failed to reject visit: ' + (data.error || 'Unknown error'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while rejecting the visit.');
-            });
-        }
+        currentVisitId = visitId;
+        document.getElementById('rejectReasonModal').style.display = 'flex';
     }
 
-    function confirmRevertReject(visitId, isPastDate) {
-        if (isPastDate) {
-            alert('This date has already passed and cannot be reverted.');
-            return;
-        }
+    function confirmReject(visitId, reason) {
+        const form = document.getElementById(`rejectForm-${visitId}`);
+        const formData = new FormData(form);
+        formData.append('reason', reason);
 
-        if (confirm('Are you sure you want to revert this rejection?')) {
-            const form = document.getElementById(`revertRejectForm-${visitId}`);
-            const formData = new FormData(form);
-
-            fetch('/company_schedule/revert_reject_lecturervisit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Visit rejection reverted successfully');
-                    const td = form.parentElement;
-                    td.innerHTML = `
-                        <form method="POST" action="/company_schedule/store_lecturervisit" id="approveForm-${visitId}" style="display: inline;">
-                            <input type="hidden" name="visit_id" value="${visitId}">
-                            <input type="hidden" name="action" value="approve">
-                            <button type="button" class="approve-button${isPastDate ? ' past' : ''}" onclick="confirmApproval(${visitId}, ${isPastDate})">Approve</button>
-                        </form>
-                        <form method="POST" action="/company_schedule/reject_lecturervisit" id="rejectForm-${visitId}" style="display: inline;">
-                            <input type="hidden" name="visit_id" value="${visitId}">
-                            <input type="hidden" name="action" value="reject">
-                            <button type="button" class="reject-button${isPastDate ? ' past' : ''}" onclick="confirmReject(${visitId}, ${isPastDate})">Reject</button>
-                        </form>`;
-                } else {
-                    alert('Failed to revert visit rejection: ' + (data.error || 'Unknown error'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while reverting the visit rejection.');
-            });
-        }
+        fetch('/company_schedule/reject_lecturervisit', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Visit rejected successfully');
+                const button = form.querySelector('.reject-button');
+                button.textContent = 'Rejected';
+                button.classList.add('rejected');
+                button.disabled = true;
+                const approveForm = document.getElementById(`approveForm-${visitId}`);
+                if (approveForm) approveForm.remove();
+            } else {
+                alert('Failed to reject visit: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rejecting the visit.');
+        });
     }
 
     window.onload = () => {
@@ -454,6 +422,18 @@
                 saveButton.classList.add('saved');
             }
         }
+
+        // Add event listener for the rejection reason submission
+        document.getElementById('submitRejectReason').onclick = () => {
+            const reason = document.getElementById('rejectReason').value.trim();
+            if (!reason) {
+                alert('Please provide a reason for rejection.');
+                return;
+            }
+            confirmReject(currentVisitId, reason);
+            closeModal('rejectReasonModal');
+            document.getElementById('rejectReason').value = ''; // Clear the textarea
+        };
     };
 
     function toggleSchedule(section) {
@@ -540,8 +520,6 @@
             form.submit();
         }
     }
-
-    let lastClickedRow;
 
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
