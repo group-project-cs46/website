@@ -33,7 +33,7 @@
 
         </div>
 
-        <?php if (!$currentRound): ?>
+        <?php if (!$currentBatch): ?>
             <div style="margin-top: 10rem; display: flex; justify-content: center; width: 100%;">
                 <h1>A round has not started yet</h1>
             </div>
@@ -64,6 +64,7 @@
                             <h1 class="job-title"><?= $item['internship_role_name'] ?></h1>
                             <p class="job-description"><?= $item['responsibilities'] ?></p>
                         </div>
+                        <img src="/files?id=<?= $item['photo_id'] ?>" alt="">
                     </div>
                 <?php endforeach; ?>
             </div>

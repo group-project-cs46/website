@@ -24,7 +24,7 @@ $form = AdvertisementUpdate::validate($attributes = [
 ]);
 
 if ($attributes['file']) {
-    $photo_id = Storage::store($attributes['file']);
+    $photo_id = Storage::store($attributes['file'], isPublic: true);
     $attributes['photo_id'] = $photo_id;
 }
 

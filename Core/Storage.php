@@ -6,8 +6,10 @@ use Models\File;
 
 class Storage
 {
-    static function store($file, $description = '')
+    static function store($file, $description = '', $isPublic = false)
     {
+
+//        dd($de);
 
         $targetDir = base_path('storage/');
         $fileTmpPath = $file['tmp_name'];
@@ -29,7 +31,8 @@ class Storage
             return File::create(
                 $newFileName,
                 $fileName,
-                $description
+                $description,
+                $isPublic
             );
 
         } else {
