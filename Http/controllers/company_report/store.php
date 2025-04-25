@@ -1,5 +1,7 @@
 <?php
+
 use Models\companyReport;
+use Models\Notification;
 use Http\Forms;
 use Core\App;
 use Core\Database;
@@ -55,6 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get company ID (already checked above)
     $companyId = $userId;
 
+    // Fetch the company name from the users table
+    $db = App::resolve(Database::class);
+    $company = $db->query("SELECT name FROM users WHERE id = ?", [$companyId])->find();
+    $companyName = $company['name'] ?? 'Unknown Company';
+
     // Process file upload
     $targetDir = base_path('storage/');
     $fileTmpPath = $_FILES['report']['tmp_name'];
@@ -75,6 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $fileName,
             $description
         );
+        $pdc_users = $db->query("SELECT id FROM pdcs", [])->get();
+        // Send a notification to each PDC user
+        foreach ($pdc_users as $pdc) {
+            Notification::create(
+                $pdc['id'], // user_id (PDC user)
+                'New Report Uploaded',
+                'A new report for student ' . $indexNumber . ' has been uploaded by ' . $companyName,
+                null, // Optional action URL to view reports
+                date('Y-m-d H:i:s', strtotime('+1 day')) // Expires in 1 day
+            );
+        }
     }
 
     // If there were upload errors, reload the view
