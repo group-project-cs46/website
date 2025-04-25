@@ -23,12 +23,6 @@ $navItems = [
     ],
     [
         'text' => 'Dashboard',
-        'href' => '/dashboard/student',
-        'icon' => 'fa-dashboard',
-        'only' => [Role::Student],
-    ],
-    [
-        'text' => 'Dashboard',
         'href' => '/dashboard/pdc',
         'icon' => 'fa-dashboard',
         'only' => [Role::Pdc],
@@ -39,9 +33,15 @@ $navItems = [
         'icon' => 'fa-dashboard',
         'only' => [Role::Company],
     ],
+//    [
+//        'text' => 'Advertisment',
+//        'href' => '/company/advertisment',
+//        'icon' => 'fa-regular fa-rectangle-ad',
+//        'only' => [Role::Company],
+//    ],
     [
-        'text' => 'Advertisment',
-        'href' => '/company/advertisment',
+        'text' => 'Advertisements',
+        'href' => '/companies/advertisements',
         'icon' => 'fa-regular fa-rectangle-ad',
         'only' => [Role::Company],
     ],
@@ -172,6 +172,12 @@ $navItems = [
 
             return !$isSecondRound;
         }
+    ],
+    [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/student',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Student],
     ],
     [
 

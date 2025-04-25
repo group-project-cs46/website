@@ -3,6 +3,8 @@
 // Thathsara ############################################################################################################################
 // Student
 
+$router->get('/files', 'files/show.php')->only('auth');
+
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -96,7 +98,7 @@ $router->post('/students/training_sessions/attendance', 'students/training_sessi
 $router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 $router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
 
-// pdc
+// Pdc
 
 $router->get('/pdcs/batches', 'pdcs/batches/index.php')->only('pdc');
 $router->get('/pdcs/batches/create', 'pdcs/batches/create.php')->only('pdc');
@@ -105,7 +107,15 @@ $router->get('/pdcs/batches/edit', 'pdcs/batches/edit.php')->only('pdc');
 $router->patch('/pdcs/batches/update', 'pdcs/batches/update.php')->only('pdc');
 $router->delete('/pdcs/batches/delete', 'pdcs/batches/destroy.php')->only('pdc');
 
-// Thathsara ########################################################################################################################################
+// Company
+$router->get('/companies/advertisements', 'companies/advertisements/index.php')->only('company');
+$router->get('/companies/advertisements/create', 'companies/advertisements/create.php')->only('company');
+$router->post('/companies/advertisements/store', 'companies/advertisements/store.php')->only('company');
+$router->get('/companies/advertisements/show', 'companies/advertisements/show.php')->only('company');
+$router->get('/companies/advertisements/edit', 'companies/advertisements/edit.php')->only('company');
+$router->put('/companies/advertisements/update', 'companies/advertisements/update.php')->only('company');
+
+// Thathsara END ########################################################################################################################################
 
 //company
 
