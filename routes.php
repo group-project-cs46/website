@@ -157,7 +157,7 @@ $router->post('/company_schedule/delete', 'company_schedule/delete_techtalk.php'
 $router->post('/company_schedule/store_lecturervisit', 'company_schedule/store_lecturervisit.php');
 $router->post('/company_schedule/revert_lecturervisit', 'company_schedule/revert_lecturervisit.php');
 $router->post('/company_schedule/reject_lecturervisit', 'company_schedule/reject_lecturervisit.php');
-$router->post('/company_schedule/revert_reject_lecturervisit', 'company_schedule/revert_reject_lecturervisit.php');
+
 
 
 
@@ -321,24 +321,5 @@ $router->post('/messageAddition', controller: 'admin/add-message.php');
 
 $router->post('/complaintDeletion', controller: 'admin/reject-complaint.php');
 $router->post('/complaintResolve', 'admin/complaintResolve.php');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
