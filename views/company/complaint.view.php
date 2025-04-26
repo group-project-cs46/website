@@ -346,7 +346,14 @@ window.onload = () => {
     showPopup(decodeURIComponent(successMessage));
     toggleSection('viewComplaint');
   } else if (errorMessage) {
-    showPopup(decodeURIComponent(errorMessage), true);
+    // Prevent specific error messages from showing in the popup; show as alert instead
+    if (errorMessage === encodeURIComponent("Invalid student index number or student has not applied to your company's advertisement.") ||
+        errorMessage === encodeURIComponent("Student index number is required for student complaints.") ||
+        errorMessage === encodeURIComponent("Missing required fields.")) {
+      alert(decodeURIComponent(errorMessage));
+    } else {
+      showPopup(decodeURIComponent(errorMessage), true);
+    }
   }
 };
 </script>

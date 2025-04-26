@@ -34,9 +34,6 @@
           <div class="form-field">
             <label for="indexNumber">Student Index No.:</label>
             <input type="text" id="indexNumber" name="index_number" placeholder="Enter Index No. Here" required />
-            <?php if (isset($errors['index_number'])): ?>
-              <p class="error"><?= $errors['index_number'] ?></p>
-            <?php endif; ?>
           </div>
           <div class="form-field">
             <label for="description">Description:</label>
@@ -189,8 +186,17 @@
       showPopup(decodeURIComponent(successMessage));
       toggleSection('viewReport');
     } else if (errorMessage) {
-      showPopup(decodeURIComponent(errorMessage), true);
+      // Prevent index_number errors from showing in the popup
+      if (errorMessage !== encodeURIComponent("Invalid student index number or student not selected by your company.") &&
+          errorMessage !== encodeURIComponent("Student index number is required.")) {
+        showPopup(decodeURIComponent(errorMessage), true);
+      }
     }
+
+    // Display index number error as an alert if it exists
+    <?php if (isset($errors['index_number'])): ?>
+      alert('<?php echo addslashes($errors['index_number']); ?>');
+    <?php endif; ?>
   };
 </script>
 
