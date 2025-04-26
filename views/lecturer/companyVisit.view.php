@@ -32,40 +32,9 @@
                 </thead>
                 <tbody id="studentTableBody">
 
-
-                <?php
-                // Dummy lecturer_visits data
-                $lecturer_visits = [
-                    [
-                        'id' => 1,
-                        'company_id' => 101,
-                        'company_name' => 'ABC Tech Ltd',
-                        'date' => '2025-05-01',
-                        'time' => '10:00:00',
-                        'status' => 'scheduled'
-                    ],
-                    [
-                        'id' => 2,
-                        'company_id' => 102,
-                        'company_name' => 'Beta Innovations',
-                        'date' => '2025-05-03',
-                        'time' => '14:30:00',
-                        'status' => 'visited'
-                    ],
-                    [
-                        'id' => 3,
-                        'company_id' => 103,
-                        'company_name' => 'Creative Solutions',
-                        'date' => '2025-05-05',
-                        'time' => '09:00:00',
-                        'status' => 'cancelled'
-                    ],
-                ];
-                ?>
-
                     <?php foreach ($lecturer_visits as $item): ?>
                         <tr>       
-                            <td><?= htmlspecialchars($item['company_name']) ?></td>
+                            <td><?= htmlspecialchars($item['name']) ?></td>
                             <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
                             <td><?= date('H:i', strtotime($item['time'])) ?></td>
                             <td><?= ucwords($item['status']) ?>  <a href="/trainingView?id=<?= $item['id'] ?>" class="view-button">Visit</a>

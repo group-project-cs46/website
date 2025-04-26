@@ -1,15 +1,30 @@
 <?php
 
+
 use Models\LecturerVisit;
 
-$auth_user = auth_user();
+$auth_user = auth_user(); // get logged-in user
 // dd($auth_user);
-$lecturer_visits = LecturerVisit::getById($auth_user["id"]);
-dd($lecturer_visits);
-
+// Get all company visits for the current lecturer
+$lecturer_visits = LecturerVisit::getByLecturerId($auth_user["id"]);
+// dd($lecturer_visits);
 view('/lecturer/companyVisit.view.php', [
     'lecturer_visits' => $lecturer_visits
 ]);
+
+// use Models\LecturerVisit;
+// use Models\LecturerVisit;
+
+
+// $auth_user = auth_user();
+// $lecturer_visits = LecturerVisit::getByLecturerId($auth_user["id"]);
+
+// view('/lecturer/companyVisit.view.php', [
+//     'lecturer_visits' => $lecturer_visits
+// ]);
+
+
+
 // use Models\LecturerVisit;
 // use Models\Batch;
 
