@@ -2,12 +2,12 @@
 
     <main>
         <div class="container">
-        <div>
-            <div class="title">
-                <span>Select Roles</span>
+            <div>
+                <div class="title">
+                    <span>Select Roles</span>
+                </div>
+                <span style="color: var(--gray-500)">Select three roles you like for the second round</span>
             </div>
-            <span style="color: var(--gray-500)">Select three roles you like for the second round</span>
-        </div>
 
 
             <form action="/students/second_round" method="POST" class="upload-form"

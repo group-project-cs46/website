@@ -17,7 +17,7 @@ class Router
             'uri' => $uri,
             'controller' => $controller,
             'method' => $method,
-            'middleware' => null,
+            'middleware' => [],
         ];
         return $this;
     }
@@ -49,7 +49,14 @@ class Router
 
     public function only($key)
     {
-        $this->routes[array_key_last($this->routes)]['middleware'] = $key;
+        $this->routes[array_key_last($this->routes)]['middleware'][] = $key;
+        return $this;
+    }
+
+    public function middleware(array $middleware)
+    {
+        $existingMiddleware = $this->routes[array_key_last($this->routes)]['middleware'];
+        $this->routes[array_key_last($this->routes)]['middleware'] = [...$middleware, ...$existingMiddleware];
         return $this;
     }
 

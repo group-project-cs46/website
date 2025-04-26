@@ -7,7 +7,7 @@ use Core\Database;
 
 class storeAd
 {
-    public static function create($job_role, $responsibilities, $qualifications_skills, $vacancy_count, $maxCVs, $deadline, $company_id)
+    public static function create($responsibilities, $qualifications_skills, $vacancy_count, $maxCVs, $deadline, $company_id, $internship_role_id)
     {
         if (!self::isValidCount($vacancy_count) || !self::isValidCount($maxCVs)) {
             return false;
@@ -16,17 +16,17 @@ class storeAd
         $db = App::resolve(Database::class);
 
         // Check if the job_role already exists in internship_roles
-        $existingRole = $db->query('SELECT id FROM internship_roles WHERE name = ?', [$job_role])->find();
-
-        if ($existingRole) {
-            // If the role exists, use its ID
-            $internship_role_id = $existingRole['id'];
-        } else {
-            // If the role doesn't exist, insert it into internship_roles
-            $db->query('INSERT INTO internship_roles (name) VALUES (?)', [$job_role]);
-            // Fetch the newly created role's ID
-            $internship_role_id = $db->query('SELECT id FROM internship_roles WHERE name = ?', [$job_role])->find()['id'];
-        }
+//        $existingRole = $db->query('SELECT id FROM internship_roles WHERE name = ?', [$job_role])->find();
+//
+//        if ($existingRole) {
+//            // If the role exists, use its ID
+//            $internship_role_id = $existingRole['id'];
+//        } else {
+//            // If the role doesn't exist, insert it into internship_roles
+//            $db->query('INSERT INTO internship_roles (name) VALUES (?)', [$job_role]);
+//            // Fetch the newly created role's ID
+//            $internship_role_id = $db->query('SELECT id FROM internship_roles WHERE name = ?', [$job_role])->find()['id'];
+//        }
 
         // Insert the advertisement with the internship_role_id and company_id
         $db->query(

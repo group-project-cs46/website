@@ -1,5 +1,7 @@
 <?php
+
 use Models\companyReport;
+use Models\Notification;
 use Http\Forms;
 use Core\App;
 use Core\Database;
@@ -29,24 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Validate all 6 reports
-    $reportsData = [];
-    for ($i = 1; $i <= 6; $i++) {
-        $reportKey = "report{$i}";
-        if (!isset($_FILES[$reportKey]) || $_FILES[$reportKey]['error'] === UPLOAD_ERR_NO_FILE) {
-            $errors[$reportKey] = "Report {$i} is required.";
-            continue;
-        }
+    // Validate description
+    $description = $_POST['description'] ?? '';
+    if (empty($description)) {
+        $errors['description'] = "Description is required.";
+    }
 
+    // Validate the single report
+    if (!isset($_FILES['report']) || $_FILES['report']['error'] === UPLOAD_ERR_NO_FILE) {
+        $errors['report'] = "Report file is required.";
+    } else {
         $form = Forms\ReportUpload::validate([
-            'report' => $_FILES[$reportKey],
-            'description' => "Report {$i}" // Automatically set description
+            'report' => $_FILES['report']
         ]);
-
-        $reportsData[$i] = [
-            'file' => $_FILES[$reportKey],
-            'description' => "Report {$i}"
-        ];
     }
 
     // If there are validation errors, reload the view with errors
@@ -60,26 +57,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get company ID (already checked above)
     $companyId = $userId;
 
-    // Process file uploads
-    $targetDir = base_path('storage/reports/');
-    foreach ($reportsData as $i => $reportData) {
-        $fileTmpPath = $reportData['file']['tmp_name'];
-        $fileName = $reportData['file']['name'];
-        $fileNameCmps = explode(".", $fileName);
-        $fileExtension = strtolower(end($fileNameCmps));
+    // Fetch the company name from the users table
+    $db = App::resolve(Database::class);
+    $company = $db->query("SELECT name FROM users WHERE id = ?", [$companyId])->find();
+    $companyName = $company['name'] ?? 'Unknown Company';
 
-        $newFileName = md5(time() . $fileName . $i) . '.' . $fileExtension;
-        $targetFile = $targetDir . $newFileName;
+    // Process file upload
+    $targetDir = base_path('storage/');
+    $fileTmpPath = $_FILES['report']['tmp_name'];
+    $fileName = $_FILES['report']['name'];
+    $fileNameCmps = explode(".", $fileName);
+    $fileExtension = strtolower(end($fileNameCmps));
 
-        if (!move_uploaded_file($fileTmpPath, $targetFile)) {
-            $errors["report{$i}"] = "Report {$i} has not been uploaded.";
-        } else {
-            companyReport::create(
-                $companyId,
-                $subjectId,
-                $newFileName,
-                $fileName,
-                $reportData['description']
+    $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
+    $targetFile = $targetDir . $newFileName;
+
+    if (!move_uploaded_file($fileTmpPath, $targetFile)) {
+        $errors['report'] = "The report has not been uploaded.";
+    } else {
+        companyReport::create(
+            $companyId,
+            $subjectId,
+            $newFileName,
+            $fileName,
+            $description
+        );
+        $pdc_users = $db->query("SELECT id FROM pdcs", [])->get();
+        // Send a notification to each PDC user
+        foreach ($pdc_users as $pdc) {
+            Notification::create(
+                $pdc['id'], // user_id (PDC user)
+                'New Report Uploaded',
+                'A new report for student ' . $indexNumber . ' has been uploaded by ' . $companyName,
+                null, // Optional action URL to view reports
+                date('Y-m-d H:i:s', strtotime('+1 day')) // Expires in 1 day
             );
         }
     }
@@ -92,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    redirect('/company/report?success=Reports uploaded successfully');
+    redirect('/company/report?success=Report uploaded successfully');
     exit();
 }
 

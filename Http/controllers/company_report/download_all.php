@@ -8,38 +8,29 @@ if (!$index_number || !$user_id) {
     redirect('/company/report?error=Invalid request');
 }
 
-// Fetch all reports for the student
+// Fetch the report for the student
 $reports = companyReport::findByIndexNumber($index_number, $user_id);
 
 if (empty($reports)) {
-    redirect('/company/report?error=No reports found for this student');
+    redirect('/company/report?error=No report found for this student');
 }
 
-// Create a temporary ZIP file
-$zip = new ZipArchive();
-$zip_filename = tempnam(sys_get_temp_dir(), 'reports_') . '.zip';
+// Since there’s only one report, take the first one
+$report = $reports[0];
 
-if ($zip->open($zip_filename, ZipArchive::CREATE) !== true) {
-    redirect('/company/report?error=Failed to create ZIP file');
+$file_path = base_path('storage/' . $report['filename']);
+$original_name = $report['original_name'] ?: 'report_' . $index_number . '.pdf';
+
+if (file_exists($file_path)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="' . $original_name . '"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file_path));
+    readfile($file_path);
+    exit;
+} else {
+    redirect('/company/report?error=File not found');
 }
-
-// Add each report to the ZIP
-foreach ($reports as $report) {
-    $file_path = base_path('storage/reports/' . $report['filename']);
-    $original_name = $report['original_name'] ?: 'report_' . $report['description'] . '.pdf';
-    if (file_exists($file_path)) {
-        $zip->addFile($file_path, $original_name);
-    }
-}
-
-$zip->close();
-
-// Download the ZIP file
-header('Content-Type: application/zip');
-header('Content-Disposition: attachment; filename="student_' . $index_number . '_reports.zip"');
-header('Content-Length: ' . filesize($zip_filename));
-readfile($zip_filename);
-
-// Delete the temporary ZIP file
-unlink($zip_filename);
-exit;
