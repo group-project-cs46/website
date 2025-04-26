@@ -16,6 +16,7 @@ class Notification
             WHERE user_id = ?
                 AND is_read = FALSE
                 AND (expires_at IS NULL OR expires_at > NOW())
+            ORDER BY created_at DESC 
         ", [$userId])->get();
 
     }
