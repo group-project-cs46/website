@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit PDC</title>
+    <title>Edit Lecturer</title>
     <style>
         body {
             background-color: white;
@@ -98,8 +98,8 @@
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Edit PDC</h2>
-        <form method="post" action="/pdcEdition">
+        <h2>Edit Lecturer</h2>
+        <form method="post" action="/lecturerEdition">
 
             <div class="form-group">
                 <label for="name">Name</label>
@@ -120,7 +120,7 @@
 
             <div class="form-group">
                 <label for="employee-no">Employee No:</label>
-                <input type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate">
+                <input type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee_no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate">
             </div>
 
             <div class="form-group">

@@ -8,18 +8,17 @@ use Core\Database;
 class AddPdc
 {
 
-    public static function create($employee_id, $title, $email, $name, $contact_no, $password, $photo = null)
+    public static function create($employee_id, $title, $email, $name, $contact_no, $password)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO users(name, email, mobile, password, role, approved, photo) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+        $db->query('INSERT INTO users(name, email, mobile, password, role, approved) VALUES (?, ?, ?, ?, ?, ?)', [
             $name,
             $email,
             $contact_no,
             password_hash($password, PASSWORD_DEFAULT),
             3,
-            1,
-            $photo
+            1
         ]);
 
         $id = $db->getLastInsertedId();
@@ -50,21 +49,20 @@ class AddPdc
         return $data[0];
     }
 
-    public static function update($id, $name, $email, $employee_id, $contact, $title, $password, $photo)
+    public static function update($id, $name, $email, $employee_id, $contact, $title, $password)
     {
         $data = [
             $name,
             $email,
             $contact,
-            $photo
         ];
         $sql = "";
 
         if (!empty(trim($password))) {
             array_push($data, password_hash($password, PASSWORD_DEFAULT));
-            $sql = "UPDATE users SET name=?, email=?, mobile=?, photo=?, password=? WHERE id=?";
+            $sql = "UPDATE users SET name=?, email=?, mobile=?,  password=? WHERE id=?";
         } else {
-            $sql = "UPDATE users SET name=?, email=?, mobile=?, photo=? WHERE id=?";
+            $sql = "UPDATE users SET name=?, email=?, mobile=? WHERE id=?";
         }
 
         array_push($data, $id);
@@ -112,6 +110,18 @@ class AddPdc
         $result = $db->query('SELECT COUNT(*) as total FROM pdcs')->get();
         return $result[0]['total'] ?? 0;
     }
+
+    public static function emailExists($email)
+    {
+        $db = App::resolve(\Core\Database::class);
+
+        $result = $db->query("SELECT 1 FROM pdc WHERE email = :email", [
+            'email' => $email
+        ])->find();
+
+        return $result ? true : false;
+    }
+
 
 
 }

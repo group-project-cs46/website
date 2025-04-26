@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class="mmm">
     <main class="main-content">  
+    <section class="content">
+
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
@@ -54,6 +56,8 @@
                 </tbody>
             </table>
         </section>
+        </section>
+
     </main>
 
     <script>

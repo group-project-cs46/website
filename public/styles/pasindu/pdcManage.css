@@ -22,9 +22,9 @@ body {
     flex: 1;
     padding: 20px;
     /* background-color: #F9FAFB; */
-    background-color: white;
+    /* background-color: white; */
     padding-left: 40px;
-
+    width: 98.6%;
 }
 
 .header {
@@ -46,6 +46,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 98.7%;
 }
 
 .table-title {
@@ -53,6 +54,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    width: 99.5%;
 }
 
 .table-title-txt h3 {
@@ -257,6 +259,7 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
 
 /* Responsive Design for Mobile */
 @media (max-width: 600px) {
