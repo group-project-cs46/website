@@ -7,7 +7,7 @@ $router->get('/files', 'files/show.php')->only('auth');
 
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
-
+ 
 $router->get('/dashboard/admin', 'dashboards/admin.php')->only('auth');
 $router->get('/dashboard/student', 'dashboards/student.php')->only('auth');
 $router->get('/dashboard/pdc', 'dashboards/pdc.php')->only('auth');

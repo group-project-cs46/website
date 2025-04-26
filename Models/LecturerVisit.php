@@ -10,24 +10,18 @@ class LecturerVisit
     public static function getById($id)
     {
         $db = App::resolve(Database::class);
-
-        return $db->query('
-            SELECT
-                lecturer_visits.*,
-                users.name AS company_name,
-                companies.building AS company_building,
-                companies.street_name AS company_street_name,
-                companies.address_line_2 AS company_address_line_2,
-                companies.city AS company_city,
-                companies.postal_code AS company_postal_code
+    
+        return $db->query('SELECT
+            lecturer_visits.*
             FROM lecturer_visits
-            LEFT JOIN companies ON lecturer_visits.company_id = companies.id
-            LEFT JOIN users ON lecturer_visits.company_id = users.id
-            WHERE lecturer_visits.id = ?
+        INNER JOIN lecture_visit_lecturers ON lecturer_visits.id = lecture_visit_lecturers.lecturer_visit_id
+    
+        WHERE lecture_visit_lecturers.lecturer_id = ?
         ', [$id])->find();
-    }
+    }    
     public static function getByLecturerId($lecturerId, $batchId)
     {
+        // if (!$batchId) return [];
         $db = App::resolve(Database::class);
  
         return $db->query('
@@ -41,4 +35,14 @@ class LecturerVisit
             ORDER BY date, time
         ', [$lecturerId, $batchId])->get();
     }
+
+    public static function updateReportId($visitId, $reportId)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('UPDATE lecturer_visits SET lecturer_company_report_id = ? WHERE id = ?', [
+            $reportId,
+            $visitId
+        ]);   
+    }
+
 }

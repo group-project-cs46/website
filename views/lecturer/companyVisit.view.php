@@ -17,7 +17,7 @@
                     <h3><b>Manage Company Visit</b></h3>
                     <p>Manage Company Visit Schedule</p>
                 </div>
-                <button class="add-button" id="openFormButton"><a href="/trainingAdd">+ New</a></button>
+                <!-- <button class="add-button" id="openFormButton"><a href="/trainingAdd">+ New</a></button> -->
             </div>
 
             <table class="student-table">
@@ -32,42 +32,55 @@
                 </thead>
                 <tbody id="studentTableBody">
 
+
+                <?php
+                // Dummy lecturer_visits data
+                $lecturer_visits = [
+                    [
+                        'id' => 1,
+                        'company_id' => 101,
+                        'company_name' => 'ABC Tech Ltd',
+                        'date' => '2025-05-01',
+                        'time' => '10:00:00',
+                        'status' => 'scheduled'
+                    ],
+                    [
+                        'id' => 2,
+                        'company_id' => 102,
+                        'company_name' => 'Beta Innovations',
+                        'date' => '2025-05-03',
+                        'time' => '14:30:00',
+                        'status' => 'visited'
+                    ],
+                    [
+                        'id' => 3,
+                        'company_id' => 103,
+                        'company_name' => 'Creative Solutions',
+                        'date' => '2025-05-05',
+                        'time' => '09:00:00',
+                        'status' => 'cancelled'
+                    ],
+                ];
+                ?>
+
                     <?php foreach ($lecturer_visits as $item): ?>
                         <tr>       
                             <td><?= htmlspecialchars($item['company_name']) ?></td>
                             <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
                             <td><?= date('H:i', strtotime($item['time'])) ?></td>
-                            <td><?= ucwords($item['status']) ?></td>
+                            <td><?= ucwords($item['status']) ?>  <a href="/trainingView?id=<?= $item['id'] ?>" class="view-button">Visit</a>
+                            </td>
                             <td class="actions">
                                 <!-- Visit Button -->
-                                <a href="/trainingView?id=<?= $item['id'] ?>" class="view-button">Visit</a>
-
                                 <!-- View Button (newly added) -->
                                 <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
-
-                                <!-- Upload Report Button -->
-                                <!-- <form action="/uploadReport" method="post" enctype="multipart/form-data" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                    <input 
-                                        type="file" 
-                                        name="report" 
-                                        id="file-<?= $item['id'] ?>" 
-                                        style="display: none;" 
-                                        onchange="this.form.submit()"
-                                    >
-                                     <button type="button" class="view-button" onclick="document.getElementById('file-<?= $item['id'] ?>').click();">
-                                        Upload Report
-                                    </button> 
-                                </form> -->
 
                                 <!-- Delete Button -->
                                 <form action="/trainingView" method="post" style="display:inline;" onsubmit="return confirmReject();">
                                     <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                    <button type="submit" class="disable-button">Delete</button>
+                                    <button type="submit" class="disable-button">Reject</button>
                                 </form>
                             </td>
-
-
 
                         </tr>
                     <?php endforeach; ?>

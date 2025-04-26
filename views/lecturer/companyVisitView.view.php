@@ -37,7 +37,7 @@
                 <span style="color: #6b7280; font-size: 0.9rem; font-weight: 500;">Status</span>
                 <p style="color: #0ea5e9; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= ucwords($lecturer_visit['status']) ?></p>
             </div>
-        </section>
+        </section> 
 
         <!-- Report Upload Form -->
         <section style="background-color: var(--gray-100); padding: 2rem; border-radius: 8px;">
@@ -47,7 +47,9 @@
             <form action="/uploadreports" method="post" enctype="multipart/form-data">
                 <div>
                     <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px;">Upload PDF Report</label>
+
                     <input type="file" id="pdf" name="pdf" accept=".pdf" required style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #374151; cursor: pointer;">
+                    
                     <?php if (isset($errors['pdf'])): ?>
                         <p style="color: #dc2626; font-size: 0.85rem; margin-top: 0.5rem;"><?= $errors['pdf'] ?></p>
                     <?php endif ?>

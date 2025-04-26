@@ -13,7 +13,7 @@ $lecturer_visit = LecturerVisit::getById($lecturer_visit_id);
 $students_in_company = Student::getSelectedForCompany($lecturer_visit['company_id']);
 
 
-dd($students_in_company);
+// dd($students_in_company);
 
 view('/lecturer/companyVisitView.view.php', [
     'lecturer_visit' => $lecturer_visit,
