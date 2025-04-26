@@ -18,7 +18,7 @@ if (empty($reports)) {
 // Since there’s only one report, take the first one
 $report = $reports[0];
 
-$file_path = base_path('storage/reports/' . $report['filename']);
+$file_path = base_path('storage/' . $report['filename']);
 $original_name = $report['original_name'] ?: 'report_' . $index_number . '.pdf';
 
 if (file_exists($file_path)) {

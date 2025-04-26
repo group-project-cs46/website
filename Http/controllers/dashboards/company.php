@@ -14,16 +14,16 @@ if (!$auth_user || !isset($auth_user['id'])) {
 
 $currentCompanyId = $auth_user['id'];
 
-// Fetch applied students dynamically
-$appliedStudents = CompanyDashboard::fetchAppliedStudents();
+// Fetch selected students dynamically
+$selectedStudents = CompanyDashboard::fetchSelectedStudents();
 
 // Fetch the next tech talk and company visit for the current company
 $nextTechTalk = CompanyDashboard::fetchNextTechTalk();
 $nextCompanyVisit = CompanyDashboard::fetchNextCompanyVisit();
 
 $data = [
-    'appliedStudents' => $appliedStudents,
-    'errorApplied' => empty($appliedStudents) ? 'No applied students found.' : null,
+    'selectedStudents' => $selectedStudents,
+    'errorSelected' => empty($selectedStudents) ? 'No selected students found.' : null,
     'nextTechTalk' => $nextTechTalk,
     'nextCompanyVisit' => $nextCompanyVisit
 ];

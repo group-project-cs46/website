@@ -304,7 +304,7 @@
     }
 </td>
             <td>
-                <button class="applied-btn applied-select-btn" onclick="selectStudent(${index})">Select</button>
+                <button class="applied-btn applied-select-btn" onclick="selectStudent(${index})">Shortlist</button>
             </td>
             <td>
                 <button class="applied-btn applied-reject-btn" onclick="rejectStudent(${index})">Reject</button>
