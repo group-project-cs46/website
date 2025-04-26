@@ -15,3 +15,4 @@ view('/lecturers/visits/show.view.php', [
     'lecturer_visit' => $lecturer_visit,
     'students_in_company' => $students_in_company
 ]);
+

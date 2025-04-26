@@ -234,6 +234,20 @@ $navItems = [
         'icon' => 'fa-solid fa-person-walking',
         'only' => [Role::Lecturer],
     ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/Visit',
+        'icon' => 'fa-solid fa-person-walking',
+        'only' => [Role::Lecturer],
+    ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/lecturers/report',
+        'icon' => 'fa-address-book',
+        'only' => [Role::Lecturer],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
@@ -259,7 +273,7 @@ function filter($navItems)
 
 
 <div style="display: grid; grid-template-columns: 50px 1fr; grid-template-rows: 50px 1fr">
-<!--    left bar -->
+    <!--    left bar -->
     <div style="
             z-index: 20;
             grid-row: span 2;
@@ -277,7 +291,7 @@ function filter($navItems)
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filter($navItems) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
-                    style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href']) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>">
+                   style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href']) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>">
                     <i class="fa-solid <?= $item['icon'] ?> fa-lg"></i>
                     <span class="tooltiptext">
                         <?= $item['text'] ?>
@@ -308,7 +322,8 @@ function filter($navItems)
                     </span>
                 <?php endif; ?>
             </span>
-                <div class="notifications-dropdown" style="position: absolute; top: 100%; right: 0; background-color: white; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 300px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 100;">
+                <div class="notifications-dropdown"
+                     style="position: absolute; top: 100%; right: 0; background-color: white; border: 1px solid #d1d5db; border-radius: 0.5rem; width: 400px; max-height: 400px; overflow-y: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 100;">
                     <div style="padding: 0.5rem; border-bottom: 1px solid #e5e7eb; font-weight: 500; display: flex; justify-content: space-between; align-items: center;">
                         <span>Notifications</span>
                         <a href="/notifications/read_all" style="font-size: 0.7rem">Read All</a>
@@ -317,17 +332,20 @@ function filter($navItems)
                         <div style="padding: 1rem; text-align: center; color: #6b7280;">No notifications</div>
                     <?php else: ?>
                         <?php foreach ($_SESSION['user']['notifications'] as $notification): ?>
-                            <?php if($notification['action_url'] != null): ?>
-                                <a href="/notifications/resolve?id=<?= $notification['id'] ?>" style="text-decoration: none">
+                            <?php if ($notification['action_url'] != null): ?>
+                                <a href="/notifications/resolve?id=<?= $notification['id'] ?>"
+                                   style="text-decoration: none">
                                     <div class="notification-item">
-                                        <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
-                                        <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
+                                        <span style="font-size: .9rem"><?= $notification['title'] ?></span>
+                                        <p style="margin: 0; color: #1f2937; font-size: .8rem; margin-top: .5rem"><?= htmlspecialchars($notification['message']) ?></p>
+                                        <small style="color: #6b7280; font-size: .6rem"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
                                     </div>
                                 </a>
-                            <?php else:?>
+                            <?php else: ?>
                                 <div class="notification-item">
-                                    <p style="margin: 0; color: #1f2937;"><?= htmlspecialchars($notification['message']) ?></p>
-                                    <small style="color: #6b7280;"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
+                                    <span style="font-size: .9rem"><?= $notification['title'] ?></span>
+                                    <p style="margin: 0; color: #1f2937; font-size: .8rem; margin-top: .5rem"><?= htmlspecialchars($notification['message']) ?></p>
+                                    <small style="color: #6b7280; font-size: .6rem"><?= date('Y-m-d H:i', strtotime($notification['created_at'])) ?></small>
                                 </div>
                             <?php endif ?>
                         <?php endforeach; ?>
@@ -337,9 +355,9 @@ function filter($navItems)
             <div style="font-weight: 500"><?php echo $_SESSION['user']['name'] ?></div>
             <a href="/account" style="display: flex; align-items: center">
                 <img
-                    src="<?= $_SESSION['user']['photo'] ?>"
-                    style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 100%; border: 1px solid var(--color-primary)"
-                    alt=""
+                        src="<?= $_SESSION['user']['photo'] ?>"
+                        style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 100%; border: 1px solid var(--color-primary)"
+                        alt=""
                 >
             </a>
         </div>
@@ -365,5 +383,5 @@ function filter($navItems)
         });
     </script>
 
-<!--    content -->
+    <!--    content -->
     <div style="padding-inline: 0.5rem; background-color: #f4f7fc">

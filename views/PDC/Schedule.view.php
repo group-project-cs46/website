@@ -138,7 +138,6 @@
                             <th>Lecturer</th>
                             <th>Company</th>
                             <th>Visit Time</th>
-                            <th>Status</th>
                             <th>Approved</th>
                             <th>Edit</th>
                         </tr>
@@ -198,8 +197,7 @@ let visits = visitData ? visitData.map(visit => ({
     date: visit.date,
     time: visit.time,
     lecturer: visit.lecturer_name || 'N/A',
-    company: visit.company_name || 'N/A',
-    status: visit.status || 'Scheduled', // Use actual status if available
+    company: visit.company_name || 'N/A', // Use actual status if available
     approved: visit.approved || 'No' // Use actual approved status if available
 })) : [];
 console.log('visits:', visits); // Debug: Inspect visits
@@ -668,110 +666,165 @@ function findClosestCompanies() {
     });
 }
 
+// Function to open the visit modal for adding or editing
 function openVisitModal(visitId = null) {
-    console.log('Opening visit modal, selectedCompanies:', selectedCompanies);
-    if (selectedCompanies.length === 0 && !visitId) {
-        alert("Please select at least one company from the list.");
-        return;
-    }
-
-    const companyTimeSelection = document.getElementById("company-time-selection");
-    companyTimeSelection.innerHTML = "<h3>Select Time for Companies:</h3>";
-
+    console.log('Opening visit modal, visitId:', visitId);
+    
+    // If this is an edit operation
     if (visitId) {
         const visit = visits.find(v => v.id == visitId);
-        if (visit) {
-            document.getElementById("visit-date").value = visit.date;
-            const companyTimeDiv = document.createElement("div");
-            companyTimeDiv.classList.add("company-time");
-            const companyLabel = document.createElement("label");
-            companyLabel.textContent = `Time for ${visit.company}:`;
-            const timeInput = document.createElement("input");
-            timeInput.type = "time";
-            timeInput.id = `time-0`;
-            timeInput.name = `time-0`;
-            timeInput.value = visit.time;
-            timeInput.required = true;
-            companyTimeDiv.appendChild(companyLabel);
-            companyTimeDiv.appendChild(timeInput);
-            companyTimeSelection.appendChild(companyTimeDiv);
+        if (!visit) {
+            alert("Visit not found!");
+            return;
         }
-    } else {
+        
+        document.getElementById("visit-date").value = visit.date;
+        
+        const companyTimeSelection = document.getElementById("company-time-selection");
+        companyTimeSelection.innerHTML = "<h3>Edit Visit Time:</h3>";
+        
+        const companyTimeDiv = document.createElement("div");
+        companyTimeDiv.classList.add("company-time");
+        
+        const companyLabel = document.createElement("label");
+        companyLabel.textContent = `Time for ${visit.company}:`;
+        
+        const timeInput = document.createElement("input");
+        timeInput.type = "time";
+        timeInput.id = `time-0`;
+        timeInput.name = `time-0`;
+        timeInput.value = visit.time;
+        timeInput.required = true;
+        
+        companyTimeDiv.appendChild(companyLabel);
+        companyTimeDiv.appendChild(timeInput);
+        companyTimeSelection.appendChild(companyTimeDiv);
+        
+        // Set a data attribute to know we're editing
+        document.getElementById("visit-form").dataset.visitId = visitId;
+    } 
+    // If this is an add operation
+    else {
+        if (selectedCompanies.length === 0) {
+            alert("Please select at least one company from the list.");
+            return;
+        }
+        
+        const companyTimeSelection = document.getElementById("company-time-selection");
+        companyTimeSelection.innerHTML = "<h3>Select Time for Companies:</h3>";
+        
         selectedCompanies.forEach((company, index) => {
             const companyTimeDiv = document.createElement("div");
             companyTimeDiv.classList.add("company-time");
+            
             const companyLabel = document.createElement("label");
             companyLabel.textContent = `Time for ${company.name}:`;
+            
             const timeInput = document.createElement("input");
             timeInput.type = "time";
             timeInput.id = `time-${index}`;
             timeInput.name = `time-${index}`;
             timeInput.required = true;
+            
             companyTimeDiv.appendChild(companyLabel);
             companyTimeDiv.appendChild(timeInput);
             companyTimeSelection.appendChild(companyTimeDiv);
         });
+        
+        // Remove any previous visit ID
+        document.getElementById("visit-form").removeAttribute("data-visit-id");
     }
 
     document.getElementById("addVisitModal").style.display = "block";
-
-    document.getElementById("visit-form").onsubmit = function(e) {
-        e.preventDefault();
-        const visitDate = document.getElementById("visit-date").value;
-
-        if (visitId) {
-            const visitTime = document.getElementById("time-0").value;
-            const data = { id: visitId, date: visitDate, time: visitTime };
-            sendAjaxRequest('/PDC/editvisit', data, function(response) {
-                if (response.success) {
-                    const visitIndex = visits.findIndex(v => v.id == visitId);
-                    if (visitIndex !== -1) {
-                        visits[visitIndex] = { ...visits[visitIndex], date: visitDate, time: visitTime };
-                        updateVisitTable();
-                        closeVisitModal();
-                        window.location.href = '/PDC/schedule';
-                    }
-                } else {
-                    alert('Failed to update visit: ' + (response.error || 'Unknown error'));
-                }
-            });
-        } else {
-            const times = selectedCompanies.map((_, index) => document.getElementById(`time-${index}`).value);
-            const companyIds = selectedCompanies.map(company => company.id);
-            const data = {
-                date: visitDate,
-                times: JSON.stringify(times), // Send as JSON string
-                company_ids: JSON.stringify(companyIds) // Send as JSON string
-            };
-
-            sendAjaxRequest('/PDC/createvisit', data, function(response) {
-                console.log('Create visit response:', response);
-                if (response.success && response.ids) {
-                    // Add new visits to the visits array
-                    response.ids.forEach((id, index) => {
-                        visits.push({
-                            id: id,
-                            date: visitDate,
-                            time: times[index],
-                            lecturer: 'N/A', // Updated on page reload
-                            company: selectedCompanies[index].name,
-                            status: 'Scheduled',
-                            approved: 'No'
-                        });
-                    });
-                    updateVisitTable();
-                    closeVisitModal();
-                    selectedCompanies.length = 0; // Clear selections
-                    updateCompanyList(companies); // Refresh company list
-                    window.location.href = '/PDC/schedule';
-                } else {
-                    alert('Failed to create visits: ' + (response.error || 'Unknown error'));
-                }
-            });
-        }
-    };
 }
 
+// Handle the visit form submission (create or edit)
+document.getElementById("visit-form").onsubmit = function(e) {
+    e.preventDefault();
+    const visitDate = document.getElementById("visit-date").value;
+    
+    // Check if we're editing (has data-visit-id attribute)
+    const visitId = this.dataset.visitId;
+    
+    if (visitId) {
+        // Handle edit operation
+        const visitTime = document.getElementById("time-0").value;
+        const data = { 
+            id: visitId, 
+            date: visitDate, 
+            time: visitTime 
+        };
+        
+        sendAjaxRequest('/PDC/editvisit', data, function(response) {
+            if (response.success) {
+                // Update the visit in our local array
+                const visitIndex = visits.findIndex(v => v.id == visitId);
+                if (visitIndex !== -1) {
+                    visits[visitIndex] = { 
+                        ...visits[visitIndex], 
+                        date: visitDate, 
+                        time: visitTime 
+                    };
+                    
+                    // Update the UI
+                    updateVisitTable();
+                    closeVisitModal();
+                    alert("Visit updated successfully!");
+                }
+            } else {
+                alert('Failed to update visit: ' + (response.error || 'Unknown error'));
+            }
+        });
+    } else {
+        // Handle create operation
+        const times = selectedCompanies.map((_, index) => 
+            document.getElementById(`time-${index}`).value
+        );
+        
+        const companyIds = selectedCompanies.map(company => company.id);
+        
+        const data = {
+            date: visitDate,
+            times: JSON.stringify(times),
+            company_ids: JSON.stringify(companyIds)
+        };
+
+        sendAjaxRequest('/PDC/createvisit', data, function(response) {
+            console.log('Create visit response:', response);
+            if (response.success && response.ids) {
+                // Add new visits to the visits array
+                response.ids.forEach((id, index) => {
+                    visits.push({
+                        id: id,
+                        date: visitDate,
+                        time: times[index],
+                        lecturer: 'N/A', // Updated on page reload
+                        company: selectedCompanies[index].name,
+                        approved: 'No'
+                    });
+                });
+                
+                // Update the UI
+                updateVisitTable();
+                closeVisitModal();
+                selectedCompanies.length = 0; // Clear selections
+                updateCompanyList(companies); // Refresh company list
+                alert("Visits created successfully!");
+            } else {
+                alert('Failed to create visits: ' + (response.error || 'Unknown error'));
+            }
+        });
+    }
+};
+
+// Update Visit Table
+function updateVisitTable() {
+    const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = "";
+    visits.forEach(visit => addVisitToTable(visit));
+}
+
+// Add a visit to the table
 function addVisitToTable(visit) {
     const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
     const newRow = tableBody.insertRow();
@@ -789,29 +842,29 @@ function addVisitToTable(visit) {
     const timeCell = newRow.insertCell(3);
     timeCell.textContent = visit.time;
 
-    const statusCell = newRow.insertCell(4);
-    statusCell.textContent = visit.status;
-
-    const approvedCell = newRow.insertCell(5);
+    const approvedCell = newRow.insertCell(4);
     approvedCell.textContent = visit.approved;
 
-    const actionCell = newRow.insertCell(6);
+    const actionCell = newRow.insertCell(5);
+    
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
-    editButton.onclick = () => openVisitModal(visit.id);
+    editButton.onclick = function(e) {
+        e.preventDefault();
+        openVisitModal(visit.id);
+    };
     actionCell.appendChild(editButton);
+    
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
-    deleteButton.onclick = () => deleteVisit(visit.id);
+    deleteButton.onclick = function(e) {
+        e.preventDefault();
+        deleteVisit(visit.id);
+    };
     actionCell.appendChild(deleteButton);
 }
 
-function updateVisitTable() {
-    const tableBody = document.getElementById("visit-table").getElementsByTagName("tbody")[0];
-    tableBody.innerHTML = "";
-    visits.forEach(visit => addVisitToTable(visit));
-}
-
+// Delete Visit
 function deleteVisit(visitId) {
     if (!confirm('Are you sure you want to delete this company visit?')) return;
 
@@ -819,11 +872,16 @@ function deleteVisit(visitId) {
         if (response.success) {
             visits = visits.filter(visit => visit.id != visitId);
             updateVisitTable();
-            window.location.href = '/PDC/schedule';
+            alert("Visit deleted successfully!");
         } else {
             alert('Failed to delete visit: ' + (response.error || 'Unknown error'));
         }
     });
+}
+
+function closeVisitModal() {
+    document.getElementById("addVisitModal").style.display = "none";
+    document.getElementById("visit-form").reset();
 }
 
 function filterCompaniesByCity() {

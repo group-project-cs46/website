@@ -114,6 +114,7 @@ $router->post('/companies/advertisements/store', 'companies/advertisements/store
 $router->get('/companies/advertisements/show', 'companies/advertisements/show.php')->only('company');
 $router->get('/companies/advertisements/edit', 'companies/advertisements/edit.php')->only('company');
 $router->put('/companies/advertisements/update', 'companies/advertisements/update.php')->only('company');
+$router->delete('/companies/advertisements/delete', 'companies/advertisements/destroy.php')->only('company');
 
 // Thathsara END ########################################################################################################################################
 
@@ -191,6 +192,7 @@ $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
 $router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php'); 
 $router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
+$router->post('/PDC/enablestudentaccount', '/PDC/enablestudentaccount.php'); 
 
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
@@ -203,9 +205,9 @@ $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
 $router->get('/PDC/StudentReport', '/PDC/student_report.php');
 $router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
-$router->post('/PDC/setround', '/PDC/setround.php');
-$router->post('/PDC/updateround', '/PDC/updateround.php');
-$router->post('/PDC/deleteround', '/PDC/deleteround.php');
+//$router->post('/PDC/setround', '/PDC/setround.php');
+//$router->post('/PDC/updateround', '/PDC/updateround.php');
+//$router->post('/PDC/deleteround', '/PDC/deleteround.php');
 $router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
 $router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
 $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
@@ -236,7 +238,8 @@ $router->get('/complaints', controller: 'admin/complaintManage.php');
 $router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
-$router->get('/calendarVisit', 'lecturer/calendarVisit.php');
+$router->get('/Visit', 'lecturer/companyVisit.php');
+$router->get('/VisitView', 'lecturer/companyVisitView.php');
 $router->get('/profilelec', 'lecturer/account.php');
 $router->get('/profile', 'admin/account.php');
 
@@ -321,5 +324,9 @@ $router->post('/messageAddition', controller: 'admin/add-message.php');
 
 $router->post('/complaintDeletion', controller: 'admin/reject-complaint.php');
 $router->post('/complaintResolve', 'admin/complaintResolve.php');
+
+
+$router->post('/uploadreports', 'lecturer/uploadReport.php');
+$router->get('/trainingView', 'lecturer/trainingView.php');
 
 

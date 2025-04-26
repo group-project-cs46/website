@@ -7,7 +7,7 @@ use Core\Database;
 
 class pdc_studentreport
 {
-    public static function fetchAll()
+    public static function fetchStudentreports()
 {
     $db = App::resolve(Database::class);
     return $db->query('
@@ -15,7 +15,35 @@ class pdc_studentreport
             r.*,
             u.name AS sender_name,
             s.name AS subject_name,
-            roles.name AS sender_role
+            students.index_number,
+            TO_CHAR(r.created_at, \'YYYY-MM-DD\') AS created_date
+            
+        FROM 
+            reports r
+        JOIN 
+            users u ON r.sender_id = u.id
+        JOIN 
+            users s ON r.subject_id = s.id
+        JOIN
+            students ON r.sender_id = students.id
+        JOIN 
+            roles ON u.role = roles.id
+        WHERE
+            u.role = 2
+        ORDER BY r.created_at DESC
+    ', [])->get();
+}
+
+public static function fetchCompanyreports()
+{
+    $db = App::resolve(Database::class);
+    return $db->query('
+        SELECT 
+            r.*,
+            u.name AS sender_name,
+            s.name AS subject_name,
+            TO_CHAR(r.created_at, \'YYYY-MM-DD\') AS created_date
+            
         FROM 
             reports r
         JOIN 
@@ -24,6 +52,8 @@ class pdc_studentreport
             users s ON r.subject_id = s.id
         JOIN 
             roles ON u.role = roles.id
+        WHERE
+            u.role = 4
         ORDER BY r.created_at DESC
     ', [])->get();
 }

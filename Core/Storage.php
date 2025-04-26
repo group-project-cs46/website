@@ -6,12 +6,11 @@ use Models\File;
 
 class Storage
 {
+    protected static $location = 'storage/';
+
     static function store($file, $description = '', $isPublic = false)
     {
-
-//        dd($de);
-
-        $targetDir = base_path('storage/');
+        $targetDir = base_path(static::$location);
         $fileTmpPath = $file['tmp_name'];
         $fileName = $file['name'];
         $fileNameCmps = explode(".", $fileName);
@@ -27,7 +26,7 @@ class Storage
 
         // Move the uploaded file to the target directory
         if (move_uploaded_file($fileTmpPath, $targetFile)) {
-        //    echo "The file has been uploaded successfully.";
+            //    echo "The file has been uploaded successfully.";
             return File::create(
                 $newFileName,
                 $fileName,
@@ -35,11 +34,27 @@ class Storage
                 $isPublic
             );
 
-        } else {
-            // Handle the error
-            echo "There was an error uploading the file.";
-            return null;
+        }
+        echo "There was an error uploading the file.";
+        return null;
+    }
+
+    static function delete($id)
+    {
+        $file = File::getById($id);
+
+        // Define the target directory
+        $targetDir = base_path(static::$location);
+        $filePath = $targetDir . $file['filename'];
+
+        // Check if the file exists and delete it
+        if (file_exists($filePath)) {
+            unlink($filePath);
+            File::delete($id);
+            return $file['id'];
         }
 
+        echo "File not found.";
+        return null;
     }
 }
