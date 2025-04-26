@@ -4,18 +4,18 @@
         <!-- Header Section -->
         <header style="text-align: center; margin-bottom: 2rem;">
             <h1 style="color: #2d3748; font-size: 1.8rem; font-weight: 700; margin: 0;">Lecturer Visit: Student Progress Review</h1>
-            <p style="color: #6b7280; font-size: 1rem; margin-top: 0.5rem;">Monitoring student performance at <?= htmlspecialchars($lecturer_visit['company_name']) ?></p>
+            <p style="color: #6b7280; font-size: 1rem; margin-top: 0.5rem;">Monitoring student performance at <?= htmlspecialchars($lecturer_visits['name']) ?></p>
         </header>
 
         <!-- Company Address -->
         <section style="background-color: #e5e7eb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
             <h2 style="color: #2d3748; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.75rem;">Company Details</h2>
             <p style="color: #6b7280; font-size: 1rem; line-height: 1.5;">
-                <?= htmlspecialchars($lecturer_visit['company_building'] ?? '') ?>,
-                <?= htmlspecialchars($lecturer_visit['company_street_name'] ?? '') ?>,
-                <?= htmlspecialchars($lecturer_visit['company_address_line_2'] ?? '') ?><br>
-                <?= htmlspecialchars($lecturer_visit['company_city'] ?? '') ?>,
-                <?= htmlspecialchars($lecturer_visit['company_postal_code'] ?? '') ?>
+                <?= htmlspecialchars($lecturer_visits['company_building'] ?? '') ?>,
+                <?= htmlspecialchars($lecturer_visits['company_street_name'] ?? '') ?>,
+                <?= htmlspecialchars($lecturer_visits['company_address_line_2'] ?? '') ?><br>
+                <?= htmlspecialchars($lecturer_visits['company_city'] ?? '') ?>,
+                <?= htmlspecialchars($lecturer_visits['company_postal_code'] ?? '') ?>
             </p>
         </section>
 
@@ -23,19 +23,19 @@
         <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
             <div style="background-color: #ffffff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); text-align: center;">
                 <span style="color: #6b7280; font-size: 0.9rem; font-weight: 500;">Visit ID</span>
-                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= $lecturer_visit['id'] ?></p>
+                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= $lecturer_visits['id'] ?></p>
             </div>
             <div style="background-color: #ffffff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); text-align: center;">
                 <span style="color: #6b7280; font-size: 0.9rem; font-weight: 500;">Date</span>
-                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= date('d-m-Y', strtotime($lecturer_visit['date'])) ?></p>
+                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= date('d-m-Y', strtotime($lecturer_visits['date'])) ?></p>
             </div>
             <div style="background-color: #ffffff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); text-align: center;">
                 <span style="color: #6b7280; font-size: 0.9rem; font-weight: 500;">Time</span>
-                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= date('H:i', strtotime($lecturer_visit['time'])) ?></p>
+                <p style="color: #2d3748; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= date('H:i', strtotime($lecturer_visits['time'])) ?></p>
             </div>
             <div style="background-color: #ffffff; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); text-align: center;">
                 <span style="color: #6b7280; font-size: 0.9rem; font-weight: 500;">Status</span>
-                <p style="color: #0ea5e9; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= ucwords($lecturer_visit['status']) ?></p>
+                <p style="color: #0ea5e9; font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0;"><?= ucwords($lecturer_visits['status']) ?></p>
             </div>
         </section> 
 
@@ -54,8 +54,8 @@
                         <p style="color: #dc2626; font-size: 0.85rem; margin-top: 0.5rem;"><?= $errors['pdf'] ?></p>
                     <?php endif ?>
                 </div>
-                <input type="hidden" name="lecturer_visit_id" value="<?= $lecturer_visit['id'] ?>">
-                <input type="hidden" name="company_id" value="<?= $lecturer_visit['company_id'] ?>">
+                <input type="hidden" name="lecturer_visit_id" value="<?= $lecturer_visits['id'] ?>">
+                <input type="hidden" name="company_id" value="<?= $lecturer_visits['company_id'] ?>">
 
                 <button type="submit" class="button" style="width: 100%; margin-top: 1rem">Upload Report</button>
             
