@@ -1,5 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
+
 <main>
     <div class="grid" style="grid-template-columns: auto 1fr 1fr 1fr 1fr;">
         <div class="grid-header">ID</div>
@@ -10,7 +11,7 @@
         <?php foreach ($lecturer_visits as $item): ?>
             <div class="grid-item"><?= $item['id'] ?></div>
             <div class="grid-item">
-                <a href="/lecturers/visits/show?id=<?= $item['id'] ?>">
+                <a href="/lecturers/visits/show?id=<?= $item['4'] ?>">
                     <?= htmlspecialchars($item['company_name']) ?>
                 </a>
             </div>
