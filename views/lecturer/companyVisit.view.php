@@ -49,9 +49,10 @@
                             <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
 
                             <!-- Reject Button -->
-                            <form action="/rejectReason" method="post" style="display:inline;" >
+                            <form action="" method="post" style="display:inline;" >
                                 <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                <button type="submit" class="disable-button">Reject</button>
+                                
+                                <button type="submit" class="disable-button"><a href="/rejectReason">Reject</a></button>
                             </form>
                         </td>
                     </tr>

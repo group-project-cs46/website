@@ -1,3 +1,3 @@
 <?php
 
-view('lecturer/rejectReason.view.php', []);
+view('lecturer\rejectReson.view.php', attributes: []);

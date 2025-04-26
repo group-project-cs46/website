@@ -331,6 +331,7 @@ $router->get('/trainingView', 'lecturer/trainingView.php');
 $router->post('/visitUpdate', 'lecturer/updateVisit.php');
 $router->get('/rejectReason', 'lecturer/rejectReason.php');
 
+$router->post('/addReason', 'lecturer/add-Reason.php');
 
 
 
