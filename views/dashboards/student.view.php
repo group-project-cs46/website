@@ -4,7 +4,8 @@
         <div style="width: 100%; max-width: 1500px; background: #ffffff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; margin: 20px;">
             <!-- Header -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h1 style="font-size: 28px; color: #333; margin: 0; font-weight: 600;">Welcome to Your Internship Dashboard</h1>
+                <h1 style="font-size: 28px; color: #333; margin: 0; font-weight: 600;">Welcome to Your Internship
+                    Dashboard</h1>
                 <div style="display: flex; gap: 10px;">
                     <a href="/account" class="button">
                         <button>
@@ -28,6 +29,9 @@
                     <!-- Internship Applications -->
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
                         <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Your Internship Applications</h2>
+                        <?php if (empty($applications)): ?>
+                            <p style="font-size: 14px; color: #666; text-align: center">No applications found.</p>
+                        <?php endif ?>
                         <div style="display: flex; flex-direction: column; gap: 15px;">
                             <?php foreach ($applications as $application): ?>
                                 <div style="background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
@@ -45,35 +49,29 @@
                                         <span style="background-color: var(--sky-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
                                     <?php endif; ?>
                                 </div>
-                            <?php endforeach?>
-
-<!--                            <div style="background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">-->
-<!--                                <div>-->
-<!--                                    <h3 style="font-size: 16px; color: #333; margin: 0;">Data Science Intern</h3>-->
-<!--                                    <p style="font-size: 14px; color: #666; margin: 5px 0;">Microsoft • Applied on 04/05/2025</p>-->
-<!--                                </div>-->
-<!--                                <span style="padding: 5px 15px; background: #ffc107; color: white; border-radius: 12px; font-size: 12px;">Interview Scheduled</span>-->
-<!--                            </div>-->
+                            <?php endforeach ?>
                         </div>
-                        <a href="/students/applications" style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
+                        <a href="/students/applications"
+                           style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
                             View All Applications
                         </a>
                     </div>
 
                     <!-- Recent Activities -->
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px;">
-                        <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Recent Activities</h2>
+                        <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Uploaded CVs</h2>
                         <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
-                                Submitted application for Google Inc. • <span style="color: #666;">04/10/2025</span>
-                            </li>
-                            <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
-                                Scheduled interview with Microsoft • <span style="color: #666;">04/08/2025</span>
-                            </li>
-                            <li style="padding: 10px 0; font-size: 14px; color: #333;">
-                                Updated profile information • <span style="color: #666;">04/01/2025</span>
-                            </li>
+                            <?php foreach ($cvs as $cv): ?>
+                                <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
+                                    <?= $cv['original_name'] ?> • <span style="color: #666;"><?= $cv['type'] ?></span>
+                                </li>
+                            <?php endforeach; ?>
+
                         </ul>
+                        <a href="/students/cvs"
+                           style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
+                            View All CVs
+                        </a>
                     </div>
                 </div>
 
@@ -85,23 +83,25 @@
                         <p style="font-size: 14px; margin: 5px 0;">Name: <?= $user['name'] ?></p>
                         <p style="font-size: 14px; margin: 5px 0;">Course: <?= ucwords($user['course']) ?></p>
                         <p style="font-size: 14px; margin: 5px 0;">Applications: <?= count($applications ?? 0) ?></p>
-                        <a href="/account" style="display: inline-block; margin-top: 15px; color: white; text-decoration: underline; font-size: 14px;">Edit Profile</a>
+                        <a href="/account"
+                           style="display: inline-block; margin-top: 15px; color: white; text-decoration: underline; font-size: 14px;">Edit
+                            Profile</a>
                     </div>
 
                     <!-- Upcoming Deadlines -->
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px;">
                         <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Upcoming Training Sessions</h2>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <?php foreach($training_sessions as $training_session): ?>
-                                    <div style="font-size: 14px; color: #333;">
-                                        <a href="/students/training_sessions/show?id=<?= $training_session['id'] ?>">
-                                            <?= $training_session['name'] ?>
-                                        </a>
-                                        •
-                                        <span style="color: #e94e77;"><?= date('d-m-Y', strtotime($training_session['date'])) ?></span>
-                                    </div>
-                                <?php endforeach;?>
-                            </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            <?php foreach ($training_sessions as $training_session): ?>
+                                <div style="font-size: 14px; color: #333;">
+                                    <a href="/students/training_sessions/show?id=<?= $training_session['id'] ?>">
+                                        <?= $training_session['name'] ?>
+                                    </a>
+                                    •
+                                    <span style="color: #e94e77;"><?= date('d-m-Y', strtotime($training_session['date'])) ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>

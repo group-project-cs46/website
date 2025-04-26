@@ -3,7 +3,7 @@
 use Models\PdcRounds;
 use Models\pdcDashboard;
 
-$rounds = PdcRounds::getAllRounds();
+
 
    //Add the dashboard data
    $approvedAds = pdcDashboard::fetchApprovedadds();
@@ -13,7 +13,7 @@ $rounds = PdcRounds::getAllRounds();
    $hiredStudents = pdcDashboard::countHiredstudents();
 
 view('dashboards/pdc.view.php', [
-    'rounds' => $rounds,
+    
      'approvedAds' => $approvedAds,
      'registeredCompanies' => $registeredCompanies,
      'blacklistedCompanies' => $blacklistedCompanies,

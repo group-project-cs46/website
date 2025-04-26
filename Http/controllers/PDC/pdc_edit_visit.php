@@ -1,23 +1,24 @@
-<?php 
-
+<?php
+// Http/controllers/PDC/pdc_edit_visit.php
 use Models\pdcCompanyvisit;
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $id = $_POST["id"] ?? null;
-    $date = $_POST["date"] ?? null;
-    $time = $_POST["time"] ?? null;
-    
+$id = intval($_POST["id"] ?? 0);
+$date = trim($_POST["date"] ?? '');
+$time = trim($_POST["time"] ?? '');
 
-    if ($id && $date && $time) {
-   
-        pdcCompanyvisit::edit_visit($id, $date, $time);
-       
-
-        header('Location: /PDC/schedule'); // Redirect to the schedule page after creating the visit
-        exit; // Ensure the script stops after the redirect
-    } else {
-        // Handle missing fields (optional)
-        echo "All fields are required.";
-        exit;
+if ($id && $date && $time) {
+    try {
+        $result = pdcCompanyvisit::edit_visit($id, $date, $time);
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Visit updated successfully'
+        ]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
     }
+} else {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'error' => 'All fields are required']);
 }
