@@ -129,6 +129,12 @@ $navItems = [
         'icon' => 'fa-solid fa-calendar-plus',
         'only' => [Role::Pdc]
     ],
+    [
+        'text' => "Job_Roles",
+        'href' => '/PDC/managejobroles',
+        'icon' => 'fa-briefcase',
+        'only' => [Role::Pdc]
+    ],
 //    [
 //        'text' => "PDCs",
 //        'href' => '/admins/pdcs',

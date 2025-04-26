@@ -231,6 +231,11 @@ $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
+$router->get('/PDC/managejobroles', '/PDC/Job_roles.php');
+$router->post('/PDC/createjobroles', '/PDC/createjobrole.php');
+$router->post('/PDC/editjobroles', '/PDC/editjobrole.php');
+$router->post('/PDC/deletejobroles', '/PDC/deletejobrole.php');
+
 //#################################################################################################################
 
 

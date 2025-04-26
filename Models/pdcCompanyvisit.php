@@ -8,21 +8,26 @@ use Core\Database;
 class pdcCompanyvisit
 {
     public static function fetchAll()
-    {
-        $db = App::resolve(Database::class);
+{
+    $db = App::resolve(Database::class);
 
-        $visits = $db->query('
+    $visits = $db->query('
         SELECT
             lv.*,
+            lvl.*,
+            lvr.reason AS lecturer_reason,
             uc.name AS company_name,
             ul.name AS lecturer_name
         FROM lecturer_visits lv
         LEFT JOIN users uc ON lv.company_id = uc.id
-        LEFT JOIN users ul ON lv.lecturer_id = ul.id
+        LEFT JOIN lecture_visit_lecturers lvl ON lv.id = lvl.lecturer_visit_id
+        LEFT JOIN users ul ON lvl.lecturer_id = ul.id
+        LEFT JOIN lecturer_visit_rejected_reasons lvr ON lv.id = lvr.lecturer_visit_id
     ', [])->get();
 
-        return $visits;
-    }
+    return $visits;
+}
+
 
 
     public static function create_visit($company_id, $date, $time)
@@ -52,7 +57,20 @@ class pdcCompanyvisit
         return $statement->rowCount() > 0;
     }
 
+    public static function fetchAlllecturers()
+    {
+        $db = App::resolve(Database::class);
 
+        $lecturers = $db->query('
+            SELECT
+                ul.id,
+                ul.name
+            FROM users ul
+            WHERE ul.role = 5
+        ', [])->get();
+
+    }
+   
     public static function delete_visit($id)
     {
         $db = App::resolve(Database::class);
