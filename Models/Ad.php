@@ -235,4 +235,11 @@ class Ad
         );
     }
 
+    static function delete($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM advertisements WHERE id = ?', [$id]);
+    }
+
 }

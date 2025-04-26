@@ -114,6 +114,7 @@ $router->post('/companies/advertisements/store', 'companies/advertisements/store
 $router->get('/companies/advertisements/show', 'companies/advertisements/show.php')->only('company');
 $router->get('/companies/advertisements/edit', 'companies/advertisements/edit.php')->only('company');
 $router->put('/companies/advertisements/update', 'companies/advertisements/update.php')->only('company');
+$router->delete('/companies/advertisements/delete', 'companies/advertisements/destroy.php')->only('company');
 
 // Thathsara END ########################################################################################################################################
 

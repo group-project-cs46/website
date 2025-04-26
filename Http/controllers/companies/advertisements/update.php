@@ -13,6 +13,12 @@ use Http\Forms\AdvertisementUpdate;
 
 $advertisement_id = $_POST['id'];
 
+$advertisement = \Models\Ad::getById($advertisement_id);
+
+if ($advertisement['company_id'] !== auth_user()['id']) {
+    redirect('/companies/advertisements');
+}
+
 $form = AdvertisementUpdate::validate($attributes = [
     'internship_role_id' => $_POST['internship_role_id'],
     'responsibilities' => $_POST['responsibilities'],

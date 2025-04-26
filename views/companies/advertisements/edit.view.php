@@ -114,7 +114,7 @@
                 </div>
                 <div style="text-align: center; margin-top: 30px;">
                     <button type="submit" class="button">Save Changes</button>
-                    <a href="/companies/advertisements/show?id=<?= $advertisement['id'] ?>"
+                    <a href="/companies/advertisements"
                        style="display: inline-block; margin-left: 15px; color: #6a6a6a; font-size: 16px; text-decoration: none;">Cancel</a>
                 </div>
             </form>
