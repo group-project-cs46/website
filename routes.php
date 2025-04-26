@@ -329,6 +329,9 @@ $router->post('/uploadreports', 'lecturer/uploadReport.php');
 $router->get('/trainingView', 'lecturer/trainingView.php');
 
 $router->post('/visitUpdate', 'lecturer/updateVisit.php');
+$router->get('/rejectReason', 'lecturer/rejectReason.php');
+
+
 
 
 

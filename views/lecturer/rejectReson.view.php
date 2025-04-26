@@ -128,7 +128,7 @@
 <div class="center-wrapper">
     <div class="form-container">
         <h2>Session Deatails</h2>
-        <form method="post" action="/trainingEdition">
+        <!-- <form method="post" action="/trainingEdition"> -->
             <div class="form-group">
                 <label for="session-name">Name</label>
                 <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required readonly>

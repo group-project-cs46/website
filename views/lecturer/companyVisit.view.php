@@ -41,7 +41,7 @@
                         <td class="actions">
                             <!-- Visit Button -->
                             <form action="/visitUpdate" method="post" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                                <input type="hidden" name="id" value="<?= $item['leid'] ?>">
                                 <button type="submit" class="view-button">Visit</button>
                             </form>
 
@@ -49,7 +49,7 @@
                             <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
 
                             <!-- Reject Button -->
-                            <form action="/trainingView" method="post" style="display:inline;" onsubmit="return confirmReject();">
+                            <form action="/rejectReason" method="post" style="display:inline;" >
                                 <input type="hidden" name="id" value="<?= $item['id'] ?>">
                                 <button type="submit" class="disable-button">Reject</button>
                             </form>

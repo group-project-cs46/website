@@ -14,6 +14,7 @@ class LecturerVisit
         return $db->query('
             SELECT
                 lecturer_visits.*,
+                lecturer_visits.id as leid,
                 companies.*,
                 users.name
             FROM lecturer_visits

@@ -4,8 +4,8 @@ use Models\LecturerVisit;
 use Core\Redirect;
 
 // Retrieve the visit id from the POST request.
-$visitId = $_POST['visit_id'] ?? null;
-dd($visitId);
+$visitId = $_POST['id'] ?? null;
+// dd($visitId);
 if (!$visitId) {
     // If no visit id is provided, abort or redirect.
     abort(); // or Redirect::to('/lecturers/company-visits');
@@ -18,4 +18,4 @@ if (!$visitId) {
 LecturerVisit::updateStatus($visitId, 'visited');
 
 // Redirect back to the company visits list (or to a detailed view as needed)
-Redirect('/lecturers/Visit');
+Redirect('Visit');
