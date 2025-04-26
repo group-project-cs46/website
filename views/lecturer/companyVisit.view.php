@@ -32,27 +32,31 @@
                 </thead>
                 <tbody id="studentTableBody">
 
-                    <?php foreach ($lecturer_visits as $item): ?>
-                        <tr>       
-                            <td><?= htmlspecialchars($item['name']) ?></td>
-                            <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
-                            <td><?= date('H:i', strtotime($item['time'])) ?></td>
-                            <td><?= ucwords($item['status']) ?>  <a href="/trainingView?id=<?= $item['id'] ?>" class="view-button">Visit</a>
-                            </td>
-                            <td class="actions">
-                                <!-- Visit Button -->
-                                <!-- View Button (newly added) -->
-                                <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
+                <?php foreach ($lecturer_visits as $item): ?>
+                    <tr>       
+                        <td><?= htmlspecialchars($item['name']) ?></td>
+                        <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
+                        <td><?= date('H:i', strtotime($item['time'])) ?></td>
+                        <td><?= ucwords($item['status']) ?></td>
+                        <td class="actions">
+                            <!-- Visit Button -->
+                            <form action="/visitUpdate" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                                <button type="submit" class="view-button">Visit</button>
+                            </form>
 
-                                <!-- Delete Button -->
-                                <form action="/trainingView" method="post" style="display:inline;" onsubmit="return confirmReject();">
-                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                    <button type="submit" class="disable-button">Reject</button>
-                                </form>
-                            </td>
+                            <!-- View Button (Optional) -->
+                            <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
 
-                        </tr>
-                    <?php endforeach; ?>
+                            <!-- Reject Button -->
+                            <form action="/trainingView" method="post" style="display:inline;" onsubmit="return confirmReject();">
+                                <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                                <button type="submit" class="disable-button">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
                 </tbody>
             </table>
         </section>

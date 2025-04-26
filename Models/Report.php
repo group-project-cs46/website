@@ -39,19 +39,6 @@ class Report
         $db->query('DELETE FROM reports WHERE id = ?', [$id]);
     }
 
-    // public static function create($sender_id, $subject_id, $filename, $original_name, $description)
-    // {
-    //     $db = App::resolve(Database::class);
-    //     $db->query('INSERT INTO reports (sender_id, subject_id, filename, original_name, description) VALUES (?, ?, ?, ?, ?)', [
-    //         $sender_id,
-    //         $subject_id,
-    //         $filename,
-    //         $original_name,
-    //         $description
-    //     ]);
-
-    //     return $db->lastInsertId();
-    // }
 
 }
 
