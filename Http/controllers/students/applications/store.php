@@ -27,7 +27,7 @@ $user_id = $user['id'];
 
 $already_selected_companies = Application::selectedCompanyByStudentId($user_id);
 if ($already_selected_companies) {
-    Session::flash('toast', 'You have already been selected by a company');
+    Session::toast('You have already been selected by a company');
     redirect(urlBack());
 }
 

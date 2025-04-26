@@ -28,8 +28,11 @@ function log_to_file(string $message) {
 }
 
 
-function urlIs($value)
+function urlIs($value, $no_query = false)
 {
+    if ($no_query) {
+        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === $value;
+    }
     return $_SERVER['REQUEST_URI'] === $value;
 }
 
