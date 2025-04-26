@@ -1,229 +1,263 @@
-<?php require base_path('views/partials/auth/auth.php') ?>
+<?php require base_path('views/partials/auth/auth.php'); ?>
 
-<link rel="stylesheet" href="/styles/PDC/ManageCompany.css" />
+<main>
+    <div class="container">
 
-<main class="main-content">
-    <header class="header">
-        <div class="above">
-            <i class="fas fa-building" style="font-size: 40px;"></i>
-            <h2><b>Manage Company</b></h2>
-        </div>
-        <input type="text" placeholder="Search Company..." class="search-bar" id="searchInput">
-    </header>
+        <header class="header">
+            <div class="above">
+                <i class="fas fa-building" style="font-size: 40px;"></i>
+                <h2><b>Manage Company</b></h2>
+            </div>
+            <input type="text" id="search-bar" placeholder="Search Company..." class="search-bar">
+        </header>
 
-    <section class="content">
-        <div class="tabs">
-            <button class="tab-button" id="currentCompaniesTab">Current Companies</button>
-            <button class="tab-button" id="registeredCompaniesTab">Registered Companies</button>
-        </div>
+        <section class="content">
 
-        <div id="currentCompaniesContent" class="tab-content">
-            <h3><b>Current Companies</b></h3>
-            <p>Manage Current Company accounts</p>
-            <table class="company-table">
-                <thead>
-                    <tr>
-                        <th>Company</th>
-                        <th>Contact person</th>
-                        <th>Contact No.</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="currentCompanyTableBody">
-                    <!-- Dynamic rows will be inserted here -->
-                </tbody>
-            </table>
-        </div>
+            <div class="tabs">
+                <div class="company-application active-tab" id="companyapplication-tab" onclick="togglecompany('company-application-section')">
+                    <h3>Company Applications</h3>
+                    <p>View company applications</p>
+                </div>
 
-        <div id="registeredCompaniesContent" class="tab-content" style="display: none;">
-            <h3><b>Registered Companies</b></h3>
-            <p>Manage Registered Company accounts</p>
-            <table class="company-table">
-                <thead>
-                    <tr>
-                        <th>Company</th>
-                        <th>Contact person</th>
-                        <th>Contact No.</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="registeredCompanyTableBody">
-                    <!-- Dynamic rows will be inserted here -->
-                </tbody>
-            </table>
-        </div>
-    </section>
+                <div class="divider"></div>
+
+                <div class="approved-companies" id="approvedcompanies-tab" onclick="togglecompany('approved-companies-section')">
+                    <h3>Approved Companies</h3>
+                    <p>View Approved Companies</p>
+                </div>
+            </div>
+
+            <div class="container2" id="company-application-section">
+                <div class="table-title">
+                    <h3><b>Company Applications</b></h3>
+                    <p>View company applications</p>
+                </div>
+                <div class="grid" style="grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto auto">
+                    <div class="grid-header">Name</div>
+                    <div class="grid-header">Address</div>
+                    <div class="grid-header">Email</div>
+                    <div class="grid-header">Mobile</div>
+                    <div class="grid-header">Website</div>
+                    <div class="grid-header">Approve</div>
+                    <div class="grid-header">Reject</div>
+
+                    <?php foreach ($companies as $item): ?>
+                        <div class="grid-item"><?php echo htmlspecialchars($item['name']); ?></div>
+                        <div class="grid-item">
+                            <?php echo htmlspecialchars($item['building']); ?>,
+                            <?php echo htmlspecialchars($item['street_name']); ?>,
+                            <?php if ($item['address_line_2']) : ?>
+                                <?php echo htmlspecialchars($item['address_line_2']); ?>,
+                            <?php endif; ?>
+                            <?php echo htmlspecialchars($item['city']); ?>
+                        </div>
+                        <div class="grid-item"><?php echo htmlspecialchars($item['email']); ?></div>
+                        <div class="grid-item"><?php echo htmlspecialchars($item['mobile'] ?? '-'); ?></div>
+                        <div class="grid-item">
+                            <?php if ($item['website']): ?>
+                                <a href="<?php echo htmlspecialchars($item['website']); ?>" target="_blank">
+                                    <?php echo htmlspecialchars($item['website']); ?>
+                                </a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
+                        </div>
+                        <div class="grid-item" style="text-align: right">
+                            <?php if ($item['approved']): ?>
+                                <i class="fa-solid fa-check text-green-500"></i>
+                            <?php elseif (!$item['rejected']): ?>
+                                <form action="/pdcs/companies/approve" method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" class="button approve-button">Approve</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                        <div class="grid-item" style="text-align: right">
+                            <?php if ($item['rejected']): ?>
+                                <span class="text-red-500">Rejected</span>
+                            <?php elseif (!$item['approved']): ?>
+                                <form action="/pdcs/companies/reject" method="post" style="display: inline;">
+                                    <input type="hidden" name="id" value="<?php echo $item['id']; ?>">
+                                    <button type="submit" class="button reject-button" onclick="confirmReject(this)">Reject</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <div class="container2" id="approved-companies-section" style="display: none;">
+                <div class="table-title">
+                    <h3><b>Approved Companies</b></h3>
+                    <p>View Approved Companies</p>
+                </div>
+                <table class="company-table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <!-- <th>Contact Person</th> -->
+                            <th>Contact No.</th>
+                            <th>Email</th>
+                            <th>Website</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registeredCompanyTableBody">
+                        <?php foreach ($approvedcompanies as $item): ?>
+                            <?php if (!($item['disabled'] ?? false)): ?>
+                                <tr id="approved-row-<?php echo $item['company_id']; ?>">
+                                    <td><?php echo htmlspecialchars($item['company_name']); ?></td>
+                                    
+                                    <td><?php echo htmlspecialchars($item['mobile'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($item['email']); ?></td>
+                                    <td>
+                                        <?php if ($item['website']): ?>
+                                            <a href="<?php echo htmlspecialchars($item['website']); ?>" target="_blank">
+                                                <?php echo htmlspecialchars($item['website']); ?>
+                                            </a>
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <button class="blacklist-button" onclick="BlacklistCompany(<?php echo $item['company_id']; ?>)">Blacklist</button>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php if (empty(array_filter($approvedcompanies, fn($item) => !($item['disabled'] ?? false)))): ?>
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No approved companies found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </div>
 </main>
 
-<!-- Modal for Rejection Reason -->
-<div id="rejectModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center;">
-    <div style="background: white; padding: 20px; border-radius: 5px; width: 400px;">
-        <h3>Reject Company</h3>
-        <p>Provide a reason for rejecting <span id="companyName"></span>:</p>
-        <textarea id="rejectReason" rows="4" style="width: 100%;"></textarea>
-        <div style="margin-top: 10px;">
-            <button id="submitReject" style="background: #dc3545; color: white; padding: 8px 16px; border: none; cursor: pointer;">Submit</button>
-            <button id="cancelReject" style="background: #6c757d; color: white; padding: 8px 16px; border: none; cursor: pointer; margin-left: 10px;">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<?php require base_path('views/partials/auth/auth-close.php') ?>
+<link rel="stylesheet" href="/styles/thathsara/thathsara4.css">
+<link rel="stylesheet" href="/styles/students/table.css">
+<link rel="stylesheet" href="/styles/PDC/ManageCompany.css">
 
 <script>
-    // Get DOM elements
-    const searchInput = document.getElementById('searchInput');
-    const currentCompanyTableBody = document.getElementById('currentCompanyTableBody');
-    const registeredCompanyTableBody = document.getElementById('registeredCompanyTableBody');
-    const currentCompaniesTab = document.getElementById('currentCompaniesTab');
-    const registeredCompaniesTab = document.getElementById('registeredCompaniesTab');
-    const currentCompaniesContent = document.getElementById('currentCompaniesContent');
-    const registeredCompaniesContent = document.getElementById('registeredCompaniesContent');
-    const rejectModal = document.getElementById('rejectModal');
-    const companyNameSpan = document.getElementById('companyName');
-    const rejectReasonInput = document.getElementById('rejectReason');
-    const submitReject = document.getElementById('submitReject');
-    const cancelReject = document.getElementById('cancelReject');
+    function togglecompany(sectionId) {
+        const applicationsSection = document.getElementById('company-application-section');
+        const approvedCompaniesSection = document.getElementById('approved-companies-section');
+        const applicationTab = document.getElementById('companyapplication-tab');
+        const approvedCompaniesTab = document.getElementById('approvedcompanies-tab');
 
-    // Sample data for companies (can be replaced with data from a database or API)
-    let currentCompanies = [
-        { name: 'WSO2', contactPerson: 'Nimal', contactNo: '0771234567', email: 'Hiring@gmail.com' },
-        { name: 'Google', contactPerson: 'Sirius', contactNo: '0781234567', email: 'contact@google.com' },
-        { name: 'Microsoft', contactPerson: 'Alex', contactNo: '0791234567', email: 'careers@microsoft.com' },
-    ];
-
-    const registeredCompanies = [
-        { name: 'Amazon', contactPerson: 'John', contactNo: '0701234567', email: 'hr@amazon.com' },
-        { name: 'Facebook', contactPerson: 'Mark', contactNo: '0772345678', email: 'hr@facebook.com' },
-    ];
-
-    // Function to render companies in the table
-    function renderCompanies(data, tableBody, includeApproveButton = true) {
-        tableBody.innerHTML = ''; // Clear existing rows
-        data.forEach((company, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${company.name}</td>
-                <td>${company.contactPerson}</td>
-                <td>${company.contactNo}</td>
-                <td>${company.email}</td>
-                <td>
-                    ${includeApproveButton ? '<button class="approve-button">Approve</button>' : ''}
-                    ${includeApproveButton ? `<button class="reject-button" data-index="${index}" data-email="${company.email}" data-name="${company.name}">Reject</button>` : ''}
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        // Add event listeners for reject buttons
-        if (includeApproveButton) {
-            document.querySelectorAll('.reject-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.getAttribute('data-index');
-                    const email = e.target.getAttribute('data-email');
-                    const name = e.target.getAttribute('data-name');
-                    showRejectModal(index, email, name);
-                });
-            });
+        if (sectionId === 'company-application-section') {
+            applicationsSection.style.display = 'block';
+            approvedCompaniesSection.style.display = 'none';
+            applicationTab.classList.add('active-tab');
+            approvedCompaniesTab.classList.remove('active-tab');
+        } else if (sectionId === 'approved-companies-section') {
+            applicationsSection.style.display = 'none';
+            approvedCompaniesSection.style.display = 'block';
+            applicationTab.classList.remove('active-tab');
+            approvedCompaniesTab.classList.add('active-tab');
         }
     }
 
-    // Function to show the reject modal
-    function showRejectModal(index, email, name) {
-        companyNameSpan.textContent = name;
-        rejectModal.style.display = 'flex';
-        submitReject.onclick = () => submitRejection(index, email);
-        cancelReject.onclick = () => {
-            rejectModal.style.display = 'none';
-            rejectReasonInput.value = '';
-        };
-    }
+    // Set initial visibility
+    document.getElementById('company-application-section').style.display = 'block';
+    document.getElementById('approved-companies-section').style.display = 'none';
 
-    // Function to handle rejection submission
-    function submitRejection(index, email) {
-        const reason = rejectReasonInput.value.trim();
-        if (!reason) {
-            alert('Please provide a reason for rejection.');
+    function BlacklistCompany(company_id) {
+        if (!confirm("Are you sure you want to blacklist this company?")) {
             return;
         }
 
-        // Send rejection reason to the backend
-        fetch('/reject-company.php', {
+        // Prompt for the reason
+        const reason = prompt("Please enter the reason for blacklisting this company:");
+        if (reason === null) {
+            // User cancelled the prompt
+            return;
+        }
+        if (reason.trim() === '') {
+            alert('A reason is required to blacklist the company.');
+            return;
+        }
+
+        fetch('/PDC/blacklistcompany', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, reason }),
+            body: JSON.stringify({
+                company_id: company_id,
+                reason: reason.trim()
+            })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Remove company from currentCompanies
-                currentCompanies.splice(index, 1);
-                renderCompanies(currentCompanies, currentCompanyTableBody);
-                rejectModal.style.display = 'none';
-                rejectReasonInput.value = '';
-                alert('Rejection email sent successfully.');
+                alert(data.message);
+                const row = document.getElementById(`approved-row-${company_id}`);
+                if (row) {
+                    row.remove(); // Remove the row after blacklisting
+                }
+                // Update the "No approved companies found" message visibility
+                const approvedRows = document.querySelectorAll('#registeredCompanyTableBody tr:not([style*="text-align: center"])');
+                const noApprovedMessage = document.querySelector('#registeredCompanyTableBody tr[style*="text-align: center"]');
+                if (noApprovedMessage) {
+                    noApprovedMessage.style.display = approvedRows.length === 0 ? '' : 'none';
+                }
             } else {
-                alert('Failed to send rejection email: ' + data.message);
+                alert('Failed to blacklist company: ' + data.message);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while sending the rejection email.');
+            alert('An error occurred while processing the request.');
         });
     }
 
-    // Function to handle search functionality
-    function handleSearch() {
-        const query = searchInput.value.toLowerCase();
-        const filteredCurrentCompanies = currentCompanies.filter(company => 
-            company.name.toLowerCase().includes(query) || 
-            company.contactPerson.toLowerCase().includes(query) ||
-            company.contactNo.includes(query) ||
-            company.email.toLowerCase().includes(query)
-        );
-        const filteredRegisteredCompanies = registeredCompanies.filter(company => 
-            company.name.toLowerCase().includes(query) || 
-            company.contactPerson.toLowerCase().includes(query) ||
-            company.contactNo.includes(query) ||
-            company.email.toLowerCase().includes(query)
-        );
+    // Search bar functionality
+    document.getElementById('search-bar').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
 
-        renderCompanies(filteredCurrentCompanies, currentCompanyTableBody);
-        renderCompanies(filteredRegisteredCompanies, registeredCompanyTableBody, false);
-    }
+        // Filter Company Applications (grid)
+        const applicationRows = document.querySelectorAll('#company-application-section .grid > .grid-item:nth-child(7n+1)');
+        applicationRows.forEach((nameCell, index) => {
+            const rowCells = [
+                nameCell, // Name
+                nameCell.nextElementSibling, // Address
+                nameCell.nextElementSibling.nextElementSibling, // Email
+                nameCell.nextElementSibling.nextElementSibling.nextElementSibling, // Mobile
+                nameCell.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling // Website
+            ];
+            const rowText = rowCells.map(cell => cell.textContent.toLowerCase()).join(' ');
+            const matches = rowText.includes(searchTerm);
 
-    // Function to handle tab switching
-    function switchTab(event) {
-        if (event.target === currentCompaniesTab) {
-            currentCompaniesContent.style.display = 'block';
-            registeredCompaniesContent.style.display = 'none';
-            currentCompaniesTab.classList.add('active');
-            registeredCompaniesTab.classList.remove('active');
-            renderCompanies(currentCompanies, currentCompanyTableBody);
-        } else if (event.target === registeredCompaniesTab) {
-            currentCompaniesContent.style.display = 'none';
-            registeredCompaniesContent.style.display = 'block';
-            currentCompaniesTab.classList.remove('active');
-            registeredCompaniesTab.classList.add('active');
-            renderCompanies(registeredCompanies, registeredCompanyTableBody, false);
+            // Show/hide the entire row (7 cells: name, address, email, mobile, website, approve, reject)
+            for (let i = 0; i < 7; i++) {
+                const cell = nameCell.parentElement.children[index * 7 + i];
+                if (cell) {
+                    cell.style.display = matches ? '' : 'none';
+                }
+            }
+        });
+
+        // Filter Approved Companies (table)
+        const approvedRows = document.querySelectorAll('#registeredCompanyTableBody tr:not([style*="text-align: center"])');
+        approvedRows.forEach(row => {
+            const rowText = Array.from(row.cells)
+                .map(cell => cell.textContent.toLowerCase())
+                .join(' ');
+            row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+        });
+
+        // Show/hide "No approved companies found" message
+        const noApprovedMessage = document.querySelector('#registeredCompanyTableBody tr[style*="text-align: center"]');
+        if (noApprovedMessage) {
+            const visibleApprovedRows = Array.from(approvedRows).filter(row => row.style.display !== 'none');
+            noApprovedMessage.style.display = visibleApprovedRows.length === 0 ? '' : 'none';
         }
-    }
-
-    // Ensure the first tab (Current Companies) is visible and rendered by default
-    window.addEventListener('DOMContentLoaded', () => {
-        renderCompanies(currentCompanies, currentCompanyTableBody);
-        renderCompanies(registeredCompanies, registeredCompanyTableBody, false);
-        currentCompaniesTab.classList.add('active');
     });
-
-    // Add event listener for search input
-    searchInput.addEventListener('input', handleSearch);
-
-    // Add event listeners for tab switching
-    currentCompaniesTab.addEventListener('click', switchTab);
-    registeredCompaniesTab.addEventListener('click', switchTab);
 </script>
+
+<?php require base_path('views/partials/auth/auth-close.php'); ?>

@@ -1,12 +1,7 @@
 <?php
 
-use \Core\Database;
-use \Core\App;
+use Models\pdcBlacklistedcompanies;
 
-$db = App::resolve(Database::class);
 
-//$user = $db->query("SELECT * FROM users WHERE id = ?", [2])->find();
-
-//dd($user);
-
-view('PDC/BlacklistedCompanies.view.php');
+$blacklistedcompanies = pdcBlacklistedcompanies::fetchAll();
+view('PDC/BlacklistedCompanies.view.php', ['blacklistedcompanies' => $blacklistedcompanies]);

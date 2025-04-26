@@ -17,7 +17,7 @@ class Company
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM companies LEFT JOIN users ON users.id = companies.id', [])->get();
+        return $db->query('SELECT c.*,users.disabled FROM companies c LEFT JOIN users ON users.id = c.id NOT IN users.disabled = true', [])->get();
     }
     
     public static function fetchapprovedcompanies()
@@ -27,23 +27,28 @@ class Company
     return $db->query('
         SELECT 
             companies.*, 
-            users.name AS company_name 
+            companies.id AS company_id,  -- Explicitly alias companies.id as company_id
+            users.name AS company_name,
+            users.mobile,
+            users.email,
+            users.disabled
         FROM companies 
         INNER JOIN users ON users.id = companies.id 
-        WHERE users.approved = true
+        WHERE users.approved = true 
+        
     ', [])->get();
 }
 
 
-    public static function byRoundId($roundId)
+    public static function byBatchId($batchId)
     {
         $db = App::resolve(Database::class);
 
         return $db->query(
             'SELECT DISTINCT companies.*, users.name FROM companies
             LEFT JOIN advertisements ON companies.id = advertisements.company_id
-            LEFT JOIN users ON users.id = companies.id WHERE advertisements.round_id = ?',
-            [$roundId]
+            LEFT JOIN users ON users.id = companies.id WHERE advertisements.batch_id = ?',
+            [$batchId]
         )->get();
     }
 

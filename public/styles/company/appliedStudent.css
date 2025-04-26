@@ -87,10 +87,12 @@ body {
   background-color: #3f3d3d;
   margin: 0 0px;
 }
+
 .active {
   background-color: #222323;
   color: white;
 }
+
 .main-content {
   flex: 1;
   padding: 15px;
@@ -181,6 +183,7 @@ body {
 .applied-view-btn:hover {
   background-color: #0284c7;
 }
+
 /* Filter Container Styles */
 .filter-container {
   margin: 15px 0;
@@ -225,14 +228,14 @@ body {
   align-items: flex-start;
 }
 
-/* Status button styling */
+/* Updated Status styling */
 .applied-status-btn {
   padding: 8px 15px;
   border-radius: 5px;
-  border: none;
   font-weight: bold;
   width: 120px;
   text-align: center;
+  display: inline-block; /* Ensure it behaves like a block element */
 }
 
 .hired {

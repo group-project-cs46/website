@@ -18,6 +18,7 @@ class ComplaintMessage
             FROM complaint_messages
             LEFT JOIN users ON complaint_messages.sender_id = users.id
             WHERE complaint_id = ?
+            ORDER BY created_at
         ', [$complaint_id])->get();
     }
 

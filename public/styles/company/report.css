@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
+
 .above {
   display: flex;
   justify-content: space-between;
@@ -10,11 +11,7 @@ body {
   width: 100%;
 }
 
-.above-left {
-  display: flex;
-  align-items: center;
-}
-
+.above-left,
 .above-right {
   display: flex;
   align-items: center;
@@ -41,10 +38,11 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
+
 .main-content {
   flex: 1;
   padding: 15px;
-  background-color: #f4f4f8;
+  background-color: #f9fafb;
 }
 
 .header {
@@ -68,25 +66,83 @@ body {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Toggle Tabs */
 .table-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-} 
-
-.table-title h3 {
-  margin: 0;
-  font-size: 24px; /* Larger font size for the heading */
-  font-weight: bold; /* Emphasize the heading */
+  gap: 10px;
 }
 
-.table-title p {
-  margin: 0;
-  font-size: 16px; /* Smaller font size for the paragraph */
-  color: #777;
+.table-title .active {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 8px 13px;
 }
 
+.table-title-txt,
+.report-view-txt {
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333333;
+  transition: color 0.1s ease, background-color 0.1s ease;
+  margin-left: 10px;
+}
+
+.table-title-txt:hover,
+.report-view-txt:hover {
+  background-color: #f4f4f4;
+  color: #221587;
+}
+
+.table-title-txt h3,
+.report-view-txt h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.table-title-txt p,
+.report-view-txt p {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+}
+
+.divider {
+  height: 40px;
+  width: 2px;
+  background-color: #dddddd;
+  margin: 0;
+}
+
+/* Report Sections */
+.report-section {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+}
+
+.report-section.active {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+  transition: opacity 0.5s ease, visibility 0s 0s;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 .form-container {
   background-color: #fff;
@@ -98,11 +154,13 @@ body {
   text-align: center;
   margin-bottom: 20px;
 }
-.form-container  h2{
+
+.form-container h2 {
   margin-bottom: 20px;
   font-size: 20px;
   font-weight: bold;
 }
+
 .form-content {
   display: flex;
   flex-direction: column;
@@ -124,7 +182,8 @@ label {
 }
 
 input[type="text"],
-input[type="email"] {
+input[type="email"],
+input[type="file"] {
   flex-grow: 1;
   min-width: 400px;
   padding: 10px;
@@ -147,6 +206,7 @@ input[type="email"] {
   font-size: 20px;
   color: #777;
 }
+
 .submit-btn {
   background-color: #0ea5e9;
   color: white;
@@ -163,12 +223,120 @@ input[type="email"] {
   background-color: #333;
 }
 
+/* View Report Container */
+.view-report-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: white;
+  box-shadow: none;
+  text-align: center;
+}
 
+/* Report Table */
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
+.report-table th,
+.report-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
 
+.report-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 16px;
+}
 
+.report-table td {
+  color: #333;
+}
 
+.report-table tr:last-child td {
+  border-bottom: none;
+}
 
+.report-table tr:hover {
+  background-color: #f9fafb;
+}
 
+/* Buttons */
+.button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
 
- 
+.button:hover {
+  opacity: 0.9;
+}
+
+.button.is-red {
+  background-color: #f44336;
+  color: white;
+}
+
+.button.is-red:hover {
+  background-color: #da190b;
+}
+
+.button:not(.is-red) {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.button:not(.is-red):hover {
+  background-color: #0284c7;
+}
+
+/* Center text for "No reports found" */
+.report-table td[colspan="3"] {
+  font-size: 16px;
+  color: #777;
+}
+
+/* Popup Overlay for Messages */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-overlay p {
+  background-color: #fff;
+  padding: 20px 30px;
+  font-size: 18px;
+  color: #333;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-overlay p.error {
+  background-color: #ffe6e6;
+  color: #d32f2f;
+}

@@ -1,8 +1,12 @@
+/* Reset default margins and paddings */
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+  background-color: #f9fafb;
 }
+
+/* Header and Layout */
 .above {
   display: flex;
   justify-content: space-between;
@@ -19,10 +23,12 @@ body {
 .above-right > div {
   margin-left: 20px;
 }
+
 .above-left img,
 .above-right img {
   margin-right: 10px;
 }
+
 .company-info {
   display: flex;
   align-items: center;
@@ -55,32 +61,36 @@ body {
   font-size: 20px;
   font-weight: bold;
 }
+
 .content {
-  background-color: white;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 85%;
 }
 
+/* Schedule Tabs */
 .schedule-title {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
   gap: 10px;
 }
+
 .schedule-title .active {
-  background-color: black;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
   padding: 8px 13px;
 }
+
 .schedule-system-txt,
 .schedule-student-txt {
   text-align: left;
   padding: 10px;
   cursor: pointer;
   font-weight: bold;
-  color: #333;
+  color: #333333;
   transition: color 0.1s ease, background-color 0.1s ease;
   margin-left: 10px;
 }
@@ -88,7 +98,7 @@ body {
 .schedule-system-txt:hover,
 .schedule-student-txt:hover {
   background-color: #f4f4f4;
-  color: rgb(34, 21, 135);
+  color: #221587; /* rgb(34, 21, 135) */
 }
 
 .schedule-system-txt h3,
@@ -100,70 +110,48 @@ body {
 .schedule-system-txt p,
 .schedule-student-txt p {
   margin: 0;
-  color: #777;
+  color: #777777;
   font-size: 14px;
 }
 
 .divider {
   height: 40px;
   width: 2px;
-  background-color: #ddd;
-  margin: 0 0px;
-}
-.content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #dddddd;
+  margin: 0;
 }
 
-/* Navigation Buttons and Header Container */
+/* Calendar Section (Tech Talks) */
 .calendar-navigation-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px; /* Add space between buttons and the header */
-}
-.calendar-navigation button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #0ea5e9;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  gap: 15px;
 }
 
-.calendar-navigation button:hover {
-  background-color: #04213f;
-}
-
-/* Calendar Section: Add transition for opacity */
 .calendar-section {
-  opacity: 0; /* Start hidden */
-  visibility: hidden; /* Invisible */
-  display: none; /* No space taken initially */
-  transition: opacity 0.5s ease, visibility 0s 0.5s; /* Smooth transition */
-  flex-direction: column; /* Maintain layout */
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+  flex-direction: column;
   align-items: center;
   margin-top: 20px;
   gap: 20px;
 }
 
 .calendar-section.active {
-  opacity: 1; /* Fully visible */
-  visibility: visible; /* Make it visible */
-  display: flex; /* Display the section */
-  transition: opacity 0.5s ease, visibility 0s 0s; /* Smooth fade-in */
-  animation: fadeIn 0.5s ease; /* Add fade-in animation */
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  transition: opacity 0.5s ease, visibility 0s 0s;
+  animation: fadeIn 0.5s ease;
 }
 
-/* Fade-in Keyframe Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px); /* Slight movement from below */
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -171,7 +159,6 @@ body {
   }
 }
 
-/* Fade-out Keyframe Animation */
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -179,24 +166,17 @@ body {
   }
   to {
     opacity: 0;
-    transform: translateY(10px); /* Slight movement below */
+    transform: translateY(10px);
   }
 }
-/* Calendar Grid */
+
 .calendar-container {
   text-align: center;
-  background-color: white;
+  background-color: #ffffff;
   padding: 40px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: auto; /* Allow the calendar to adjust dynamically */
-}
-.calendar-header-container {
-  display: flex;
-  align-items: center; /* Align buttons and header vertically */
-  justify-content: center; /* Center everything horizontally */
-  margin-bottom: 20px; /* Add space below the navigation bar */
-  gap: 15px; /* Space between buttons and the header */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: auto;
 }
 
 .calendar-header {
@@ -204,12 +184,12 @@ body {
   font-weight: bold;
   margin: 0;
   text-align: center;
-  flex-grow: 1; /* Ensure header takes space proportionally */
+  flex-grow: 1;
 }
 
 .nav-button {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -231,19 +211,17 @@ body {
 .day {
   font-weight: bold;
 }
+
 .calendar {
   display: grid;
-  grid-template-columns: repeat(
-    7,
-    minmax(100px, 1fr)
-  ); /* Increase minimum width for each column */
-  gap: 5px; /* Add space between day cells */
+  grid-template-columns: repeat(7, minmax(100px, 1fr));
+  gap: 5px;
   justify-content: center;
 }
 
 .day-box {
-  padding: 15px; /* Add more padding to day cells */
-  border: 1px solid #ddd;
+  padding: 15px;
+  border: 1px solid #dddddd;
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -251,54 +229,201 @@ body {
 
 .day-box.highlight {
   background-color: #0ea5e9;
-  color: white;
+  color: #ffffff;
+}
+
+.day-box.saved {
+  background-color: #28a745;
+  color: #ffffff;
 }
 
 .day-box:hover {
   background-color: #0056b3;
-  color: white;
+  color: #ffffff;
 }
 
-/* Highlighted Day */
-.highlight {
-  background-color: #a4ccf4;
-  color: white;
-  border-color: #c4dbf3;
+.day-box.saved:hover {
+  background-color: #218838;
+  color: #ffffff;
 }
 
-.highlight:hover {
-  background-color: #0056b3;
+.day-box.past {
+  background-color: #ff0000;
+  color: #ffffff;
+  cursor: not-allowed;
 }
 
-.day-box:hover {
-  background-color: black;
+.day-box.past:hover {
+  background-color: #cc0000;
+  color: #ffffff;
 }
 
-.event {
-  background-color: #e6f7ff;
+/* Company Visits List */
+.visit-list-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.visit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.visit-table th,
+.visit-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.visit-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  padding: 20px;
+  font-size: 16px;
+  color: #000000;
+}
+
+.visit-table td {
+  color: #000000;
+}
+
+.visit-table tr.past {
+  background-color: #fee2e2;
+}
+
+.visit-table tr.past td {
+  color: #6b7280;
+}
+
+/* Approve Button for Company Visits */
+.approve-button {
+  background-color: #0ea5e9;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
   border-radius: 5px;
-  padding: 5px;
-  margin-top: 5px;
-  font-size: 12px;
-  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+}
+
+.approve-button:hover {
+  background-color: #0284c7;
+}
+
+.approve-button.approved {
+  background-color: #28a745; /* Green color for Approved state */
+}
+
+.approve-button.approved:hover {
+  background-color: #22c55e; /* Lighter green on hover */
+}
+
+/* Reject Button for Company Visits */
+.reject-button {
+  background-color: #ef4444; /* Red color for Reject button */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  margin-left: 5px;
+}
+
+.reject-button:hover {
+  background-color: #dc2626; /* Darker red on hover */
+}
+
+.reject-button.rejected {
+  background-color: #dc2626; /* Darker red for Rejected state */
+  opacity: 0.7; /* Slightly faded to indicate disabled state */
+  cursor: not-allowed;
+}
+
+.reject-button.rejected:hover {
+  background-color: #dc2626; /* No change on hover for disabled state */
+}
+
+.reject-button.rejected:disabled {
+  background-color: #dc2626;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.reject-button.rejected:disabled:hover {
+  background-color: #dc2626; /* Prevent hover effect */
+}
+
+/* Style for past date buttons */
+.approve-button.past,
+.reject-button.past {
+  background-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.approve-button.past:hover,
+.reject-button.past:hover {
+  background-color: #d1d5db;
+  color: #6b7280;
+}
+
+.reject-button.rejected.past {
+  background-color: #e5e7eb; /* Greyed-out red for past rejected buttons */
+  color: #6b7280;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.reject-button.rejected.past:hover {
+  background-color: #e5e7eb; /* No hover effect */
+}
+
+/* Ensure approved/rejected state overrides disabled state */
+.approve-button:disabled,
+.reject-button:disabled {
+  background-color: #d1d5db;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.approve-button.approved:disabled {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.approve-button.approved:disabled:hover {
+  background-color: #22c55e;
 }
 
 /* Modal Styling */
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background-color: white;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   width: 400px;
@@ -308,12 +433,15 @@ body {
 
 .modal-content h3 {
   margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .modal-content label {
   display: block;
   margin-bottom: 5px;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .modal-content input,
@@ -322,23 +450,69 @@ body {
   padding: 8px;
   margin-bottom: 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   font-size: 14px;
   box-sizing: border-box;
 }
 
 .modal-content button {
-  background-color: #0ea5e9;
-  color: white;
   border: none;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
-.modal-content button:hover {
-  background-color: black;
+#saveButton {
+  background-color: #0ea5e9;
+  color: #ffffff;
+}
+
+#saveButton:hover {
+  background-color: #0284c7;
+}
+
+#editButton {
+  background-color: #0ea5e9;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+#editButton:hover {
+  background-color: #0284c7;
+}
+
+#deleteButton {
+  background-color: #0ea5e9;
+  color: #ffffff;
+}
+
+#deleteButton:hover {
+  background-color: #0284c7;
+}
+
+#approveButton {
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#approveButton:hover {
+  background-color: #22c55e;
+}
+
+#submitRejectReason {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+#submitRejectReason:hover {
+  background-color: #dc2626;
 }
 
 .close {
@@ -350,31 +524,11 @@ body {
 }
 
 .close:hover {
-  color: #000;
+  color: #000000;
 }
 
-/* Event Detail Popup Modal */
 #eventDetailModal .modal-content p {
   font-size: 14px;
   line-height: 1.5;
   margin-top: 10px;
-}
-
-#approveButton {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-#approveButton:hover {
-  background-color: #218838;
-}
-
-.day-box.approved {
-  background-color: green;
-  color: white;
 }
