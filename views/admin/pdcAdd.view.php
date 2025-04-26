@@ -7,85 +7,80 @@
     <title>Add New PDC</title>
     <style>
         body {
-            background-color: white;
-            /* min-height: 100vh; */
-            /* display: flex; */
-            justify-content: center;
-            /* align-items: flex-start; */
-            margin: 0;
-            padding: 0;
-        }
+    background-color: white;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
 
-        .center-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin-top: 50px;
-            width: 100%;
-        }
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px; /* Reduced the top margin */
+    width: 100%;
+}
 
-        .form-container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 700px;
-            text-align: center;
-        }
+.form-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 20px; /* Reduced the padding */
+    width: 100%;
+    max-width: 600px; /* Reduced max-width */
+    text-align: center;
+    margin-bottom: 20px; /* Added margin bottom for spacing */
+}
 
-        .form-container h2 {
-            font-size: 25px;
-            margin-bottom: 20px;
-            margin-top: 5px;
-            color: #3498db;
-        }
+.form-container h2 {
+    font-size: 22px; /* Slightly smaller font size */
+    margin-bottom: 15px; /* Reduced bottom margin */
+    margin-top: 5px;
+    color: #3498db;
+}
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
+.form-group {
+    text-align: left;
+    margin-bottom: 15px; /* Reduced bottom margin */
+}
 
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
 
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 9px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            outline: none;
-            background-color: #f9f9f9;
-            font-size: 14px;
-            font-family: inherit;
-        }
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px; /* Reduced padding */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    font-family: inherit;
+}
 
-        .form-group select:invalid {
-            color: #999;
-        }
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 8px; /* Reduced padding */
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 14px; /* Reduced font size */
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
 
-        .submit-btn {
-            background-color: #3498db;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            width: 100%;
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
+.submit-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
 
-        .submit-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-        }
 
         .input-validate:invalid {
             border: 1px solid red;
@@ -139,6 +134,7 @@
             </div>
 
             <button type="submit" class="submit-btn">Add PDC</button>
+
             <?php if (isset($_SESSION['success_message']) || isset($_SESSION['error_message'])): ?>
     <div id="notification" class="notification <?= isset($_SESSION['error_message']) ? 'error' : 'success' ?>">
         <span class="icon"><?= isset($_SESSION['error_message']) ? '❌' : '✔️' ?></span>
@@ -204,9 +200,9 @@
     function validatePDCForm() {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
-        const employeeNo = document.getElementById('employee_no').value.trim();
+        const employeeNo = document.getElementById('employee-no').value.trim();
         const title = document.getElementById('title').value.trim();
-        const contact = document.getElementById('contact').value.trim();
+        const contact = document.getElementById('contact-no').value.trim();
         const password = document.getElementById('password').value.trim();
 
         if (!name || !email || !employeeNo || !title || !contact || !password) {

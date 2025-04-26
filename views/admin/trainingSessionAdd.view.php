@@ -148,6 +148,63 @@
             </div>
 
             <button type="submit" class="submit-btn">Add Session</button>
+
+            <?php if (isset($_SESSION['success_message']) || isset($_SESSION['error_message'])): ?>
+    <div id="notification" class="notification <?= isset($_SESSION['error_message']) ? 'error' : 'success' ?>">
+        <span class="icon"><?= isset($_SESSION['error_message']) ? '❌' : '✔️' ?></span>
+        <span class="message"><?= $_SESSION['error_message'] ?? $_SESSION['success_message'] ?></span>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        });
+    </script>
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .notification.success {
+            background: linear-gradient(135deg, #4caf50, #81c784); /* Green */
+        }
+        .notification.error {
+            background: linear-gradient(135deg, #e53935, #e35d5b); /* Red */
+        }
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .notification .icon {
+            font-size: 20px;
+        }
+        .notification .message {
+            flex-grow: 1;
+        }
+    </style>
+    <?php 
+    unset($_SESSION['success_message']);
+    unset($_SESSION['error_message']);
+    ?>
+<?php endif; ?>
         </form>
     </div>
     </div>

@@ -123,5 +123,12 @@ class AddPdc
     }
 
 
+    public static function employeeNoExists($employee_no)
+{
+    $db = App::resolve(Database::class);
+    $stmt = $db->query("SELECT 1 FROM pdc WHERE employee_no = :employee_no LIMIT 1");
+    $stmt->execute(['employee_no' => $employee_no]);
+    return $stmt->fetchColumn() !== false;
+}
 
 }
