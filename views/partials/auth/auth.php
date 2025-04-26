@@ -13,18 +13,13 @@ enum Role: int
     case Lecturer = 5;
 }
 
+
 $navItems = [
     [
         'text' => 'Dashboard',
         'href' => '/dashboard/admin',
         'icon' => 'fa-dashboard',
         'only' => [Role::Admin],
-    ],
-    [
-        'text' => 'Dashboard',
-        'href' => '/dashboard/student',
-        'icon' => 'fa-dashboard',
-        'only' => [Role::Student],
     ],
     [
         'text' => 'Dashboard',
@@ -38,9 +33,15 @@ $navItems = [
         'icon' => 'fa-dashboard',
         'only' => [Role::Company],
     ],
+//    [
+//        'text' => 'Advertisment',
+//        'href' => '/company/advertisment',
+//        'icon' => 'fa-regular fa-rectangle-ad',
+//        'only' => [Role::Company],
+//    ],
     [
-        'text' => 'Advertisment',
-        'href' => '/company/advertisment',
+        'text' => 'Advertisements',
+        'href' => '/companies/advertisements',
         'icon' => 'fa-regular fa-rectangle-ad',
         'only' => [Role::Company],
     ],
@@ -159,13 +160,23 @@ $navItems = [
         'only' => [Role::Admin],
     ],
     [
+        'text' => 'Dashboard',
+        'href' => '/dashboard/student',
+        'icon' => 'fa-dashboard',
+        'only' => [Role::Student],
+    ],
+    [
         'text' => 'Advertisements',
         'href' => '/students/advertisements',
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            return $currentRound && !$currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
+
+            return !$isSecondRound;
         }
     ],
     [
@@ -181,8 +192,10 @@ $navItems = [
         'icon' => 'fa-solid fa-2',
         'only' => [Role::Student],
         'filter' => function () {
-            $currentRound = \Models\Round::currentRound();
-            $isSecondRound = $currentRound && $currentRound['restricted'];
+//            $currentRound = \Models\Round::currentRound();
+            $currentBatch = \Models\Batch::currentBatch();
+//            dd($currentBatch);
+            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
             $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
             return $isSecondRound && !$isSelected;
         }
@@ -219,6 +232,20 @@ $navItems = [
         'text' => 'Company Visits',
         'href' => '/lecturers/visits',
         'icon' => 'fa-solid fa-person-walking',
+        'only' => [Role::Lecturer],
+    ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/Visit',
+        'icon' => 'fa-solid fa-person-walking',
+        'only' => [Role::Lecturer],
+    ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/lecturers/report',
+        'icon' => 'fa-address-book',
         'only' => [Role::Lecturer],
     ],
 ];

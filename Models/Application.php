@@ -101,6 +101,7 @@ class Application
             SELECT 
                 applications.id,
                 applications.created_at,
+                applications.is_second_round,
                 internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
@@ -134,7 +135,15 @@ class Application
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM applications WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT 
+                applications.*,
+                internship_roles.name AS internship_role
+            FROM applications
+            LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE applications.id = ?
+       ', [$id])->find();
     }
 
     public static function create($student_id, $cv_id, $ad_id)

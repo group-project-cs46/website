@@ -17,12 +17,12 @@ if ($report['sender_id'] != auth_user()['id']) {
     redirect('/company/report?error=Unauthorized access');
 }
 
-$filePath = base_path('storage/reports/' . $report['filename']);
-$originalName = $report['original_name'];
+$filePath = base_path('storage/' . $report['filename']);
+$originalName = $report['original_name'] ?: 'report.pdf';
 
 if (file_exists($filePath)) {
     header('Content-Description: File Transfer');
-    header('Content-Type: application/octet-stream');
+    header('Content-Type: application/pdf');
     header('Content-Disposition: attachment; filename="' . $originalName . '"');
     header('Expires: 0');
     header('Cache-Control: must-revalidate');

@@ -3,6 +3,8 @@
 // Thathsara ############################################################################################################################
 // Student
 
+$router->get('/files', 'files/show.php')->only('auth');
+
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
 
@@ -29,12 +31,25 @@ $router->patch('/users/profile/photo', 'users/profile/photo/update.php')->only('
 $router->patch('/users/profile/details', 'users/profile/update.php')->only('auth');
 
 
-$router->get('/students/advertisements', 'students/advertisements/index.php')->only('student');
-$router->get('/students/advertisements/show', 'students/advertisements/show.php')->only('student');
-$router->get('/students/second_round', 'students/second_round/index.php')->only('student');
-$router->post('/students/second_round', 'students/second_round/store.php')->only('student');
-$router->delete('/students/second_round', 'students/second_round/destroy.php')->only('student');
-$router->get('/students/second_round/shortlisted', 'students/second_round/shortlisted/show.php')->only('student');
+$router->get('/students/advertisements', 'students/advertisements/index.php')
+    ->only('student')
+    ->middleware(['isFirstRound']);
+$router->get('/students/advertisements/show', 'students/advertisements/show.php')
+    ->only('student')
+    ->middleware(['isFirstRound']);
+
+$router->get('/students/second_round', 'students/second_round/index.php')
+    ->only('student')
+    ->middleware(['isSecondRound']);
+$router->post('/students/second_round', 'students/second_round/store.php')
+    ->only('student')
+    ->middleware(['isSecondRound']);
+$router->delete('/students/second_round', 'students/second_round/destroy.php')
+    ->only('student')
+    ->middleware(['isSecondRound']);
+$router->get('/students/second_round/shortlisted', 'students/second_round/shortlisted/show.php')
+    ->only('student')
+    ->middleware(['isSecondRound']);
 
 $router->post('/students/applications', 'students/applications/store.php')->only('student');
 $router->get('/students/applications/show', 'students/applications/show.php')->only('student');
@@ -83,7 +98,7 @@ $router->post('/students/training_sessions/attendance', 'students/training_sessi
 $router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 $router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
 
-// pdc
+// Pdc
 
 $router->get('/pdcs/batches', 'pdcs/batches/index.php')->only('pdc');
 $router->get('/pdcs/batches/create', 'pdcs/batches/create.php')->only('pdc');
@@ -92,7 +107,16 @@ $router->get('/pdcs/batches/edit', 'pdcs/batches/edit.php')->only('pdc');
 $router->patch('/pdcs/batches/update', 'pdcs/batches/update.php')->only('pdc');
 $router->delete('/pdcs/batches/delete', 'pdcs/batches/destroy.php')->only('pdc');
 
-// ########################################################################################################################################
+// Company
+$router->get('/companies/advertisements', 'companies/advertisements/index.php')->only('company');
+$router->get('/companies/advertisements/create', 'companies/advertisements/create.php')->only('company');
+$router->post('/companies/advertisements/store', 'companies/advertisements/store.php')->only('company');
+$router->get('/companies/advertisements/show', 'companies/advertisements/show.php')->only('company');
+$router->get('/companies/advertisements/edit', 'companies/advertisements/edit.php')->only('company');
+$router->put('/companies/advertisements/update', 'companies/advertisements/update.php')->only('company');
+$router->delete('/companies/advertisements/delete', 'companies/advertisements/destroy.php')->only('company');
+
+// Thathsara END ########################################################################################################################################
 
 //company
 
@@ -122,6 +146,10 @@ $router->post('/company_complaint/store', 'company_complaint/store.php');
 $router->get('/company/complaint/list', 'company_complaint/list.php')->only('auth');
 $router->post('/company_complaint/edit', 'company_complaint/edit.php')->only('auth');
 $router->post('/company_complaint/delete', 'company_complaint/delete.php')->only('auth');
+$router->get('/company_complaint/show', 'company_complaint/show.php')->only('company');
+$router->post('//messages', 'company_complaint/messages/store.php')->only('company');
+$router->get('/company/complaint/show', 'company_complaint/show.php')->only('company');
+$router->post('/company/complaint/messages', 'company_complaint/messages/store.php')->only('company');
 
 
 $router->post('/company_schedule/store', 'company_schedule/store_techtalk.php');
@@ -130,7 +158,7 @@ $router->post('/company_schedule/delete', 'company_schedule/delete_techtalk.php'
 $router->post('/company_schedule/store_lecturervisit', 'company_schedule/store_lecturervisit.php');
 $router->post('/company_schedule/revert_lecturervisit', 'company_schedule/revert_lecturervisit.php');
 $router->post('/company_schedule/reject_lecturervisit', 'company_schedule/reject_lecturervisit.php');
-$router->post('/company_schedule/revert_reject_lecturervisit', 'company_schedule/revert_reject_lecturervisit.php');
+
 
 
 
@@ -143,6 +171,10 @@ $router->post('/company_student/shortlisted', 'company_student/store_shortlisted
 $router->post('/company_student/nonShortlisted', 'company_student/store_nonShortlisted.php');
 $router->post('/company_student/select', 'company_student/store_selected.php');
 $router->get('/company_student/selected', 'company_student/get_selected.php');
+$router->get('/company_student/applied', 'company_student/get_applied.php');
+$router->get('/company_student/shortlisted', 'company_student/get_shortlisted.php');
+$router->get('/company/cv/download', 'company/cv_download.php')->only('company');
+
 
 
 $router->post('/company_student/store_schedule', 'company_student/store_schedule.php');
@@ -206,7 +238,8 @@ $router->get('/complaints', controller: 'admin/complaintManage.php');
 $router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
-$router->get('/calendarVisit', 'lecturer/calendarVisit.php');
+$router->get('/Visit', 'lecturer/companyVisit.php');
+$router->get('/VisitView', 'lecturer/companyVisitView.php');
 $router->get('/profilelec', 'lecturer/account.php');
 $router->get('/profile', 'admin/account.php');
 
@@ -290,24 +323,10 @@ $router->get('/attendance', controller: 'admin/attendanceManage.php');
 $router->post('/messageAddition', controller: 'admin/add-message.php');
 
 $router->post('/complaintDeletion', controller: 'admin/reject-complaint.php');
+$router->post('/complaintResolve', 'admin/complaintResolve.php');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+$router->post('/uploadreports', 'lecturer/uploadReport.php');
+$router->get('/trainingView', 'lecturer/trainingView.php');
 
 

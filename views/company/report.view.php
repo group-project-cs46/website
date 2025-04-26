@@ -15,8 +15,8 @@
   <section class="content">
     <div class="table-title">
       <div id="reportTab" class="table-title-txt active" onclick="toggleSection('report')">
-        <h3>Upload Reports</h3>
-        <p>Upload reports to PDC</p>
+        <h3>Upload Report</h3>
+        <p>Upload final report to PDC</p>
       </div>
       <div class="divider"></div>
       <div id="viewReportTab" class="report-view-txt" onclick="toggleSection('viewReport')">
@@ -28,7 +28,7 @@
     <div id="reportSection" class="report-section active">
       <div class="form-container">
         <div>
-          <h2>Upload Reports</h2>
+          <h2>Upload Report</h2>
         </div>
         <form class="form-content" id="reportForm" method="POST" action="/company_report/store" enctype="multipart/form-data">
           <div class="form-field">
@@ -38,15 +38,20 @@
               <p class="error"><?= $errors['index_number'] ?></p>
             <?php endif; ?>
           </div>
-          <?php for ($i = 1; $i <= 6; $i++): ?>
-            <div class="form-field">
-              <label for="upload-report-<?php echo $i; ?>">Upload Report <?php echo $i; ?> (PDF Only):</label>
-              <input type="file" id="upload-report-<?php echo $i; ?>" name="report<?php echo $i; ?>" accept=".pdf" required />
-              <?php if (isset($errors["report{$i}"])): ?>
-                <p class="error"><?= $errors["report{$i}"] ?></p>
-              <?php endif; ?>
-            </div>
-          <?php endfor; ?>
+          <div class="form-field">
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Enter report description" required />
+            <?php if (isset($errors['description'])): ?>
+              <p class="error"><?= $errors['description'] ?></p>
+            <?php endif; ?>
+          </div>
+          <div class="form-field">
+            <label for="upload-report">Upload Final Report :</label>
+            <input type="file" id="upload-report" name="report" accept=".pdf" required />
+            <?php if (isset($errors['report'])): ?>
+              <p class="error"><?= $errors['report'] ?></p>
+            <?php endif; ?>
+          </div>
           <button class="submit-btn" type="submit">Submit</button>
         </form>
       </div>
@@ -59,6 +64,8 @@
           <thead>
             <tr>
               <th>Student Index No.</th>
+              <th>File Name</th>
+              <th>Description</th>
               <th>Download</th>
               <th>Delete</th>
             </tr>
@@ -70,20 +77,22 @@
             if (isset($reports) && !empty($reports)) {
               foreach ($reports as $report) {
                 $index_number = $report['index_number'] ?? 'N/A';
-                $grouped_reports[$index_number][] = $report;
+                $grouped_reports[$index_number] = $report; // Only one report per student
               }
             }
 
             if (empty($grouped_reports)): ?>
               <tr>
-                <td colspan="3" style="text-align: center; padding: 10px;">
+                <td colspan="5" style="text-align: center; padding: 10px;">
                   No reports found.
                 </td>
               </tr>
             <?php else: ?>
-              <?php foreach ($grouped_reports as $index_number => $student_reports): ?>
+              <?php foreach ($grouped_reports as $index_number => $report): ?>
                 <tr>
                   <td><?php echo htmlspecialchars($index_number); ?></td>
+                  <td><?php echo htmlspecialchars($report['original_name'] ?: 'report.pdf'); ?></td>
+                  <td><?php echo htmlspecialchars($report['description'] ?: 'Not specified'); ?></td>
                   <td>
                     <a href="/company_report/download_all?index_number=<?= urlencode($index_number) ?>" target="_blank" class="button">Download</a>
                   </td>
@@ -110,23 +119,21 @@
 
 <script>
   document.getElementById('reportForm').addEventListener('submit', function(event) {
-    let isValid = true;
-    for (let i = 1; i <= 6; i++) {
-      const fileInput = document.getElementById(`upload-report-${i}`);
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        if (file.type !== "application/pdf") {
-          alert(`Report ${i} must be a PDF file.`);
-          isValid = false;
-          break;
-        }
-      } else {
-        alert(`Report ${i} is required.`);
-        isValid = false;
-        break;
+    const fileInput = document.getElementById('upload-report');
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      if (file.type !== "application/pdf") {
+        alert('The report must be a PDF file.');
+        event.preventDefault();
       }
+    } else {
+      alert('Report file is required.');
+      event.preventDefault();
     }
-    if (!isValid) {
+
+    const descriptionInput = document.getElementById('description');
+    if (!descriptionInput.value.trim()) {
+      alert('Description is required.');
       event.preventDefault();
     }
   });
@@ -168,9 +175,8 @@
     }, 3000);
   }
 
-  // Add confirmation dialog for delete action
   function confirmDelete(indexNumber) {
-    return confirm(`Are you sure you want to delete all reports for student ${indexNumber}?`);
+    return confirm(`Are you sure you want to delete the report for student ${indexNumber}?`);
   }
 
   window.onload = () => {

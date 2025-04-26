@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/styles/pasindu/lecturerManage.css" />
 <div class=" mmm">
     <main class="main-content">  
+    <section class="content">
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
@@ -63,6 +64,7 @@
 
                 </tbody>
             </table>
+        </section>
         </section>
     </main>
 

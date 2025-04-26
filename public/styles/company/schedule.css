@@ -337,7 +337,7 @@ body {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
   margin-left: 5px;
 }
 
@@ -347,10 +347,23 @@ body {
 
 .reject-button.rejected {
   background-color: #dc2626; /* Darker red for Rejected state */
+  opacity: 0.7; /* Slightly faded to indicate disabled state */
+  cursor: not-allowed;
 }
 
 .reject-button.rejected:hover {
-  background-color: #b91c1c; /* Even darker red on hover */
+  background-color: #dc2626; /* No change on hover for disabled state */
+}
+
+.reject-button.rejected:disabled {
+  background-color: #dc2626;
+  color: #ffffff;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.reject-button.rejected:disabled:hover {
+  background-color: #dc2626; /* Prevent hover effect */
 }
 
 /* Style for past date buttons */
@@ -365,6 +378,17 @@ body {
 .reject-button.past:hover {
   background-color: #d1d5db;
   color: #6b7280;
+}
+
+.reject-button.rejected.past {
+  background-color: #e5e7eb; /* Greyed-out red for past rejected buttons */
+  color: #6b7280;
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.reject-button.rejected.past:hover {
+  background-color: #e5e7eb; /* No hover effect */
 }
 
 /* Ensure approved/rejected state overrides disabled state */
@@ -382,15 +406,6 @@ body {
 
 .approve-button.approved:disabled:hover {
   background-color: #22c55e;
-}
-
-.reject-button.rejected:disabled {
-  background-color: #dc2626;
-  color: #ffffff;
-}
-
-.reject-button.rejected:disabled:hover {
-  background-color: #b91c1c;
 }
 
 /* Modal Styling */
@@ -489,6 +504,15 @@ body {
 
 #approveButton:hover {
   background-color: #22c55e;
+}
+
+#submitRejectReason {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+#submitRejectReason:hover {
+  background-color: #dc2626;
 }
 
 .close {

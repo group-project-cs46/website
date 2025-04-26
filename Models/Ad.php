@@ -59,6 +59,7 @@ class Ad
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
             WHERE advertisements.batch_id = ? AND CURRENT_DATE < advertisements.deadline
+            ORDER BY created_at DESC 
         ', [$batchId])->get();
     }
 
@@ -79,6 +80,7 @@ class Ad
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
             WHERE advertisements.batch_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
+            ORDER BY created_at DESC 
         ', [$batchId, $companyId])->get();
     }
 
@@ -100,7 +102,14 @@ class Ad
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT
+                advertisements.*,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE advertisements.id = ?
+        ', [$id])->find();
     }
 
     public static function findWithCompany($id)
@@ -124,24 +133,49 @@ class Ad
         ', [$id])->find();
     }
 
-    public static function create($job_type, $job_role, $responsibilities, $qualifications_skills, $maxCVs)
+    public static function create($internship_role_id, $responsibilities, $qualifications_skills, $max_cvs, $deadline, $vacancy_count, $photo_id)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO advertisements(job_type, job_role, responsibilities, qualifications_skills, max_cvs) VALUES (?, ?, ?, ?, ?)', [
-            $job_type,
-            $job_role,
+        $currentBatch = Batch::currentBatch();
+        $auth_user = auth_user();
+
+        $db->query('
+            INSERT INTO
+            advertisements(internship_role_id, responsibilities, qualifications_skills, max_cvs, deadline, vacancy_count, photo_id, batch_id, company_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+            $internship_role_id,
             $responsibilities,
             $qualifications_skills,
-            $maxCVs
+            $max_cvs,
+            $deadline,
+            $vacancy_count,
+            $photo_id,
+            $currentBatch['id'],
+            $auth_user['id']
         ]);
     }
 
-    public static function getByInternshipRoleId($internshipRoleId)
+    public static function getByInternshipRoleIdWithoutAlreadyAppliedInTheFirstRound($internshipRoleId)
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM advertisements WHERE internship_role_id = ?', [$internshipRoleId])->get();
+        $auth_user = auth_user();
+        $currentBatch = Batch::currentBatch();
+
+        return $db->query('
+            SELECT
+                *
+            FROM advertisements
+            WHERE internship_role_id = ?
+            AND batch_id = ?
+            AND id NOT IN (
+                SELECT ad_id
+                FROM applications
+                WHERE student_id = ?
+                AND is_second_round IS null
+            )
+        ', [$internshipRoleId, $currentBatch['id'], $auth_user['id']])->get();
     }
 
     public static function getByBatchId($batchId)
@@ -149,6 +183,63 @@ class Ad
         $db = App::resolve(Database::class);
 
         return $db->query('SELECT * FROM advertisements WHERE batch_id = ?', [$batchId])->get();
+    }
+
+    public static function getByCompanyId($companyId)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('
+            SELECT
+                advertisements.*,
+                internship_roles.name AS internship_role
+            FROM advertisements
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE company_id = ? ORDER BY created_at DESC
+        ', [$companyId])->get();
+    }
+
+    public static function update($attributes, $id)
+    {
+        $db = App::resolve(Database::class);
+
+        // Step 1: Get current advertisement
+        $currentAd = $db->query('SELECT * FROM advertisements WHERE id = ?', [$id])->find();
+
+        if (!$currentAd) {
+            return null;
+        }
+
+        // Step 2: Merge attributes (use existing if not provided)
+        $maxCvs              = $attributes['max_cvs']              ?? $currentAd['max_cvs'];
+        $responsibilities    = $attributes['responsibilities']     ?? $currentAd['responsibilities'];
+        $qualifications      = $attributes['qualifications_skills']?? $currentAd['qualifications_skills'];
+        $deadline            = $attributes['deadline']             ?? $currentAd['deadline'];
+        $vacancyCount        = $attributes['vacancy_count']        ?? $currentAd['vacancy_count'];
+        $internshipRoleId    = $attributes['internship_role_id']   ?? $currentAd['internship_role_id'];
+        $photoId             = $attributes['photo_id']             ?? $currentAd['photo_id'];
+
+        // Step 3: Update with merged values
+        $db->query('
+            UPDATE advertisements
+            SET
+                max_cvs = ?,
+                responsibilities = ?,
+                qualifications_skills = ?,
+                deadline = ?,
+                vacancy_count = ?,
+                internship_role_id = ?,
+                photo_id = ?
+            WHERE id = ?',
+            [$maxCvs, $responsibilities, $qualifications, $deadline, $vacancyCount, $internshipRoleId, $photoId, $id]
+        );
+    }
+
+    static function delete($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM advertisements WHERE id = ?', [$id]);
     }
 
 }

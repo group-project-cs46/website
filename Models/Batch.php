@@ -74,6 +74,7 @@ class Batch
                 *,
                 CASE
                     WHEN first_round_end_time IS NULL OR first_round_end_time > NOW() THEN \'first\'
+                    WHEN first_round_end_time < NOW() AND second_round_start_time IS NULL THEN \'limbo\'
                     WHEN second_round_end_time IS NULL OR second_round_end_time > NOW() THEN \'second\'
                     ELSE \'completed\'
                 END AS current_round
