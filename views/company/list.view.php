@@ -88,9 +88,6 @@
         <!-- Short Listed Student Section -->
         <div class="table-box" id="shortedSection" style="display: none;">
             <!-- Display error message if no data -->
-            <?php if ($errorShortlisted): ?>
-                <p class="error"><?php echo $errorShortlisted; ?></p>
-            <?php else: ?>
                 <!-- Filter Dropdowns -->
                 <div class="filter-container">
                     <div class="filter-right">
@@ -122,7 +119,6 @@
                         <!-- Dynamic rows for shortlisted students -->
                     </tbody>
                 </table>
-            <?php endif; ?>
         </div>
 
         <!-- Modal Overlay for Add Interview Form -->
@@ -313,36 +309,35 @@
             tableBody.appendChild(row);
         });
     }
+// Function to render shortlisted student table
+function renderShortlistedTable(students) {
+    const tableBody = document.getElementById("student-table-body");
+    tableBody.innerHTML = ""; // Clear existing rows
 
-    // Function to render shortlisted student table
-    function renderShortlistedTable(students) {
-        const tableBody = document.getElementById("student-table-body");
-        tableBody.innerHTML = ""; // Clear existing rows
+    students.forEach((student, index) => {
+        const row = document.createElement("tr");
+        const isScheduled = scheduledStudents[index] || student.interview_id; // Check if interview is scheduled
+        row.setAttribute("data-index", index);
+        row.setAttribute("data-email", student.email);
+        row.setAttribute("data-jobrole", student.job_role);
+        row.setAttribute("data-application-id", student.application_id);
+        row.setAttribute("data-interview-id", student.interview_id || '');
 
-        students.forEach((student, index) => {
-            const row = document.createElement("tr");
-            const isScheduled = scheduledStudents[index] || student.interview_id; // Check if interview is scheduled
-            row.setAttribute("data-index", index);
-            row.setAttribute("data-email", student.email);
-            row.setAttribute("data-jobrole", student.job_role);
-            row.setAttribute("data-application-id", student.application_id);
-            row.setAttribute("data-interview-id", student.interview_id || '');
-
-            row.innerHTML = `
+        row.innerHTML = `
             <td>${student.student_name}</td>
             <td>${student.email}</td>
             <td>${student.job_role}</td>
             <td>
                 <span class="short-status-btn ${student.status === "Hired" ? "hired" : "not-hired"}">${student.status}</span>
             </td>
-           <td>
-    ${student.cv_filename ? 
-        `<a href="/company/cv/download?application_id=${student.application_id}" target="_blank" class="short-view-btn">Download </a>` : 
-        `<button class="short-view-btn" disabled>No CV</button>`
-    }
-</td>
             <td>
-                <button class="short-schedule-btn" data-student-index="${index}" data-application-id="${student.application_id}" data-interview-id="${student.interview_id || ''}" onclick="${isScheduled ? 'viewInterviewDetails(this)' : 'openAddInterviewModal(this)'}">
+                ${student.cv_filename ? 
+                    `<a href="/company/cv/download?application_id=${student.application_id}" target="_blank" class="short-view-btn">Download </a>` : 
+                    `<button class="short-view-btn" disabled>No CV</button>`
+                }
+            </td>
+            <td>
+                <button class="short-schedule-btn ${isScheduled ? 'scheduled' : ''}" data-student-index="${index}" data-application-id="${student.application_id}" data-interview-id="${student.interview_id || ''}" onclick="${isScheduled ? 'viewInterviewDetails(this)' : 'openAddInterviewModal(this)'}">
                     ${isScheduled ? 'Interview Scheduled' : 'Schedule Interview'}
                 </button>
             </td>
@@ -350,9 +345,9 @@
                 <button class="short-btn short-select-btn" onclick="selectShortlistedStudent(${index})">Select</button>
             </td>
         `;
-            tableBody.appendChild(row);
-        });
-    }
+        tableBody.appendChild(row);
+    });
+}  
 
     // Function to render selected student table
     function renderSelectedTable(students) {
