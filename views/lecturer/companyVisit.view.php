@@ -47,13 +47,14 @@
 
                             <!-- View Button (Optional) -->
                             <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
+                            <a href="/rejectReason?id=<?= $item['id'] ?>" class="view-button">Reject</a>
+
 
                             <!-- Reject Button -->
-                            <form action="" method="post" style="display:inline;" >
+                            <!-- <form action="" method="post" style="display:inline;" >
                                 <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                
                                 <button type="submit" class="disable-button"><a href="/rejectReason">Reject</a></button>
-                            </form>
+                            </form> -->
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -117,25 +117,25 @@
         <h2>Reject Reason</h2>
         <form method="post" action="/add-reason">
             <div class="form-group">
-                <label for="session-name">Name</label>
-                <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required>
+                <label for="session-name"> Company Name</label>
+                <input type="text" id="session-name" name="name"  required>
             </div>
 
             <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="date" value="<?= $TRAINING_SESSION['date'] ?>" required>
+                    <input type="date" id="date" name="date" required>
             </div>
 
             <div class="form-group">
-                <label for="venue">Place</label>
-                <input type="text" id="venue" name="venue" value="<?= $TRAINING_SESSION['venue'] ?>" required>
+                <label for="venue">Reason</label>
+                <input type="text" id="venue" name="venue"  required>
             </div>
             
            
 
             <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
 
-            <button type="submit" class="submit-btn">Save Change</button>
+            <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
     </div>
