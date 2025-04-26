@@ -25,6 +25,7 @@ $form = AdvertisementStore::validate($attributes = [
     'file' => $_FILES['file'] ?? null,
 ]);
 
+
 $currentBatch = Batch::currentBatch();
 if (!$currentBatch) {
     Session::flash('toast', "Can't create advertisement. No batch found.");
@@ -33,6 +34,7 @@ if (!$currentBatch) {
 $auth_user = auth_user();
 
 $photo_id = Storage::store($attributes['file'], isPublic: true);
+
 Ad::create(
     $attributes['internship_role_id'],
     $attributes['responsibilities'],

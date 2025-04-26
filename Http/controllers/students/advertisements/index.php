@@ -6,8 +6,6 @@ use Models\Company;
 
 $currentBatch = \Models\Batch::currentBatch();
 
-//dd($currentBatch);
-
 
 $companies = Company::byBatchId($currentBatch['id']);
 

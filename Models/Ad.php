@@ -133,6 +133,7 @@ class Ad
         ', [$id])->find();
     }
 
+
     public static function create(
         $internship_role_id, $responsibilities, $qualifications_skills, $max_cvs, $deadline, $vacancy_count, $photo_id, $batch_id, $company_id
     )
