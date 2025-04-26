@@ -85,7 +85,7 @@ class companyReport
 
         if ($existingReport) {
             // Delete the existing report file
-            $existingFilePath = base_path('storage/reports/' . $existingReport['filename']);
+            $existingFilePath = base_path('storage/' . $existingReport['filename']);
             if (file_exists($existingFilePath)) {
                 unlink($existingFilePath);
             }
@@ -148,7 +148,7 @@ class companyReport
         )->get();
 
         foreach ($reports as $report) {
-            $filePath = base_path('storage/reports/' . $report['filename']);
+            $filePath = base_path('storage/' . $report['filename']);
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
