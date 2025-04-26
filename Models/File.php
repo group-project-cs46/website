@@ -30,4 +30,11 @@ class File
 
         return $db->query('SELECT * FROM files WHERE id = ?', [$id])->find();
     }
+
+    static function delete($id)
+    {
+        $db = App::resolve(Database::class);
+
+        $db->query('DELETE FROM files WHERE id = ?', [$id]);
+    }
 }
