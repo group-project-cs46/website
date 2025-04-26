@@ -8,6 +8,16 @@ use Exception;
 
 class companyComplaint
 {
+    // Helper method to get the authenticated company_id
+    private static function getCompanyId()
+    {
+        $auth_user = auth_user();
+        if (!$auth_user || !isset($auth_user['id'])) {
+            throw new Exception('User not authenticated or company_id not found');
+        }
+        return $auth_user['id'];
+    }
+
     public static function create($complaintType, $subject, $complaintDescription, $complainantId, $indexNo = null)
     {
         date_default_timezone_set('Asia/Colombo');
@@ -20,6 +30,12 @@ class companyComplaint
         }
         if (empty($complaintDescription)) {
             throw new Exception("Complaint description is required.");
+        }
+
+        // Verify that the complainantId matches the authenticated company
+        $company_id = self::getCompanyId();
+        if ($complainantId != $company_id) {
+            throw new Exception("Unauthorized: Complainant ID does not match the authenticated company.");
         }
 
         $db = App::resolve(Database::class);
@@ -60,6 +76,12 @@ class companyComplaint
     {
         $db = App::resolve(Database::class);
 
+        // Verify that the userId matches the authenticated company
+        $company_id = self::getCompanyId();
+        if ($userId != $company_id) {
+            throw new Exception("Unauthorized: User ID does not match the authenticated company.");
+        }
+
         try {
             $complaints = $db->query(
                 'SELECT c.*, s.index_number 
@@ -93,9 +115,14 @@ class companyComplaint
 
         $db = App::resolve(Database::class);
 
+        // Fetch the existing complaint and verify ownership
+        $company_id = self::getCompanyId();
         $existingComplaint = $db->query('SELECT * FROM complaints WHERE id = ?', [$id])->find();
         if (!$existingComplaint) {
             throw new Exception("Complaint with ID '$id' not found.");
+        }
+        if ($existingComplaint['complainant_id'] != $company_id) {
+            throw new Exception("Unauthorized: You can only update your own complaints.");
         }
 
         try {
@@ -112,10 +139,10 @@ class companyComplaint
                 }
             }
 
-            // Include updated_at in the query now that the column exists
+            // Remove updated_at from the query
             $db->query(
                 'UPDATE complaints 
-                 SET complaint_type = ?, subject = ?, description = ?, accused_id = ?, updated_at = CURRENT_TIMESTAMP 
+                 SET complaint_type = ?, subject = ?, description = ?, accused_id = ? 
                  WHERE id = ?',
                 [
                     $complaintType,
@@ -132,9 +159,20 @@ class companyComplaint
             throw new Exception($e->getMessage());
         }
     }
+
     public static function delete($id)
     {
         $db = App::resolve(Database::class);
+
+        // Verify that the complaint belongs to the authenticated company
+        $company_id = self::getCompanyId();
+        $existingComplaint = $db->query('SELECT * FROM complaints WHERE id = ?', [$id])->find();
+        if (!$existingComplaint) {
+            throw new Exception("Complaint with ID '$id' not found.");
+        }
+        if ($existingComplaint['complainant_id'] != $company_id) {
+            throw new Exception("Unauthorized: You can only delete your own complaints.");
+        }
 
         try {
             $db->query('DELETE FROM complaints WHERE id = ?', [$id]);

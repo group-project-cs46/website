@@ -80,7 +80,7 @@
                 <!-- Right Column: Profile & Deadlines -->
                 <div>
                     <!-- Profile Overview -->
-                    <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
+                    <div style="background: var(--color-primary); border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px;">
                         <h2 style="font-size: 20px; margin: 0 0 15px 0;">Profile Overview</h2>
                         <p style="font-size: 14px; margin: 5px 0;">Name: <?= $user['name'] ?></p>
                         <p style="font-size: 14px; margin: 5px 0;">Course: <?= ucwords($user['course']) ?></p>

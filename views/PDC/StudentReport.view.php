@@ -4,46 +4,111 @@
 
 
 <main class="main-content">
-    <header class="header">
-        <div class="above">
-            <i class="fas fa-comments" style="font-size: 40px;"></i>
-            <h2><b>Student Report</b></h2>
-        </div>
-        <input type="text" placeholder="Search ..." class="search-bar" oninput="filterReports()">
-    </header>
+    <div class="container">
+        <header class="header">
+            <div class="above">
+                <i class="fas fa-comments" style="font-size: 40px;"></i>
+                <h2><b>Reports</b></h2>
+            </div>
+            <div class="filter-search-container">
+                <select id="filterColumn" onchange="filterReports()">
+                    <option value="all">All Columns</option>
+                    <option value="sender_name">Sender Name</option>
+                    <option value="file_name">File Name</option>
+                    <option value="created_at">Created Date</option>
+                    <option value="description">Description</option>
+                </select>
+                <input type="text" placeholder="Search ..." class="search-bar" oninput="filterReports()">
+            </div>
+        </header>
 
-    <section class="content">
-        <div class="table-title">
+        <section class="content">
+            <!-- <div class="table-title">
             <h3><b>Student Report</b></h3>
             <p>View Student Report provided by Company</p>
-        </div>
+        </div> -->
+            <div class="tabs">
+                <div class="student-report active-tab" id="studentreport-tab" onclick="togglecompany('student-report-section')">
+                    <h3>Student Reports</h3>
+                    <p>View Reports provided by students</p>
+                </div>
 
-        <table class="reports-table">
-            <thead>
-                <tr>
-                    <th>Student Name</th>
-                    <th>Index No.</th>
-                    <th>Company</th>
-                    
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="reportsTableBody">
-            <?php foreach ($reports as $report): ?>
-                <tr id="row-<?= $report['id'] ?>">
-                    <td><?= htmlspecialchars($report['student_name']) ?></td>
-                    <td><?= htmlspecialchars($report['index_number']) ?></td>
-                    <td><?= htmlspecialchars($report['company_name']) ?></td>
-                    
-                    <td>
-                        <button class="view-button" onclick="viewReport(<?= $report['id'] ?>)">View</button>
-                        <button class="delete-button" onclick="deleteReport(<?= $report['id'] ?>)">Delete</button>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+                <div class="divider"></div>
+
+                <div class="company-reports" id="companyreport-tab" onclick="togglecompany('company-reports-section')">
+                    <h3>Company Reports</h3>
+                    <p>View student Reports provided by companies</p>
+                </div>
+            </div>
+            <div class="container2" id="student-report-section">
+                <div class="table-title">
+                    <h3><b>Student Report</b></h3>
+                    <p>Reports submited by students</p>
+                </div>
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Student_Name</th> 
+                            <th>index_number</th>                          
+                            <th>File_Name</th>
+                            <th>Created_date</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTableBody">
+                        <?php foreach ($reports as $report): ?>
+                            <tr id="row-<?= $report['id'] ?>">
+                                <td><?= htmlspecialchars($report['sender_name']) ?></td> 
+                                <td><?= htmlspecialchars($report['index_number']) ?></td>                              
+                                <td><?= htmlspecialchars($report['original_name']) ?></td>
+                                <td><?= htmlspecialchars($report['created_date']) ?></td>
+                                <td><?= htmlspecialchars($report['description']) ?></td>
+                                <td>
+                                    <button class="download-button" onclick="downloadReport(<?= $report['id'] ?>)">Download</button>
+                                    <button class="delete-button" onclick="deleteReport(<?= $report['id'] ?>)">Delete</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container2" id="company-reports-section" style="display: none;">
+                <div class="table-title">
+                    <h3><b>Company student Reports</b></h3>
+                    <p>Reports submited by companies</p>
+                </div>
+                <table class="reports-table">
+                    <thead>
+                    <tr>
+                            <th>Company_Name</th>                           
+                            <th>File_Name</th>
+                            <th>created_date</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="companyreportsTableBody">
+                    <?php foreach ($companyreports as $companyreport): ?>
+                            <tr id="row-<?= $companyreport['id'] ?>">
+                                <td><?= htmlspecialchars($companyreport['sender_name']) ?></td>                               
+                                <td><?= htmlspecialchars($companyreport['original_name']) ?></td>
+                                <td><?= htmlspecialchars($companyreport['created_date']) ?></td>
+                                <td><?= htmlspecialchars($companyreport['description']) ?></td>
+
+                                <td>
+                                    <button class="download-button" onclick="downloadReport(<?= $companyreport['id'] ?>)">Download</button>
+                                    <button class="delete-button" onclick="deleteReport(<?= $companyreport['id'] ?>)">Delete</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
 </main>
 
 <!-- Popup for Report Details -->
@@ -58,48 +123,60 @@
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-    let reports = <?= json_encode($reports) ?>;
+    function togglecompany(sectionId) {
+        const studentreportsSection = document.getElementById('student-report-section');
+        const companyreportSection = document.getElementById('company-reports-section');
+        const studentreportTab = document.getElementById('studentreport-tab');
+        const companyreportTab = document.getElementById('companyreport-tab');
 
-    function viewReport(reportId) {
-    const report = reports.find(r => r.id === reportId);
-    if (!report) return;
-
-    let reportLinks = '';
-    for (let i = 1; i <= 6; i++) {
-        const key = `report${i}`;
-        if (report[key]) {
-            const fileName = report[key].split('/').pop();
-            reportLinks += `<p><strong>Report ${i} -</strong> <a href="/${report[key]}" target="_blank">${fileName}</a></p>`;
+        if (sectionId === 'student-report-section') {
+            studentreportsSection.style.display = 'block';
+            companyreportSection.style.display = 'none';
+            studentreportTab.classList.add('active-tab');
+            companyreportTab.classList.remove('active-tab');
+        } else if (sectionId === 'company-reports-section') {
+            studentreportsSection.style.display = 'none';
+            companyreportSection.style.display = 'block';
+            studentreportTab.classList.remove('active-tab');
+            companyreportTab.classList.add('active-tab');
         }
     }
 
-    document.getElementById('reportDetails').innerHTML = `
-        <p><strong>Name:</strong> ${report.student_name}</p>
-        <p><strong>Index No:</strong> ${report.index_number}</p>
-        <p><strong>Company:</strong> ${report.company_name}</p>
-        ${reportLinks}
-    `;
-    openPopup();
-}
+    // Set initial visibility
+    document.getElementById('student-report-section').style.display = 'block';
+    document.getElementById('company-reports-section').style.display = 'none';
+
+
+    let reports = <?= json_encode($reports) ?>;
+
+    function downloadReport(id) {
+        const url = `/PDC/downloadReport?id=${encodeURIComponent(id)}`;
+        window.open(url, '_blank');
+    }
+   
 
 
     function deleteReport(reportId) {
         if (confirm("Are you sure you want to delete this report?")) {
             fetch('/PDC/deletestudentreport', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ delete_id: reportId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById(`row-${reportId}`).remove();
-                    alert("Report deleted successfully!");
-                } else {
-                    alert("Error deleting report.");
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        delete_id: reportId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById(`row-${reportId}`).remove();
+                        alert("Report deleted successfully!");
+                    } else {
+                        alert("Error deleting report.");
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
     }
 
@@ -120,18 +197,76 @@
 
     function filterReports() {
         const searchTerm = document.querySelector('.search-bar').value.toLowerCase();
-        const rows = document.querySelectorAll('.reports-table tbody tr');
+        const filterColumn = document.getElementById('filterColumn').value;
+        const isStudentTabActive = document.getElementById('student-report-section').style.display === 'block';
 
-        rows.forEach(row => {
-            const studentName = row.cells[0].textContent.toLowerCase();
-            const indexNo = row.cells[1].textContent.toLowerCase();
-            const companyName = row.cells[2].textContent.toLowerCase();
+        if (isStudentTabActive) {
+            // Filter Student Reports
+            const rows = document.querySelectorAll('.student-reports-table tbody tr');
+            rows.forEach(row => {
+                const columns = {
+                    'sender_name': 0,    // Student_Name
+                    'index_number': 1,   // index_number
+                    'file_name': 2,      // File_Name
+                    'created_date': 3,   // Created_date
+                    'description': 4     // Description
+                };
 
-            if (studentName.includes(searchTerm) || indexNo.includes(searchTerm) || companyName.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+                let shouldDisplay = false;
+
+                if (filterColumn === 'all') {
+                    const senderName = row.cells[0].textContent.toLowerCase();
+                    const indexNumber = row.cells[1].textContent.toLowerCase();
+                    const fileName = row.cells[2].textContent.toLowerCase();
+                    const createdDate = row.cells[3].textContent.toLowerCase();
+                    const description = row.cells[4].textContent.toLowerCase();
+
+                    shouldDisplay = senderName.includes(searchTerm) ||
+                        indexNumber.includes(searchTerm) ||
+                        fileName.includes(searchTerm) ||
+                        createdDate.includes(searchTerm) ||
+                        description.includes(searchTerm);
+                } else {
+                    const columnIndex = columns[filterColumn];
+                    const cellText = row.cells[columnIndex].textContent.toLowerCase();
+                    shouldDisplay = cellText.includes(searchTerm);
+                }
+
+                row.style.display = shouldDisplay ? '' : 'none';
+            });
+        } else {
+            // Filter Company Reports
+            const rows = document.querySelectorAll('.company-reports-table tbody tr');
+            rows.forEach(row => {
+                const columns = {
+                    'sender_name': 0,    // Company_Name
+                    'file_name': 1,      // File_Name
+                    'created_date': 2,   // created_date
+                    'description': 3     // Description
+                };
+
+                let shouldDisplay = false;
+
+                if (filterColumn === 'all' || filterColumn === 'index_number') {
+                    const senderName = row.cells[0].textContent.toLowerCase();
+                    const fileName = row.cells[1].textContent.toLowerCase();
+                    const createdDate = row.cells[2].textContent.toLowerCase();
+                    const description = row.cells[3].textContent.toLowerCase();
+
+                    shouldDisplay = senderName.includes(searchTerm) ||
+                        fileName.includes(searchTerm) ||
+                        createdDate.includes(searchTerm) ||
+                        description.includes(searchTerm);
+                } else {
+                    const columnIndex = columns[filterColumn];
+                    const cellText = row.cells[columnIndex].textContent.toLowerCase();
+                    shouldDisplay = cellText.includes(searchTerm);
+                }
+
+                row.style.display = shouldDisplay ? '' : 'none';
+            });
+        }
     }
 </script>
+
+

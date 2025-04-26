@@ -7,6 +7,22 @@ use Core\Database;
 
 class Application
 {
+    public static function getApplicationsWithoutSelectedStudents($ad_id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('
+            SELECT a.*
+            FROM applications a
+            WHERE a.ad_id = ? AND NOT EXISTS (
+                SELECT 1
+                FROM applications a2
+                WHERE a2.student_id = a.student_id
+                AND a2.selected = true
+                AND a2.id != a.id
+            )
+        ', [$ad_id])->get();
+    }
     public static function getByAdId($ad_id)
     {
         $db = App::resolve(Database::class);
@@ -85,6 +101,7 @@ class Application
             SELECT 
                 applications.id,
                 applications.created_at,
+                applications.is_second_round,
                 internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
@@ -93,6 +110,7 @@ class Application
                 selected,
                 failed,
                 cvs.original_name AS cv_name,
+                cvs.id AS cv_id,
                 users.name AS company_name
             FROM applications 
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id 
@@ -102,6 +120,7 @@ class Application
             LEFT JOIN cvs ON applications.cv_id = cvs.id
             LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
             WHERE applications.student_id = ?
+            ORDER BY created_at
         ', [$student_id])->get();
     }
 
@@ -116,7 +135,15 @@ class Application
     {
         $db = App::resolve(Database::class);
 
-        return $db->query('SELECT * FROM applications WHERE id = ?', [$id])->find();
+        return $db->query('
+            SELECT 
+                applications.*,
+                internship_roles.name AS internship_role
+            FROM applications
+            LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+            LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
+            WHERE applications.id = ?
+       ', [$id])->find();
     }
 
     public static function create($student_id, $cv_id, $ad_id)

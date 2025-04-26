@@ -29,6 +29,12 @@ class Validator
         return false;
     }
 
+    //gte
+    public static function gte($value, $min)
+    {
+        return $value >= $min;
+    }
+
     public static function file($file, $allowedExtensions = [], $maxSize = INF)
     {
         if ($file['error'] !== UPLOAD_ERR_OK) {

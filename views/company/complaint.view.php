@@ -9,19 +9,6 @@
         <i class="fa-brands fa-readme" style="font-size: 40px;"></i>
         <h2>Complaint Management</h2>
       </div>
-
-      <div class="above-right">
-        <div class="company-info">
-          <i class="fa-regular fa-building" style="font-size: 40px;"></i>
-          <div class="company-name">
-            Creative<br>Software
-          </div>
-        </div>
-
-        <div>
-          <i class="fa-solid fa-bell" style="font-size: 40px;"></i>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -41,83 +28,100 @@
     </div>
 
     <!-- Complaint Form Section -->
-    <section class="complaint-section active" id="complaintFormSection">
-      <form class="form-container show" id="complaintForm" method="POST" action="/company_complaint/store">
-        <label for="complaintType">Complaint Type</label>
-        <select id="complaintType" name="complaint_type" class="select-input" required>
-          <option value="" disabled selected>Select complaint type</option>
-          <option value="system">System Complaint</option>
-          <option value="student">Student Complaint</option>
-        </select>
-
-        <div id="subjectField">
-          <label for="complaintSubject">Subject of Complaint</label>
-          <input type="text" id="complaintSubject" name="subject" placeholder="Enter subject of complaint" required>
+    <section class="complaint-form-section active" id="complaintFormSection">
+      <div class="form-container">
+        <div>
+          <h2>Upload Complaint</h2>
         </div>
-
-        <div id="indexField" style="display: none;">
-          <label for="studentIndex">Student Index Number</label>
-          <input type="text" id="studentIndex" name="index_no" placeholder="Enter student index number (e.g., 22001432)" required>
-        </div>
-
-        <div id="descriptionField">
-          <label for="complaintDescription">Complaint Description</label>
-          <textarea id="complaintDescription" name="complaint_description" placeholder="Enter complaint description here" required></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn">Submit</button>
-      </form>
-    </section>
-
-    <!-- View Complaint Section -->
-    <section class="complaint-section" id="viewComplaintSection">
-      <div class="view-complaint-container">
-        <h2>View Complaints</h2>
-        <div id="complaintList">
-          <p>No complaints available to display at the moment.</p>
-        </div>
-        <!-- Detailed Complaint View -->
-        <div id="complaintDetail" class="complaint-detail" style="display: none;">
-          <h3>Complaint Details</h3>
-          <div id="complaintDetailContent"></div>
-          <div class="complaint-actions">
-            <button class="edit-btn" onclick="editComplaint()">Edit</button>
-            <button class="delete-btn" onclick="deleteComplaint()">Delete</button>
-            <button class="back-btn" onclick="hideComplaintDetail()">Back to List</button>
-          </div>
-        </div>
-        <!-- Edit Complaint Form -->
-        <div id="editComplaintForm" class="complaint-edit-form" style="display: none;">
-          <h3>Edit Complaint</h3>
-          <form id="editForm" method="POST" action="/company_complaint/edit">
-            <input type="hidden" id="editComplaintId" name="id">
-            <label for="editComplaintType">Complaint Type</label>
-            <select id="editComplaintType" name="complaint_type" class="select-input" required>
+        <form class="form-content" id="complaintForm" method="POST" action="/company_complaint/store">
+          <div class="form-field">
+            <label for="complaintType">Complaint Type:</label>
+            <select id="complaintType" name="complaint_type" class="select-input" required>
+              <option value="" disabled selected>Select complaint type</option>
               <option value="system">System Complaint</option>
               <option value="student">Student Complaint</option>
             </select>
+          </div>
 
-            <div id="editSubjectField">
-              <label for="editComplaintSubject">Subject of Complaint</label>
-              <input type="text" id="editComplaintSubject" name="subject" placeholder="Enter subject of complaint" required>
-            </div>
+          <div class="form-field" id="subjectField">
+            <label for="complaintSubject">Subject of Complaint:</label>
+            <input type="text" id="complaintSubject" name="subject" placeholder="Enter subject of complaint" required>
+          </div>
 
-            <div id="editIndexField" style="display: none;">
-              <label for="editStudentIndex">Student Index Number</label>
-              <input type="text" id="editStudentIndex" name="index_no" placeholder="Enter student index number (e.g., 22001432)">
-            </div>
+          <div class="form-field" id="indexField" style="display: none;">
+            <label for="studentIndex">Student Index Number:</label>
+            <input type="text" id="studentIndex" name="index_no" placeholder="Enter student index number (e.g., 22001432)">
+          </div>
 
-            <div id="editDescriptionField">
-              <label for="editComplaintDescription">Complaint Description</label>
-              <textarea id="editComplaintDescription" name="complaint_description" placeholder="Enter complaint description here" required></textarea>
-            </div>
+          <div class="form-field" id="descriptionField">
+            <label for="complaintDescription">Complaint Description:</label>
+            <textarea id="complaintDescription" name="complaint_description" placeholder="Enter complaint description here" required style="flex-grow: 1; min-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"></textarea>
+          </div>
 
-            <button type="submit" class="submit-btn">Update</button>
-            <button type="button" class="cancel-btn" onclick="cancelEdit()">Cancel</button>
-          </form>
-        </div>
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
       </div>
     </section>
+
+    <!-- View Complaint Section -->
+    <section class="complaint-view-section" id="viewComplaintSection">
+      <div class="view-complaint-container">
+        <h2>View Complaints</h2>
+        <table class="complaint-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Subject</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="complaintTableBody">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 10px;">
+                No complaints found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Edit Complaint Modal -->
+    <div class="modal-overlay" id="editModal" style="display: none;">
+      <div class="modal-content">
+        <h3>Edit Complaint</h3>
+        <form id="editForm">
+          <input type="hidden" id="editComplaintId" name="id">
+          <label for="editComplaintType">Complaint Type:</label>
+          <select id="editComplaintType" name="complaint_type" class="select-input" required>
+            <option value="system">System Complaint</option>
+            <option value="student">Student Complaint</option>
+          </select>
+
+          <div id="editSubjectField">
+            <label for="editComplaintSubject">Subject of Complaint:</label>
+            <input type="text" id="editComplaintSubject" name="subject" placeholder="Enter subject of complaint" required>
+          </div>
+
+          <div id="editIndexField" style="display: none;">
+            <label for="editStudentIndex">Student Index Number:</label>
+            <input type="text" id="editStudentIndex" name="index_no" placeholder="Enter student index number (e.g., 22001432)">
+          </div>
+
+          <div id="editDescriptionField">
+            <label for="editComplaintDescription">Complaint Description:</label>
+            <textarea id="editComplaintDescription" name="complaint_description" placeholder="Enter complaint description here" required style="width: 100%; min-height: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px;"></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="submit-btn">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     <!-- Popup Overlay for Messages -->
     <div class="popup-overlay" id="popupOverlay" style="display: none;">
@@ -159,7 +163,7 @@ function toggleFormFields() {
   }
 }
 
-// Function to fetch and render complaints from the backend
+// Function to fetch and render complaints in a table
 function fetchAndRenderComplaints() {
   fetch('/company/complaint/list', {
     method: 'GET',
@@ -169,82 +173,66 @@ function fetchAndRenderComplaints() {
   })
     .then(response => response.json())
     .then(data => {
-      const complaintList = document.getElementById('complaintList');
-      if (!data.success || data.complaints.length === 0) {
-        complaintList.innerHTML = '<p>No complaints available to display at the moment.</p>';
+      const complaintTableBody = document.getElementById('complaintTableBody');
+      // Check if the request failed
+      if (!data.success) {
+        complaintTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Failed to fetch complaints. Please try again later.</td></tr>';
         return;
       }
-
-      let html = '<ul class="complaint-items">';
-      data.complaints.forEach((complaint, index) => {
+      // Check if there are no complaints
+      if (data.complaints.length === 0) {
+        complaintTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">No complaints found.</td></tr>';
+        return;
+      }
+      // Render complaints in table
+      let html = '';
+      data.complaints.forEach(complaint => {
         html += `
-          <li class="complaint-item">
-            <strong>Complaint ${index + 1}</strong><br>
-            <span><strong>Subject:</strong> ${complaint.subject}</span><br>
-            <button class="view-btn" onclick='showComplaintDetail(${JSON.stringify(complaint)})'>View</button>
-          </li>
+          <tr>
+            <td>${complaint.complaint_type === 'system' ? 'System Complaint' : 'Student Complaint'}</td>
+            <td><a href="/company/complaint/show?id=${complaint.id}">${complaint.subject}</a></td>
+            <td>${complaint.description}</td>
+            <td>${complaint.status || 'Pending'}</td>
+            <td>
+              <button class="button" onclick='openEditModal(${JSON.stringify(complaint)})'>Edit</button>
+            </td>
+            <td>
+              <button class="button is-red" onclick='deleteComplaint(${complaint.id})'>Delete</button>
+            </td>
+          </tr>
         `;
       });
-      html += '</ul>';
-      complaintList.innerHTML = html;
+      complaintTableBody.innerHTML = html;
     })
     .catch(error => {
       console.error('Error fetching complaints:', error);
-      document.getElementById('complaintList').innerHTML = '<p>Error loading complaints. Please try again later.</p>';
+      document.getElementById('complaintTableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">Error loading complaints. Please try again later.</td></tr>';
     });
 }
 
-// Function to show detailed complaint view
-function showComplaintDetail(complaint) {
+// Function to open the edit modal
+function openEditModal(complaint) {
   currentComplaint = complaint;
-  const complaintList = document.getElementById('complaintList');
-  const complaintDetail = document.getElementById('complaintDetail');
-  const editComplaintForm = document.getElementById('editComplaintForm');
-  const complaintDetailContent = document.getElementById('complaintDetailContent');
+  const editModal = document.getElementById('editModal');
 
-  complaintList.style.display = 'none';
-  editComplaintForm.style.display = 'none';
-  complaintDetail.style.display = 'block';
-
-  const createdAt = new Date(complaint.created_at).toLocaleString('en-US', { timeZone: 'Asia/Colombo' });
-  let html = `
-    <p><strong>Type:</strong> ${complaint.complaint_type === 'system' ? 'System Complaint' : 'Student Complaint'}</p>
-    <p><strong>Subject:</strong> ${complaint.subject}</p>
-    ${complaint.accused_id !== 1 ? `<p><strong>Student Index:</strong> ${complaint.index_number}</p>` : ''}
-    <p><strong>Description:</strong> ${complaint.description}</p>
-    <p><strong>Status:</strong> ${complaint.status || 'Pending'}</p>
-    <p><strong>Created At:</strong> ${createdAt}</p>
-  `;
-  complaintDetailContent.innerHTML = html;
-}
-
-// Function to show the edit form
-function editComplaint() {
-  const complaintDetail = document.getElementById('complaintDetail');
-  const editComplaintForm = document.getElementById('editComplaintForm');
-
-  complaintDetail.style.display = 'none';
-  editComplaintForm.style.display = 'block';
-
-  console.log('Current complaint:', currentComplaint); // Debug log
-  document.getElementById('editComplaintId').value = currentComplaint.id;
-  document.getElementById('editComplaintType').value = currentComplaint.complaint_type;
-  document.getElementById('editComplaintSubject').value = currentComplaint.subject;
-  document.getElementById('editComplaintDescription').value = currentComplaint.description;
-  document.getElementById('editStudentIndex').value = currentComplaint.index_number || '';
+  document.getElementById('editComplaintId').value = complaint.id;
+  document.getElementById('editComplaintType').value = complaint.complaint_type;
+  document.getElementById('editComplaintSubject').value = complaint.subject;
+  document.getElementById('editComplaintDescription').value = complaint.description;
+  document.getElementById('editStudentIndex').value = complaint.index_number || '';
 
   toggleEditFormFields();
+  editModal.style.display = 'flex';
 }
 
-// Function to cancel editing and return to the detail view
-function cancelEdit() {
-  const editComplaintForm = document.getElementById('editComplaintForm');
-  editComplaintForm.style.display = 'none';
-  showComplaintDetail(currentComplaint);
+// Function to close the edit modal
+function closeEditModal() {
+  const editModal = document.getElementById('editModal');
+  editModal.style.display = 'none';
 }
 
 // Function to delete a complaint
-function deleteComplaint() {
+function deleteComplaint(id) {
   if (!confirm('Are you sure you want to delete this complaint?')) {
     return;
   }
@@ -254,13 +242,12 @@ function deleteComplaint() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ id: currentComplaint.id })
+    body: JSON.stringify({ id: id })
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showPopup('Complaint deleted successfully');
-        hideComplaintDetail();
         fetchAndRenderComplaints();
       } else {
         showPopup('Failed to delete complaint', true);
@@ -270,17 +257,6 @@ function deleteComplaint() {
       console.error('Error deleting complaint:', error);
       showPopup('Error deleting complaint', true);
     });
-}
-
-// Function to hide detailed complaint view and show the list
-function hideComplaintDetail() {
-  const complaintList = document.getElementById('complaintList');
-  const complaintDetail = document.getElementById('complaintDetail');
-  const editComplaintForm = document.getElementById('editComplaintForm');
-
-  complaintDetail.style.display = 'none';
-  editComplaintForm.style.display = 'none';
-  complaintList.style.display = 'block';
 }
 
 // Toggle between Complaint Form and View Complaint sections
@@ -329,6 +305,36 @@ document.getElementById('complaintType').addEventListener('change', toggleFormFi
 // Handle complaint type change for edit form
 document.getElementById('editComplaintType').addEventListener('change', toggleEditFormFields);
 
+// Handle edit form submission
+document.getElementById('editForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData);
+
+  fetch('/company_complaint/edit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showPopup('Complaint updated successfully');
+        closeEditModal();
+        fetchAndRenderComplaints();
+      } else {
+        showPopup(data.error || 'Failed to update complaint', true);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating complaint:', error);
+      showPopup('Error updating complaint', true);
+    });
+});
+
 // Check for success or error message on page load
 window.onload = () => {
   toggleSection('complaintForm');
@@ -343,37 +349,6 @@ window.onload = () => {
     showPopup(decodeURIComponent(errorMessage), true);
   }
 };
-
-// Handle edit form submission
-document.getElementById('editForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const formData = new FormData(this);
-  const data = Object.fromEntries(formData);
-  console.log('Form data:', data); // Log the data being sent
-
-  fetch('/company_complaint/edit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        showPopup('Complaint updated successfully');
-        fetchAndRenderComplaints();
-        hideComplaintDetail();
-      } else {
-        showPopup(data.error || 'Failed to update complaint', true);
-      }
-    })
-    .catch(error => {
-      console.error('Error updating complaint:', error);
-      showPopup('Error updating complaint', true);
-    });
-});
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

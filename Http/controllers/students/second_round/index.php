@@ -2,10 +2,9 @@
 
 use Models\Cv;
 use Models\InternshipRole;
-use Models\Round;
 use Models\SecondRoundRole;
 
-$currentRound = Round::currentRound();
+//$currentRound = Round::currentRound();
 
 
 
@@ -28,7 +27,7 @@ $available_roles = InternshipRole::getAll();
 
 view('students/second_round/index.view.php', [
     'errors' => $_SESSION['_flash']['errors'] ?? [],
-    'currentRound' => $currentRound,
+//    'currentRound' => $currentRound,
     'chosen_roles' => $chosen_roles,
     'userCvs' => $userCvs,
     'available_roles' => $available_roles,

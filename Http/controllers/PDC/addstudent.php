@@ -10,18 +10,23 @@ $registration_number = $_POST["registration_number"] ?? null;
 $email = $_POST["email"] ?? null;
 $course = $_POST["course"] ?? null;
 
-//    dd($course);
-
 if ($name && $index_number && $registration_number && $email && $course) {
     $password = password_hash($index_number, PASSWORD_DEFAULT);
-    AddStudent::create_student($registration_number, $course, $email, $name, $index_number, $password);
-    //$mailer = App::resolve(Mail::class);
-    //$mailer->send($email, 'Welcome to PDC', 'Your account has been created. Your password is your index number.');
+    
+    try {
+        AddStudent::create_student($registration_number, $course, $email, $name, $index_number, $password);
 
-    header('Location: /PDC/managestudents');
-    exit; // Ensure the script stops after the redirect
+        $mailer = App::resolve(Mail::class);
+        $mailer->send($email, 'Welcome to PDC', 'Your account has been created. Your password is your index number.');
+
+        header('Location: /PDC/managestudents');
+        exit;
+    } catch (Exception $e) {
+        // Display error message as a JavaScript alert
+        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
+        exit;
+    }
 } else {
-    // Handle missing fields (optional)
-    echo "All fields are required.";
+    echo "<script>alert('All fields are required.'); window.history.back();</script>";
     exit;
 }

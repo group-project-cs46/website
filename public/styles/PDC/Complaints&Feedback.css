@@ -28,6 +28,66 @@
   margin: 0;
 }
 
+.filter-search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#filterColumn {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.status-pending {
+  color: green;
+  font-weight: bold;
+}
+
+.status-in_review {
+  color: green;
+  font-weight: bold;
+}
+
+.status-resolved {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-rejected {
+  color: red;
+  font-weight: bold;
+}
+
+
+/* Style for disabled buttons */
+.button-disabled {
+  background-color: #cccccc; /* Gray background */
+  color: #666666; /* Darker gray text */
+  cursor: not-allowed; /* Show "not-allowed" cursor */
+  border: 1px solid #999999; /* Gray border */
+  opacity: 0.5; /* Faded buttons */
+}
+
+/* Ensure buttons look disabled when the HTML disabled attribute is set */
+button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  border: 1px solid #999999;
+  opacity: 0.5; /* Faded buttons */
+}
+
+#filterColumn:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
 .search-bar {
   padding: 10px;
   border-radius: 5px;
@@ -80,7 +140,7 @@ table {
   background-color: #F9FAFB;
 }
 
-.view-button, .reject-button {
+.view-button, .reject-button , .solved-button {
   padding: 8px 12px;
   border: none;
   border-radius: 5px;
@@ -88,7 +148,7 @@ table {
   cursor: pointer;
 }
 
-.view-button {
+.view-button, .solved-button {
   background-color: #007bff;
   color: white;
 }

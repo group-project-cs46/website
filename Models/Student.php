@@ -5,6 +5,8 @@ namespace Models;
 use Core\App;
 use Core\Database;
 
+
+
 class Student
 {
 
@@ -47,4 +49,27 @@ class Student
         );
     }
 
+    public static function getSelectedForCompany($companyId)
+    {
+        $db = App::resolve(Database::class);
+
+        $currentBatch = Batch::currentBatch();
+
+        return $db->query('
+            SELECT
+                applications.*,
+                advertisements.batch_id,
+                advertisements.company_id,
+                students.index_number,
+	            users.name
+            FROM applications
+            LEFT JOIN advertisements ON applications.ad_id = advertisements.id
+            LEFT JOIN students ON applications.student_id = students.id
+            LEFT JOIN users ON users.id = applications.student_id
+            WHERE
+                applications.selected = TRUE
+                AND advertisements.batch_id = ?
+                AND advertisements.company_id = ?
+        ', [$currentBatch['id'], $companyId])->get();
+    }
 }
