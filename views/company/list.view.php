@@ -87,10 +87,6 @@
 
         <!-- Short Listed Student Section -->
         <div class="table-box" id="shortedSection" style="display: none;">
-            <!-- Display error message if no data -->
-            <?php if ($errorShortlisted): ?>
-                <p class="error"><?php echo $errorShortlisted; ?></p>
-            <?php else: ?>
                 <!-- Filter Dropdowns -->
                 <div class="filter-container">
                     <div class="filter-right">
@@ -122,7 +118,6 @@
                         <!-- Dynamic rows for shortlisted students -->
                     </tbody>
                 </table>
-            <?php endif; ?>
         </div>
 
         <!-- Modal Overlay for Add Interview Form -->
