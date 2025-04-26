@@ -44,7 +44,7 @@
                                 <a href="/trainingView?id=<?= $training_session['id'] ?>" class="view-button">View</a>
                                 <a href="/admin/training_sessions/qrcodes/show?id=<?= $training_session['qrcode_id'] ?>" class="view-button">Download QR</a>
                                 <a href="/trainingEdit?id=<?=$training_session['id'] ?>" class="view-button">Edit</a>
-                                <form action="/trainingDeletion" method="post" style="display:inline;">
+                                <form action="/trainingDeletion" method="post" style="display:inline;" onsubmit="return confirmReject();">
                                     <input type="hidden" name="id" value="<?=$training_session['id'] ?>">
                                     <button type="submit" class="disable-button">Delete</button>
                                 </form>
@@ -67,6 +67,12 @@
             rows[i].style.display = rowText.includes(filter) ? "" : "none";
         }
     }
+
+    function confirmReject() {
+        return confirm("Are you sure you want to delete this session?");
+    }
+
+
     </script>
 </div>
 
