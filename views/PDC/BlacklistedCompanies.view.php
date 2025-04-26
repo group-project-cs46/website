@@ -18,7 +18,7 @@
                 <p>View Blacklisted Companies</p>
             </div>
             <div class="right-buttons">
-                <button class="add-button" onclick="showAddCompanyPopup()">+</button>
+                <!-- <button class="add-button" onclick="showAddCompanyPopup()">+</button> -->
             </div>
         </div>
 
