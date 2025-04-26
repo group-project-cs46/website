@@ -20,12 +20,13 @@ class AddStudent {
             }
 
             // Insert into users table
-            $db->query('INSERT INTO users (email, role, name, password, disabled) VALUES (?, ?, ?, ?, ?)', [
+            $db->query('INSERT INTO users (email, role, name, password, disabled, approved) VALUES (?, ?, ?, ?, ?, ?)', [
                 $email,
                 2,
                 $name,
                 $hashedPassword,
-                0
+                0,
+                1
             ]);
 
             // Get the last inserted user ID
@@ -128,6 +129,7 @@ class AddStudent {
 
         $result = $db->query(
             "SELECT 
+                a.selected AS application_status,
                 su.name AS student_name,
                 s.registration_number,
                 s.course,
