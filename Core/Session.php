@@ -19,6 +19,12 @@ class Session
         return (bool)static::getFlash($key);
     }
 
+    public static function toast($message, $type = 'info')
+    {
+        static::flash('toast', $message);
+        static::flash('toast_type', $type);
+    }
+
     public static function flash($key, $value)
     {
         $_SESSION['_flash'][$key] = $value;
