@@ -234,6 +234,20 @@ $navItems = [
         'icon' => 'fa-solid fa-person-walking',
         'only' => [Role::Lecturer],
     ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/Visit',
+        'icon' => 'fa-solid fa-person-walking',
+        'only' => [Role::Lecturer],
+    ],
+    [
+
+        'text' => 'Company Visits',
+        'href' => '/lecturers/report',
+        'icon' => 'fa-address-book',
+        'only' => [Role::Lecturer],
+    ],
 ];
 
 function filterNavItemsByRole($navItems, $userRole)
