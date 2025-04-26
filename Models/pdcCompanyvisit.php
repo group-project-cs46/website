@@ -8,10 +8,10 @@ use Core\Database;
 class pdcCompanyvisit
 {
     public static function fetchAll()
-{
-    $db = App::resolve(Database::class);
+    {
+        $db = App::resolve(Database::class);
 
-    $visits = $db->query('
+        $visits = $db->query('
         SELECT
             lv.*,
             uc.name AS company_name,
@@ -21,40 +21,42 @@ class pdcCompanyvisit
         LEFT JOIN users ul ON lv.lecturer_id = ul.id
     ', [])->get();
 
-    return $visits;
-}
+        return $visits;
+    }
 
 
-public static function create_visit($company_id, $date, $time, $status = 'Scheduled')
-{
-    $db = App::resolve(Database::class);
+    public static function create_visit($company_id, $date, $time)
+    {
+        $db = App::resolve(Database::class);
 
-    $result = $db->query('INSERT INTO lecturer_visits (company_id, date, time, status) VALUES (?, ?, ?, ?)', [
-        $company_id,
-        $date,
-        $time,
-        $status
-    ]);
+        $result = $db->query('INSERT INTO lecturer_visits (company_id, date, time) VALUES (?, ?, ?)', [
+            $company_id,
+            $date,
+            $time
+        ]);
 
-    return $result !== false ? $db->lastInsertId() : false;
-}
+        return $result !== false ? $db->lastInsertId() : false;
+    }
+
 
     public static function edit_visit($id, $date, $time)
     {
         $db = App::resolve(Database::class);
-        
 
-        return $db->query('UPDATE lecturer_visits SET date = ?, time = ? WHERE id = ?', [
+        $statement = $db->query('UPDATE lecturer_visits SET date = ?, time = ? WHERE id = ?', [
             $date,
             $time,
             $id
         ]);
+
+        return $statement->rowCount() > 0;
     }
+
 
     public static function delete_visit($id)
     {
         $db = App::resolve(Database::class);
-        
+
         return $db->query('DELETE FROM lecturer_visits WHERE id = ?', [
             $id
         ]);

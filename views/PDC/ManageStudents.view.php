@@ -45,7 +45,7 @@
             <table class="student-table">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="selectAllCheckbox" /></th>
+                        <!-- <th><input type="checkbox" id="selectAllCheckbox" /></th> -->
                         <th>Student Name</th>
                         <th>Registration No.</th>
                         <th>Course</th>
@@ -57,7 +57,7 @@
                 <tbody id="studentTableBody">
                     <?php foreach ($students as $student): ?>
                         <tr id="row-<?= $student['id'] ?>">
-                            <td><input type="checkbox" class="rowCheckbox" data-id="<?= $student['id'] ?>" /></td>
+                            <!-- <td><input type="checkbox" class="rowCheckbox" data-id="" /></td> -->
                             <td><?= htmlspecialchars($student['name']) ?></td>
                             <td><?= htmlspecialchars($student['registration_number']) ?></td>
                             <td><?= htmlspecialchars($student['course']) ?></td>
@@ -100,14 +100,20 @@
                         <tr id="view-row-<?= $student['id'] ?>">
                             <td><?= htmlspecialchars($student['name']) ?></td>
                             <td><?= htmlspecialchars($student['registration_number']) ?></td>
-                            
+
                             <td><?= htmlspecialchars($student['course']) ?></td>
                             <td><?= htmlspecialchars($student['email']) ?></td>
                             <td><?= htmlspecialchars($student['index_number']) ?></td>
+                         
                             <td>
                                 <form action="/PDC/disablestudentaccount" method="post" style="display: inline;">
                                     <input type="hidden" name="student_id" value="<?= $student['id'] ?>">
-                                    <button type="submit" class="disable-button">Disable</button>
+                                    <button type="submit" class="disable-button" <?= $student['disabled'] ? 'disabled' : '' ?>>Disable</button>
+                                </form>
+
+                                <form action="/PDC/enablestudentaccount" method="post" style="display: inline; color: green;">
+                                    <input type="hidden" name="student_id" value="<?= $student['id'] ?>">
+                                    <button type="submit" class="enable-button" <?= !$student['disabled'] ? 'disabled' : '' ?>>Enable</button>
                                 </form>
                             </td>
                         </tr>
@@ -131,7 +137,6 @@
                         <th>Course</th>
                         <th>Hired By</th>
                         <th>Job Role</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="hiredStudentTableBody">
@@ -143,12 +148,7 @@
                                 <td><?= htmlspecialchars($hired['course']) ?></td>
                                 <td><?= htmlspecialchars($hired['company_name']) ?></td>
                                 <td><?= htmlspecialchars($hired['job_role']) ?></td>
-                                <td>
-                                    <form action="/PDC/deletehired" method="post" style="display: inline;">
-                                        <input type="hidden" name="hired_id" value="<?= $hired['id'] ?>">
-                                        <button type="submit" class="disable-button">Delete</button>
-                                    </form>
-                                </td>
+
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -215,7 +215,7 @@
         <hr>
 
         <h3>Update a student</h3>
-      
+
         <form id="editstudentForm" method="post" action="/PDC/updatestudent">
             <input type="hidden" name="student_id" id="student_id" required>
             <label for="edit_name">Name:</label>
@@ -262,9 +262,9 @@
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
 
     // Initialize tables
-    renderTable('addstu', students);
-    renderTable('viewstudent', students);
-    renderTable('hire', hiredStudents);
+renderTable('addstu', students);
+// renderTable('viewstudent', students); // Skip, rely on PHP
+renderTable('hire', hiredStudents);
 
     // Toggle Sections
     function toggleComplaint(section) {
@@ -303,88 +303,63 @@
     }
 
     // Render Table Based on Section
-    function renderTable(section, data) {
-        let tableBody;
-        if (section === 'addstu') {
-            tableBody = studentTableBody;
-        } else if (section === 'viewstudent') {
-            tableBody = viewStudentTableBody;
-        } else if (section === 'hire') {
-            tableBody = hiredStudentTableBody;
-        }
-
-        if (!tableBody) return;
-
-        tableBody.innerHTML = '';
-
-        if (section === 'addstu') {
-            data.forEach(student => {
-                const row = document.createElement('tr');
-                row.id = `row-${student.id}`;
-                row.innerHTML = `
-                    <td><input type="checkbox" class="rowCheckbox" data-id="${student.id}" /></td>
-                    <td>${student.name}</td>
-                    <td>${student.registration_number}</td>
-                    <td>${student.course}</td>
-                    <td>${student.email}</td>
-                    <td>${student.index_number}</td>
-                    <td>
-                        <button class="Edit-button" onclick="openeditform('${student.id}')">Edit</button>
-                        <form action="/PDC/deletestudent" method="post" style="display: inline;">
-                            <input type="hidden" name="student_id" value="${student.id}">
-                            <button type="submit" class="disable-button">Delete</button>
-                        </form>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        } else if (section === 'viewstudent') {
-            data.forEach(student => {
-                const row = document.createElement('tr');
-                row.id = `view-row-${student.id}`;
-                row.innerHTML = `
-                    <td>${student.name}</td>
-                    <td>${student.registration_number}</td>
-                    
-                    <td>${student.course}</td>
-                    <td>${student.email}</td>
-                    <td>${student.index_number}</td>
-                    <td>
-                        <form action="/PDC/disablestudentaccount" method="post" style="display: inline;">
-                            <input type="hidden" name="student_id" value="${student.id}">
-                            <button type="submit" class="disable-button">Disable</button>
-                        </form>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        } else if (section === 'hire') {
-            data.forEach(hired => {
-                const row = document.createElement('tr');
-                row.id = `hired-row-${hired.id}`;
-                row.innerHTML = `
-                    <td>${hired.student_name}</td>
-                    <td>${hired.registration_number}</td>
-                    <td>${hired.course}</td>
-                    <td>${hired.company_name}</td>
-                    <td>${hired.job_role}</td>
-                    <td>
-                        <form action="/PDC/deletehired" method="post" style="display: inline;">
-                            <input type="hidden" name="hired_id" value="${hired.id}">
-                            <button type="submit" class="disable-button">Delete</button>
-                        </form>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+    // Render Table Based on Section
+function renderTable(section, data) {
+    let tableBody;
+    if (section === 'addstu') {
+        tableBody = studentTableBody;
+    } else if (section === 'viewstudent') {
+        tableBody = viewStudentTableBody;
+        return; // Skip re-rendering, rely on PHP
+    } else if (section === 'hire') {
+        tableBody = hiredStudentTableBody;
     }
+
+    if (!tableBody) return;
+
+    tableBody.innerHTML = '';
+
+    if (section === 'addstu') {
+        data.forEach(student => {
+            const row = document.createElement('tr');
+            row.id = `row-${student.id}`;
+            row.innerHTML = `
+                <td>${student.name}</td>
+                <td>${student.registration_number}</td>
+                <td>${student.course}</td>
+                <td>${student.email}</td>
+                <td>${student.index_number}</td>
+                <td>
+                    <button class="Edit-button" onclick="openeditform('${student.id}')">Edit</button>
+                    <form action="/PDC/deletestudent" method="post" style="display: inline;">
+                        <input type="hidden" name="student_id" value="${student.id}">
+                        <button type="submit" class="disable-button">Delete</button>
+                    </form>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    } else if (section === 'hire') {
+        data.forEach(hired => {
+            const row = document.createElement('tr');
+            row.id = `hired-row-${hired.id}`;
+            row.innerHTML = `
+                <td>${hired.student_name}</td>
+                <td>${hired.registration_number}</td>
+                <td>${hired.course}</td>
+                <td>${hired.company_name}</td>
+                <td>${hired.job_role}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+}
 
     // Search Functionality
     searchInput.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
         const activeSection = document.querySelector('.active-tab').id === 'addtab' ? 'addstu' :
-                             document.querySelector('.active-tab').id === 'view-student-tab' ? 'viewstudent' : 'hire';
+            document.querySelector('.active-tab').id === 'view-student-tab' ? 'viewstudent' : 'hire';
 
         if (activeSection === 'addstu') {
             const filteredStudents = students.filter(student =>
@@ -440,13 +415,7 @@
     closeFormButton.addEventListener('click', () => popupForm.style.display = 'none');
     closeEditFormButton.addEventListener('click', () => editForm.style.display = 'none');
 
-    // Select All Checkbox
-    selectAllCheckbox.addEventListener('change', () => {
-        const rowCheckboxes = studentTableBody.querySelectorAll('.rowCheckbox');
-        rowCheckboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-        });
-    });
+
 
     studentTableBody.addEventListener('change', (e) => {
         if (e.target.classList.contains('rowCheckbox')) {
@@ -459,51 +428,50 @@
         }
     });
 
-  // CSV Upload Handler
-document.getElementById('uploadCsvForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    // CSV Upload Handler
+    document.getElementById('uploadCsvForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    const csvFileInput = document.getElementById('csvFileInput');
-    const file = csvFileInput.files[0];
+        const csvFileInput = document.getElementById('csvFileInput');
+        const file = csvFileInput.files[0];
 
-    if (!file) {
-        alert('Please select a CSV file to upload.');
-        return;
-    }
-
-    if (!file.name.endsWith('.csv')) {
-        alert('Please upload a valid CSV file.');
-        return;
-    }
-
-    const formData = new FormData();
-    formData.append('csvFile', file);
-
-    try {
-        const response = await fetch('/PDC/uploadCsv', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json',
-            },
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            alert(data.message);
-            document.getElementById('uploadCsvForm').reset();
-            // Reload the page to reflect the new data
-            window.location.reload();
-        } else {
-            alert('Error uploading CSV: ' + (data.message || 'Unknown error') + '\n' + (data.errors ? data.errors.join('\n') : ''));
+        if (!file) {
+            alert('Please select a CSV file to upload.');
+            return;
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while uploading the CSV.');
-    }
-});
 
+        if (!file.name.endsWith('.csv')) {
+            alert('Please upload a valid CSV file.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('csvFile', file);
+
+        try {
+            const response = await fetch('/PDC/uploadCsv', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.message);
+                document.getElementById('uploadCsvForm').reset();
+                // Reload the page to reflect the new data
+                window.location.reload();
+            } else {
+                alert('Error uploading CSV: ' + (data.message || 'Unknown error') + '\n' + (data.errors ? data.errors.join('\n') : ''));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while uploading the CSV.');
+        }
+    });
 </script>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

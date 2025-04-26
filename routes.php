@@ -160,6 +160,7 @@ $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
 
 $router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php'); 
 $router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
+$router->post('/PDC/enablestudentaccount', '/PDC/enablestudentaccount.php'); 
 
 // remove capital letters
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
@@ -172,9 +173,9 @@ $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
 $router->get('/PDC/StudentReport', '/PDC/student_report.php');
 $router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
-$router->post('/PDC/setround', '/PDC/setround.php');
-$router->post('/PDC/updateround', '/PDC/updateround.php');
-$router->post('/PDC/deleteround', '/PDC/deleteround.php');
+//$router->post('/PDC/setround', '/PDC/setround.php');
+//$router->post('/PDC/updateround', '/PDC/updateround.php');
+//$router->post('/PDC/deleteround', '/PDC/deleteround.php');
 $router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
 $router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
 $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
