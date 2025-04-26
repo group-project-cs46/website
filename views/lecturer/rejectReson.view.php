@@ -131,16 +131,7 @@
                 <input type="text" id="venue" name="venue" value="<?= $TRAINING_SESSION['venue'] ?>" required>
             </div>
             
-            <div class="deadline-container">
-                <div class="form-group">
-                    <label for="start time">Start Time</label>
-                    <input type="time" id="time" name="start_time" value="<?= $TRAINING_SESSION['start_time'] ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="end time">End Time</label>
-                    <input type="time" id="time" name="end_time" value="<?= $TRAINING_SESSION['end_time'] ?>" required>
-                </div>
-            </div>
+           
 
             <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
 

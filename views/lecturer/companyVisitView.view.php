@@ -54,8 +54,6 @@
                         <p style="color: #dc2626; font-size: 0.85rem; margin-top: 0.5rem;"><?= $errors['pdf'] ?></p>
                     <?php endif ?>
                 </div>
-                <input type="hidden" name="lecturer_visit_id" value="<?= $lecturer_visits['id'] ?>">
-                <input type="hidden" name="company_id" value="<?= $lecturer_visits['id'] ?>">
 
                 <button type="submit" class="button" style="width: 100%; margin-top: 1rem">Upload Report</button>
             
