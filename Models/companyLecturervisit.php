@@ -25,7 +25,6 @@ class CompanyLecturerVisit
         $visits = $db->query('
             SELECT 
                 lv.id,
-                lv.lecturer_id,
                 lv.company_id,
                 lv.time,
                 lv.date,
@@ -35,7 +34,8 @@ class CompanyLecturerVisit
                 u.name AS lecturer_name,
                 u.email AS lecturer_email
             FROM lecturer_visits lv
-            LEFT JOIN lecturers l ON lv.lecturer_id = l.id
+            LEFT JOIN lecture_visit_lecturers lvl ON lv.id = lvl.lecturer_visit_id
+            LEFT JOIN lecturers l ON lvl.lecturer_id = l.id
             LEFT JOIN users u ON l.id = u.id
             WHERE u.role = 5
                 AND lv.company_id = :company_id;

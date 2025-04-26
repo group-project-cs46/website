@@ -7,7 +7,7 @@
         <div class="above">
             <div class="above-left">
             <i class="fa-solid fa-rectangle-ad" style="font-size: 40px;"></i>
-                <h2>Ads</h2>
+                <h2>Advertisments</h2>
             </div> 
         </div>
     </header>

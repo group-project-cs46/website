@@ -432,3 +432,64 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
   color: #888;
   font-style: italic;
 }
+
+/* Existing styles for short-schedule-btn */
+.short-schedule-btn {
+  background-color: #0ea5e9; /* Blue color */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 120px; /* Ensure button takes full width of the cell */
+  text-align: center;
+}
+
+.short-schedule-btn:hover {
+  background-color: #01080a; /* Dark hover color */
+}
+
+/* New styles for scheduled state */
+.short-schedule-btn.scheduled {
+  background-color: #28a745; /* Green color for scheduled state */
+  color: white;
+}
+
+.short-schedule-btn.scheduled:hover {
+  background-color: #22c55e; /* Lighter green on hover */
+}
+
+/* Existing styles for save-button */
+.save-button {
+  background-color: #495358; /* Gray color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Ensure consistent spacing between buttons */
+.button-container .save-button {
+  margin-right: 10px; /* Add spacing between Update and Delete buttons */
+}
+
+.save-button:hover {
+  background-color: black;
+}
+
+/* New styles for delete-button */
+.delete-button {
+  background-color: #ef4444; /* Red color, matching reject button in schedule.css */
+  color: white;
+  padding: 10px 20px; /* Match save-button padding */
+  border: none;
+  border-radius: 4px; /* Match save-button border-radius */
+  cursor: pointer;
+  font-size: 16px; /* Match save-button font-size */
+}
+
+.delete-button:hover {
+  background-color: #dc2626; /* Darker red on hover, matching reject button hover in schedule.css */
+}
