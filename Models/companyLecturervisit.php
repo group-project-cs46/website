@@ -30,7 +30,7 @@ class CompanyLecturerVisit
                 lv.time,
                 lv.date,
                 lv.approved AS status,
-                lv.rejected AS rejected,  -- Include rejected status
+                lv.rejected AS rejected,
                 l.title AS lecturer_title,
                 u.name AS lecturer_name,
                 u.email AS lecturer_email
@@ -48,7 +48,6 @@ class CompanyLecturerVisit
         $db = App::resolve(Database::class);
         $company_id = self::getCompanyId();
 
-        // Verify that the visit belongs to this company
         $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
         if (!$visit || $visit['company_id'] != $company_id) {
             throw new \Exception('Unauthorized access to update lecturer visit');
@@ -66,7 +65,6 @@ class CompanyLecturerVisit
         $db = App::resolve(Database::class);
         $company_id = self::getCompanyId();
 
-        // Verify that the visit belongs to this company
         $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
         if (!$visit || $visit['company_id'] != $company_id) {
             throw new \Exception('Unauthorized access to revert lecturer visit');
@@ -78,37 +76,27 @@ class CompanyLecturerVisit
         return true;
     }
 
-    public static function rejectVisit($visitId)
+    public static function rejectVisit($visitId, $reason)
     {
         $db = App::resolve(Database::class);
         $company_id = self::getCompanyId();
 
-        // Verify that the visit belongs to this company
         $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
         if (!$visit || $visit['company_id'] != $company_id) {
             throw new \Exception('Unauthorized access to reject lecturer visit');
         }
 
+        // Update the lecturer_visits table to mark the visit as rejected
         $db->query('UPDATE lecturer_visits SET rejected = TRUE, approved = NULL WHERE id = ?', [
             $visitId
         ]);
-        return true;
-    }
 
-    public static function revertReject($visitId)
-    {
-        $db = App::resolve(Database::class);
-        $company_id = self::getCompanyId();
-
-        // Verify that the visit belongs to this company
-        $visit = $db->query('SELECT company_id FROM lecturer_visits WHERE id = ?', [$visitId])->find();
-        if (!$visit || $visit['company_id'] != $company_id) {
-            throw new \Exception('Unauthorized access to revert rejection of lecturer visit');
-        }
-
-        $db->query('UPDATE lecturer_visits SET rejected = NULL WHERE id = ?', [
-            $visitId
+        // Insert the rejection reason into the lecturer_visit_rejected_reasons table
+        $db->query('INSERT INTO lecturer_visit_rejected_reasons (lecturer_visit_id, reason, created_at) VALUES (?, ?, NOW())', [
+            $visitId,
+            $reason
         ]);
+
         return true;
     }
 }
