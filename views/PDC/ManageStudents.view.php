@@ -92,6 +92,7 @@
                         <th>Course</th>
                         <th>Email</th>
                         <th>Index No.</th>
+                        <th>Application Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -104,7 +105,13 @@
                             <td><?= htmlspecialchars($student['course']) ?></td>
                             <td><?= htmlspecialchars($student['email']) ?></td>
                             <td><?= htmlspecialchars($student['index_number']) ?></td>
-                         
+                            <td>
+                                <?php if ($student['application_status']): ?>
+                                    <span style="color: green;">Hired</span>
+                                <?php else: ?>
+                                    <span style="color: orange;">Pending</span>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <form action="/PDC/disablestudentaccount" method="post" style="display: inline;">
                                     <input type="hidden" name="student_id" value="<?= $student['id'] ?>">
@@ -262,9 +269,9 @@
     const selectAllCheckbox = document.getElementById('selectAllCheckbox');
 
     // Initialize tables
-renderTable('addstu', students);
-// renderTable('viewstudent', students); // Skip, rely on PHP
-renderTable('hire', hiredStudents);
+    renderTable('addstu', students);
+    // renderTable('viewstudent', students); // Skip, rely on PHP
+    renderTable('hire', hiredStudents);
 
     // Toggle Sections
     function toggleComplaint(section) {
@@ -304,26 +311,26 @@ renderTable('hire', hiredStudents);
 
     // Render Table Based on Section
     // Render Table Based on Section
-function renderTable(section, data) {
-    let tableBody;
-    if (section === 'addstu') {
-        tableBody = studentTableBody;
-    } else if (section === 'viewstudent') {
-        tableBody = viewStudentTableBody;
-        return; // Skip re-rendering, rely on PHP
-    } else if (section === 'hire') {
-        tableBody = hiredStudentTableBody;
-    }
+    function renderTable(section, data) {
+        let tableBody;
+        if (section === 'addstu') {
+            tableBody = studentTableBody;
+        } else if (section === 'viewstudent') {
+            tableBody = viewStudentTableBody;
+            return; // Skip re-rendering, rely on PHP
+        } else if (section === 'hire') {
+            tableBody = hiredStudentTableBody;
+        }
 
-    if (!tableBody) return;
+        if (!tableBody) return;
 
-    tableBody.innerHTML = '';
+        tableBody.innerHTML = '';
 
-    if (section === 'addstu') {
-        data.forEach(student => {
-            const row = document.createElement('tr');
-            row.id = `row-${student.id}`;
-            row.innerHTML = `
+        if (section === 'addstu') {
+            data.forEach(student => {
+                const row = document.createElement('tr');
+                row.id = `row-${student.id}`;
+                row.innerHTML = `
                 <td>${student.name}</td>
                 <td>${student.registration_number}</td>
                 <td>${student.course}</td>
@@ -337,23 +344,23 @@ function renderTable(section, data) {
                     </form>
                 </td>
             `;
-            tableBody.appendChild(row);
-        });
-    } else if (section === 'hire') {
-        data.forEach(hired => {
-            const row = document.createElement('tr');
-            row.id = `hired-row-${hired.id}`;
-            row.innerHTML = `
+                tableBody.appendChild(row);
+            });
+        } else if (section === 'hire') {
+            data.forEach(hired => {
+                const row = document.createElement('tr');
+                row.id = `hired-row-${hired.id}`;
+                row.innerHTML = `
                 <td>${hired.student_name}</td>
                 <td>${hired.registration_number}</td>
                 <td>${hired.course}</td>
                 <td>${hired.company_name}</td>
                 <td>${hired.job_role}</td>
             `;
-            tableBody.appendChild(row);
-        });
+                tableBody.appendChild(row);
+            });
+        }
     }
-}
 
     // Search Functionality
     searchInput.addEventListener('input', (e) => {
