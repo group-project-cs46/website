@@ -29,7 +29,7 @@ class LecturerVisit
     public static function getByLecturerId($lecturerId)
     {
         $db = App::resolve(Database::class);
-
+ 
         return $db->query('
             SELECT 
                 lecturer_visits.*,

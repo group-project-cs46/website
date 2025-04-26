@@ -67,10 +67,16 @@
                                     <button type="submit" class="enable-button">Resolve</button>
                                 </form>
 
-                                <form action="/complaintDeletion" method="post" style="display:inline;">
+                                <!-- <form action="/complaintDeletion" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="<?= $complaint_data['id'] ?>">
+                                    <button type="submit" class="disable-button">Reject</button>
+                                </form> -->
+
+                                <form action="/complaintDeletion" method="post" style="display:inline;" onsubmit="return confirmReject();">
                                     <input type="hidden" name="id" value="<?= $complaint_data['id'] ?>">
                                     <button type="submit" class="disable-button">Reject</button>
                                 </form>
+
 
                             </td>
                         </tr>
@@ -93,6 +99,13 @@
                 rows[i].style.display = rowText.includes(filter) ? "" : "none";
             }
         }
+
+        
+    function confirmReject() {
+        return confirm("Are you sure you want to reject this complaint?");
+    }
+
+
     </script>
 </div>
 

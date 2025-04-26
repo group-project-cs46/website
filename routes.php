@@ -200,7 +200,8 @@ $router->get('/complaints', controller: 'admin/complaintManage.php');
 $router->get('/complaintssForm', controller: 'admin/complaintsForm.php');
 $router->get('/complaintsReply', controller: 'admin/complaintsReply.php');
 
-$router->get('/calendarVisit', 'lecturer/calendarVisit.php');
+$router->get('/Visit', 'lecturer/companyVisit.php');
+$router->get('/VisitView', 'lecturer/companyVisitView.php');
 $router->get('/profilelec', 'lecturer/account.php');
 $router->get('/profile', 'admin/account.php');
 
@@ -285,6 +286,10 @@ $router->post('/messageAddition', controller: 'admin/add-message.php');
 
 $router->post('/complaintDeletion', controller: 'admin/reject-complaint.php');
 $router->post('/complaintResolve', 'admin/complaintResolve.php');
+
+
+$router->post('/uploadreports', 'lecturer/uploadReport.php');
+$router->get('/trainingView', 'lecturer/trainingView.php');
 
 
 
