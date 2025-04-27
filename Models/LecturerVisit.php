@@ -32,6 +32,7 @@ class LecturerVisit
         return $db->query('
             SELECT
                 lecturer_visits.*,
+                lecturer_visits.id as leid,
                 companies.*,
                 users.name
             FROM lecturer_visits
@@ -52,12 +53,22 @@ class LecturerVisit
     }
 
     public static function updateReportId($visitId, $reportId)
-    {
-        $db = App::resolve(Database::class);
-        $db->query('UPDATE lecturer_visits SET lecturer_company_report_id = ? WHERE id = ?', [
-            $reportId,
-            $visitId
-        ]);
-    }
+{
+    $db = App::resolve(Database::class);
+    $db->query('UPDATE lecturer_visits SET report_id = ? WHERE id = ?', [
+        $reportId,
+        $visitId
+    ]);
+}
+
+
+    public static function setRejected($visitId)
+{
+    $db = App::resolve(Database::class);
+
+    $db->query('UPDATE lecturer_visits SET rejected = true WHERE id = ?', [
+        $visitId
+    ]);
+}
 
 }

@@ -34,6 +34,7 @@ if (!$currentBatch) {
 $auth_user = auth_user();
 
 $photo_id = Storage::store($attributes['file'], isPublic: true);
+
 Ad::create(
     $attributes['internship_role_id'],
     $attributes['responsibilities'],
