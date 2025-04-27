@@ -110,20 +110,22 @@
             border: 1px solid #ddd;
         }
     </style>
-</head>
+</head> 
 <body>
 <div class="center-wrapper">
     <div class="form-container">
         <h2>Reject Reason</h2>
-        <form method="post" action="/add-reason">
+        <form method="post" action="/addReason">
+
             <div class="form-group">
-                <label for="session-name"> Company Name</label>
-                <input type="text" id="session-name" name="name"  required>
+                <label for="name"> Company Name</label>
+                <input type="text" value ="<?= $lecturer_visits['name'] ?>" id="name" name="name"  required readonly>
             </div>
 
             <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="date" required>
+                    <input type="date" value="<?= date('Y-m-d', strtotime($lecturer_visits['date'])) ?>" id="date" name="date" required readonly>
+
             </div>
 
             <div class="form-group">
@@ -133,7 +135,7 @@
             
            
 
-            <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
+            <input type="hidden" name="id" value="<?= $lecturer_visits['leid'] ?>">
 
             <button type="submit" class="submit-btn">Submit</button>
         </form>

@@ -44,20 +44,19 @@
             <h2 style="color: #2d3748; font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem;">Upload Visit Report</h2>
             
             
+          
             <form action="/uploadreports" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="lecturer_visit_id" value="<?= $lecturer_visit['leid'] ?>">
+
                 <div>
                     <label style="display: block; color: #6b7280; font-size: 14px; margin-bottom: 8px;">Upload PDF Report</label>
-
                     <input type="file" id="pdf" name="pdf" accept=".pdf" required style="width: 100%; padding: 12px; font-size: 16px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; color: #374151; cursor: pointer;">
-                    
                     <?php if (isset($errors['pdf'])): ?>
                         <p style="color: #dc2626; font-size: 0.85rem; margin-top: 0.5rem;"><?= $errors['pdf'] ?></p>
                     <?php endif ?>
                 </div>
 
                 <button type="submit" class="button" style="width: 100%; margin-top: 1rem">Upload Report</button>
-            
-           
             </form>
         </section>
 
