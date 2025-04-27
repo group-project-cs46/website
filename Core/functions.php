@@ -17,7 +17,13 @@ function console_log($value)
 }
 
 function log_to_file(string $message) {
-    $filePath = base_path("storage/logs/app.log");
+    $logDir = base_path("storage/logs");
+    $filePath = $logDir . "/app.log";
+
+    // Create the logs directory if it doesn't exist
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true); // 0755 permissions, true to create nested directories
+    }
 
     // Add timestamp to the message
     $timestamp = date('[Y-m-d H:i:s]');
@@ -26,6 +32,7 @@ function log_to_file(string $message) {
     // Append to the log file
     error_log($logMessage, 3, $filePath);
 }
+
 
 
 function urlIs($value, $no_query = false)
