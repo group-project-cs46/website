@@ -59,18 +59,19 @@
 
                     <!-- Recent Activities -->
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px;">
-                        <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Recent Activities</h2>
+                        <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Uploaded CVs</h2>
                         <ul style="list-style: none; padding: 0; margin: 0;">
-                            <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
-                                Submitted application for Google Inc. • <span style="color: #666;">04/10/2025</span>
-                            </li>
-                            <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
-                                Scheduled interview with Microsoft • <span style="color: #666;">04/08/2025</span>
-                            </li>
-                            <li style="padding: 10px 0; font-size: 14px; color: #333;">
-                                Updated profile information • <span style="color: #666;">04/01/2025</span>
-                            </li>
+                            <?php foreach ($cvs as $cv): ?>
+                                <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
+                                    <?= $cv['original_name'] ?> • <span style="color: #666;"><?= $cv['type'] ?></span>
+                                </li>
+                            <?php endforeach; ?>
+
                         </ul>
+                        <a href="/students/cvs"
+                           style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
+                            View All CVs
+                        </a>
                     </div>
                 </div>
 

@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class="mmm">
-    <main class="main-content">  
+    <main class="main-content"> 
+    <section class="content">
+ 
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
@@ -17,7 +19,7 @@
                     <h3><b>Manage Company Visit</b></h3>
                     <p>Manage Company Visit Schedule</p>
                 </div>
-                <button class="add-button" id="openFormButton"><a href="/trainingAdd">+ New</a></button>
+                <!-- <button class="add-button" id="openFormButton"><a href="/trainingAdd">+ New</a></button> -->
             </div>
 
             <table class="student-table">
@@ -32,48 +34,38 @@
                 </thead>
                 <tbody id="studentTableBody">
 
-                    <?php foreach ($lecturer_visits as $item): ?>
-                        <tr>       
-                            <td><?= htmlspecialchars($item['company_name']) ?></td>
-                            <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
-                            <td><?= date('H:i', strtotime($item['time'])) ?></td>
-                            <td><?= ucwords($item['status']) ?></td>
-                            <td class="actions">
-                                <!-- Visit Button -->
-                                <a href="/trainingView?id=<?= $item['id'] ?>" class="view-button">Visit</a>
+                <?php foreach ($lecturer_visits as $item): ?>
+                    <tr>       
+                        <td><?= htmlspecialchars($item['name']) ?></td>
+                        <td><?= date('d-m-Y', strtotime($item['date'])) ?></td>
+                        <td><?= date('H:i', strtotime($item['time'])) ?></td>
+                        <td><?= ucwords($item['status']) ?></td>
+                        <td class="actions">
+                            <!-- Visit Button -->
+                            <form action="/visitUpdate" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="<?= $item['leid'] ?>">
+                                <button type="submit" class="view-button">Visit</button>
+                            </form>
 
-                                <!-- View Button (newly added) -->
-                                <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
-
-                                <!-- Upload Report Button -->
-                                <!-- <form action="/uploadReport" method="post" enctype="multipart/form-data" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                    <input 
-                                        type="file" 
-                                        name="report" 
-                                        id="file-<?= $item['id'] ?>" 
-                                        style="display: none;" 
-                                        onchange="this.form.submit()"
-                                    >
-                                     <button type="button" class="view-button" onclick="document.getElementById('file-<?= $item['id'] ?>').click();">
-                                        Upload Report
-                                    </button> 
-                                </form> -->
-
-                                <!-- Delete Button -->
-                                <form action="/trainingView" method="post" style="display:inline;" onsubmit="return confirmReject();">
-                                    <input type="hidden" name="id" value="<?= $item['id'] ?>">
-                                    <button type="submit" class="disable-button">Delete</button>
-                                </form>
-                            </td>
+                            <!-- View Button (Optional) -->
+                            <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
+                            <a href="/rejectReason?id=<?= $item['id'] ?>" class="disable-button">Reject</a>
 
 
+                            <!-- Reject Button -->
+                            <!-- <form action="" method="post" style="display:inline;" >
+                                <input type="hidden" name="id" value="<?= $item['id'] ?>">
+                                <button type="submit" class="disable-button"><a href="/rejectReason">Reject</a></button>
+                            </form> -->
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
 
-                        </tr>
-                    <?php endforeach; ?>
                 </tbody>
             </table>
         </section>
+        </section>
+
     </main>
 
     <script>

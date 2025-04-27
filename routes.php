@@ -7,7 +7,7 @@ $router->get('/files', 'files/show.php')->only('auth');
 
 $router->get('/', 'index.php');
 $router->get('/dashboard', 'dashboard.php')->only('auth');
-
+ 
 $router->get('/dashboard/admin', 'dashboards/admin.php')->only('auth');
 $router->get('/dashboard/student', 'dashboards/student.php')->only('auth');
 $router->get('/dashboard/pdc', 'dashboards/pdc.php')->only('auth');
@@ -327,6 +327,14 @@ $router->post('/complaintResolve', 'admin/complaintResolve.php');
 
 
 $router->post('/uploadreports', 'lecturer/uploadReport.php');
+
 $router->get('/trainingView', 'lecturer/trainingView.php');
+
+$router->post('/visitUpdate', 'lecturer/updateVisit.php');
+$router->get('/rejectReason', 'lecturer/rejectReason.php');
+
+$router->post('/addReason', controller: 'lecturer/add-Reason.php');
+
+
 
 

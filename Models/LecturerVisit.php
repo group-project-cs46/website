@@ -7,38 +7,68 @@ use Core\Database;
 
 class LecturerVisit
 {
-    public static function getById($id)
+    public static function getByLecturerId($lecturerId)
     {
         $db = App::resolve(Database::class);
 
         return $db->query('
             SELECT
                 lecturer_visits.*,
-                users.name AS company_name,
-                companies.building AS company_building,
-                companies.street_name AS company_street_name,
-                companies.address_line_2 AS company_address_line_2,
-                companies.city AS company_city,
-                companies.postal_code AS company_postal_code
+                lecturer_visits.id as leid,
+                companies.*,
+                users.name
             FROM lecturer_visits
-            LEFT JOIN companies ON lecturer_visits.company_id = companies.id
-            LEFT JOIN users ON lecturer_visits.company_id = users.id
-            WHERE lecturer_visits.id = ?
-        ', [$id])->find();
-    }
-    public static function getByLecturerId($lecturerId, $batchId)
+            INNER JOIN lecture_visit_lecturers ON lecturer_visits.id = lecture_visit_lecturers.lecturer_visit_id
+            INNER JOIN companies ON lecturer_visits.company_id = companies.id
+            INNER JOIN users ON lecturer_visits.company_id = users.id
+            WHERE lecture_visit_lecturers.lecturer_id = ?
+        ', [$lecturerId])->get(); 
+    }   
+
+    public static function getById($companyId)
     {
         $db = App::resolve(Database::class);
- 
+
         return $db->query('
-            SELECT 
+            SELECT
                 lecturer_visits.*,
-                company.name AS company_name
+                lecturer_visits.id as leid,
+                companies.*,
+                users.name
             FROM lecturer_visits
-            LEFT JOIN users company ON lecturer_visits.company_id = company.id
-            WHERE lecturer_visits.lecturer_id = ?
-            AND lecturer_visits.batch_id = ?
-            ORDER BY date, time
-        ', [$lecturerId, $batchId])->get();
+            INNER JOIN lecture_visit_lecturers ON lecturer_visits.id = lecture_visit_lecturers.lecturer_visit_id
+            INNER JOIN companies ON lecturer_visits.company_id = companies.id
+            INNER JOIN users ON lecturer_visits.company_id = users.id
+            WHERE lecturer_visits.company_id = ?
+        ', [$companyId])->find(); 
+    }   
+
+    public static function updateStatus($visitId, $status)
+    {
+        $db = App::resolve(Database::class);
+        $db->query('UPDATE lecturer_visits SET status = ? WHERE id = ?', [
+            $status,
+            $visitId
+        ]);
     }
+
+    public static function updateReportId($visitId, $reportId)
+{
+    $db = App::resolve(Database::class);
+    $db->query('UPDATE lecturer_visits SET report_id = ? WHERE id = ?', [
+        $reportId,
+        $visitId
+    ]);
+}
+
+
+    public static function setRejected($visitId)
+{
+    $db = App::resolve(Database::class);
+
+    $db->query('UPDATE lecturer_visits SET rejected = true WHERE id = ?', [
+        $visitId
+    ]);
+}
+
 }

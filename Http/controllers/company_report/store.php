@@ -26,8 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors['index_number'] = "Student index number is required.";
     } else {
         $subjectId = companyReport::getSubjectIdByIndexNumber($indexNumber);
-        if (!$subjectId) {
-            $errors['index_number'] = "Invalid student index number.";
+        $db = App::resolve(Database::class);
+        // Check if the student exists and is selected by the company
+        $student = $db->query(
+            'SELECT s.id, s.index_number, a.selected 
+             FROM students s 
+             JOIN applications a ON s.id = a.student_id 
+             WHERE s.index_number = ? AND a.selected = TRUE AND a.ad_id IN (
+                 SELECT id FROM advertisements WHERE company_id = ?
+             )',
+            [$indexNumber, $userId]
+        )->find();
+
+        if (!$student) {
+            $errors['index_number'] = "Invalid student index number or student not selected by your company.";
+        } else {
+            $subjectId = $student['id'];
         }
     }
 

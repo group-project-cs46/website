@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session Deatails</title>
+    <title>Reject Reason Form</title>
     <style>
         /* *body {
             background-color: white;
@@ -87,29 +87,16 @@
         .submit-btn {
             background-color: #3498db;
             color: white;
-            padding: 12px; 
+            padding: 10px;
             border: none;
             border-radius: 8px;
-            width: auto;
+            width: 100%;
             font-size: 15px;
             cursor: pointer;
             transition: 0.3s;
             font-weight: bold;
         }
 
-        .button-container {
-            display: flex;
-            justify-content: space-between; /* or 'space-between' or 'gap' */
-            margin-top: 20px;
-        }
-
-        .submit-btn a {
-            color: white;
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-        } 
         .submit-btn:hover {
             background-color: #2980b9;
             transform: translateY(-2px);
@@ -123,45 +110,34 @@
             border: 1px solid #ddd;
         }
     </style>
-</head>
+</head> 
 <body>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Session Deatails</h2>
-        <form method="post" action="/trainingEdition">
+        <h2>Reject Reason</h2>
+        <form method="post" action="/addReason">
+
             <div class="form-group">
-                <label for="session-name">Name</label>
-                <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required readonly>
+                <label for="name"> Company Name</label>
+                <input type="text" value ="<?= $lecturer_visits['name'] ?>" id="name" name="name"  required readonly>
             </div>
 
             <div class="form-group">
                     <label for="date">Date</label>
-                    <input type="date" id="date" name="date" value="<?= $TRAINING_SESSION['date'] ?>" required readonly>
+                    <input type="date" value="<?= date('Y-m-d', strtotime($lecturer_visits['date'])) ?>" id="date" name="date" required readonly>
+
             </div>
 
             <div class="form-group">
-                <label for="venue">Place</label>
-                <input type="text" id="venue" name="venue" value="<?= $TRAINING_SESSION['venue'] ?>" required readonly>
+                <label for="venue">Reason</label>
+                <input type="text" id="venue" name="venue"  required>
             </div>
             
-            <div class="deadline-container">
-                <div class="form-group">
-                    <label for="start time">Start Time</label>
-                    <input type="time" id="time" name="start_time" value="<?= $TRAINING_SESSION['start_time'] ?>" required readonly>
-                </div>
-                <div class="form-group">
-                    <label for="end time">End Time</label>
-                    <input type="time" id="time" name="end_time" value="<?= $TRAINING_SESSION['end_time'] ?>" required readonly>
-                </div>
-            </div>
+           
 
-            <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
+            <input type="hidden" name="id" value="<?= $lecturer_visits['leid'] ?>">
 
-            <div class="button-container">
-                <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
-                <button type="submit" class="submit-btn"><a href="/attendance?id=<?= $TRAINING_SESSION['id'] ?>"> Students List</a></button>
-                                                         
-            </div>        
+            <button type="submit" class="submit-btn">Submit</button>
         </form>
     </div>
     </div>

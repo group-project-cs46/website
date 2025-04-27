@@ -1,51 +1,56 @@
 <?php
 
+use Models\Report;
 use Models\LecturerVisit;
-use Models\Student;
-use Models\LecturerVisitReport;
 
-// Get session data
-$lecturer_id = $_SESSION['user']['id'] ?? null;
-$lecturer_visit_id = $_POST['lecturer_visit_id'] ?? null;
-$company_id = $_POST['company_id'] ?? null;
-$pdf = $_FILES['pdf'] ?? null;
-
-$errors = [];
-
-// Validate PDF
-if (!$pdf || $pdf['error'] !== UPLOAD_ERR_OK || strtolower(pathinfo($pdf['name'], PATHINFO_EXTENSION)) !== 'pdf'
-) {
-    $errors['pdf'] = 'Please upload a valid PDF file.';
+// Handle POST only
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Method Not Allowed');
 }
 
-// Validate required IDs
-if (!$lecturer_visit_id || !$lecturer_id || !$company_id) {
-    $errors['form'] = 'Missing required data.';
+// Validate file
+if ($fileType !== 'application/pdf') {
+    $_SESSION['errors']['pdf'] = 'Only PDF files are allowed.';
+    redirectBack();
 }
 
-// Fetch visit and student data regardless of success/failure to refill the view
-$lecturer_visit = LecturerVisit::getById($lecturer_visit_id);
-$students_in_company = Student::getSelectedForCompany($company_id);
 
-if (!empty($errors)) {
-    return view('lecturers/visits/companyVisitView', [
-        'errors' => $errors,
-        'lecturer_visit' => $lecturer_visit,
-        'students_in_company' => $students_in_company
-    ]);
+// Validate file type (safety)
+$fileType = mime_content_type($_FILES['pdf']['tmp_name']);
+if ($fileType !== 'application/pdf') {
+    $_SESSION['errors']['pdf'] = 'Only PDF files are allowed.';
+    redirectBack();
 }
 
-try {
-    LecturerVisitReport::upload($lecturer_visit_id, $lecturer_id, $company_id, $pdf);
-    redirect("/lecturers/visits/view?id={$lecturer_visit_id}");
-
-} catch (\Exception $e) {
-    $errors['upload'] = $e->getMessage();
-
-    return view('lecturers/visits/companyVisitView', [
-        'errors' => $errors,
-        'lecturer_visit' => $lecturer_visit,
-        'students_in_company' => $students_in_company
-    ]);
+// Validate lecturer_visit_id
+if (!isset($_POST['lecturer_visit_id'])) {
+    exit('Invalid lecturer visit');
 }
 
+$lecturerVisitId = $_POST['lecturer_visit_id'];
+// dd($lecturerVisitId);
+// Move uploaded file
+$originalName = $_FILES['pdf']['name'];
+$filename = uniqid() . '-' . $originalName;
+$targetPath = base_path('storage/reports/' . $filename);
+
+// Make sure directory exists
+if (!is_dir(dirname($targetPath))) {
+    mkdir(dirname($targetPath), 0777, true);
+}
+
+move_uploaded_file($_FILES['pdf']['tmp_name'], $targetPath);
+
+// Insert into `reports` table
+$sender_id = auth_user()->user('id'); // Your logged-in user's ID
+$subject_id = $lecturerVisitId;   // Lecturer Visit ID
+$description = 'Lecturer Visit Report';
+// dd($sender_id);
+$reportId = Report::create($sender_id, $subject_id, $filename, $originalName, $description);
+
+// Update `lecturer_visits` table
+LecturerVisit::updateReportId($lecturerVisitId, $reportId);
+
+// Redirect after success
+redirect('/VisitView' . $lecturerVisitId);

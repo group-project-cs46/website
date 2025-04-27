@@ -10,13 +10,19 @@ if (!$lecturer_visit_id) {
 // dd($lecturer_visit_id);
 $lecturer_visit = LecturerVisit::getById($lecturer_visit_id);
 // dd(value: $lecturer_visit);
-$students_in_company = Student::getSelectedForCompany($lecturer_visit['company_id']);
+$students_in_company = Student::getSelectedForCompany(companyId: $lecturer_visit['company_id']);
 
 
-dd($students_in_company);
+// dd($lecturer_visit );
 
 view('/lecturer/companyVisitView.view.php', [
     'lecturer_visit' => $lecturer_visit,
     'students_in_company' => $students_in_company
 ]);
+
+
+
+
+
+
 

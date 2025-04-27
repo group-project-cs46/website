@@ -291,7 +291,7 @@ function filter($navItems)
         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem">
             <?php foreach (filter($navItems) as $item): ?>
                 <a href="<?= $item['href'] ?>" class="tooltip"
-                   style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href']) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>">
+                   style="border-radius: 9999px; padding-block: 0.6rem; text-align: center; <?= urlIs($item['href'], true) ? 'outline: 1px solid; color: #0ea5e9; background-color: white;' : 'color: #4b5563; outline: 1px solid #e5e7eb;' ?>">
                     <i class="fa-solid <?= $item['icon'] ?> fa-lg"></i>
                     <span class="tooltiptext">
                         <?= $item['text'] ?>
