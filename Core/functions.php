@@ -2,6 +2,7 @@
 
 use Core\Response;
 use Core\Session;
+use Models\Application;
 
 function dd($value)
 {
@@ -14,6 +15,11 @@ function dd($value)
 function console_log($value)
 {
     error_log(print_r($value, TRUE));
+}
+
+function config()
+{
+    return require base_path("config.php");
 }
 
 function log_to_file(string $message) {
@@ -127,4 +133,16 @@ function roleNumber() {
 function urlBack()
 {
     return $_SERVER['HTTP_REFERER'] ?? '/';
+}
+
+function isSecondRound()
+{
+    $currentBatch = \Models\Batch::currentBatch();
+    return config()['env']['force_second_round'] ?? $currentBatch && $currentBatch['current_round'] == 'second';
+}
+
+function isSelected()
+{
+    $currentBatch = \Models\Batch::currentBatch();
+    return !empty(Application::isSelectedByStudentId(auth_user()['id']));
 }
