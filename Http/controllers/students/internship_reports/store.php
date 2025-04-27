@@ -1,6 +1,7 @@
 <?php
 
 use Core\Authenticator;
+use Core\Session;
 use Http\Forms;
 use Models\Application;
 use Models\Cv;
@@ -12,6 +13,14 @@ $form = Forms\StudentReportAboutCompany::validate($attributes = [
     'pdf' => $_FILES['pdf'],
     'month' => $_POST['month']
 ]);
+
+$sender = auth_user();
+$subject = Application::selectedCompanyByStudentId($sender['id']);
+if (!$subject) {
+    Session::toast('You have not been selected by any company yet.', 'warning');
+    redirect('/dashboard/student');
+}
+
 
 
 // Define the target directory
@@ -45,8 +54,6 @@ $targetFile = $targetDir . $newFileName;
 if (move_uploaded_file($fileTmpPath, $targetFile)) {
 //    echo "The file has been uploaded successfully.";
 
-    $sender = auth_user();
-    $subject = Application::selectedCompanyByStudentId($sender['id']);
     Report::create($sender['id'], $subject['id'], $newFileName, $fileName, $attributes['month']);
 
 } else {

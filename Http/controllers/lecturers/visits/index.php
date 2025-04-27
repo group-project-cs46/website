@@ -6,7 +6,7 @@ $auth_user = auth_user();
 
 $current_batch = \Models\Batch::currentBatch();
 
-$lecturer_visits = LecturerVisit::getByLecturerId($auth_user['id'], $current_batch['id']);
+$lecturer_visits = LecturerVisit::getByLecturerIdOnlyApproved($auth_user['id']);
 
 //dd($lecturer_visits);
 

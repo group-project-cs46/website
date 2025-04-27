@@ -7,13 +7,16 @@ use Core\Database;
 
 class File
 {
-    static function create($filename, $originalName, $description, $isPublic = false)
+    static function create($filename, $originalName, $description, $isPublic)
     {
         $db = App::resolve(Database::class);
 
 //        dd($isPublic);
 
         $auth_user = auth_user();
+
+//        dd($isPublic);
+
 
         return $db->query('INSERT INTO files (filename, original_name, description, user_id, is_public) VALUES (?, ?, ?, ?, ?) RETURNING id', [
             $filename,

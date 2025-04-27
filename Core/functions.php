@@ -2,6 +2,7 @@
 
 use Core\Response;
 use Core\Session;
+use Models\Application;
 
 function dd($value)
 {
@@ -16,8 +17,19 @@ function console_log($value)
     error_log(print_r($value, TRUE));
 }
 
+function config()
+{
+    return require base_path("config.php");
+}
+
 function log_to_file(string $message) {
-    $filePath = base_path("storage/logs/app.log");
+    $logDir = base_path("storage/logs");
+    $filePath = $logDir . "/app.log";
+
+    // Create the logs directory if it doesn't exist
+    if (!is_dir($logDir)) {
+        mkdir($logDir, 0755, true); // 0755 permissions, true to create nested directories
+    }
 
     // Add timestamp to the message
     $timestamp = date('[Y-m-d H:i:s]');
@@ -26,6 +38,7 @@ function log_to_file(string $message) {
     // Append to the log file
     error_log($logMessage, 3, $filePath);
 }
+
 
 
 function urlIs($value, $no_query = false)
@@ -120,4 +133,16 @@ function roleNumber() {
 function urlBack()
 {
     return $_SERVER['HTTP_REFERER'] ?? '/';
+}
+
+function isSecondRound()
+{
+    $currentBatch = \Models\Batch::currentBatch();
+    return config()['env']['force_second_round'] ?? $currentBatch && $currentBatch['current_round'] == 'second';
+}
+
+function isSelected()
+{
+    $currentBatch = \Models\Batch::currentBatch();
+    return !empty(Application::isSelectedByStudentId(auth_user()['id']));
 }

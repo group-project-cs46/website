@@ -171,12 +171,7 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
-//            $currentRound = \Models\Round::currentRound();
-            $currentBatch = \Models\Batch::currentBatch();
-//            dd($currentBatch);
-            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
-
-            return !$isSecondRound;
+            return !isSecondRound();
         }
     ],
     [
@@ -192,11 +187,8 @@ $navItems = [
         'icon' => 'fa-solid fa-2',
         'only' => [Role::Student],
         'filter' => function () {
-//            $currentRound = \Models\Round::currentRound();
-            $currentBatch = \Models\Batch::currentBatch();
-//            dd($currentBatch);
-            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
-            $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            $isSecondRound = isSecondRound();
+            $isSelected = isSelected();
             return $isSecondRound && !$isSelected;
         }
     ],
@@ -218,7 +210,7 @@ $navItems = [
         'icon' => 'fa-file-pdf',
         'only' => [Role::Student],
         'filter' => function () {
-            return !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            return isSelected();
         }
     ],
     [

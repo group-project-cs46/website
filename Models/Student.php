@@ -61,7 +61,11 @@ class Student
                 advertisements.batch_id,
                 advertisements.company_id,
                 students.index_number,
-	            users.name
+                students.registration_number,
+	            users.name,
+	            users.email,
+	            users.mobile,
+	            students.course
             FROM applications
             LEFT JOIN advertisements ON applications.ad_id = advertisements.id
             LEFT JOIN students ON applications.student_id = students.id
@@ -70,6 +74,6 @@ class Student
                 applications.selected = TRUE
                 AND advertisements.batch_id = ?
                 AND advertisements.company_id = ?
-        ', [$currentBatch['id'], $companyId])->get();
+        ', [$currentBatch['id'], 309])->get();
     }
 }
