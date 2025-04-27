@@ -24,8 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         // Fetch visit details to get company_id, lecturer_id, date, and time for notification
         $db = App::resolve(Database::class);
         $visit = $db->query("
-            SELECT lv.company_id, lv.lecturer_id, lv.date, lv.time
+            SELECT 
+                lv.company_id,
+                lv.date,
+                lv.time,
+                l.id AS lecturer_id
             FROM lecturer_visits lv
+            LEFT JOIN lecture_visit_lecturers lvl ON lv.id = lvl.lecturer_visit_id
+            LEFT JOIN lecturers l ON lvl.lecturer_id = l.id
             WHERE lv.id = ?
         ", [$visitId])->find();
 
@@ -58,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 );
             }
         }
-        // above notification
         echo json_encode(['success' => true]);
         exit();
     } catch (Exception $e) {
