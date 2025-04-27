@@ -22,8 +22,9 @@ body {
     flex: 1;
     padding: 20px;
     /* background-color: #F9FAFB; */
-    background-color: white;
+    /* background-color: white; */
     padding-left: 40px;
+    width: 98.6%;
 }
 
 .header {
