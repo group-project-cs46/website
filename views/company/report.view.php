@@ -8,7 +8,6 @@
       <div class="above-left">
         <i class="fa-solid fa-file-invoice" style="font-size: 40px;"></i>
         <h2>Reports</h2>
-        <h2>Reports</h2>
       </div>
     </div>
   </header>
@@ -23,21 +22,8 @@
       <div id="viewReportTab" class="report-view-txt" onclick="toggleSection('viewReport')">
         <h3>View Reports</h3>
         <p>View Report Details</p>
-      <div id="reportTab" class="table-title-txt active" onclick="toggleSection('report')">
-        <h3>Upload Report</h3>
-        <p>Upload final report to PDC</p>
-      </div>
-      <div class="divider"></div>
-      <div id="viewReportTab" class="report-view-txt" onclick="toggleSection('viewReport')">
-        <h3>View Reports</h3>
-        <p>View Report Details</p>
       </div>
     </div>
-
-    <div id="reportSection" class="report-section active">
-      <div class="form-container">
-        <div>
-          <h2>Upload Report</h2>
 
     <div id="reportSection" class="report-section active">
       <div class="form-container">
@@ -48,6 +34,9 @@
           <div class="form-field">
             <label for="indexNumber">Student Index No.:</label>
             <input type="text" id="indexNumber" name="index_number" placeholder="Enter Index No. Here" required />
+            <?php if (isset($errors['index_number'])): ?>
+              <p class="error"><?= $errors['index_number'] ?></p>
+            <?php endif; ?>
           </div>
           <div class="form-field">
             <label for="description">Description:</label>
@@ -131,14 +120,7 @@
 <script>
   document.getElementById('reportForm').addEventListener('submit', function(event) {
     const fileInput = document.getElementById('upload-report');
-  document.getElementById('reportForm').addEventListener('submit', function(event) {
-    const fileInput = document.getElementById('upload-report');
     if (fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-      if (file.type !== "application/pdf") {
-        alert('The report must be a PDF file.');
-        event.preventDefault();
-      }
       const file = fileInput.files[0];
       if (file.type !== "application/pdf") {
         alert('The report must be a PDF file.');
@@ -161,30 +143,7 @@
     const viewReportTab = document.getElementById('viewReportTab');
     const reportSection = document.getElementById('reportSection');
     const viewReportSection = document.getElementById('viewReportSection');
-      alert('Report file is required.');
-      event.preventDefault();
-    }
 
-    const descriptionInput = document.getElementById('description');
-    if (!descriptionInput.value.trim()) {
-      alert('Description is required.');
-      event.preventDefault();
-    }
-  });
-
-  function toggleSection(section) {
-    const reportTab = document.getElementById('reportTab');
-    const viewReportTab = document.getElementById('viewReportTab');
-    const reportSection = document.getElementById('reportSection');
-    const viewReportSection = document.getElementById('viewReportSection');
-
-    if (section === 'report') {
-      reportTab.classList.add('active');
-      viewReportTab.classList.remove('active');
-      viewReportSection.classList.remove('active');
-      viewReportSection.style.display = 'none';
-      reportSection.style.display = 'block';
-      setTimeout(() => reportSection.classList.add('active'), 10);
     if (section === 'report') {
       reportTab.classList.add('active');
       viewReportTab.classList.remove('active');
@@ -230,17 +189,8 @@
       showPopup(decodeURIComponent(successMessage));
       toggleSection('viewReport');
     } else if (errorMessage) {
-      // Prevent index_number errors from showing in the popup
-      if (errorMessage !== encodeURIComponent("Invalid student index number or student not selected by your company.") &&
-          errorMessage !== encodeURIComponent("Student index number is required.")) {
-        showPopup(decodeURIComponent(errorMessage), true);
-      }
+      showPopup(decodeURIComponent(errorMessage), true);
     }
-
-    // Display index number error as an alert if it exists
-    <?php if (isset($errors['index_number'])): ?>
-      alert('<?php echo addslashes($errors['index_number']); ?>');
-    <?php endif; ?>
   };
 </script>
 
