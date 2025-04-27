@@ -8,6 +8,12 @@ use Models\Report;
 $report_id = $_POST['id'];
 $report = Report::findById($report_id);
 
+$auth_user = auth_user();
+if ($report['sender_id'] != $auth_user['id']) {
+//    Session::toast('You are not authorized to delete this report.', 'warning');
+    redirect('/students/internship_reports');
+}
+
 
 
 

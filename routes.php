@@ -97,6 +97,8 @@ $router->post('/students/training_sessions/attendance', 'students/training_sessi
 
 $router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 $router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
+$router->post('/lecturers/visits/reports', 'lecturers/visits/reports/store.php')->only('lecturer');
+$router->get('/lecturers/visits/reports', 'lecturers/visits/reports/show.php')->only('lecturer');
 
 // Pdc
 

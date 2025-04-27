@@ -11,13 +11,23 @@
         <?php foreach ($lecturer_visits as $item): ?>
             <div class="grid-item"><?= $item['id'] ?></div>
             <div class="grid-item">
-                <a href="/lecturers/visits/show?id=<?= $item['4'] ?>">
+                <a href="/lecturers/visits/show?id=<?= $item['id'] ?>">
                     <?= htmlspecialchars($item['company_name']) ?>
                 </a>
             </div>
             <div class="grid-item"><?= date('d-m-Y', strtotime($item['date'])) ?></div>
             <div class="grid-item"><?= date('H:i', strtotime($item['time'])) ?></div>
-            <div class="grid-item"><?= ucwords($item['status']) ?></div>
+            <div class="grid-item">
+                <p style="color: #0ea5e9;">
+                    <?php if ($item['visited']): ?>
+                        <span style="color: #16a34a;">Visited</span>
+                    <?php elseif(strtotime($item['date'] . ' ' . $item['time']) < time()): ?>
+                        <span style="color: #dc2626;">Not Visited</span>
+                    <?php else: ?>
+                        <span style="color: #fbbf24;">Pending</span>
+                    <?php endif; ?>
+                </p>
+            </div>
         <?php endforeach; ?>
     </div>
 </main>
