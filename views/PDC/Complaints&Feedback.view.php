@@ -46,7 +46,7 @@
                         <td><?= htmlspecialchars($complaint['subject']) ?></td>
                         <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
                         <td><?= htmlspecialchars($complaint['complaint_type']) ?></td>
-                        <td><?= htmlspecialchars($complaint['created_at']) ?></td>
+                        <td><?= htmlspecialchars($complaint['created_date']) ?></td>
                         <?php
                         $status = $complaint['status'];
                         $statusClass = 'status-' . strtolower(str_replace(' ', '_', $status));
@@ -119,7 +119,7 @@
                 <p><strong>Complaint Against:</strong> ${complaint.accused_name || 'Unknown'}</p>
                 <p><strong>Complaint Type:</strong> ${complaint.complaint_type || 'N/A'}</p>
                 <p><strong>Contact:</strong> ${complaint.contact || 'N/A'}</p>
-                <p><strong>Date Submitted:</strong> ${complaint.created_at || 'N/A'}</p>
+                <p><strong>Date Submitted:</strong> ${complaint.created_date || 'N/A'}</p>
             `;
 
             additionalInfoDiv.innerHTML = `
@@ -257,7 +257,7 @@
                 'subject': 1,
                 'accused_name': 2,
                 'complaint_type': 3,
-                'created_at': 4
+                'created_date': 4
             };
 
             let matches = false;

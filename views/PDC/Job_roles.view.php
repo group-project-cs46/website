@@ -1,15 +1,17 @@
 <?php require base_path('views/partials/auth/auth.php'); ?>
 <link rel="stylesheet" href="/styles/PDC/Job_roles.css" />
-
-
+<main class="main-content">
+    <header class="header">
+        <div class="above">
+            <i class="fas fa-briefcase" style="font-size: 40px;"></i>
+            <h2><b>Manage Job Roles</b></h2>
+        </div>
+    </header>
 <div class="container">
-    <div class="header">
-        <i class="fas fa-briefcase"></i>
-        <h1>Manage Job Roles</h1>
-    </div>
-
+    
+    
     <button class="add-btn" onclick="openModal()">Add New Job Role</button>
-
+    
     <table id="job-roles-table">
         <thead>
             <tr>
@@ -50,6 +52,7 @@
         </div>
     </div>
 </div>
+</main>
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
