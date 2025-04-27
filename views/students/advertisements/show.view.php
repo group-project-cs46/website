@@ -37,7 +37,7 @@
             <!-- Apply Form Section -->
             <div style="flex: 1; min-width: 300px; background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
                 <h2 style="font-size: 1.5rem; color: #2d3748; margin: 0 0 20px; font-weight: 600;">Apply for this Job</h2>
-                <form action="/students/applications" method="post" style="display: flex; flex-direction: column; gap: 20px;">
+                <form action="/students/applications" id="apply_form" method="post" style="display: flex; flex-direction: column; gap: 20px;">
                     <input type="hidden" name="ad_id" value="<?= htmlspecialchars($ad['id']) ?>">
                     <div>
                         <label for="resume" style="font-size: 1rem; color: #2d3748; font-weight: 500; display: block; margin-bottom: 8px;">Resume</label>
