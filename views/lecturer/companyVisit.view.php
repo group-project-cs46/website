@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class="mmm">
-    <main class="main-content">  
+    <main class="main-content"> 
+    <section class="content">
+ 
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
@@ -47,7 +49,7 @@
 
                             <!-- View Button (Optional) -->
                             <a href="/VisitView?id=<?= $item['id'] ?>" class="view-button">View</a>
-                            <a href="/rejectReason?id=<?= $item['id'] ?>" class="view-button">Reject</a>
+                            <a href="/rejectReason?id=<?= $item['id'] ?>" class="disable-button">Reject</a>
 
 
                             <!-- Reject Button -->
@@ -62,6 +64,8 @@
                 </tbody>
             </table>
         </section>
+        </section>
+
     </main>
 
     <script>

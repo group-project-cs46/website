@@ -16,10 +16,33 @@ try {
         throw new Exception("Missing required fields.");
     }
 
+    $db = App::resolve(Database::class);
+
+    // Validate student index number for student complaints
+    if ($complaintType === 'student') {
+        if (empty($indexNo)) {
+            throw new Exception("Student index number is required for student complaints.");
+        }
+
+        // Check if the student exists and has applied to the company's advertisement
+        $studentApplication = $db->query(
+            'SELECT s.id 
+             FROM students s 
+             JOIN applications a ON s.id = a.student_id 
+             WHERE s.index_number = ? AND a.ad_id IN (
+                 SELECT id FROM advertisements WHERE company_id = ?
+             )',
+            [$indexNo, $userId]
+        )->find();
+
+        if (!$studentApplication) {
+            throw new Exception("Invalid student index number or student has not applied to your company's advertisement.");
+        }
+    }
+
     // Call the model to store the complaint
     if (companyComplaint::create($complaintType, $subject, $complaintDescription, $userId, $indexNo)) {
         // Fetch the company name from the users table
-        $db = App::resolve(Database::class);
         $company = $db->query("SELECT name FROM users WHERE id = ?", [$userId])->find();
         $companyName = $company['name'] ?? 'Unknown Company';
 
