@@ -133,12 +133,12 @@ class Ad
         ', [$id])->find();
     }
 
-    public static function create($internship_role_id, $responsibilities, $qualifications_skills, $max_cvs, $deadline, $vacancy_count, $photo_id)
+
+    public static function create(
+        $internship_role_id, $responsibilities, $qualifications_skills, $max_cvs, $deadline, $vacancy_count, $photo_id, $batch_id, $company_id
+    )
     {
         $db = App::resolve(Database::class);
-
-        $currentBatch = Batch::currentBatch();
-        $auth_user = auth_user();
 
         $db->query('
             INSERT INTO
@@ -151,8 +151,8 @@ class Ad
             $deadline,
             $vacancy_count,
             $photo_id,
-            $currentBatch['id'],
-            $auth_user['id']
+            $batch_id,
+            $company_id
         ]);
     }
 
