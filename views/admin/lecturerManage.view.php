@@ -18,7 +18,9 @@
                     <h3><b>Manage Lecturer</b></h3>
                     <p>Manage Lecturer Accounts</p>
                 </div>
-                <button class="add-button" id="openFormButton"><a href="/lecturerAdd">+ New</a></button>
+                <a href="/lecturerAdd">
+                <button class="add-button" id="openFormButton">+ New</button>
+                </a>
             </div>
 
             <div class="table-container">
