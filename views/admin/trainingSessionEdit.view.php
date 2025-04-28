@@ -115,6 +115,13 @@
 <div class="center-wrapper">
     <div class="form-container">
         <h2>Edit Session</h2>
+
+        <?php if (!empty($_SESSION['error_message'])): ?>
+            <div style="color: red; font-weight: bold; margin-bottom: 15px;">
+                <?= $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
+        
         <form method="post" action="/trainingEdition">
             <div class="form-group">
                 <label for="session-name">Name</label>
