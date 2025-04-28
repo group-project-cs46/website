@@ -341,6 +341,7 @@ $router->post('/visitUpdate', 'lecturer/updateVisit.php');
 $router->get('/rejectReason', 'lecturer/rejectReason.php');
 
 $router->post('/addReason', controller: 'lecturer/add-Reason.php');
+$router->get('/dashboard/admin', 'dashboards/admins.php')->only('auth');
 
 
 

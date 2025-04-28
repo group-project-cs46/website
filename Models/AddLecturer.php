@@ -114,4 +114,31 @@ class AddLecturer
     
         $db->query('UPDATE users SET approved = ? WHERE id = ?', [$new, $id]);
     }
+
+    public static function get_total_count()
+    {
+        $db = App::resolve(Database::class);
+
+    $result = $db->query('SELECT COUNT(*) as count FROM lecturers', [])->find();
+
+    return (int) $result['count'];
+    }
+
+    public static function emailExists($email)
+{
+    $db = App::resolve(Database::class);
+
+    $result = $db->query("SELECT 1 FROM users WHERE email = ?", [
+        $email
+    ])->find();
+
+    return $result ? true : false;
+}
+        public static function employeeNoExists($employee_no)
+        {
+            $db = App::resolve(Database::class);
+
+            $result = $db->query("SELECT 1 FROM pdcs WHERE employee_id = ?", [$employee_no])->find();
+            return $result ? true : false;
+        }
 }

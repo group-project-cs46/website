@@ -61,7 +61,20 @@
 
     </main>
 
+    <?php if (isset($_SESSION['success_message'])): ?>
+    <div id="success-popup" style="display:block; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); padding: 20px; background-color:#3498db; color: white; border-radius: 5px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+        <span><?= $_SESSION['success_message'] ?></span>
+        <button onclick="closePopup()" style="background-color: transparent; color: white; border: none; font-size: 16px; margin-left: 10px; cursor: pointer;">×</button>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
+
     <script>
+
+function closePopup() {
+        document.getElementById('success-popup').style.display = 'none';
+    }
+
     function searchTable() {
         const input = document.getElementById("searchInput");
         const filter = input.value.toLowerCase();

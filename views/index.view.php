@@ -1,7 +1,7 @@
 <?php require base_path('views/partials/layouts/guest/open.php') ;?>
 
     <!-- Glassmorphism navbar -->
-    <nav style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 1000; padding: 1rem;">
+    <nav style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; padding: 1rem;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
             <h1 style="margin: 0; color: #0369a1; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
 <!--                <i class="fas fa-rocket" style="color: #0ea5e9;"></i>-->
