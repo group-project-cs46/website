@@ -83,6 +83,10 @@
             <p><b>Maximum CV Count: </b><span id="popup-cvcount"></span></p>
             <p><b>Contact Email: </b> <a href="#" id="popup-email"></a></p>
             <p><b>Deadline: </b> <span id="popup-deadline"></span></p>
+            <div style="flex: 1; min-width: 300px; text-align: center;">
+                    <img src="/files?id=<?= $advertisement['photo_id'] ?>" alt="Advertisement Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                </div>
+
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message"></p>

@@ -15,4 +15,6 @@ try {
     die($e->getMessage());
 }
 
+$_SESSION['success_message'] = 'Lecturer Account Created Successfully!';
+
 redirect('/lecturerManage');

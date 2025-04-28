@@ -25,9 +25,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$indexNumber) {
         $errors['index_number'] = "Student index number is required.";
     } else {
-        $subjectId = companyReport::getSubjectIdByIndexNumber($indexNumber);
-        if (!$subjectId) {
-            $errors['index_number'] = "Invalid student index number.";
+        $db = App::resolve(Database::class);
+        // Check if the student exists and is selected by the company
+        $student = $db->query(
+            'SELECT s.id, s.index_number, a.selected, a.ad_id 
+             FROM students s 
+             JOIN applications a ON s.id = a.student_id 
+             WHERE s.index_number = ? AND a.selected = TRUE AND a.ad_id IN (
+                 SELECT id FROM advertisements WHERE company_id = ?
+             )',
+            [$indexNumber, $userId]
+        )->find();
+
+        if (!$student) {
+            // Debug: Check if the student exists
+            $studentExists = $db->query(
+                'SELECT id FROM students WHERE index_number = ?',
+                [$indexNumber]
+            )->find();
+            if (!$studentExists) {
+                $errors['index_number'] = "Invalid student index number.";
+            } else {
+                // Student exists, check application details
+                $application = $db->query(
+                    'SELECT ad_id, selected FROM applications WHERE student_id = ? AND selected = TRUE',
+                    [$studentExists['id']]
+                )->find();
+                if ($application) {
+                    $adId = $application['ad_id'];
+                    $adDetails = $db->query(
+                        'SELECT company_id FROM advertisements WHERE id = ?',
+                        [$adId]
+                    )->find();
+                    error_log("Student Index: $indexNumber, Ad ID: $adId, Ad Company ID: " . ($adDetails['company_id'] ?? 'Not found') . ", Logged-in Company ID: $userId");
+                    $errors['index_number'] = "Student not selected by your company.";
+                } else {
+                    $errors['index_number'] = "Student not selected.";
+                }
+            }
+        } else {
+            $subjectId = $student['id'];
         }
     }
 

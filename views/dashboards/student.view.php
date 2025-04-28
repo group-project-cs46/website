@@ -61,6 +61,9 @@
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px;">
                         <h2 style="font-size: 20px; color: #333; margin: 0 0 15px 0;">Uploaded CVs</h2>
                         <ul style="list-style: none; padding: 0; margin: 0;">
+                            <?php if (empty($cvs)): ?>
+                                <p style="font-size: 14px; color: #666; text-align: center">No CVs found.</p>
+                            <?php endif ?>
                             <?php foreach ($cvs as $cv): ?>
                                 <li style="padding: 10px 0; border-bottom: 1px solid #eee; font-size: 14px; color: #333;">
                                     <?= $cv['original_name'] ?> • <span style="color: #666;"><?= $cv['type'] ?></span>

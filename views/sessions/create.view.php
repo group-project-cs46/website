@@ -16,7 +16,7 @@
                             Email Address
                             <input type="email" name="email"
                                    style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; background-color: #f8fafc; color: #1f2937; font-size: 0.875rem; transition: all 0.2s ease; outline: none;"
-                                   placeholder="name@company.com"
+                                   placeholder="name@example.com"
                                    required
                                    value="<?= old('email') ?? '' ?>"
                                    onfocus="this.style.borderColor='#0ea5e9'; this.style.boxShadow='0 0 0 3px rgba(14, 165, 233, 0.1)';"

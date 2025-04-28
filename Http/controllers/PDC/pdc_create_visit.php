@@ -7,11 +7,12 @@ use Models\pdcCompanyvisit;
 $date = $_POST['date'] ?? null;
 $times = json_decode($_POST['times'] ?? '[]', true); // Decode JSON string to array
 $companyIds = json_decode($_POST['company_ids'] ?? '[]', true); // Decode JSON string to array
+$lecturerId = $_POST['lecturer_id'] ?? null;
 
 // Validate input
-if (!$date || empty($times) || empty($companyIds) || count($times) !== count($companyIds)) {
+if (!$date || empty($times) || empty($companyIds) || !$lecturerId || count($times) !== count($companyIds)) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'Invalid input: Date, times, and company IDs are required and must match in count']);
+    echo json_encode(['success' => false, 'error' => 'Invalid input: Date, times, company IDs, and lecturer ID are required and times must match company IDs in count']);
     exit;
 }
 
@@ -21,7 +22,7 @@ try {
     
     // Insert visits into the database
     foreach ($companyIds as $index => $companyId) {
-        $result = pdcCompanyvisit::create_visit($companyId, $date, $times[$index]);
+        $result = pdcCompanyvisit::create_visit($companyId, $date, $times[$index], $lecturerId);
         if (!$result) {
             $success = false;
             break;

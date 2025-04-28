@@ -14,7 +14,8 @@ class pdc_complaints
             SELECT 
                 c.*, 
                 u1.name AS complainant_name, 
-                u2.name AS accused_name
+                u2.name AS accused_name,
+                TO_CHAR(c.created_at, \'YYYY-MM-DD\') AS created_date
             FROM complaints c
             JOIN users u1 ON c.complainant_id = u1.id
             JOIN users u2 ON c.accused_id = u2.id
