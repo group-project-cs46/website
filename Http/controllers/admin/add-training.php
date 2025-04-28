@@ -15,6 +15,7 @@ try {
     $qrcode_id = Qr::generate($attendance_code);
     TrainingSession::create($name, $date, $start_time, $end_time, $venue, $attendance_code, $qrcode_id);
     //   dd($qrcode_id);
+    $_SESSION['success_message'] = 'Training session created successfully!';
 
 } catch (\Exception $e) {
     die($e->getMessage());

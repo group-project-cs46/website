@@ -107,13 +107,15 @@ class AddPdc
     public static function get_total_count()
     {
         $db = App::resolve(Database::class);
-        $result = $db->query('SELECT COUNT(*) as total FROM pdcs')->get();
-        return $result[0]['total'] ?? 0;
+
+    $result = $db->query('SELECT COUNT(*) as count FROM pdcs', [])->find();
+
+    return (int) $result['count'];
     }
 
     public static function emailExists($email)
     {
-        $db = App::resolve(\Core\Database::class);
+        $db = App::resolve(Database::class);
 
         $result = $db->query("SELECT 1 FROM pdc WHERE email = :email", [
             'email' => $email
