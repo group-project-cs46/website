@@ -140,6 +140,7 @@
                             <th>Visit Time</th>
                             <th>Approved</th>
                             <th>Visit_Status</th>
+                            <th>Lecturer_report</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -200,23 +201,22 @@ let events = techtalkData ? techtalkData.map(slot => ({
 console.log('events:', events); // Debug: Inspect events
 
 // Pass company visits data
-// Pass company visits data
 let visitData = <?php echo json_encode($visits); ?>;
 console.log('visitData:', visitData);
 
 let visits = visitData ? visitData
     .filter(visit => visit.visit_id !== null && visit.visit_id !== undefined && !isNaN(visit.visit_id))
     .map(visit => {
-        // Determine the status and the associated class for color
+
         let status = 'Pending';
-        let statusClass = 'status-pending'; // Default to 'Pending'
+        let statusClass = 'status-pending'; // Default'Pending'
 
         if (visit.approved === true) {
             status = 'Approved';
-            statusClass = 'status-approved'; // Green for approved
+            statusClass = 'status-approved'; 
         } else if (visit.rejected === true) {
             status = 'Rejected';
-            statusClass = 'status-rejected'; // Red for rejected
+            statusClass = 'status-rejected'; 
         }
 
         return {
@@ -227,6 +227,7 @@ let visits = visitData ? visitData
             company: visit.company_name || 'N/A',
             approved: `<span class="${statusClass}">${status}</span>`, // Color-coded status
             visited: visit.visited ? 'Visited' : 'Not Visited',
+            report_file_id: visit.report_file_id || null
         };
     }) : [];
 
@@ -881,12 +882,24 @@ function addVisitToTable(visit) {
     timeCell.textContent = visit.time;
 
     const approvedCell = newRow.insertCell(4);
-    approvedCell.innerHTML = visit.approved; // Use innerHTML to render the HTML string
+    approvedCell.innerHTML = visit.approved;
 
     const visitedCell = newRow.insertCell(5);
     visitedCell.textContent = visit.visited;
 
-    const actionCell = newRow.insertCell(6);
+    // Lecturer_report cell
+    const reportCell = newRow.insertCell(6);
+    if (visit.report_file_id) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = `/PDC/downloadlecturerreport?visit_id=${visit.id}`;
+        downloadLink.textContent = "Download";
+        downloadLink.className = "button";
+        reportCell.appendChild(downloadLink);
+    } else {
+        reportCell.textContent = "No Report";
+    }
+
+    const actionCell = newRow.insertCell(7);
     
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";

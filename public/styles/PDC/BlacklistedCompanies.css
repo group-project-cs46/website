@@ -199,7 +199,7 @@ textarea {
     background-color: #0056b3;
 }
 
-/* Responsive Design for Mobile */
+
 @media (max-width: 600px) {
   .main-content {
       margin-left: 40px;

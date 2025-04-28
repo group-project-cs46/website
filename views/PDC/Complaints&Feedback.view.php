@@ -43,8 +43,7 @@
                 <?php foreach ($complaints as $complaint): ?>
                     <tr id="row-<?= $complaint['id'] ?>" class="<?= $complaint['status'] === 'rejected' ? 'disabled' : '' ?>">
                         <td><?= htmlspecialchars($complaint['complainant_name'] ?? 'Unknown') ?></td>
-                        <td><?= htmlspecialchars($complaint['subject']) ?></td>
-                        <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
+                        <td><a href="/PDC/show?id=<?= $complaint['id'] ?>"><?= htmlspecialchars($complaint['subject']) ?></a></td>                        <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
                         <td><?= htmlspecialchars($complaint['complaint_type']) ?></td>
                         <td><?= htmlspecialchars($complaint['created_date']) ?></td>
                         <?php
@@ -81,7 +80,7 @@
 <?php require base_path('views/partials/auth/auth-close.php') ?>
 
 <script>
-    // CSRF token from PHP
+   
     const csrfToken = '<?= htmlspecialchars($csrf_token) ?>';
 
     // Function to fetch and display complaint details

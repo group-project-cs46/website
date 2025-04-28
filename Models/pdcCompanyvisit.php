@@ -18,7 +18,8 @@ class pdcCompanyvisit
             lv.time,
             lv.visited,
             lv.date,
-            
+            lv.report_file_id,
+            r.*,
             lv.batch_id,
             lv.approved,
             lv.rejected,
@@ -29,6 +30,7 @@ class pdcCompanyvisit
             ul.name AS lecturer_name
         FROM lecturer_visits lv
         LEFT JOIN users uc ON lv.company_id = uc.id
+        LEFT JOIN reports r ON lv.report_file_id = r.id
         LEFT JOIN lecture_visit_lecturers lvl ON lv.id = lvl.lecturer_visit_id
         LEFT JOIN users ul ON lvl.lecturer_id = ul.id
         LEFT JOIN lecturer_visit_rejected_reasons lvr ON lv.id = lvr.lecturer_visit_id

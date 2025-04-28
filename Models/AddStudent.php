@@ -13,7 +13,7 @@ class AddStudent {
         $db = App::resolve(Database::class);
 
         try {
-            // Check if email already exists
+            
             $existingUser = $db->query('SELECT id FROM users WHERE email = ?', [$email])->find();
             if ($existingUser) {
                 throw new Exception("A user with the email '$email' already exists.");

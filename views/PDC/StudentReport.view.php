@@ -23,10 +23,7 @@
         </header>
 
         <section class="content">
-            <!-- <div class="table-title">
-            <h3><b>Student Report</b></h3>
-            <p>View Student Report provided by Company</p>
-        </div> -->
+            
             <div class="tabs">
                 <div class="student-report active-tab" id="studentreport-tab" onclick="togglecompany('student-report-section')">
                     <h3>Student Reports</h3>
@@ -53,7 +50,7 @@
                             <th>File_Name</th>
                             <th>Created_date</th>
                             <th>Description</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="reportsTableBody">
@@ -66,7 +63,7 @@
                                 <td><?= htmlspecialchars($report['description']) ?></td>
                                 <td>
                                     <button class="download-button" onclick="downloadReport(<?= $report['id'] ?>)">Download</button>
-                                    <button class="delete-button" onclick="deleteReport(<?= $report['id'] ?>)">Delete</button>
+                                    
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -99,7 +96,7 @@
 
                                 <td>
                                     <button class="download-button" onclick="downloadReport(<?= $companyreport['id'] ?>)">Download</button>
-                                    <button class="delete-button" onclick="deleteReport(<?= $companyreport['id'] ?>)">Delete</button>
+                                    
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -156,30 +153,6 @@
    
 
 
-    function deleteReport(reportId) {
-        if (confirm("Are you sure you want to delete this report?")) {
-            fetch('/PDC/deletestudentreport', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        delete_id: reportId
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById(`row-${reportId}`).remove();
-                        alert("Report deleted successfully!");
-                    } else {
-                        alert("Error deleting report.");
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    }
-
     function openPopup() {
         document.getElementById('reportPopup').style.display = 'block';
     }
@@ -196,77 +169,75 @@
 
 
     function filterReports() {
-        const searchTerm = document.querySelector('.search-bar').value.toLowerCase();
-        const filterColumn = document.getElementById('filterColumn').value;
-        const isStudentTabActive = document.getElementById('student-report-section').style.display === 'block';
+    const searchTerm = document.querySelector('.search-bar').value.toLowerCase();
+    const filterColumn = document.getElementById('filterColumn').value;
+    const isStudentTabActive = document.getElementById('student-report-section').style.display === 'block';
 
-        if (isStudentTabActive) {
-            // Filter Student Reports
-            const rows = document.querySelectorAll('.student-reports-table tbody tr');
-            rows.forEach(row => {
-                const columns = {
-                    'sender_name': 0,    // Student_Name
-                    'index_number': 1,   // index_number
-                    'file_name': 2,      // File_Name
-                    'created_date': 3,   // Created_date
-                    'description': 4     // Description
-                };
+    if (isStudentTabActive) {
+        // Filter Student Reports
+        const rows = document.querySelectorAll('#student-report-section .reports-table tbody tr');
+        const columns = {
+            'sender_name': 0,    
+            'index_number': 1,   
+            'file_name': 2,      
+            'created_at': 3,     
+            'description': 4     
+        };
 
-                let shouldDisplay = false;
+        rows.forEach(row => {
+            let shouldDisplay = false;
 
-                if (filterColumn === 'all') {
-                    const senderName = row.cells[0].textContent.toLowerCase();
-                    const indexNumber = row.cells[1].textContent.toLowerCase();
-                    const fileName = row.cells[2].textContent.toLowerCase();
-                    const createdDate = row.cells[3].textContent.toLowerCase();
-                    const description = row.cells[4].textContent.toLowerCase();
-
-                    shouldDisplay = senderName.includes(searchTerm) ||
-                        indexNumber.includes(searchTerm) ||
-                        fileName.includes(searchTerm) ||
-                        createdDate.includes(searchTerm) ||
-                        description.includes(searchTerm);
-                } else {
-                    const columnIndex = columns[filterColumn];
-                    const cellText = row.cells[columnIndex].textContent.toLowerCase();
-                    shouldDisplay = cellText.includes(searchTerm);
+            if (filterColumn === 'all') {
+                // Check all columns
+                for (let i = 0; i < 5; i++) {
+                    const cellText = row.cells[i].textContent.toLowerCase();
+                    if (cellText.includes(searchTerm)) {
+                        shouldDisplay = true;
+                        break;
+                    }
                 }
+            } else {
+                // Check specific column
+                const columnIndex = columns[filterColumn];
+                const cellText = row.cells[columnIndex].textContent.toLowerCase();
+                shouldDisplay = cellText.includes(searchTerm);
+            }
 
-                row.style.display = shouldDisplay ? '' : 'none';
-            });
-        } else {
-            // Filter Company Reports
-            const rows = document.querySelectorAll('.company-reports-table tbody tr');
-            rows.forEach(row => {
-                const columns = {
-                    'sender_name': 0,    // Company_Name
-                    'file_name': 1,      // File_Name
-                    'created_date': 2,   // created_date
-                    'description': 3     // Description
-                };
+            row.style.display = shouldDisplay ? '' : 'none';
+        });
+    } else {
+        // Filter Company Reports
+        const rows = document.querySelectorAll('#company-reports-section .reports-table tbody tr');
+        const columns = {
+            'sender_name': 0,    
+            'file_name': 1,      
+            'created_at': 2,     
+            'description': 3     
+        };
 
-                let shouldDisplay = false;
+        rows.forEach(row => {
+            let shouldDisplay = false;
 
-                if (filterColumn === 'all' || filterColumn === 'index_number') {
-                    const senderName = row.cells[0].textContent.toLowerCase();
-                    const fileName = row.cells[1].textContent.toLowerCase();
-                    const createdDate = row.cells[2].textContent.toLowerCase();
-                    const description = row.cells[3].textContent.toLowerCase();
-
-                    shouldDisplay = senderName.includes(searchTerm) ||
-                        fileName.includes(searchTerm) ||
-                        createdDate.includes(searchTerm) ||
-                        description.includes(searchTerm);
-                } else {
-                    const columnIndex = columns[filterColumn];
-                    const cellText = row.cells[columnIndex].textContent.toLowerCase();
-                    shouldDisplay = cellText.includes(searchTerm);
+            if (filterColumn === 'all') {
+                // Check all columns
+                for (let i = 0; i < 4; i++) {
+                    const cellText = row.cells[i].textContent.toLowerCase();
+                    if (cellText.includes(searchTerm)) {
+                        shouldDisplay = true;
+                        break;
+                    }
                 }
+            } else if (filterColumn !== 'index_number') {
+                // Check specific column (skip index_number for company reports)
+                const columnIndex = columns[filterColumn];
+                const cellText = row.cells[columnIndex].textContent.toLowerCase();
+                shouldDisplay = cellText.includes(searchTerm);
+            }
 
-                row.style.display = shouldDisplay ? '' : 'none';
-            });
-        }
+            row.style.display = shouldDisplay ? '' : 'none';
+        });
     }
+}
 </script>
 
 

@@ -1,4 +1,4 @@
-/* Container styling */
+
 .container {
     margin-top: 20px;
     margin: 20px auto;
@@ -36,7 +36,7 @@
   }
 
  
-/* Header styling */
+
 .header {
     display: flex;
     align-items: center;
@@ -54,7 +54,7 @@
     margin: 0;
 }
 
-/* Button to open modal */
+
 .add-btn {
     background-color: #007bff;
     color: white;
@@ -69,7 +69,6 @@
     background-color: #0056b3;
 }
 
-/* Table styling */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -98,7 +97,7 @@ table tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Action buttons */
+
 .action-btn {
     padding: 5px 10px;
     border: none;
@@ -125,7 +124,7 @@ table tr:hover {
     background-color: #b02a37;
 }
 
-/* Modal styling */
+
 .modal {
     display: none;
     position: fixed;
@@ -206,7 +205,7 @@ table tr:hover {
     color: #ced0d3;
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
     .container {
         margin: 10px;

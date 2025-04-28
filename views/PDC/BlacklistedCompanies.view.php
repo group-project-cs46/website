@@ -18,7 +18,7 @@
                 <p>View Blacklisted Companies</p>
             </div>
             <div class="right-buttons">
-                <!-- <button class="add-button" onclick="showAddCompanyPopup()">+</button> -->
+  
             </div>
         </div>
 
@@ -133,10 +133,10 @@
                     const button = row.querySelector('.view-button');
                     if (button) {
                         button.textContent = 'removed'; // Change button text to "removed"
-                        button.disabled = true; // Disable the button
+                        button.disabled = true; 
                         button.classList.add('status-removed'); // Add a class for styling
                     }
-                    // Optionally, add a class to the row to indicate it's unblacklisted
+                    
                     row.classList.add('unblacklisted-row');
                 }
             } else {

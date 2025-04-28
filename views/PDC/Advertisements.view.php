@@ -1,7 +1,6 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
 <link rel="stylesheet" href="/styles/PDC/Advertisements.css" />
-
 <main class="main-content">
     <header class="header">
         <div class="above">
@@ -84,9 +83,8 @@
             <p><b>Contact Email: </b> <a href="#" id="popup-email"></a></p>
             <p><b>Deadline: </b> <span id="popup-deadline"></span></p>
             <div style="flex: 1; min-width: 300px; text-align: center;">
-                    <img src="/files?id=<?= $advertisement['photo_id'] ?>" alt="Advertisement Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
-                </div>
-
+                <img id="popup-image" src="" alt="Advertisement Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+            </div>
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message"></p>
@@ -206,10 +204,19 @@
         document.getElementById('popup-vacancy').textContent = ad.vacancy_count;
         document.getElementById('popup-cvcount').textContent = ad.max_cvs;
         document.getElementById('popup-deadline').textContent = ad.deadline;
-        
+
         const emailLink = document.getElementById('popup-email');
         emailLink.textContent = ad.company_email;
         emailLink.href = `mailto:${ad.company_email}`;
+
+        // Set the advertisement image dynamically
+        const popupImage = document.getElementById('popup-image');
+        if (ad.photo_id) {
+            popupImage.src = `/files?id=${ad.photo_id}`;
+            popupImage.style.display = 'block'; // Ensure image is shown
+        } else {
+            popupImage.style.display = 'none'; // Hide if no image available
+        }
 
         document.getElementById('popup-modal').style.display = 'block';
 
@@ -223,6 +230,7 @@
             openRejectReasonModal(ad.id, index);
         };
     }
+
 
     // Open rejection reason modal
     function openRejectReasonModal(adId, index) {
@@ -247,62 +255,71 @@
     }
 
     // Approve advertisement
-async function approveAdvertisement(adId, index) {
-    try {
-        const response = await fetch('/PDC/manageadvertisements', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ approve_id: adId })
-        });
-        const result = await response.json();
-        if (result.success) {
-            advertisements.splice(index, 1);
-            await fetchApprovedAdvertisements();
-            renderAdvertisements();
-            const successMessage = document.getElementById('success-message');
-            successMessage.textContent = result.message;
-            successMessage.classList.remove('hidden');
-            setTimeout(() => {
-                successMessage.classList.add('hidden');
-                document.getElementById('popup-modal').style.display = 'none';
-            }, 2000);
-        } else {
-            console.error('Approve failed:', result.message);
-            alert('Failed to approve advertisement: ' + result.message);
+    async function approveAdvertisement(adId, index) {
+        try {
+            const response = await fetch('/PDC/manageadvertisements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    approve_id: adId
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                advertisements.splice(index, 1);
+                await fetchApprovedAdvertisements();
+                renderAdvertisements();
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = result.message;
+                successMessage.classList.remove('hidden');
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                    document.getElementById('popup-modal').style.display = 'none';
+                }, 2000);
+            } else {
+                console.error('Approve failed:', result.message);
+                alert('Failed to approve advertisement: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error approving advertisement:', error);
+            alert('Error approving advertisement');
         }
-    } catch (error) {
-        console.error('Error approving advertisement:', error);
-        alert('Error approving advertisement');
     }
-}
 
     // Reject advertisement
-async function rejectAdvertisement(adId, index, reason) {
-    try {
-        const response = await fetch('/PDC/manageadvertisements', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ reject_id: adId, reason })
-        });
-        const result = await response.json();
-        if (result.success) {
-            advertisements.splice(index, 1);
-            renderAdvertisements();
-            closeRejectReasonModal();
-            document.getElementById('popup-modal').style.display = 'none';
-            const successMessage = document.getElementById('success-message');
-            successMessage.textContent = result.message;
-            successMessage.classList.remove('hidden');
-            setTimeout(() => successMessage.classList.add('hidden'), 2000);
-        } else {
-            console.error('Reject failed:', result.message);
-            alert('Failed to reject advertisement: ' + result.message);
+    async function rejectAdvertisement(adId, index, reason) {
+        try {
+            const response = await fetch('/PDC/manageadvertisements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    reject_id: adId,
+                    reason
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                advertisements.splice(index, 1);
+                renderAdvertisements();
+                closeRejectReasonModal();
+                document.getElementById('popup-modal').style.display = 'none';
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = result.message;
+                successMessage.classList.remove('hidden');
+                setTimeout(() => successMessage.classList.add('hidden'), 2000);
+            } else {
+                console.error('Reject failed:', result.message);
+                alert('Failed to reject advertisement: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error rejecting advertisement:', error);
+            alert('Error rejecting advertisement');
         }
-    } catch (error) {
-        console.error('Error rejecting advertisement:', error);
-        alert('Error rejecting advertisement');
     }
-}
 
     // View approved advertisement students (dynamic fetch)
     async function viewApprovedAdvertisement(index) {
@@ -394,19 +411,19 @@ async function rejectAdvertisement(adId, index, reason) {
         const searchBar = document.getElementById('search-bar');
         searchBar.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            
-            const filteredAds = advertisements.filter(ad => 
+
+            const filteredAds = advertisements.filter(ad =>
                 ad.company_name.toLowerCase().includes(searchTerm) ||
                 ad.job_role.toLowerCase().includes(searchTerm) ||
                 ad.company_email.toLowerCase().includes(searchTerm)
             );
-            
-            const filteredApprovedAds = approvedAdvertisements.filter(ad => 
+
+            const filteredApprovedAds = approvedAdvertisements.filter(ad =>
                 ad.company_name.toLowerCase().includes(searchTerm) ||
                 ad.job_role.toLowerCase().includes(searchTerm) ||
                 ad.company_email.toLowerCase().includes(searchTerm)
             );
-            
+
             renderAdvertisements(filteredAds);
             renderApprovedAdvertisements(filteredApprovedAds);
         });
