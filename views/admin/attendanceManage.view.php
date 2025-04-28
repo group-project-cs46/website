@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="/styles/pasindu/pdcManage.css" />
 <div class="mmm">
-    <main class="main-content">  
+    <main class="main-content"> 
+    <section class="content">
+ 
         <header class="header">
             <div class="above">
                 <i class="fa-solid fa-user-shield" style="font-size: 40px;"></i>
@@ -19,7 +21,8 @@
                 </div>
             </div>
 
-            <table class="student-table">
+            <div class="table-container">
+                <table class="student-table">
                 <thead>
                     <tr>
                         <th>Student No</th>
@@ -52,7 +55,10 @@
                 </tbody>
                 
             </table>
+            </div>
         </section>
+        <section class="content">
+
     </main>
 
     <script>

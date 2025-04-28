@@ -12,13 +12,6 @@ $contact = $_POST['contact'];
 $password = $_POST['password'];
 
 try {
-    // Check if email already exists
-    if (AddPdc::emailExists($email)) {
-        $_SESSION['error_message'] = 'Email already exists! Please use a different email.';
-        redirect('/pdcAdd');
-        exit;
-    }
-
     // Save PDC user to database
     AddPdc::create($employee_id, $title, $email, $name, $contact, $password);
 
@@ -30,9 +23,12 @@ try {
         "Hi $name,<br><br>Your PDC account has been created.<br><strong>Username:</strong> $email<br><strong>Password:</strong> $password<br><br>You can now log in to the system.<br><br>- Admin Team"
     );
 
-    $_SESSION['success_message'] = 'PDC Account Created Successfully!';
-    redirect('/pdcManage');
+    // Set success message
+    $_SESSION['success_message'] = 'PDC Account created successfully!';
+
 } catch (\Exception $e) {
-    $_SESSION['error_message'] = 'An unexpected error occurred. Please try again.';
-    redirect('/pdcAdd');
+    die("Error: " . $e->getMessage());
 }
+
+// Redirect to the PDC management page
+redirect('/pdcManage');

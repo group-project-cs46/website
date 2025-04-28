@@ -4,26 +4,27 @@
 <div class="mmm">
     <main class="main-content">
             <!-- Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <div class="above">
-                <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
-                <h2><b>Admin Dashboard</b></h2>
-            </div>               
-             <div style="display: flex; gap: 20px; flex-direction: column;">
-                    <a href="/account" class="_button">
-                        <button>
-                            View Profile
-                        </button>
-                    </a>
+             <section class="content">
+             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
+        <h2 style="margin: 0;"><b>Admin Dashboard</b></h2>
+    </div>
 
-                    <form action="/sessions" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="button is-red">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
+    
+    <div style="display: flex; gap: 15px; align-items: center;">
+    <a href="/account">
+        <button class="_button" style="padding: 8px 16px;">View Profile</button>
+    </a>
+
+    <!-- Logout -->
+    <form action="/sessions" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="_button" style="background-color: #c0392b; padding: 8px 16px;">Logout</button>
+    </form>
+    </div>
+
+</div>
 
             <!-- Dashboard Grid -->
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
@@ -75,7 +76,7 @@
                     <a href="/pdcManage" style="text-decoration: none; color: inherit;">
                     <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"> <?php echo htmlspecialchars($PDC_COUNT); ?></p>
                         
                       </div>
                       </a>
@@ -98,6 +99,7 @@
                 </div>
             </div>
         </div>
+        </section>
     </main>
 
    
