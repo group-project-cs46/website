@@ -97,6 +97,8 @@ $router->post('/students/training_sessions/attendance', 'students/training_sessi
 
 $router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer');
 $router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
+$router->post('/lecturers/visits/reports', 'lecturers/visits/reports/store.php')->only('lecturer');
+$router->get('/lecturers/visits/reports', 'lecturers/visits/reports/show.php')->only('lecturer');
 
 // Pdc
 
@@ -232,6 +234,11 @@ $router->get('/PDC/managecomplaints', '/PDC/pdc_complaints.php');
 $router->get('/PDC/blacklistedcompanies', '/PDC/BlacklistedCompanies.php');
 
 
+$router->get('/PDC/managejobroles', '/PDC/Job_roles.php');
+$router->post('/PDC/createjobroles', '/PDC/createjobrole.php');
+$router->post('/PDC/editjobroles', '/PDC/editjobrole.php');
+$router->post('/PDC/deletejobroles', '/PDC/deletejobrole.php');
+
 //#################################################################################################################
 
 
@@ -335,6 +342,7 @@ $router->post('/visitUpdate', 'lecturer/updateVisit.php');
 $router->get('/rejectReason', 'lecturer/rejectReason.php');
 
 $router->post('/addReason', controller: 'lecturer/add-Reason.php');
+$router->get('/dashboard/admin', 'dashboards/admins.php')->only('auth');
 
 
 

@@ -107,28 +107,36 @@ class AddPdc
     public static function get_total_count()
     {
         $db = App::resolve(Database::class);
-        $result = $db->query('SELECT COUNT(*) as total FROM pdcs')->get();
-        return $result[0]['total'] ?? 0;
+
+    $result = $db->query('SELECT COUNT(*) as count FROM pdcs', [])->find();
+
+    return (int) $result['count'];
     }
+
+    public static function get_approved_pdc_count()
+    {
+        $db = App::resolve(Database::class);
+        $result = $db->query('SELECT COUNT(*) as total FROM users WHERE role = 3 AND approved = TRUE')->get();
+        return (int) $result['count'];
+    }
+
 
     public static function emailExists($email)
-    {
-        $db = App::resolve(\Core\Database::class);
-
-        $result = $db->query("SELECT 1 FROM pdc WHERE email = :email", [
-            'email' => $email
-        ])->find();
-
-        return $result ? true : false;
-    }
-
-
-    public static function employeeNoExists($employee_no)
 {
     $db = App::resolve(Database::class);
-    $stmt = $db->query("SELECT 1 FROM pdc WHERE employee_no = :employee_no LIMIT 1");
-    $stmt->execute(['employee_no' => $employee_no]);
-    return $stmt->fetchColumn() !== false;
+
+    $result = $db->query("SELECT 1 FROM users WHERE email = ?", [
+        $email
+    ])->find();
+
+    return $result ? true : false;
 }
+        public static function employeeNoExists($employee_no)
+        {
+            $db = App::resolve(Database::class);
+
+            $result = $db->query("SELECT 1 FROM pdcs WHERE employee_id = ?", [$employee_no])->find();
+            return $result ? true : false;
+        }
 
 }

@@ -10,17 +10,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"] ?? null;
     $course = $_POST["course"] ?? null;
 
-    if ($name && $index_number && $registration_number && $email && $course) {
-        $password = password_hash($index_number, PASSWORD_DEFAULT);
-        //AddStudent::create_user($name, $email, $password);
-        AddStudent::update_student($registration_number, $course, $email, $name, $index_number,$id);
-       
+    try {
+        if ($name && $index_number && $registration_number && $email && $course) {
 
-        header('Location: /PDC/managestudents');
-        exit; // Ensure the script stops after the redirect
-    } else {
-        // Handle missing fields (optional)
-        echo "All fields are required.";
+            // Since it's update, skip ctype_digit validation here
+
+            $password = password_hash($index_number, PASSWORD_DEFAULT);
+            AddStudent::update_student($registration_number, $course, $email, $name, $index_number, $id);
+
+            header('Location: /PDC/managestudents');
+            exit;
+
+        } else {
+            throw new Exception("All fields are required.");
+        }
+    } catch (Exception $e) {
+        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
         exit;
     }
 }
+?>

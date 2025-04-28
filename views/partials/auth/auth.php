@@ -123,6 +123,12 @@ $navItems = [
         'icon' => 'fa-solid fa-calendar-plus',
         'only' => [Role::Pdc]
     ],
+    [
+        'text' => "Job_Roles",
+        'href' => '/PDC/managejobroles',
+        'icon' => 'fa-briefcase',
+        'only' => [Role::Pdc]
+    ],
 //    [
 //        'text' => "PDCs",
 //        'href' => '/admins/pdcs',
@@ -165,12 +171,7 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
-//            $currentRound = \Models\Round::currentRound();
-            $currentBatch = \Models\Batch::currentBatch();
-//            dd($currentBatch);
-            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
-
-            return !$isSecondRound;
+            return !isSecondRound();
         }
     ],
     [
@@ -186,11 +187,8 @@ $navItems = [
         'icon' => 'fa-solid fa-2',
         'only' => [Role::Student],
         'filter' => function () {
-//            $currentRound = \Models\Round::currentRound();
-            $currentBatch = \Models\Batch::currentBatch();
-//            dd($currentBatch);
-            $isSecondRound = $currentBatch && $currentBatch['current_round'] == 'second';
-            $isSelected = !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            $isSecondRound = isSecondRound();
+            $isSelected = isSelected();
             return $isSecondRound && !$isSelected;
         }
     ],
@@ -212,7 +210,7 @@ $navItems = [
         'icon' => 'fa-file-pdf',
         'only' => [Role::Student],
         'filter' => function () {
-            return !empty(Application::isSelectedByStudentId(auth_user()['id']));
+            return isSelected();
         }
     ],
     [
@@ -227,21 +225,7 @@ $navItems = [
         'href' => '/lecturers/visits',
         'icon' => 'fa-solid fa-person-walking',
         'only' => [Role::Lecturer],
-    ],
-    [
-
-        'text' => 'Company Visits',
-        'href' => '/Visit',
-        'icon' => 'fa-solid fa-person-walking',
-        'only' => [Role::Lecturer],
-    ],
-    [
-
-        'text' => 'Company Visits',
-        'href' => '/lecturers/report',
-        'icon' => 'fa-address-book',
-        'only' => [Role::Lecturer],
-    ],
+    ]
 ];
 
 function filterNavItemsByRole($navItems, $userRole)

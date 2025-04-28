@@ -56,11 +56,36 @@ class TrainingSession
         $db->query('DELETE FROM training_sessions WHERE id = ?', [$id]);
     }
 
-    public static function get_count()
+    public static function get_total_count()
     {
         $db = App::resolve(Database::class);
-        $result = $db->query("SELECT COUNT(*) AS count FROM training_sessions")->find();
-        return $result['count'];
+
+    $result = $db->query('SELECT COUNT(*) as count FROM training_sessions', [])->find();
+
+    return (int) $result['count'];
     }
+
+    public static function isTimeSlotTaken($date, $start_time, $end_time)
+    {
+        $db = App::resolve(Database::class);
+
+        $result = $db->query(
+            'SELECT 1 FROM training_sessions WHERE date = ? 
+            AND (
+                (start_time <= ? AND end_time > ?) OR 
+                (start_time < ? AND end_time >= ?) OR
+                (start_time >= ? AND end_time <= ?)
+            )',
+            [
+                $date,
+                $start_time, $start_time,
+                $end_time, $end_time,
+                $start_time, $end_time
+            ]
+        )->find();
+
+        return $result ? true : false;
+    }
+
 
 }

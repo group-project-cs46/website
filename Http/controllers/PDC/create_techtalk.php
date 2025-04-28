@@ -1,10 +1,10 @@
 <?php
 use Models\pdc_techtalk;
-use Core\App;      // Import the App class
-use Core\Database; // Import the Database class
+use Core\App;    
+use Core\Database; 
+use Models\Notification;
 
-header('Content-Type: application/json'); // Set response type to JSON
-
+header('Content-Type: application/json');
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -35,6 +35,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($success) {
         $db = App::resolve(Database::class); // Resolve Database instance
         $id = $db->lastInsertId(); // Get the ID of the newly created record
+
+        // 1. Send notification to all companies
+    $companies = $db->query("SELECT id FROM companies", [])->get();
+    foreach ($companies as $company) {
+        Notification::create(
+            $company['id'], // user_id (company user)
+            'Upcoming Tech Talk Scheduled',
+            "A new Tech Talk has been scheduled on $date at $time, Venue: $venue.",
+            null, // action_url (you can add a view link if you want)
+            date('Y-m-d H:i:s', strtotime('+1 day')) // expires in 1 day
+        );
+    }
+
+    // 2. Send notification to all students
+    $students = $db->query("SELECT id FROM students", [])->get();
+    foreach ($students as $student) {
+        Notification::create(
+            $student['id'], // user_id (student user)
+            'Upcoming Tech Talk Scheduled',
+            "A new Tech Talk has been scheduled on $date at $time, Venue: $venue. Make sure to attend!",
+            null,
+            date('Y-m-d H:i:s', strtotime('+1 day'))
+        );
+    }
+
         echo json_encode([
             'success' => true,
             'id' => $id,
@@ -50,9 +75,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch existing data for display if not a POST request
-// $techtalk = pdc_techtalk::fetchAll();
-// view('PDC/Schedule.view.php', [
-//     'techtalk' => $techtalk,
-//     'error' => $error
-// ]);

@@ -59,7 +59,7 @@
                 </div>
 
                 <div>
-                    <img src="<?= $_SESSION['user']['photo'] ?>" alt="Profile Picture" id="profilePic"
+                    <img src="<?= $_SESSION['user']['photo'] ?? "/assets/default_profile.jpg" ?>" alt="Profile Picture" id="profilePic"
                          style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 1px solid var(--gray-200);">
                     <form action="/users/profile/photo" enctype="multipart/form-data" method="post">
                         <input type="hidden" name="_method" value="PATCH">

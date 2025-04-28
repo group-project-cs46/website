@@ -8,7 +8,7 @@ class Storage
 {
     protected static $location = 'storage/';
 
-    static function store($file, $description = '', $isPublic = false)
+    static function store($file, $isPublic, $description = '')
     {
         $targetDir = base_path(static::$location);
         $fileTmpPath = $file['tmp_name'];
@@ -31,7 +31,7 @@ class Storage
                 $newFileName,
                 $fileName,
                 $description,
-                $isPublic
+                (int)$isPublic
             );
 
         }
@@ -56,5 +56,32 @@ class Storage
 
         echo "File not found.";
         return null;
+    }
+
+    static function download($id)
+    {
+        $file = File::getById($id);
+
+        if ($file) {
+            $filePath = base_path('storage/' . $file['filename']);
+            $originalName = $file['original_name'];
+
+            if (file_exists($filePath)) {
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="' . $originalName . '"');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate');
+                header('Pragma: public');
+                header('Content-Length: ' . filesize($filePath));
+                readfile($filePath);
+                exit;
+            } else {
+                dd('file not found');
+            }
+        } else {
+            dd('File not found');
+        }
+
     }
 }

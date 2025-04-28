@@ -1,15 +1,24 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
 
-<main>
-    <div style="padding-inline: 1rem; margin-top: 1rem">
+<main class="main-content">
+    <header class="header">
+        <div class="above">
+            <i class="fas fa-calendar-plus" style="font-size: 40px;"></i>
+            <h2><b>Round Management</b></h2>
+        </div>
+    </header>
+
+    <div class="content" style="padding-inline: 1rem; margin-top: 1rem">
         <div style="display: flex; gap: 10px; justify-content: end">
 
-            <a href="/pdcs/batches/create" class="button">
+            
                 <button>
+                <a href="/pdcs/batches/create" class="button">
                     Start A New Internship Process
+                    </a>
                 </button>
-            </a>
+            
         </div>
 
         <div class="grid" style="grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto auto;">
@@ -46,6 +55,7 @@
 
 <link rel="stylesheet" href="/styles/select.css">
 <link rel="stylesheet" href="/styles/table.css">
+<link rel="stylesheet" href="/styles/PDC/Rounds.css">
 
 
 <?php require base_path('views/partials/auth/auth-close.php') ?>

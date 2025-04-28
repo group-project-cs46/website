@@ -8,9 +8,7 @@ class IsSecondRound
 {
     public function handle()
     {
-        $currentBatch = Batch::currentBatch();
-        $isSecondRound = $currentBatch['current_round'] == 'second';
-        if (!$isSecondRound) {
+        if (!isSecondRound()) {
             redirect('/');
         }
     }

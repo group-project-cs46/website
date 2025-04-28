@@ -3,33 +3,30 @@
 <link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class="mmm">
     <main class="main-content">
-            <!-- Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <div class="above">
-                <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
-                <h2><b>Admin Dashboard</b></h2>
-            </div>               
-             <div style="display: flex; gap: 20px; flex-direction: column;">
-                    <a href="/account" class="_button">
-                        <button>
-                            View Profile
-                        </button>
-                    </a>
 
-                    <form action="/sessions" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="button is-red">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div>
+    <section class="content">
+             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
+        <h2 style="margin: 0;"><b>Admin Dashboard</b></h2>
+    </div>
 
-            <!-- Dashboard Grid -->
+    
+    <div style="display: flex; gap: 15px; align-items: center;">
+    <a href="/account">
+        <button class="_button" style="padding: 8px 16px;">View Profile</button>
+    </a>
+
+    <form action="/sessions" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="_button" style="background-color: #c0392b; padding: 8px 16px;">Logout</button>
+    </form>
+    </div>
+
+</div>
+
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
-                <!-- Left Column: Internship Applications & Recent Activities -->
                 <div>
-                    <!-- Internship Applications -->
                     <a href="/complaints" style="text-decoration: none; color: inherit;">
 
                     <div style="background: #f9f9f9; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
@@ -62,35 +59,31 @@
 
 
                         </div>
-                        <!-- <a href="/students/applications" style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
-                            View All Applications
-                        </a> -->
                     </div>
 </a>
-                    
                 </div>
 
                 <div>
                     
                     <a href="/pdcManage" style="text-decoration: none; color: inherit;">
                     <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC Account</p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"> <?= $PDC_COUNT ?></p>
                         
                       </div>
                       </a>
 
                       <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
                     <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p> 
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer Account </p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $LEC_COUNT ?></p> 
                     </div>
                     </a>
 
                     <a href="/trainingSession" style="text-decoration: none; color: inherit;">
                     <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Session</p> 
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training Session</p>
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $TRINING_COUNT ?></p> 
                     </div>
                     </a>
 
@@ -98,6 +91,7 @@
                 </div>
             </div>
         </div>
+        </section>
     </main>
 
    

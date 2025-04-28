@@ -24,7 +24,8 @@
 
 
 
-            <table class="student-table">
+            <div class="table-container">
+                <table class="student-table">
                 <thead>
                     <tr>
                         <th>Complainant</th>
@@ -87,6 +88,7 @@
 
                 <!-- </tbody> -->
             </table>
+            </div>
         </section>
         </section>
     </main>
