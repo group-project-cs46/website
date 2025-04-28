@@ -17,7 +17,7 @@ if ($name && $index_number && $registration_number && $email && $course) {
         AddStudent::create_student($registration_number, $course, $email, $name, $index_number, $password);
 
         $mailer = App::resolve(Mail::class);
-        $mailer->send($email, 'Welcome to PDC', 'Your account has been created. Your password is your index number.');
+        $mailer->send($email, 'Welcome to LaunchPad', 'Your account has been created. Your password is your index number.');
 
         header('Location: /PDC/managestudents');
         exit;

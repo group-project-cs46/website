@@ -19,6 +19,21 @@ class AddStudent {
                 throw new Exception("A user with the email '$email' already exists.");
             }
 
+            $existingStudent = $db->query('SELECT id FROM students WHERE index_number = ?', [$index_number])->find();
+            if ($existingStudent) {
+                throw new Exception("A student with the index number '$index_number' already exists.");
+            }
+
+            $existingregistrationno = $db->query('SELECT id FROM students WHERE registration_number = ?', [$registration_number])->find();
+            if ($existingregistrationno) {
+                throw new Exception("A student with the index number '$registration_number' already exists.");
+            }
+
+            if (!ctype_digit($index_number)) {
+                throw new Exception("The index number must contain only numbers.");
+            }
+
+
             // Insert into users table
             $db->query('INSERT INTO users (email, role, name, password, disabled, approved) VALUES (?, ?, ?, ?, ?, ?)', [
                 $email,
@@ -52,8 +67,28 @@ class AddStudent {
 
   
 
-    public static function update_student($registration_number, $course, $email, $name, $index_number, $user_id){
-        $db = App::resolve(Database::class);
+    public static function update_student($registration_number, $course, $email, $name, $index_number, $user_id)
+{
+    $db = App::resolve(Database::class);
+
+    try {
+        // Check if email already exists for another user
+        $existingUser = $db->query('SELECT id FROM users WHERE email = ? AND id != ?', [$email, $user_id])->find();
+        if ($existingUser) {
+            throw new Exception("A user with the email '$email' already exists.");
+        }
+
+        // Check if index_number already exists for another student
+        $existingStudent = $db->query('SELECT id FROM students WHERE index_number = ? AND id != ?', [$index_number, $user_id])->find();
+        if ($existingStudent) {
+            throw new Exception("A student with the index number '$index_number' already exists.");
+        }
+
+        // Check if registration_number already exists for another student
+        $existingRegistrationNo = $db->query('SELECT id FROM students WHERE registration_number = ? AND id != ?', [$registration_number, $user_id])->find();
+        if ($existingRegistrationNo) {
+            throw new Exception("A student with the registration number '$registration_number' already exists.");
+        }
 
         // Update students table
         $db->query('UPDATE students SET registration_number = ?, course = ?, index_number = ? WHERE id = ?', [
@@ -69,7 +104,15 @@ class AddStudent {
             $name,
             $user_id
         ]);
+
+    } catch (PDOException $e) {
+        if ($e->getCode() == '23505') { // Unique violation
+            throw new Exception("A user with the email '$email' already exists.");
+        }
+        throw new Exception("Database error: " . $e->getMessage());
     }
+}
+
 
     public static function delete_student($user_id){
         $db = App::resolve(Database::class);
@@ -100,7 +143,11 @@ class AddStudent {
     {
         $db = App::resolve(Database::class);
 
-        $result = $db->query('SELECT s.*,u.* FROM students s JOIN users u on s.id = u.id',[])->get();
+        $result = $db->query('SELECT s.*,u.*,a.selected AS application_status
+
+         FROM students s JOIN users u on s.id = u.id
+         LEFT JOIN applications a ON s.id = a.student_id
+         ORDER BY u.name ASC',[])->get();
         
         return $result; // Returns a row if a duplicate exists, false otherwise
     }
@@ -141,7 +188,8 @@ class AddStudent {
             JOIN advertisements ad ON a.ad_id = ad.id
             JOIN users cu ON ad.company_id = cu.id
             JOIN internship_roles ir ON ad.internship_role_id = ir.id
-            WHERE a.selected = true",
+            WHERE a.selected = true
+            ORDER BY student_name ASC",
             []
         )->get();
 

@@ -1,24 +1,34 @@
 <?php
 // Http/controllers/PDC/pdc_edit_visit.php
+
 use Models\pdcCompanyvisit;
 
-$id = intval($_POST["id"] ?? 0);
-$date = trim($_POST["date"] ?? '');
-$time = trim($_POST["time"] ?? '');
+// Get the POST data
+$id = $_POST['id'] ?? null;
+$date = $_POST['date'] ?? null;
+$time = $_POST['time'] ?? null;
+$lecturer_id = $_POST['lecturer_id'] ?? null;
 
-if ($id && $date && $time) {
-    try {
-        $result = pdcCompanyvisit::edit_visit($id, $date, $time);
-        
-        echo json_encode([
-            'success' => true,
-            'message' => 'Visit updated successfully'
-        ]);
-    } catch (Exception $e) {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
-    }
-} else {
+// Validate input
+if (!$id || !$date || !$time || !$lecturer_id) {
+    header('Content-Type: application/json');
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'All fields are required']);
+    echo json_encode(['success' => false, 'error' => 'Invalid input: ID, date, time, and lecturer ID are required']);
+    exit;
+}
+
+try {
+    $result = pdcCompanyvisit::edit_visit($id, $date, $time, $lecturer_id);
+    
+    header('Content-Type: application/json');
+    if ($result) {
+        echo json_encode(['success' => true, 'message' => 'Visit updated successfully']);
+    } else {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Failed to update visit']);
+    }
+} catch (Exception $e) {
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
 }

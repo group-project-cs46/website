@@ -2,6 +2,7 @@
 
 use Core\App;
 use Models\AddStudent;
+use Core\Mail;
 
 try {
     if (!isset($_FILES['csvFile']) || $_FILES['csvFile']['error'] !== UPLOAD_ERR_OK) {
@@ -32,6 +33,7 @@ try {
     $errors = [];
     $line = 2;
 
+    $mailer = App::resolve(Mail::class);
     foreach ($csvData as $row) {
         if (count($row) < 5) {
             $errors[] = "Line $line: Insufficient columns.";
@@ -67,6 +69,9 @@ try {
             $password = password_hash($index_number, PASSWORD_DEFAULT);
             $student = AddStudent::create_student($registration_number, $course, $email, $name, $index_number, $password);
             $students[] = $student;
+
+            $mailer->send($email, 'Welcome to PDC', 'Your account has been created. Your password is your index number.');
+
         } catch (Exception $e) {
             $errors[] = "Line $line: " . $e->getMessage();
         }

@@ -46,7 +46,7 @@
                         <td><?= htmlspecialchars($complaint['subject']) ?></td>
                         <td><?= htmlspecialchars($complaint['accused_name'] ?? 'Unknown') ?></td>
                         <td><?= htmlspecialchars($complaint['complaint_type']) ?></td>
-                        <td><?= htmlspecialchars($complaint['created_at']) ?></td>
+                        <td><?= htmlspecialchars($complaint['created_date']) ?></td>
                         <?php
                         $status = $complaint['status'];
                         $statusClass = 'status-' . strtolower(str_replace(' ', '_', $status));
@@ -66,7 +66,7 @@
     </section>
 </main>
 
-<!-- Popup for Complaint Details -->
+
 <div id="complaintPopup" class="popup">
     <div class="popup-content">
         <span class="close" onclick="closePopup()">×</span>
@@ -94,7 +94,7 @@
                 }
             });
 
-            // Check if the response is okay
+            
             if (!response.ok) {
                 throw new Error(`HTTP error: ${response.status}`);
             }
@@ -119,7 +119,7 @@
                 <p><strong>Complaint Against:</strong> ${complaint.accused_name || 'Unknown'}</p>
                 <p><strong>Complaint Type:</strong> ${complaint.complaint_type || 'N/A'}</p>
                 <p><strong>Contact:</strong> ${complaint.contact || 'N/A'}</p>
-                <p><strong>Date Submitted:</strong> ${complaint.created_at || 'N/A'}</p>
+                <p><strong>Date Submitted:</strong> ${complaint.created_date || 'N/A'}</p>
             `;
 
             additionalInfoDiv.innerHTML = `
@@ -180,14 +180,14 @@
             }
 
             alert('Complaint rejected successfully');
-            location.reload(); // Reload the page to reflect changes
+            location.reload(); 
             // Disable the row instead of removing it
             const row = document.getElementById(`row-${id}`);
             if (row) {
                 // Add a 'disabled' class to the row
                 row.classList.add('disabled');
                 // Update the status column to "rejected"
-                row.cells[5].textContent = 'rejected'; // Status column is the 6th column (index 5)
+                row.cells[5].textContent = 'rejected'; 
                 // Disable the action buttons
                 const buttons = row.querySelectorAll('button');
                 buttons.forEach(button => {
@@ -200,7 +200,7 @@
         }
     }
 
-    // Function to mark a complaint as solved
+    
     async function complaintsolved(id) {
         if (!confirm('Are you sure you want to mark this complaint as solved?')) {
             return;
@@ -225,9 +225,9 @@
             }
 
             alert('Complaint marked as solved successfully');
-            location.reload(); // Reload the page to reflect changes
+            location.reload();
 
-            // If you prefer to update the row without reloading, you can comment the line above
+            
             const row = document.getElementById(`row-${id}`);
             if (row) {
                 row.classList.add('disabled');
@@ -244,7 +244,7 @@
     }
 
 
-    // Function to search complaints with column-specific filtering
+    
     function searchComplaints(searchTerm) {
         const filterColumn = document.getElementById('filterColumn').value;
         const rows = document.querySelectorAll('#complaintsTableBody tr');
@@ -257,7 +257,7 @@
                 'subject': 1,
                 'accused_name': 2,
                 'complaint_type': 3,
-                'created_at': 4
+                'created_date': 4
             };
 
             let matches = false;
