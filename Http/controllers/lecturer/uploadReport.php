@@ -1,51 +1,41 @@
 <?php
 
+use Models\Report;
 use Models\LecturerVisit;
-use Models\Student;
-use Models\LecturerVisitReport;
 
-// Get session data
-$lecturer_id = $_SESSION['user']['id'] ?? null;
-$lecturer_visit_id = $_POST['lecturer_visit_id'] ?? null;
-$company_id = $_POST['company_id'] ?? null;
-$pdf = $_FILES['pdf'] ?? null;
+// Check if a file was uploaded
+if (isset($_FILES['pdf']) && $_FILES['pdf']['error'] == 0) {
+    $pdf = $_FILES['pdf'];
 
-$errors = [];
+    // Directory to save PDF
+    $uploadDir = base_path('storage/reports');
+    if (!file_exists($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
 
-// Validate PDF
-if (!$pdf || $pdf['error'] !== UPLOAD_ERR_OK || strtolower(pathinfo($pdf['name'], PATHINFO_EXTENSION)) !== 'pdf'
-) {
-    $errors['pdf'] = 'Please upload a valid PDF file.';
+    // Generate unique filename
+    $uniqueFilename = uniqid('report_', true) . '.pdf';
+    $destination = $uploadDir . '/' . $uniqueFilename;
+
+    // Move uploaded file
+    move_uploaded_file($pdf['tmp_name'], $destination);
+
+    // Insert into reports table
+    $reportId = Report::create(
+        $lecturer_id,             // sender_id
+        $company_id,              // subject_id
+        $uniqueFilename,          // filename
+        $pdf['name'],             // original name
+        'Lecturer Company Visit'  // description
+    );
+
+    // 🟰 IMPORTANT CHANGE: Update lecturer_visits with the new report ID
+    LecturerVisit::updateReportId($lecturer_visit_id, $reportId);  // Correct method name
+
+    // Redirect back to the visit view
+    redirect("/VisitViews?id={$lecturer_visit_id}");
+} else {
+    // If file upload failed
+    $errors['pdf'] = 'Failed to upload file.';
+    // Optionally re-render the form with errors
 }
-
-// Validate required IDs
-if (!$lecturer_visit_id || !$lecturer_id || !$company_id) {
-    $errors['form'] = 'Missing required data.';
-}
-
-// Fetch visit and student data regardless of success/failure to refill the view
-$lecturer_visit = LecturerVisit::getById($lecturer_visit_id);
-$students_in_company = Student::getSelectedForCompany($company_id);
-
-if (!empty($errors)) {
-    return view('lecturers/visits/companyVisitView', [
-        'errors' => $errors,
-        'lecturer_visit' => $lecturer_visit,
-        'students_in_company' => $students_in_company
-    ]);
-}
-
-try {
-    LecturerVisitReport::upload($lecturer_visit_id, $lecturer_id, $company_id, $pdf);
-    redirect("/lecturers/visits/view?id={$lecturer_visit_id}");
-
-} catch (\Exception $e) {
-    $errors['upload'] = $e->getMessage();
-
-    return view('lecturers/visits/companyVisitView', [
-        'errors' => $errors,
-        'lecturer_visit' => $lecturer_visit,
-        'students_in_company' => $students_in_company
-    ]);
-}
-

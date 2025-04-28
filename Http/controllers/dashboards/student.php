@@ -14,10 +14,15 @@ $applications = Application::getByStudentIdWithDetails($auth_user['id']);
 $applications = array_slice($applications, 0, 5);
 
 
-//dd($applications);
+$cvs = \Models\Cv::findByUserId($auth_user['id']);
+$cvs = array_slice($cvs, 0, 3);
+
+
+//dd($cvs);
 
 view('dashboards/student.view.php', [
     'training_sessions' => $training_sessions,
     'user' => $user,
     'applications' => $applications,
+    'cvs' => $cvs,
 ]);

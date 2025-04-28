@@ -17,7 +17,8 @@ class Report
             $original_name,
             $description
         ]);
-    }
+        return $db->lastInsertId();
+    }   
 
     public static function findById($id)
     {
@@ -37,6 +38,8 @@ class Report
         $db = App::resolve(Database::class);
         $db->query('DELETE FROM reports WHERE id = ?', [$id]);
     }
+
+
 }
 
 
