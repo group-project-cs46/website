@@ -202,6 +202,10 @@ table tr:hover {
     background-color: #0056b3;
 }
 
+.grid-header {
+    color: #ced0d3;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .container {

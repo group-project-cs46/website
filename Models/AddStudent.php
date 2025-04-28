@@ -143,7 +143,11 @@ class AddStudent {
     {
         $db = App::resolve(Database::class);
 
-        $result = $db->query('SELECT s.*,u.* FROM students s JOIN users u on s.id = u.id',[])->get();
+        $result = $db->query('SELECT s.*,u.*,a.selected AS application_status
+
+         FROM students s JOIN users u on s.id = u.id
+         LEFT JOIN applications a ON s.id = a.student_id
+         ORDER BY u.name ASC',[])->get();
         
         return $result; // Returns a row if a duplicate exists, false otherwise
     }
@@ -184,7 +188,8 @@ class AddStudent {
             JOIN advertisements ad ON a.ad_id = ad.id
             JOIN users cu ON ad.company_id = cu.id
             JOIN internship_roles ir ON ad.internship_role_id = ir.id
-            WHERE a.selected = true",
+            WHERE a.selected = true
+            ORDER BY student_name ASC",
             []
         )->get();
 
