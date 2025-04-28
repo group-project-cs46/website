@@ -196,7 +196,7 @@ $navItems = [
         'filter' => function () {
             $isSecondRound = isSecondRound();
             $isSelected = isSelected();
-            return $isSecondRound && !$isSelected;
+            return $isSecondRound;
         }
     ],
     [
