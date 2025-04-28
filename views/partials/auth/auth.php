@@ -177,6 +177,7 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
+//    dd(isSecondRound());
             return !isSecondRound();
         }
     ],
