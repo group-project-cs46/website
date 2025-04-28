@@ -22,20 +22,24 @@ if ($zip->open($zip_filename, ZipArchive::CREATE) !== true) {
     redirect('/company/report?error=Failed to create ZIP file');
 }
 
-$file_path = base_path('storage/reports/' . $report['filename']);
+$file_path = base_path('storage/' . $report['filename']);
 $original_name = $report['original_name'] ?: 'report_' . $report['description'] . '.pdf';
 
 if (file_exists($file_path)) {
     $zip->addFile($file_path, $original_name);
 }
 
+//dd($zip_filename);
+
 $zip->close();
+
 
 // Send ZIP file as download
 header('Content-Type: application/zip');
 header('Content-Disposition: attachment; filename="report_' . $report_id . '.zip"');
 header('Content-Length: ' . filesize($zip_filename));
 readfile($zip_filename);
+
 
 // Delete temp ZIP file
 unlink($zip_filename);

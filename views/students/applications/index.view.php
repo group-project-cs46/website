@@ -49,7 +49,7 @@
                             <?= htmlspecialchars(date('H:i', strtotime($application['interview_start_time']))) ?> to
                             <?= htmlspecialchars(date('H:i', strtotime($application['interview_end_time']))) ?>
                         <?php else: ?>
-                            <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
+                            <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Not available</span>
                         <?php endif; ?>
                     </div>
                     <div class="grid-item">
@@ -59,7 +59,7 @@
                         <?php if ($application['selected']): ?>
                             <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Selected</span>
                         <?php elseif ($application['failed']): ?>
-                            <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Failed</span>
+                            <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Rejected</span>
                         <?php else: ?>
                             <span style="background-color: var(--sky-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
                         <?php endif; ?>
