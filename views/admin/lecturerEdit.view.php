@@ -101,6 +101,11 @@
             </div>
 
             <div class="form-group">
+                <label for="employee-no">Employee No:</label>
+                <input type="text" value="<?= $LECTURER['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/LEC\/\d{3}$" title="Format: UCSC/LEC/123" class="input-validate" readonly>
+            </div>
+
+            <div class="form-group">
                 <label for="title">Title</label>
                 <select id="title" name="title" required>
                     <option value="" disabled selected hidden>Select Title</option>
@@ -112,10 +117,7 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="employee-no">Employee No:</label>
-                <input type="text" value="<?= $LECTURER['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/LEC\/\d{3}$" title="Format: UCSC/LEC/123" class="input-validate">
-            </div>
+           
 
             <div class="form-group">
                 <label for="email">Email</label>
