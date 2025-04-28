@@ -63,4 +63,27 @@ class TrainingSession
         return $result['count'];
     }
 
+    public static function isTimeSlotTaken($date, $start_time, $end_time)
+    {
+        $db = App::resolve(Database::class);
+
+        $result = $db->query(
+            'SELECT 1 FROM training_sessions WHERE date = ? 
+            AND (
+                (start_time <= ? AND end_time > ?) OR 
+                (start_time < ? AND end_time >= ?) OR
+                (start_time >= ? AND end_time <= ?)
+            )',
+            [
+                $date,
+                $start_time, $start_time,
+                $end_time, $end_time,
+                $start_time, $end_time
+            ]
+        )->find();
+
+        return $result ? true : false;
+    }
+
+
 }

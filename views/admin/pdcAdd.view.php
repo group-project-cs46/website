@@ -94,6 +94,20 @@
 <div class="center-wrapper">
     <div class="form-container">
         <h2>Add New PDC</h2>
+
+        <?php if (isset($_SESSION['error_message'])): ?>
+            <div style="background-color: #ffdddd; padding: 10px; border-radius: 5px; color: red; margin-bottom: 10px;">
+                <?= $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['error_message'])): ?>
+            <div style="color: red; margin-bottom: 15px;">
+                <?= $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
+
+
         <form method="post" action="/pdcAddition" >
 
             <div class="form-group">
