@@ -19,7 +19,9 @@
                     <h3><b>Manage Training Sessions</b></h3>
                     <p>Manage Training Sessions Records</p>
                 </div>
-                <button class="add-button" id="openFormButton"><a href="/trainingAdd">+ New</a></button>
+                <a href="/trainingAdd">
+                <button class="add-button" id="openFormButton">+ New</button>
+                </a>
             </div>
 
             <table class="student-table">

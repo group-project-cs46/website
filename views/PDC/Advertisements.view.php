@@ -83,8 +83,9 @@
             <p><b>Contact Email: </b> <a href="#" id="popup-email"></a></p>
             <p><b>Deadline: </b> <span id="popup-deadline"></span></p>
             <div style="flex: 1; min-width: 300px; text-align: center;">
-                <img id="popup-image" src="" alt="Advertisement Image" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+                <img id="popup-image" src="" alt="Advertisement Image" style="max-width: 400px; height: auto; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
             </div>
+
             <button id="approve-btn" class="approve-btn">Approve</button>
             <button id="reject-btn" class="reject-btn">Reject</button>
             <p id="success-message" class="hidden success-message"></p>
@@ -209,14 +210,9 @@
         emailLink.textContent = ad.company_email;
         emailLink.href = `mailto:${ad.company_email}`;
 
-        // Set the advertisement image dynamically
-        const popupImage = document.getElementById('popup-image');
-        if (ad.photo_id) {
-            popupImage.src = `/files?id=${ad.photo_id}`;
-            popupImage.style.display = 'block'; // Ensure image is shown
-        } else {
-            popupImage.style.display = 'none'; // Hide if no image available
-        }
+        // Set the image source using photo_id from the advertisement
+        const imageElement = document.getElementById('popup-image');
+        imageElement.src = ad.photo_id ? `/files?id=${ad.photo_id}` : '/path/to/placeholder-image.jpg'; // Fallback image if photo_id is missing
 
         document.getElementById('popup-modal').style.display = 'block';
 

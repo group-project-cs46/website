@@ -99,6 +99,7 @@ $router->get('/lecturers/visits', 'lecturers/visits/index.php')->only('lecturer'
 $router->get('/lecturers/visits/show', 'lecturers/visits/show.php')->only('lecturer');
 $router->post('/lecturers/visits/reports', 'lecturers/visits/reports/store.php')->only('lecturer');
 $router->get('/lecturers/visits/reports', 'lecturers/visits/reports/show.php')->only('lecturer');
+$router->post('/lecturers/visits/toggle', 'lecturers/visits/toggle.php')->only('lecturer');
 
 // Pdc
 

@@ -138,7 +138,7 @@ function urlBack()
 function isSecondRound()
 {
     $currentBatch = \Models\Batch::currentBatch();
-    return config()['env']['force_second_round'] ?? $currentBatch && $currentBatch['current_round'] == 'second';
+    return $currentBatch && $currentBatch['current_round'] == 'second';
 }
 
 function isSelected()

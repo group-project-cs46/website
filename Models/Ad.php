@@ -58,7 +58,7 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.batch_id = ? AND CURRENT_DATE < advertisements.deadline
+            WHERE advertisements.batch_id = ? AND CURRENT_DATE < advertisements.deadline AND advertisements.approved = true
             ORDER BY created_at DESC 
         ', [$batchId])->get();
     }
@@ -79,7 +79,7 @@ class Ad
             LEFT JOIN companies ON advertisements.company_id = companies.id 
             LEFT JOIN users ON companies.id = users.id
             LEFT JOIN internship_roles ir ON advertisements.internship_role_id = ir.id
-            WHERE advertisements.batch_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline
+            WHERE advertisements.batch_id = ? AND companies.id = ? AND CURRENT_DATE < advertisements.deadline AND advertisements.approved = true
             ORDER BY created_at DESC 
         ', [$batchId, $companyId])->get();
     }

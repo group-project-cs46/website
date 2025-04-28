@@ -66,9 +66,7 @@
 
 
                         </div>
-                        <!-- <a href="/students/applications" style="display: inline-block; margin-top: 15px; color: #4a90e2; font-size: 14px;">
-                            View All Applications
-                        </a> -->
+                       
                     </div>
 </a>
                     
@@ -76,93 +74,26 @@
 
                 <div>
                     
-                    <!-- <a href="/pdcManage" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; width: 50%; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 45%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
-                        
-                      </div>
-                      </a>
-
-                      <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
-                      <div style="background: #4a90e2; width: 50%; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 45%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                      <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p> 
-                    </div>
-                    </a> -->
-                    <!-- <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;">
-    <a href="/pdcManage" style="text-decoration: none; color: inherit; flex: 1;">
-        <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
-        </div>
-    </a>
-
-    <a href="/lecturerManage" style="text-decoration: none; color: inherit; flex: 1;">
-        <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
-        </div>
-    </a>
-</div>
-<div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between;">
-    <a href="/pdcManage" style="text-decoration: none; color: inherit; flex: 1;">
-        <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
-        </div>
-    </a>
-
-    <a href="/lecturerManage" style="text-decoration: none; color: inherit; flex: 1;">
-        <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
-        </div>
-    </a>
-</div> -->
-
-
-                    <!-- <a href="/trainingSession" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; width: 50%; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 45%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Session</p> 
-                    </div>
-                    </a>
-
-                    <a href="/trainingSession" style="text-decoration: none; color: inherit;">
-                    <div style="background: #4a90e2; width: 50%; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 45%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training </p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;">Session</p> 
-                    </div>
-                    </a> -->
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-    <a href="/pdcManage" style="text-decoration: none; color: inherit;">
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
         <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $PDC_COUNT ?></p>
         </div>
-    </a>
 
-    <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
         <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $LEC_COUNT ?></p>
         </div>
-    </a>
 
-    <a href="/pdcManage" style="text-decoration: none; color: inherit;">
         <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered PDC</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Companies</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $COM_COUNT ?></p>
         </div>
-    </a>
 
-    <a href="/lecturerManage" style="text-decoration: none; color: inherit;">
         <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Lecturer</p>
-            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Account</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;">Registered Students</p>
+            <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $STU_COUNT ?></p>
         </div>
-    </a>
 </div>
 
                     

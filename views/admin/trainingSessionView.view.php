@@ -128,7 +128,6 @@
 <div class="center-wrapper">
     <div class="form-container">
         <h2>Session Deatails</h2>
-        <form method="post" action="/trainingEdition">
             <div class="form-group">
                 <label for="session-name">Name</label>
                 <input type="text" id="session-name" name="name" value="<?= $TRAINING_SESSION['name'] ?>" required readonly>
@@ -158,11 +157,10 @@
             <input type="hidden" name="id" value="<?= $TRAINING_SESSION['id'] ?>">
 
             <div class="button-container">
-                <button type="submit" class="submit-btn"><a href="/trainingSession">Previous</a></button>
-                <button type="submit" class="submit-btn"><a href="/attendance?id=<?= $TRAINING_SESSION['id'] ?>"> Students List</a></button>
+                <a href="/trainingSession"><button class="submit-btn">Previous</button></a>
+                <a href="/attendance?id=<?= $TRAINING_SESSION['id'] ?>"><button  class="submit-btn"> Students List</button></a>
                                                          
             </div>        
-        </form>
     </div>
     </div>
 </body>

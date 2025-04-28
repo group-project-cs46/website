@@ -47,7 +47,7 @@
                             <?php elseif (!empty($interview['date'])): ?>
                                 <?php echo htmlspecialchars($interview['date']) ?>
                             <?php else: ?>
-                                <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
+                                <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Not available</span>
                             <?php endif; ?>
                         </p>
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Time:</strong>
@@ -55,18 +55,24 @@
                                 <?= htmlspecialchars(date('H:i', strtotime($interview['start_time']))) ?> to
                                 <?= htmlspecialchars(date('H:i', strtotime($interview['end_time']))) ?>
                             <?php else: ?>
-                                <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Soon</span>
+                                <span style="background-color: var(--color-primary); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Not available</span>
                             <?php endif; ?>
                         </p>
                         <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Status:</strong>
                             <?php if ($application['selected']): ?>
                                 <span style="background-color: var(--emerald-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Selected</span>
                             <?php elseif ($application['failed']): ?>
-                                <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Failed</span>
+                                <span style="background-color: var(--red-700); color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Rejected</span>
                             <?php else: ?>
                                 <span style="background-color: #0ea5e9; color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Pending</span>
                             <?php endif; ?>
-                        </span>
+                        </p>
+                        <p style="margin: 0; color: #6b7280; font-size: 1rem; line-height: 1.5;"><strong>Venue:</strong>
+                            <?php if ($interview): ?>
+                                <span><?= $interview['venue'] ?></span>
+                            <?php else: ?>
+                                <span style="background-color: #0ea5e9; color: white; padding-inline: 0.6rem; padding-block: 0.4rem; border-radius: 100px; font-size: 0.8rem">Not Available</span>
+                            <?php endif; ?>
                         </p>
                     </div>
                 </div>

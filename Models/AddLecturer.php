@@ -138,7 +138,7 @@ class AddLecturer
         {
             $db = App::resolve(Database::class);
 
-            $result = $db->query("SELECT 1 FROM pdcs WHERE employee_id = ?", [$employee_no])->find();
+            $result = $db->query("SELECT 1 FROM lecturers WHERE employee_id = ?", [$employee_no])->find();
             return $result ? true : false;
         }
 }

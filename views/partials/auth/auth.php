@@ -70,12 +70,6 @@ $navItems = [
         'only' => [Role::Company],
     ],
     [
-        'text' => 'Account',
-        'href' => '/company/account',
-        'icon' => 'fa-user',
-        'only' => [Role::Company],
-    ],
-    [
         'text' => 'Dashboard',
         'href' => '/dashboard/lecturer',
         'icon' => 'fa-dashboard',
@@ -177,6 +171,7 @@ $navItems = [
         'icon' => 'fa-briefcase',
         'only' => [Role::Student],
         'filter' => function () {
+//    dd(isSecondRound());
             return !isSecondRound();
         }
     ],
@@ -195,7 +190,7 @@ $navItems = [
         'filter' => function () {
             $isSecondRound = isSecondRound();
             $isSelected = isSelected();
-            return $isSecondRound && !$isSelected;
+            return $isSecondRound;
         }
     ],
     [
