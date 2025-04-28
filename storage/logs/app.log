@@ -26152,3 +26152,181 @@
 [2025-04-28 06:13:42] Query time: 567.64ms
 [2025-04-28 06:13:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
 [2025-04-28 06:13:42] Query time: 57.75ms
+[2025-04-28 06:16:24] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:25] Query time: 56.13ms
+[2025-04-28 06:16:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:25] Query time: 56.19ms
+[2025-04-28 06:16:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:25] Query time: 60.47ms
+[2025-04-28 06:16:36] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:37] Query time: 333.49ms
+[2025-04-28 06:16:37] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:37] Query time: 56ms
+[2025-04-28 06:16:37] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:37] Query time: 55.31ms
+[2025-04-28 06:16:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:42] Query time: 84.53ms
+[2025-04-28 06:16:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:43] Query time: 996.92ms
+[2025-04-28 06:16:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:58] Query time: 57.26ms
+[2025-04-28 06:16:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:16:58] Query time: 57ms
+[2025-04-28 06:18:09] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:09] Query time: 55.12ms
+[2025-04-28 06:18:09] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:09] Query time: 58.69ms
+[2025-04-28 06:18:09] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:09] Query time: 58.18ms
+[2025-04-28 06:18:13] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:14] Query time: 1363.27ms
+[2025-04-28 06:18:14] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:16] Query time: 1616.22ms
+[2025-04-28 06:18:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:54] Query time: 70.22ms
+[2025-04-28 06:18:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:54] Query time: 87.2ms
+[2025-04-28 06:18:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:54] Query time: 56.88ms
+[2025-04-28 06:18:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:54] Query time: 76.86ms
+[2025-04-28 06:18:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:18:54] Query time: 61.5ms
+[2025-04-28 06:20:04] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:04] Query time: 119.38ms
+[2025-04-28 06:20:04] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:04] Query time: 59.2ms
+[2025-04-28 06:20:04] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:04] Query time: 60.08ms
+[2025-04-28 06:20:06] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:06] Query time: 80.28ms
+[2025-04-28 06:20:06] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:06] Query time: 64.89ms
+[2025-04-28 06:20:06] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:06] Query time: 56.53ms
+[2025-04-28 06:20:06] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:06] Query time: 123.49ms
+[2025-04-28 06:20:06] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:07] Query time: 363.4ms
+[2025-04-28 06:20:14] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:14] Query time: 79.47ms
+[2025-04-28 06:20:14] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:14] Query time: 88.22ms
+[2025-04-28 06:20:28] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:29] Query time: 58.37ms
+[2025-04-28 06:20:29] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:29] Query time: 61.32ms
+[2025-04-28 06:20:29] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:29] Query time: 144.23ms
+[2025-04-28 06:20:35] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:35] Query time: 155.98ms
+[2025-04-28 06:20:35] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:20:35] Query time: 158.73ms
+[2025-04-28 06:20:59] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:21:21] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:21:53] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:21:53] Query time: 47.3ms
+[2025-04-28 06:21:53] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:21:53] Query time: 307.69ms
+[2025-04-28 06:21:53] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:21:53] Query time: 48.48ms
+[2025-04-28 06:22:05] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:22:14] Query time: 9637.29ms
+[2025-04-28 06:22:14] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:22:14] Query time: 304.88ms
+[2025-04-28 06:22:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:00] Query time: 1970.48ms
+[2025-04-28 06:23:00] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:03] Query time: 2268.24ms
+[2025-04-28 06:23:03] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:04] Query time: 1405ms
+[2025-04-28 06:23:04] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:04] Query time: 55.71ms
+[2025-04-28 06:23:04] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:04] Query time: 135.35ms
+[2025-04-28 06:23:54] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:55] Query time: 65.16ms
+[2025-04-28 06:23:55] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:55] Query time: 44.54ms
+[2025-04-28 06:23:55] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:55] Query time: 70.08ms
+[2025-04-28 06:23:55] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:55] Query time: 48.19ms
+[2025-04-28 06:23:55] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:58] Query time: 2972.97ms
+[2025-04-28 06:23:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:58] Query time: 69.08ms
+[2025-04-28 06:23:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:58] Query time: 75.44ms
+[2025-04-28 06:23:58] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:23:58] Query time: 50.22ms
+[2025-04-28 06:24:03] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:24] Query time: 20948.99ms
+[2025-04-28 06:24:24] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:24] Query time: 293.25ms
+[2025-04-28 06:24:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:25] Query time: 568.86ms
+[2025-04-28 06:24:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:25] Query time: 256.54ms
+[2025-04-28 06:24:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:42] Query time: 290.24ms
+[2025-04-28 06:24:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:42] Query time: 98.02ms
+[2025-04-28 06:24:42] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:43] Query time: 624.08ms
+[2025-04-28 06:24:46] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:46] Query time: 247.05ms
+[2025-04-28 06:24:46] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:47] Query time: 954.1ms
+[2025-04-28 06:24:47] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:48] Query time: 306.02ms
+[2025-04-28 06:24:52] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:52] Query time: 48.98ms
+[2025-04-28 06:24:52] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:52] Query time: 42.52ms
+[2025-04-28 06:24:52] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:53] Query time: 768.56ms
+[2025-04-28 06:24:56] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:56] Query time: 46.18ms
+[2025-04-28 06:24:56] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:57] Query time: 1028.57ms
+[2025-04-28 06:24:57] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:24:57] Query time: 43.23ms
+[2025-04-28 06:25:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:25] Query time: 44.63ms
+[2025-04-28 06:25:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:25] Query time: 42.91ms
+[2025-04-28 06:25:25] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:26] Query time: 473.07ms
+[2025-04-28 06:25:26] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:26] Query time: 43.56ms
+[2025-04-28 06:25:26] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:26] Query time: 44.4ms
+[2025-04-28 06:25:33] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:34] Query time: 518.99ms
+[2025-04-28 06:25:34] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:34] Query time: 309.64ms
+[2025-04-28 06:25:34] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:36] Query time: 2138.87ms
+[2025-04-28 06:25:36] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:38] Query time: 1557.46ms
+[2025-04-28 06:25:38] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:25:38] Query time: 42.45ms
+[2025-04-28 06:30:31] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:31] Query time: 63.6ms
+[2025-04-28 06:30:31] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:31] Query time: 731.14ms
+[2025-04-28 06:30:32] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:32] Query time: 114.33ms
+[2025-04-28 06:30:32] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:32] Query time: 491.37ms
+[2025-04-28 06:30:32] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:33] Query time: 486.4ms
+[2025-04-28 06:30:33] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:33] Query time: 86.72ms
+[2025-04-28 06:30:44] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:44] Query time: 102.57ms
+[2025-04-28 06:30:44] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:45] Query time: 92.59ms
+[2025-04-28 06:30:45] Connecting to database: pgsql:host=aws-0-ap-southeast-1.pooler.supabase.com;port=6543;dbname=postgres
+[2025-04-28 06:30:45] Query time: 105.22ms

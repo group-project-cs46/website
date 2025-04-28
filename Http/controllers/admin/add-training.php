@@ -37,7 +37,7 @@ try {
     // Check if timeslot is already taken
     if (TrainingSession::isTimeSlotTaken($date, $start_time, $end_time)) {
         $_SESSION['error_message'] = 'Another session already exists at the selected time!';
-        redirect('/trainingSessionAdd');
+        redirect('/trainingAdd');
     }
 
     $qrcode_id = Qr::generate($attendance_code);

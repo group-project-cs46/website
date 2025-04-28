@@ -83,7 +83,7 @@
                     <a href="/trainingSession" style="text-decoration: none; color: inherit;">
                     <div style="background: #4a90e2; border-radius: 10px; padding: 20px; color: white; margin-bottom: 20px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <p style="font-size: 20px; margin: 5px 0; text-align: center;">No of Training Session</p>
-                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $LEC_COUNT ?></p> 
+                        <p style="font-size: 20px; margin: 5px 0; text-align: center;"><?= $TRINING_COUNT ?></p> 
                     </div>
                     </a>
 
