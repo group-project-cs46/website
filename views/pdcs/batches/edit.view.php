@@ -17,7 +17,7 @@ function getDateValue($key, $batch) {
                 <input type="hidden" name="_method" value="PATCH">
                 <input type="hidden" name="id" value="<?= $batch['id'] ?>">
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label style="color: #6b7280; font-weight: 500;">First Round Start:</label>
+                    <label style="color: rgb(47, 47, 47); font-weight: 500;">First Round Start:</label>
                     <div style="display: flex; gap: 1rem;">
                         <input type="date" id="first_round_start_date" name="first_round_start_date"
                                value="<?= old('first_round_start_date', date('Y-m-d', strtotime($batch['first_round_start_time']))) ?>"
@@ -36,7 +36,7 @@ function getDateValue($key, $batch) {
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label style="color: #6b7280; font-weight: 500;">First Round End: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
+                    <label style="color: rgb(47, 47, 47); font-weight: 500;">First Round End: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
                     <div style="display: flex; gap: 1rem;">
                         <input type="date" id="first_round_end_date" name="first_round_end_date"
                                value="<?= getDateValue('first_round_end', $batch) ?>"
@@ -55,7 +55,7 @@ function getDateValue($key, $batch) {
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label style="color: #6b7280; font-weight: 500;">Second Round Start: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
+                    <label style="color: rgb(47, 47, 47); font-weight: 500;">Second Round Start: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
                     <div style="display: flex; gap: 1rem;">
                         <input type="date" id="second_round_start_date" name="second_round_start_date"
                                value="<?= getDateValue('second_round_start', $batch) ?>"
@@ -74,7 +74,7 @@ function getDateValue($key, $batch) {
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                    <label style="color: #6b7280; font-weight: 500;">Second Round End: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
+                    <label style="color: rgb(47, 47, 47); font-weight: 500;">Second Round End: <span style="font-weight: 400; font-size: 0.875rem; color: #9ca3af;">(Optional)</span></label>
                     <div style="display: flex; gap: 1rem;">
                         <input type="date" id="second_round_end_date" name="second_round_end_date"
                                value="<?= getDateValue('second_round_end', $batch) ?>"
@@ -95,7 +95,7 @@ function getDateValue($key, $batch) {
                 </div>
 
                 <button type="submit" class="button"
-                        style="background-color: #0ea5e9; color: #ffffff; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;"
+                        style="background-color: #007bff; color: #ffffff; padding: 0.75rem 1.5rem; border: none; border-radius: 6px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;"
                         onmouseover="this.style.backgroundColor='#0284c7';" onmouseout="this.style.backgroundColor='#0ea5e9';">
                     Update
                 </button>

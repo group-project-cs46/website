@@ -139,7 +139,8 @@
                             <th>Company</th>
                             <th>Visit Time</th>
                             <th>Approved</th>
-                            <th>Edit</th>
+                            <th>Visit_Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,6 +159,15 @@
                     <form id="visit-form">
                         <label for="visit-date">Date:</label>
                         <input type="date" id="visit-date" name="visit-date" required>
+                        <label for="lecturer-select">Lecturer:</label>
+                        <select id="lecturer-select" name="lecturer" required>
+                            <option value="">Select a Lecturer</option>
+                            <?php foreach ($lecturers as $lecturer): ?>
+                                <option value="<?php echo htmlspecialchars($lecturer['id']); ?>">
+                                    <?php echo htmlspecialchars($lecturer['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                         <div id="company-time-selection">
                             <h3>Select Time for Companies:</h3>
                             <!-- Dynamic time inputs will be generated here -->
@@ -190,17 +200,41 @@ let events = techtalkData ? techtalkData.map(slot => ({
 console.log('events:', events); // Debug: Inspect events
 
 // Pass company visits data
+// Pass company visits data
 let visitData = <?php echo json_encode($visits); ?>;
-console.log('visitData:', visitData); // Debug: Inspect visitData
-let visits = visitData ? visitData.map(visit => ({
-    id: visit.id,
-    date: visit.date,
-    time: visit.time,
-    lecturer: visit.lecturer_name || 'N/A',
-    company: visit.company_name || 'N/A', // Use actual status if available
-    approved: visit.approved || 'No' // Use actual approved status if available
-})) : [];
+console.log('visitData:', visitData);
+
+let visits = visitData ? visitData
+    .filter(visit => visit.visit_id !== null && visit.visit_id !== undefined && !isNaN(visit.visit_id))
+    .map(visit => {
+        // Determine the status and the associated class for color
+        let status = 'Pending';
+        let statusClass = 'status-pending'; // Default to 'Pending'
+
+        if (visit.approved === true) {
+            status = 'Approved';
+            statusClass = 'status-approved'; // Green for approved
+        } else if (visit.rejected === true) {
+            status = 'Rejected';
+            statusClass = 'status-rejected'; // Red for rejected
+        }
+
+        return {
+            id: visit.visit_id,
+            date: visit.date,
+            time: visit.time,
+            lecturer: visit.lecturer_name || 'N/A',
+            company: visit.company_name || 'N/A',
+            approved: `<span class="${statusClass}">${status}</span>`, // Color-coded status
+            visited: visit.visited ? 'Visited' : 'Not Visited',
+        };
+    }) : [];
+
 console.log('visits:', visits); // Debug: Inspect visits
+
+// Pass lecturers data
+const lecturers = <?php echo json_encode($lecturers); ?>;
+console.log('lecturers:', lecturers);
 
 // Toggle schedule
 function toggleSchedule(sectionId, tabId) {
@@ -670,7 +704,6 @@ function findClosestCompanies() {
 function openVisitModal(visitId = null) {
     console.log('Opening visit modal, visitId:', visitId);
     
-    // If this is an edit operation
     if (visitId) {
         const visit = visits.find(v => v.id == visitId);
         if (!visit) {
@@ -679,6 +712,11 @@ function openVisitModal(visitId = null) {
         }
         
         document.getElementById("visit-date").value = visit.date;
+        // Set lecturer dropdown value; default to empty if lecturer is 'N/A' or not set
+        const lecturerId = visit.lecturer && visit.lecturer !== 'N/A' 
+            ? lecturers.find(l => l.name === visit.lecturer)?.id || ''
+            : '';
+        document.getElementById("lecturer-select").value = lecturerId;
         
         const companyTimeSelection = document.getElementById("company-time-selection");
         companyTimeSelection.innerHTML = "<h3>Edit Visit Time:</h3>";
@@ -700,11 +738,8 @@ function openVisitModal(visitId = null) {
         companyTimeDiv.appendChild(timeInput);
         companyTimeSelection.appendChild(companyTimeDiv);
         
-        // Set a data attribute to know we're editing
         document.getElementById("visit-form").dataset.visitId = visitId;
-    } 
-    // If this is an add operation
-    else {
+    } else {
         if (selectedCompanies.length === 0) {
             alert("Please select at least one company from the list.");
             return;
@@ -731,7 +766,7 @@ function openVisitModal(visitId = null) {
             companyTimeSelection.appendChild(companyTimeDiv);
         });
         
-        // Remove any previous visit ID
+        document.getElementById("lecturer-select").value = '';
         document.getElementById("visit-form").removeAttribute("data-visit-id");
     }
 
@@ -742,31 +777,36 @@ function openVisitModal(visitId = null) {
 document.getElementById("visit-form").onsubmit = function(e) {
     e.preventDefault();
     const visitDate = document.getElementById("visit-date").value;
+    const lecturerId = document.getElementById("lecturer-select").value;
     
-    // Check if we're editing (has data-visit-id attribute)
+    if (!lecturerId) {
+        alert("Please select a lecturer.");
+        return;
+    }
+    
+    const lecturerName = lecturers.find(l => l.id == lecturerId)?.name || 'N/A';
+    
     const visitId = this.dataset.visitId;
     
     if (visitId) {
-        // Handle edit operation
         const visitTime = document.getElementById("time-0").value;
         const data = { 
             id: visitId, 
             date: visitDate, 
-            time: visitTime 
+            time: visitTime,
+            lecturer_id: lecturerId
         };
         
         sendAjaxRequest('/PDC/editvisit', data, function(response) {
             if (response.success) {
-                // Update the visit in our local array
                 const visitIndex = visits.findIndex(v => v.id == visitId);
                 if (visitIndex !== -1) {
                     visits[visitIndex] = { 
                         ...visits[visitIndex], 
                         date: visitDate, 
-                        time: visitTime 
+                        time: visitTime,
+                        lecturer: lecturerName
                     };
-                    
-                    // Update the UI
                     updateVisitTable();
                     closeVisitModal();
                     alert("Visit updated successfully!");
@@ -776,7 +816,6 @@ document.getElementById("visit-form").onsubmit = function(e) {
             }
         });
     } else {
-        // Handle create operation
         const times = selectedCompanies.map((_, index) => 
             document.getElementById(`time-${index}`).value
         );
@@ -786,29 +825,28 @@ document.getElementById("visit-form").onsubmit = function(e) {
         const data = {
             date: visitDate,
             times: JSON.stringify(times),
-            company_ids: JSON.stringify(companyIds)
+            company_ids: JSON.stringify(companyIds),
+            lecturer_id: lecturerId
         };
 
         sendAjaxRequest('/PDC/createvisit', data, function(response) {
             console.log('Create visit response:', response);
             if (response.success && response.ids) {
-                // Add new visits to the visits array
                 response.ids.forEach((id, index) => {
                     visits.push({
                         id: id,
                         date: visitDate,
                         time: times[index],
-                        lecturer: 'N/A', // Updated on page reload
+                        lecturer: lecturerName,
                         company: selectedCompanies[index].name,
-                        approved: 'No'
+                        approved: 'NotYet',
+                        visited: 'NotYet'
                     });
                 });
-                
-                // Update the UI
                 updateVisitTable();
                 closeVisitModal();
-                selectedCompanies.length = 0; // Clear selections
-                updateCompanyList(companies); // Refresh company list
+                selectedCompanies.length = 0;
+                updateCompanyList(companies);
                 alert("Visits created successfully!");
             } else {
                 alert('Failed to create visits: ' + (response.error || 'Unknown error'));
@@ -843,9 +881,12 @@ function addVisitToTable(visit) {
     timeCell.textContent = visit.time;
 
     const approvedCell = newRow.insertCell(4);
-    approvedCell.textContent = visit.approved;
+    approvedCell.innerHTML = visit.approved; // Use innerHTML to render the HTML string
 
-    const actionCell = newRow.insertCell(5);
+    const visitedCell = newRow.insertCell(5);
+    visitedCell.textContent = visit.visited;
+
+    const actionCell = newRow.insertCell(6);
     
     const editButton = document.createElement("button");
     editButton.textContent = "Edit";
@@ -866,6 +907,11 @@ function addVisitToTable(visit) {
 
 // Delete Visit
 function deleteVisit(visitId) {
+    if (!visitId || isNaN(visitId)) {
+        alert('Invalid visit ID');
+        return;
+    }
+
     if (!confirm('Are you sure you want to delete this company visit?')) return;
 
     sendAjaxRequest('/PDC/deletevisit', { id: visitId }, function(response) {
