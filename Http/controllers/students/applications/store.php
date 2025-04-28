@@ -36,6 +36,7 @@ $max_cvs = $ad['max_cvs'];
 
 $other_applied = Application::getByAdId($ad_id);
 
+
 if (count($other_applied) >= $max_cvs) {
     Session::flash('toast', 'No more than ' . $max_cvs . ' applications allowed');
     redirect('/students/advertisements');
