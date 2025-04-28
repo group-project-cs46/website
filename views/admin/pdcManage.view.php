@@ -22,7 +22,8 @@
                 <button class="add-button" id="openFormButton"><a href="/pdcAdd">+ New</a></button>
             </div>
 
-            <table class="student-table">
+            <div class="table-container">
+                <table class="student-table">
                 <thead>
                     <tr>
                         <th>Employee No</th>
@@ -63,86 +64,30 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                    <?php if (isset($_SESSION['success_message'])): ?>
-    <div id="successNotification" class="notification">
-        <div class="icon-container">
-            <span class="icon">✔️</span>
-        </div>
-        <div class="message"><?= $_SESSION['success_message'] ?></div>
-    </div>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            const notification = document.getElementById('successNotification');
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        });
-    </script>
-
-    <style>
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ffffff; /* Sudu background */
-            color: #3498db; /* Nil patai text */
-            padding: 16px 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Soft shadow */
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 280px;
-            max-width: 350px;
-            border-left: 5px solid #3498db; /* Nil left border strip */
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            z-index: 9999;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .icon-container {
-            background-color: #3498db; /* Nil background */
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .notification .icon {
-            color: #ffffff; /* White tick inside */
-            font-size: 18px;
-        }
-
-        .notification .message {
-            flex-grow: 1;
-            line-height: 1.4;
-        }
-    </style>
-
-    <?php unset($_SESSION['success_message']); ?> <!-- Clear after showing -->
-<?php endif; ?>
-
 
                 </tbody>
             </table>
+            </div>
             </section>
 
         </section>
     </main>
 
+
+    <?php if (isset($_SESSION['success_message'])): ?>
+    <div id="success-popup" style="display:block; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); padding: 20px; background-color:#3498db; color: white; border-radius: 5px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);">
+        <span><?= $_SESSION['success_message'] ?></span>
+        <button onclick="closePopup()" style="background-color: transparent; color: white; border: none; font-size: 16px; margin-left: 10px; cursor: pointer;">×</button>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
+
+
     <script>
+
+function closePopup() {
+        document.getElementById('success-popup').style.display = 'none';
+    }
     function searchTable() {
         const input = document.getElementById("searchInput");
         const filter = input.value.toLowerCase();

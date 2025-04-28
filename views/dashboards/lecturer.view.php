@@ -3,47 +3,15 @@
 <link rel="stylesheet" href="/styles/pasindu/eventsManage.css" />
 <div class="mmm">
     <main class="main-content">
-            <!-- Header -->
-            <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <div class="above">
-                <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
-                <h2><b>Lecturer Dashboard</b></h2>
-            </div>               
-             <div style="display: flex; gap: 20px; flex-direction: column;">
-                    <a href="/account" class="_button">
-                        <button>
-                            View Profile
-                        </button>
-                    </a>
-
-                    <form action="/sessions" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="button is-red">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </div> -->
-            <!-- Header Row: Icon + Title + Buttons in one row -->
+       
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <!-- Left: Icon and Dashboard Title -->
     <div style="display: flex; align-items: center; gap: 15px;">
         <i class="fa-solid fa-calendar-check" style="font-size: 40px;"></i>
         <h2 style="margin: 0;"><b>Lecturer Dashboard</b></h2>
     </div>
 
-    <!-- Right: Buttons in a row -->
-    <!-- <div style="display: flex; gap: 15px;">
-        <a href="/account">
-            <button class="_button">View Profile</button>
-        </a>
-        <form action="/sessions" method="post" style="margin: 0;">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" class="button is-red">Logout</button>
-        </form>
-    </div> -->
+    
     <div style="display: flex; gap: 15px; align-items: center;">
-    <!-- View Profile -->
     <a href="/account">
         <button class="_button" style="padding: 8px 16px;">View Profile</button>
     </a>
@@ -53,7 +21,7 @@
         <input type="hidden" name="_method" value="DELETE">
         <button type="submit" class="_button" style="background-color: #c0392b; padding: 8px 16px;">Logout</button>
     </form>
-</div>
+    </div>
 
 </div>
 
