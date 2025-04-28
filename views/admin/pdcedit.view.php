@@ -104,17 +104,17 @@
                 <label for="title">Title</label>
                 <select id="title" name="title" required>
                     <option value="" disabled selected hidden>Select Title</option>
-                    <option value="Mr"<?= $PDC['title'] === "mr" ? "selected" : "" ?>>Mr.</option>
-                    <option value="Mrs"<?= $PDC['title'] === "mrs" ? "selected" : "" ?>>Mrs.</option>
-                    <option value="Miss"<?= $PDC['title'] === "miss" ? "selected" : "" ?>>Miss</option>
-                    <option value="Dr"<?= $PDC['title'] === "dr" ? "selected" : "" ?>>Dr.</option>
-                    <option value="Prof"<?= $PDC['title'] === "prof" ? "selected" : "" ?>>Prof.</option>
+                    <option value="Mr"<?= $PDC['title'] === "Mr" ? "selected" : "" ?>>Mr.</option>
+                    <option value="Mrs"<?= $PDC['title'] === "Mrs" ? "selected" : "" ?>>Mrs.</option>
+                    <option value="Miss"<?= $PDC['title'] === "Miss" ? "selected" : "" ?>>Miss</option>
+                    <option value="Dr"<?= $PDC['title'] === "Dr" ? "selected" : "" ?>>Dr.</option>
+                    <option value="Prof"<?= $PDC['title'] === "Prof" ? "selected" : "" ?>>Prof.</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="employee-no">Employee No:</label>
-                <input type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate">
+                <input type="text" value="<?= $PDC['employee_id'] ?>" id="employee-no" name="employee-no" placeholder="Enter Employee ID Here" required pattern="^UCSC\/PDC\/\d{3}$" title="Format: UCSC/PDC/123" class="input-validate" readonly>
             </div>
 
             <div class="form-group">
