@@ -113,6 +113,7 @@
                             <th>Download CV</th>
                             <th>Schedule Interview</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="student-table-body">
@@ -343,6 +344,9 @@ function renderShortlistedTable(students) {
             </td>
             <td>
                 <button class="short-btn short-select-btn" onclick="selectShortlistedStudent(${index})">Select</button>
+            </td>
+            <td>
+                <button class="short-btn short-reject-btn" onclick="rejectShortlistedStudent(${index})">Reject</button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -600,6 +604,41 @@ function renderShortlistedTable(students) {
                 alert('An error occurred while selecting the student.');
             });
     }
+
+    // Function to handle rejecting a student from Shortlisted list
+function rejectShortlistedStudent(index) {
+    const student = shortlistedStudents[index];
+
+    if (confirm(`Are you sure you want to reject ${student.student_name}'s application for ${student.job_role}?`)) {
+        // Update the backend to mark as rejected
+        fetch('/company_student/nonShortlistedFromShortlist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                application_id: student.application_id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Remove from shortlisted students
+                shortlistedStudents.splice(index, 1);
+                scheduledStudents.splice(index, 1);
+                // Refresh all lists
+                refreshAllLists();
+                alert(`${student.student_name}'s application for ${student.job_role} has been rejected.`);
+            } else {
+                alert('Failed to reject student: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while rejecting the student.');
+        });
+    }
+}
 
     // Function to open the modal to schedule an interview
     function openAddInterviewModal(button) {
