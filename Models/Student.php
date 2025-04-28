@@ -74,6 +74,6 @@ class Student
                 applications.selected = TRUE
                 AND advertisements.batch_id = ?
                 AND advertisements.company_id = ?
-        ', [$currentBatch['id'], 309])->get();
+        ', [$currentBatch['id'], $companyId])->get();
     }
 }

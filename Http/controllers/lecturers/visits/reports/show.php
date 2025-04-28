@@ -1,6 +1,8 @@
 <?php
 
 
+use Core\Storage;
+
 $report_file_id = $_GET['id'] ?? null;
 
-\Core\Storage::download($report_file_id);
+Storage::download($report_file_id);

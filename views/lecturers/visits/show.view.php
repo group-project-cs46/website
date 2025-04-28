@@ -2,12 +2,25 @@
 
     <main style="max-width: 1200px; margin: 3rem auto; padding: 2.5rem; background: linear-gradient(145deg, #ffffff, #f9fafb); border-radius: 12px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); font-family: 'Helvetica Neue', Arial, sans-serif;">
         <!-- Header Section -->
-        <header style="text-align: center; margin-bottom: 2rem;">
-            <h1 style="color: #2d3748; font-size: 1.8rem; font-weight: 700; margin: 0;">Lecturer Visit: Student Progress
-                Review</h1>
-            <p style="color: #6b7280; font-size: 1rem; margin-top: 0.5rem;">Monitoring student performance
-                at <?= htmlspecialchars($lecturer_visit['company_name']) ?></p>
+        <header style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+            <div style="flex: 1; text-align: center;">
+                <h1 style="color: #2d3748; font-size: 1.8rem; font-weight: 700; margin: 0;">Lecturer Visit: Student
+                    Progress
+                    Review</h1>
+                <p style="color: #6b7280; font-size: 1rem; margin-top: 0.5rem;">Monitoring student performance
+                    at <?= htmlspecialchars($lecturer_visit['company_name']) ?>
+                </p>
+            </div>
+            <div>
+                <form action="/lecturers/visits/toggle" method="post">
+                    <input type="hidden" name="id" value="<?= htmlspecialchars($lecturer_visit['id']) ?>">
+                    <button type="submit" class="button">
+                        <?= $lecturer_visit['visited'] ? 'Mark as Not Visited' : 'Mark as Visited' ?>
+                    </button>
+                </form>
+            </div>
         </header>
+
 
         <!-- Company Address -->
         <section style="background-color: #e5e7eb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
@@ -68,7 +81,8 @@
                         </a>
                     </div>
                 <?php else: ?>
-                    <p style="color: #6b7280; font-style: italic; margin-bottom: 1rem; text-align: center">not uploaded yet</p>
+                    <p style="color: #6b7280; font-style: italic; margin-bottom: 1rem; text-align: center">not uploaded
+                        yet</p>
                 <?php endif ?>
             </div>
 
@@ -102,12 +116,12 @@
                     </div>
                 <?php endif; ?>
                 <?php foreach ($students_in_company as $student): ?>
-                    <div style="background-color: #ffffff; padding: 1.5rem; border-radius: 10px; display: flex; align-items: center; gap: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #e2e8f0;">
-                        <div style="font-size: 1rem; font-weight: 600; color: #2d3748; flex: 1;"><?= htmlspecialchars($student['name']) ?></div>
-                        <div style="font-size: 0.9rem; color: #4a5568; flex: 1;"><?= htmlspecialchars($student['index_number']) ?></div>
-                        <div style="font-size: 0.9rem; color: #4a5568; flex: 1;"><?= htmlspecialchars($student['registration_number']) ?></div>
-                        <div style="font-size: 0.9rem; color: #4a5568; flex: 1; word-break: break-all;"><?= htmlspecialchars($student['email']) ?></div>
-                        <div style="font-size: 0.9rem; color: #4a5568; flex: 1;"><?= htmlspecialchars($student['mobile']) ?></div>
+                    <div style="background-color: #ffffff; padding: 1.5rem; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 1px solid #e2e8f0;">
+                        <div style="font-size: 1rem; font-weight: 600; color: #2d3748"><?= htmlspecialchars($student['name']) ?></div>
+                        <div style="font-size: 0.9rem; color: #4a5568"><?= htmlspecialchars($student['index_number']) ?></div>
+                        <div style="font-size: 0.9rem; color: #4a5568;"><?= htmlspecialchars($student['registration_number']) ?></div>
+                        <div style="font-size: 0.9rem; color: #4a5568; word-break: break-all;"><?= htmlspecialchars($student['email']) ?></div>
+                        <div style="font-size: 0.9rem; color: #4a5568;"><?= htmlspecialchars($student['mobile']) ?></div>
                     </div>
                 <?php endforeach; ?>
             </div>

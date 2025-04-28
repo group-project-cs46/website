@@ -40,6 +40,17 @@ class LecturerVisit
         ', [$lecturerId])->get();
     }
 
+    public static function updateVisitedById($visited, $id)
+    {
+        $db = App::resolve(Database::class);
+
+        return $db->query('
+            UPDATE lecturer_visits
+            SET visited = ?
+            WHERE id = ?
+        ', [$visited, $id])->get();
+    }
+
     public static function getByIdWithDetails($companyId)
     {
         $db = App::resolve(Database::class);
