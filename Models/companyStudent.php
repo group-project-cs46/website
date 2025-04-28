@@ -177,6 +177,38 @@ class companyStudent
 
         return $students;
     }
+    public static function nonShortlistedFromShortlist($applicationId)
+{
+    $db = App::resolve(Database::class);
+    $company_id = self::getCompanyId();
+
+    // Verify that the application belongs to this company
+    $application = self::getApplicationById($applicationId);
+    if (!$application || !self::canAccessApplication($applicationId, $company_id)) {
+        throw new \Exception('Unauthorized access to application');
+    }
+
+    // Check if the application is shortlisted
+    $isShortlisted = $db->query('
+        SELECT shortlisted
+        FROM applications
+        WHERE id = ?
+    ', [$applicationId])->find();
+
+    if (!$isShortlisted || !filter_var($isShortlisted['shortlisted'], FILTER_VALIDATE_BOOLEAN)) {
+        throw new \Exception('Application is not shortlisted');
+    }
+
+    // Update the applications table to mark as failed
+    $db->query('
+        UPDATE applications
+        SET failed = TRUE, shortlisted = FALSE
+        WHERE id = ?
+    ', [$applicationId]);
+
+
+    return true;
+}
 
     public static function fetchSelectedStudents()
     {

@@ -493,3 +493,43 @@ body:has(#addInterviewModal[style*="display: flex"]) #mainContent {
 .delete-button:hover {
   background-color: #dc2626; /* Darker red on hover, matching reject button hover in schedule.css */
 }
+
+/* Style for the Reject button in the shortlisted student table */
+.short-reject-btn {
+  background-color: #ff4d4d; /* Red color to match the "Not Hired" status */
+  color: #fff; /* White text */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.short-reject-btn:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+
+.short-reject-btn:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Subtle red shadow on focus */
+}/* Style for the Reject button in the shortlisted student table */
+.short-reject-btn {
+  background-color: #ff4d4d; /* Red color to match the "Not Hired" status */
+  color: #fff; /* White text */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.short-reject-btn:hover {
+  background-color: #e60000; /* Darker red on hover */
+}
+
+.short-reject-btn:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Subtle red shadow on focus */
+}
