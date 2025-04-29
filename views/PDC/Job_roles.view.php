@@ -24,7 +24,7 @@
             <?php foreach ($job_roles as $role): ?>
                 <tr data-id="<?php echo htmlspecialchars($role['id']); ?>">
                     <td><?php echo htmlspecialchars($role['name']); ?></td>
-                    <td><?php echo htmlspecialchars($role['description']); ?></td>
+                    <td><?php echo htmlspecialchars($role['description'] ?? ''); ?></td>
                     <td>
                         <button class="action-btn edit-btn" onclick="openEditModal(<?php echo htmlspecialchars($role['id']); ?>, '<?php echo htmlspecialchars($role['name'], ENT_QUOTES); ?>', '<?php echo htmlspecialchars($role['description'], ENT_QUOTES); ?>')">Edit</button>
                         <button class="action-btn delete-btn" onclick="deleteRole(<?php echo htmlspecialchars($role['id']); ?>)">Delete</button>
