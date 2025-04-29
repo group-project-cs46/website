@@ -17,6 +17,7 @@ $lecCount = AddLecturer::get_total_count();
 $registeredStudents = pdcDashboard::countRegisteredstudents(); 
 $registeredCompanies = pdcDashboard::countRegisteredcompanies();
 
+
 //dd($lecturer_visits);
 
 view('dashboards/lecturer.view.php', [

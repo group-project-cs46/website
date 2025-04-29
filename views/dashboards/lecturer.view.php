@@ -49,7 +49,7 @@
                               <div style="background: <?= $isNew ? '#e6f7ff' : 'white' ?>; border-left: <?= $isNew ? '5px solid #4a90e2' : 'none' ?>; border-radius: 8px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
                                   <div>
                                       <h3 style="font-size: 16px; color: #333; margin: 0;">
-                                          <?= $item['name'] ?>
+                                          <?= $item['company_name'] ?>
                                           <?php if ($isNew): ?>
                                               <span style="background-color: #4a90e2; color: white; font-size: 10px; padding: 2px 6px; margin-left: 8px; border-radius: 4px;">NEW</span>
                                           <?php endif ?>
