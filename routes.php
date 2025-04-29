@@ -177,6 +177,7 @@ $router->get('/company_student/selected', 'company_student/get_selected.php');
 $router->get('/company_student/applied', 'company_student/get_applied.php');
 $router->get('/company_student/shortlisted', 'company_student/get_shortlisted.php');
 $router->get('/company/cv/download', 'company/cv_download.php')->only('company');
+$router->post('/company_student/nonShortlistedFromShortlist', 'company_student/store_nonShortlistedFromShortlist.php');
 
 
 
