@@ -190,7 +190,7 @@ table {
 }
 
 .blacklist-button {
-  background-color: #ff4d4d; /* Red background for blacklist button */
+  background-color: #ff4d4d; 
   color: white;
   border: none;
   padding: 5px 10px;
@@ -199,19 +199,19 @@ table {
 }
 
 .blacklist-button:hover {
-  background-color: #e60000; /* Darker red on hover */
+  background-color: #e60000; 
 }
 
 .status-blacklisted {
-  background-color: #cccccc; /* Gray background, same as status-removed */
-  color: #666666; /* Darker text color */
-  cursor: not-allowed; /* Indicate it's not clickable */
+  background-color: #cccccc; 
+  color: #666666; 
+  cursor: not-allowed;
   border: 1px solid #999999;
 }
 
 .blacklisted-row {
-  background-color: #f5f5f5; /* Light gray background, same as unblacklisted-row */
-  opacity: 0.7; /* Slightly faded to indicate blacklisted */
+  background-color: #f5f5f5; 
+  opacity: 0.7;
   transition: opacity 0.3s ease;
 }
 
@@ -223,160 +223,3 @@ button:disabled {
     border: 1px solid #999999;
 }
 
-
-
-/* .above {
-  display: flex;
-  align-items: center;
-}
-
-.above i {
-  margin-right: 10px;
-}
-
-.above h2 {
-  font-size: 28px;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-  background-color: #F9FAFB;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header h2 {
-  margin: 0;
-}
-
-.search-bar {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #d9dcdc;
-  width: 250px;
-}
-
-.content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-table {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.table-title {
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.table-title h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.table-title p {
-  margin: 0;
-  color: #777;
-}
-
-.company-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.company-table th, .company-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.company-table th {
-  background-color: #F9FAFB;
-}
-
-.view-button {
-padding: 8px 12px;
-border: none;
-border-radius: 5px;
-margin-right: 5px;
-cursor: pointer;
-background-color: #007bff;
-color: white;
-}
-
-
-.tab-button {
-  padding: 10px 20px;
-  margin: 0 5px;
-  border: none;
-  background-color: #f1f1f1;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.tab-button.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-.company-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.company-table th, .company-table td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-.search-bar {
-  width: 100%;
-  padding: 10px;
-  margin: 20px 0;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
-
-
-
-.view-button, .approve-button {
-  padding: 5px 10px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-}
-*/
-
-/* Responsive Design for Mobile */
-/* @media (max-width: 600px) {
-  .sidebar {
-      width: 40px;
-  }
-
-  .main-content {
-      margin-left: 40px;
-  }
-}  */

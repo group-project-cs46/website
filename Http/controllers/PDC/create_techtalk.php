@@ -8,11 +8,11 @@ header('Content-Type: application/json');
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle POST data (from form or AJAX)
+    
     $date = $_POST['date'] ?? null;
     $time = $_POST['time'] ?? null;
     $venue = $_POST['venue'] ?? null;
-    $pdc_id = auth_user()['id'] ?? null; // Get current user ID
+    $pdc_id = auth_user()['id'] ?? null; 
 
     if (!$date) {
         echo json_encode(['success' => false, 'error' => 'Date is required']);
@@ -33,30 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $success = pdc_techtalk::create_techtalk($date, $time, $venue);
     if ($success) {
-        $db = App::resolve(Database::class); // Resolve Database instance
-        $id = $db->lastInsertId(); // Get the ID of the newly created record
+        $db = App::resolve(Database::class); 
+        $id = $db->lastInsertId(); 
 
-        // 1. Send notification to all companies
+       
     $companies = $db->query("SELECT id FROM companies", [])->get();
     foreach ($companies as $company) {
         Notification::create(
-            $company['id'], // user_id (company user)
+            $company['id'], // 
             'Upcoming Tech Talk Scheduled',
             "A new Tech Talk has been scheduled on $date at $time, Venue: $venue.",
-            null, // action_url (you can add a view link if you want)
-            date('Y-m-d H:i:s', strtotime('+1 day')) // expires in 1 day
-        );
-    }
-
-    // 2. Send notification to all students
-    $students = $db->query("SELECT id FROM students", [])->get();
-    foreach ($students as $student) {
-        Notification::create(
-            $student['id'], // user_id (student user)
-            'Upcoming Tech Talk Scheduled',
-            "A new Tech Talk has been scheduled on $date at $time, Venue: $venue. Make sure to attend!",
-            null,
-            date('Y-m-d H:i:s', strtotime('+1 day'))
+            null, 
+            date('Y-m-d H:i:s', strtotime('+1 day')) 
         );
     }
 

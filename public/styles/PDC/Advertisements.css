@@ -171,8 +171,8 @@ table {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 1000;
-    justify-content: center; /* Horizontal centering */
-    align-items: center; /* Vertical centering */
+    justify-content: center;
+    align-items: center; 
 }
 
 .popup-content {
@@ -342,7 +342,7 @@ table {
 
 
 .reject-reason-modal {
-  display: none; /* Initially hidden */
+  display: none; 
   position: fixed;
   z-index: 1000;
   left: 0;
@@ -352,12 +352,12 @@ table {
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
-  overflow: auto; /* Allows scrolling if content overflows */
+  overflow: auto;
 }
 
-/* When the modal is active (displayed) */
+
 .reject-reason-modal.active {
-  display: flex; /* Use flex to center content */
+  display: flex;
 }
 
 .reject-reason-content {
@@ -366,11 +366,11 @@ table {
   border: 1px solid #888;
   width: 80%;
   max-width: 500px;
-  min-width: 300px; /* Ensure it doesn’t get too narrow on small screens */
+  min-width: 300px; 
   border-radius: 5px;
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 20px; /* Add margin to prevent sticking to viewport edges on small screens */
+  margin: 20px; 
 }
 
 .reject-reason-close-btn {
@@ -402,7 +402,7 @@ table {
   border-radius: 4px;
   resize: vertical;
   font-size: 14px;
-  box-sizing: border-box; /* Ensure padding doesn’t affect width */
+  box-sizing: border-box; 
 }
 
 .reject-reason-textarea:focus {

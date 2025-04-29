@@ -1,4 +1,4 @@
-/* Header and Above Section */
+
 .above {
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header Styles */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -39,7 +39,6 @@
   margin: 0;
 }
 
-/* Card Section */
 .cards {
   display: flex;
   justify-content: start;
@@ -77,7 +76,7 @@
 }
 
 
-/* round */
+
 .round-item {
   background: white;
   padding: 15px;
@@ -214,54 +213,6 @@
 }
 
 
-/* Input Fields */
-/* .date-input {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px;
-  font-size: 1em;
-  width: 100px;
-}
-
-.date-input:disabled {
-  background-color: #f8f9fa;
-  cursor: not-allowed;
-}
-
-.date-input:focus {
-  outline: none;
-  border-color: #007bff;
-} */
-
-/* Buttons */
-/* .disable-button, .enable-button {
-  padding: 8px 15px;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 10px;
-  font-size: 1em;
-}
-
-.disable-button {
-  background-color: #dc3545; 
-}
-
-.enable-button {
-  background-color: #28a745;
-}
-
-.disable-button:disabled, .enable-button:disabled {
-  background-color: #6c757d; 
-  cursor: not-allowed;
-}
-
-.disable-button:hover:not(:disabled), .enable-button:hover:not(:disabled) {
-  background-color: #007bff; 
-} */
-
 .info-boxes {
   padding: 1em 10px 2em;
   display: grid;
@@ -303,13 +254,13 @@ path,circle {
   color: #1b253d;
 }
 
-/* Table Styles */
+
 .advertisement-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
   border-radius: 10px;
-  overflow: hidden; /* For better rounding effect */
+  overflow: hidden;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -337,7 +288,7 @@ path,circle {
   background-color: #f5f5f5;
 }
 
-/* Table Title */
+
 .table-title {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -364,7 +315,7 @@ path,circle {
   background-color: #0056b3;
 }
 
-/* Responsive Design */
+
 @media (max-width: 600px) {
   .cards {
     flex-direction: column;

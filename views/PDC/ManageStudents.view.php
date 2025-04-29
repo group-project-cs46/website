@@ -309,7 +309,7 @@
         }
     }
 
-    // Render Table Based on Section
+    
     // Render Table Based on Section
     function renderTable(section, data) {
         let tableBody;

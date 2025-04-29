@@ -190,6 +190,10 @@ $router->delete('/company_student/delete_interview', 'company_student/delete_int
 //###################################################################################################################
 //PDC
 
+$router->get('/PDC/show', '/PDC/show.php')->only('pdc');
+$router->post('/PDC/messages', '/PDC/store.php')->only('pdc');
+
+
 $router->get('/pdcs/companies', '/pdcs/companies/index.php');
 $router->post('/pdcs/companies/approve', '/pdcs/companies/approve.php');
 $router->post('/pdcs/companies/reject', '/pdcs/companies/reject.php');
@@ -198,7 +202,7 @@ $router->post('/PDC/uploadCsv', '/PDC/uploadCsv.php');
 $router->post('/PDC/disablestudentaccount', '/PDC/disablestudentaccount.php'); 
 $router->post('/PDC/enablestudentaccount', '/PDC/enablestudentaccount.php'); 
 
-// remove capital letters
+
 $router->get('/PDC/managestudents', '/PDC/ManageStudents.php');
 $router->get('/PDC/advertisements', '/PDC/Advertisements.php');
 $router->get('/PDC/managecompany', '/PDC/ManageCompany.php');
@@ -209,13 +213,11 @@ $router->post('/PDC/updatestudent', '/PDC/updatestudent.php');
 $router->post('/PDC/deletestudent', '/PDC/deletestudent.php');
 $router->get('/PDC/StudentReport', '/PDC/student_report.php');
 $router->post('/PDC/deletestudentreport', '/PDC/student_report.php');
-//$router->post('/PDC/setround', '/PDC/setround.php');
-//$router->post('/PDC/updateround', '/PDC/updateround.php');
-//$router->post('/PDC/deleteround', '/PDC/deleteround.php');
 $router->post('/PDC/createtechtalk', '/PDC/create_techtalk.php');    
 $router->post('/PDC/deletetechtalk', '/PDC/delete_techtalk.php');
 $router->post('/PDC/edittechtalk', '/PDC/edit_techtalk.php');
 
+$router->get('/PDC/downloadlecturerreport', '/PDC/downloadlecturerreport.php');
 $router->get('/PDC/downloadReport', '/PDC/downloadReport.php');
 $router->post('/PDC/blacklistcompany', '/PDC/blacklistcompany.php');
 $router->post('/PDC/removeblacklist', '/PDC/removeBlacklist.php');

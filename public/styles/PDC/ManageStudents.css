@@ -158,11 +158,11 @@ table {
     
 }
 
-/* Align Edit and Delete buttons side by side */
+
 .Edit-button,
 .disable-button {
-    display: inline-block; /* Align buttons horizontally */
-    margin-right: 8px; /* Add spacing between buttons */
+    display: inline-block; 
+    margin-right: 8px; 
 }
 
 
@@ -170,10 +170,10 @@ table {
     background-color: #F9FAFB;
 }
 
-/* Ensure the form around the Delete button doesn't break the layout */
+
 #deleteform {
-    display: inline; /* Prevent the form from taking full width */
-    margin: 0; /* Remove any default margins */
+    display: inline; 
+    margin: 0; 
 }
 
 .disable-button,
@@ -211,7 +211,7 @@ table {
     border: 1px solid #ebccd1;
 }
 
-/* Improved Popup Modal Form Design */
+
 .popup-form {
     display: none;
     position: fixed;
@@ -308,13 +308,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* Responsive Design for Mobile */
+
 @media (max-width: 600px) {
     .sidebar {
-        width: 40px; /* Narrower sidebar for mobile */
+        width: 40px; 
     }
   
     .main-content {
-        margin-left: 40px; /* Adjust main content margin for mobile */
+        margin-left: 40px; 
     }
   }
