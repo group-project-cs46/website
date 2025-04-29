@@ -17,10 +17,16 @@ use Models\Settings;
 $ad_id = $_POST['ad_id'];
 $cv_id = $_POST['cv_id'];
 
+//dd($_POST);
+
+
 $form = ApplicationStore::validate($attributes = [
     'ad_id' => $ad_id,
     'cv_id' => $cv_id,
+    'rate' => $_POST['rate'] ?? null
 ]);
+
+//dd('nice');
 
 $user = auth_user();
 $user_id = $user['id'];
@@ -71,7 +77,7 @@ if (count($other_applications) >= $application_limit) {
 
 
 
-Application::create($user_id, $cv_id, $ad_id);
+Application::create($user_id, $cv_id, $ad_id, $attributes['rate']);
 Notification::create(
     $ad['company_id'],
     'New application',

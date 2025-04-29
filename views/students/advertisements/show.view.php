@@ -1,5 +1,37 @@
 <?php require base_path('views/partials/auth/auth.php') ?>
 
+    <style>
+        .yellow {
+            color: var(--yellow-400);
+        }
+    </style>
+
+    <script>
+
+        function setPriority(priority) {
+            const input = document.getElementById('priority')
+            const star1 = document.getElementById('star1')
+            const star2 = document.getElementById('star2')
+            const star3 = document.getElementById('star3')
+            const star4 = document.getElementById('star4')
+            const star5 = document.getElementById('star5')
+
+            const stars = [star1, star2, star3, star4, star5]
+
+            for (const star of stars) {
+                star.classList.remove('yellow')
+            }
+
+            for (let i = 0; i < priority; i++) {
+                stars[i].classList.add('yellow')
+
+            }
+
+
+            input.value = priority
+        }
+    </script>
+
     <main style="min-height: 100vh; padding: 40px 20px;">
         <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px;">
             <!-- Job Details Section -->
@@ -60,6 +92,26 @@
                                     <?= htmlspecialchars($errors['cv_id']) ?>
                                 </div>
                             <?php endif; ?>
+                        </div>
+
+                        <div style="margin-top: 1rem">
+                            <label for="rate" style="font-size: 1rem; color: #2d3748; font-weight: 500; display: block; margin-bottom: 8px;">Priority</label>
+                            <div>
+                                <i id="star1" class="fas fa-star" onclick="setPriority(1)"></i>
+                                <i id="star2" class="fas fa-star" onclick="setPriority(2)"></i>
+                                <i id="star3" class="fas fa-star" onclick="setPriority(3)"></i>
+                                <i id="star4" class="fas fa-star" onclick="setPriority(4)"></i>
+                                <i id="star5" class="fas fa-star" onclick="setPriority(5)"></i>
+                            </div>
+
+                            <input type="hidden" name="rate" id="priority">
+                            <div style="margin-top: .5rem">
+                                <?php if (isset($errors['rate'])): ?>
+                                    <div class="error">
+                                        <?= htmlspecialchars($errors['rate']) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="button">

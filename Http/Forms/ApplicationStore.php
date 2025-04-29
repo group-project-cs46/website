@@ -11,12 +11,17 @@ class ApplicationStore
 
     public function __construct(public array $attributes)
     {
+
         if (!Validator::string($attributes['ad_id'])) {
             $this->error('ad_id', 'Must select an advertisement');
         }
 
         if (!Validator::string($attributes['cv_id'])) {
             $this->error('cv_id', 'Must select a CV');
+        }
+
+        if (!Validator::number($attributes['rate'], 1,5)) {
+            $this->error('rate', "Priority must be from 1 to 5");
         }
 
     }

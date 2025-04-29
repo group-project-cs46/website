@@ -10,6 +10,16 @@ class Validator
         return $min <= strlen($value) && strlen($value) <= $max;
     }
 
+    public static function number($value, $min, $max)
+    {
+        $value = (int)$value;
+//        dd($value < 5);
+        if ($min <= $value && $value <= $max) {
+            return true;
+        }
+        return false;
+    }
+
     public static function optionalString($value, $min = 1, $max = INF)
     {
         return $value === '' || self::string($value, $min, $max);

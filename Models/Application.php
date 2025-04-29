@@ -102,6 +102,7 @@ class Application
                 applications.id,
                 applications.created_at,
                 applications.is_second_round,
+                applications.rate,
                 internship_roles.name AS internship_role,
                 users.name,
                 interviews.date AS interview_date,
@@ -120,7 +121,7 @@ class Application
             LEFT JOIN cvs ON applications.cv_id = cvs.id
             LEFT JOIN internship_roles ON advertisements.internship_role_id = internship_roles.id
             WHERE applications.student_id = ?
-            ORDER BY created_at
+            ORDER BY applications.rate DESC, applications.created_at
         ', [$student_id])->get();
     }
 
@@ -146,14 +147,15 @@ class Application
        ', [$id])->find();
     }
 
-    public static function create($student_id, $cv_id, $ad_id)
+    public static function create($student_id, $cv_id, $ad_id, $rate)
     {
         $db = App::resolve(Database::class);
 
-        $db->query('INSERT INTO applications (student_id, cv_id, ad_id) VALUES (?, ?, ?)', [
+        $db->query('INSERT INTO applications (student_id, cv_id, ad_id, rate) VALUES (?, ?, ?, ?)', [
             $student_id,
             $cv_id,
-            $ad_id
+            $ad_id,
+            $rate
         ]);
     }
 

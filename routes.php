@@ -39,8 +39,7 @@ $router->get('/students/advertisements/show', 'students/advertisements/show.php'
     ->middleware(['isFirstRound']);
 
 $router->get('/students/second_round', 'students/second_round/index.php')
-    ->only('student')
-    ->middleware(['isSecondRound']);
+    ->only('student');
 $router->post('/students/second_round', 'students/second_round/store.php')
     ->only('student')
     ->middleware(['isSecondRound']);

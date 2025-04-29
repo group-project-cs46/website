@@ -26,9 +26,10 @@
                 </div>
             </div>
 
-            <div class="grid" style="grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr 1fr auto auto">
+            <div class="grid" style="grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr 1fr 1fr auto auto">
                 <div class="grid-header">ID</div>
                 <div class="grid-header">Role</div>
+                <div class="grid-header">Priority</div>
                 <div class="grid-header">Interview</div>
                 <div class="grid-header">Company</div>
                 <div class="grid-header">Status</div>
@@ -42,6 +43,9 @@
                         <a href="/students/applications/show?id=<?= $application['id'] ?>">
                             <?php echo htmlspecialchars($application['internship_role']); ?>
                         </a>
+                    </div>
+                    <div class="grid-item">
+                        <?php echo htmlspecialchars($application['rate']); ?>
                     </div>
                     <div class="grid-item">
                         <?php if (!empty($application['interview_date'])): ?>
